@@ -1,8 +1,8 @@
-package org.mobylet.core.sniffer;
+package org.mobylet.core.detector;
 
 import org.mobylet.core.Carrier;
 
-public interface CarrierSniffer {
+public interface CarrierDetector {
 
 	public Carrier getCarrier();
 
