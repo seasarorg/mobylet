@@ -42,15 +42,15 @@ public class EmojiStocker {
 		return carrier;
 	}
 
-	public void put(char c) {
+	public Emoji put(char c) {
 		Emoji e = new Emoji(carrier, c);
-		put(e);
+		return put(e);
 	}
 
-	public void put(Emoji e) {
+	public Emoji put(Emoji e) {
 		char[] c = e.getCodes();
 		if (c == null || c.length != 1) {
-			return;
+			return null;
 		}
 		emojiMap.put(c[0], e);
 		if (c[0] < minEmoji) {
@@ -60,6 +60,7 @@ public class EmojiStocker {
 			maxEmoji = c[0];
 		}
 		isConstructed = false;
+		return e;
 	}
 
 	public boolean isEmoji(char c) {
