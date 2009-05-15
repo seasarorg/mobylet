@@ -85,8 +85,13 @@ public class MobyletEmojiStockerReader
 
 	@Override
 	public void characters(char[] ac, int i, int j) throws SAXException {
-		// TODO 自動生成されたメソッド・スタブ
-		super.characters(ac, i, j);
+		if (TAG_RELATION.equals(tagStack.peek())) {
+			if (StringUtils.isEmpty(relationValue)) {
+				relationValue = new String(ac, i, j);
+			} else {
+				relationValue += new String(ac, i, j);
+			}
+		}
 	}
 
 }
