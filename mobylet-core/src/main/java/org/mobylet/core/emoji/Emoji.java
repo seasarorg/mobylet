@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mobylet.core.Carrier;
-import org.mobylet.core.define.DefineChar;
+import org.mobylet.core.define.DefChar;
 import org.mobylet.core.util.StringUtils;
 
 public class Emoji {
 
 	protected Carrier carrier;
 
-	protected char[] c = new char[]{ DefineChar.DEF_MIN_CHAR };
+	protected char[] c = new char[]{ DefChar.MIN_CHAR };
 
 	protected char[] relatedChars;
 
@@ -45,7 +45,7 @@ public class Emoji {
 	}
 
 	public char[] getCodes() {
-		if (c[0] != DefineChar.DEF_MIN_CHAR) {
+		if (c[0] != DefChar.MIN_CHAR) {
 			return c;
 		} else {
 			return relatedChars;

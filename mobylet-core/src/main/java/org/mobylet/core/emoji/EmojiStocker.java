@@ -6,15 +6,15 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.mobylet.core.Carrier;
-import org.mobylet.core.define.DefineChar;
+import org.mobylet.core.define.DefChar;
 
 public class EmojiStocker {
 
 	protected Carrier carrier;
 
-	protected char minEmoji = DefineChar.DEF_MAX_CHAR;
+	protected char minEmoji = DefChar.MAX_CHAR;
 
-	protected char maxEmoji = DefineChar.DEF_MIN_CHAR;
+	protected char maxEmoji = DefChar.MIN_CHAR;
 
 	protected Map<Character, Emoji> tmpEmojiMap;
 

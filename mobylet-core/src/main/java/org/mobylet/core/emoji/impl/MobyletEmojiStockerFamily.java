@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mobylet.core.Carrier;
-import org.mobylet.core.define.DefineChar;
+import org.mobylet.core.define.DefChar;
+import org.mobylet.core.define.DefPath;
 import org.mobylet.core.emoji.Emoji;
 import org.mobylet.core.emoji.EmojiStocker;
 import org.mobylet.core.emoji.EmojiStockerFamily;
@@ -13,20 +14,14 @@ import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletEmojiStockerFamily implements EmojiStockerFamily {
 
-	private static final String PATH_D = "emoji/mobylet.emojistocker.docomo.xml";
-
-	private static final String PATH_A = "emoji/mobylet.emojistocker.au.xml";
-
-	private static final String PATH_S = "emoji/mobylet.emojistocker.softbank.xml";
-
 
 	protected Map<Carrier, EmojiStocker> family;
 
 	protected EmojiStocker[] stockerArray;
 
-	protected char minEmoji = DefineChar.DEF_MAX_CHAR;
+	protected char minEmoji = DefChar.MAX_CHAR;
 
-	protected char maxEmoji = DefineChar.DEF_MIN_CHAR;
+	protected char maxEmoji = DefChar.MIN_CHAR;
 
 
 	public MobyletEmojiStockerFamily() {
@@ -41,9 +36,9 @@ public class MobyletEmojiStockerFamily implements EmojiStockerFamily {
 	protected void initialize() {
 		family = new HashMap<Carrier, EmojiStocker>();
 		EmojiStockerReader reader = SingletonUtils.get(EmojiStockerReader.class);
-		stock(reader, PATH_D);
-		stock(reader, PATH_A);
-		stock(reader, PATH_S);
+		stock(reader, DefPath.EMOJIXML_PATH_D);
+		stock(reader, DefPath.EMOJIXML_PATH_A);
+		stock(reader, DefPath.EMOJIXML_PATH_S);
 		stockerArray = new EmojiStocker[family.size()];
 		int index = 0;
 		for (EmojiStocker stocker : family.values()) {
