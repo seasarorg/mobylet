@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.define.DefineChar;
 import org.mobylet.core.emoji.Emoji;
 import org.mobylet.core.emoji.EmojiStocker;
 import org.mobylet.core.emoji.EmojiStockerFamily;
@@ -23,9 +24,9 @@ public class MobyletEmojiStockerFamily implements EmojiStockerFamily {
 
 	protected EmojiStocker[] stockerArray;
 
-	protected char minEmoji = 0xFFFF;
+	protected char minEmoji = DefineChar.DEF_MAX_CHAR;
 
-	protected char maxEmoji = 0x0000;
+	protected char maxEmoji = DefineChar.DEF_MIN_CHAR;
 
 
 	public MobyletEmojiStockerFamily() {
