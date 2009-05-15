@@ -16,7 +16,7 @@ public class EmojiStocker {
 
 	protected char maxEmoji = DefChar.MIN_CHAR;
 
-	protected Map<Character, Emoji> tmpEmojiMap;
+	protected Map<Character, Emoji> emojiMap;
 
 	protected Emoji[] emojiArray;
 
@@ -26,7 +26,16 @@ public class EmojiStocker {
 
 	public EmojiStocker(Carrier carrier) {
 		this.carrier = carrier;
-		tmpEmojiMap = new HashMap<Character, Emoji>(512);
+		emojiMap = new HashMap<Character, Emoji>(512);
+	}
+
+	public void construct() {
+		emojiArray = new Emoji[maxEmoji - minEmoji + 1];
+		Set<Entry<Character, Emoji>> entrySet = emojiMap.entrySet();
+		for (Entry<Character, Emoji> emojiEntry : entrySet) {
+			emojiArray[emojiEntry.getKey() - minEmoji] = emojiEntry.getValue();
+		}
+		isConstructed = true;
 	}
 
 	public Carrier getCarrier() {
@@ -43,7 +52,7 @@ public class EmojiStocker {
 		if (c == null || c.length != 1) {
 			return;
 		}
-		tmpEmojiMap.put(c[0], e);
+		emojiMap.put(c[0], e);
 		if (c[0] < minEmoji) {
 			minEmoji = c[0];
 		}
@@ -70,7 +79,7 @@ public class EmojiStocker {
 	}
 
 	public Emoji getUnConstructed(char c) {
-		return tmpEmojiMap.get(c);
+		return emojiMap.get(c);
 	}
 
 	public char getMinEmoji() {
@@ -79,15 +88,6 @@ public class EmojiStocker {
 
 	public char getMaxEmoji() {
 		return maxEmoji;
-	}
-
-	public void construct() {
-		emojiArray = new Emoji[maxEmoji - minEmoji + 1];
-		Set<Entry<Character, Emoji>> entrySet = tmpEmojiMap.entrySet();
-		for (Entry<Character, Emoji> emojiEntry : entrySet) {
-			emojiArray[emojiEntry.getKey() - minEmoji] = emojiEntry.getValue();
-		}
-		isConstructed = true;
 	}
 
 }

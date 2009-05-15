@@ -42,6 +42,7 @@ public class MobyletEmojiStockerFamily implements EmojiStockerFamily {
 		stockerArray = new EmojiStocker[family.size()];
 		int index = 0;
 		for (EmojiStocker stocker : family.values()) {
+			stocker.construct();
 			stockerArray[index++] = stocker;
 			if (stocker.getMinEmoji() < minEmoji) {
 				minEmoji = stocker.getMinEmoji();

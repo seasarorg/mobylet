@@ -19,7 +19,7 @@ public class MobyletCarrierDetector implements CarrierDetector {
 
 
 	public MobyletCarrierDetector() {
-		init();
+		initialize();
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class MobyletCarrierDetector implements CarrierDetector {
 		return Carrier.OTHER;
 	}
 
-	protected void init() {
+	protected void initialize() {
 		patternMap = new LinkedHashMap<Carrier, Pattern>();
 		patternMap.put(Carrier.DOCOMO, Pattern.compile("^DoCoMo.+"));
 		patternMap.put(Carrier.AU, Pattern.compile("^KDDI.+"));
