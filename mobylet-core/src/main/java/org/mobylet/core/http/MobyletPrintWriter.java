@@ -1,18 +1,26 @@
 package org.mobylet.core.http;
 
+import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.emoji.Emoji;
+import org.mobylet.core.emoji.EmojiStockerFamily;
+import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
 
 public class MobyletPrintWriter extends PrintWriter {
 
-	protected Carrier carrier;
+	protected Carrier outCarrier;
+
+	protected EmojiStockerFamily family;
 
 
-	public MobyletPrintWriter(Writer out, Carrier carrier) {
+	public MobyletPrintWriter(Writer out, Carrier outCarrier) {
 		super(out);
-		this.carrier = carrier;
+		this.outCarrier = outCarrier;
+		family = SingletonUtils.get(EmojiStockerFamily.class);
 	}
 
 	/**
@@ -21,7 +29,27 @@ public class MobyletPrintWriter extends PrintWriter {
 	 */
 	@Override
 	public void write(int c) {
-		super.write(c);
+		if (family != null) {
+			char ch = (char)c;
+			Emoji e = family.getEmoji(ch);
+			if (e == null) {
+				super.write(c);
+			} else {
+				Emoji related = e.getRelated(outCarrier);
+				if (related == null) {
+					super.write(c);
+				} else {
+					char[] codes = related.getCodes();
+					if (codes != null) {
+						for (char code : codes) {
+							super.write(code);
+						}
+					}
+				}
+			}
+		} else {
+			super.write(c);
+		}
 	}
 
 	/**
@@ -30,7 +58,30 @@ public class MobyletPrintWriter extends PrintWriter {
 	 */
 	@Override
 	public void write(char buf[], int off, int len) {
-		super.write(buf, off, len);
+		if (family != null) {
+			CharArrayWriter caw = new CharArrayWriter(len);
+			for (int i=off; i<off+len; i++) {
+				Emoji e = family.getEmoji(buf[i]);
+				if (e == null) {
+					caw.append(buf[i]);
+				} else {
+					Emoji related = e.getRelated(outCarrier);
+					if (related == null) {
+						caw.append(buf[i]);
+					} else {
+						char[] codes = related.getCodes();
+						if (codes != null) {
+							for (char code : codes) {
+								caw.append(code);
+							}
+						}
+					}
+				}
+			}
+			super.write(caw.toCharArray());
+		} else {
+			super.write(buf, off, len);
+		}
 	}
 
 	/**
@@ -39,7 +90,9 @@ public class MobyletPrintWriter extends PrintWriter {
 	 */
 	@Override
 	public void write(String s, int off, int len) {
-		super.write(s, off, len);
+		if (StringUtils.isNotEmpty(s)) {
+			super.write(s.toCharArray(), off, len);
+		}
 	}
 
 }

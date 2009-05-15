@@ -13,9 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.detector.CarrierDetector;
+import org.mobylet.core.detector.impl.MobyletCarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
-import org.mobylet.core.factory.CarrierDetectorFactory;
-import org.mobylet.core.factory.MobyletDialectFactory;
+import org.mobylet.core.emoji.impl.MobyletEmojiStockerFamily;
+import org.mobylet.core.emoji.impl.MobyletEmojiStockerReader;
+import org.mobylet.core.selector.DialectSelector;
+import org.mobylet.core.selector.impl.MobyletDialectSelector;
+import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletFilter implements Filter {
 
@@ -31,14 +35,15 @@ public class MobyletFilter implements Filter {
 		HttpServletResponse httpResponse = HttpServletResponse.class.cast(response);
 		//Carrier
 		Carrier carrier = Carrier.OTHER;
-		CarrierDetector carrierDetector = CarrierDetectorFactory.getCarrierDetector();
+		CarrierDetector carrierDetector = SingletonUtils.get(CarrierDetector.class);
 		if (carrierDetector != null) {
 			carrier = carrierDetector.getCarrier(httpRequest);
 		}
 		//Dialect
-		MobyletDialect dialect = MobyletDialectFactory.getDialect(carrier);
+		DialectSelector selector = SingletonUtils.get(DialectSelector.class);
+		MobyletDialect dialect = selector.getDialect(carrier);
 		if (dialect == null) {
-			dialect = MobyletDialectFactory.getDefaultDialect();
+			dialect = selector.getDefaultDialect();
 		}
 		//Charset
 		String charsetName = dialect.getCharsetName();
@@ -51,6 +56,10 @@ public class MobyletFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		SingletonUtils.put(new MobyletCarrierDetector());
+		SingletonUtils.put(new MobyletDialectSelector());
+		SingletonUtils.put(new MobyletEmojiStockerFamily());
+		SingletonUtils.put(new MobyletEmojiStockerReader());
 	}
 
 }

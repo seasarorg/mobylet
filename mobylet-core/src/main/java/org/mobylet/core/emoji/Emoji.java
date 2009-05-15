@@ -4,25 +4,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.util.StringUtils;
 
 public class Emoji {
 
 	protected Carrier carrier;
 
-	protected char c;
+	protected char[] c = new char[]{0x00};
+
+	protected char[] relatedChars;
 
 	protected Map<Carrier, Emoji> map;
 
 
 	public Emoji(Carrier carrier, char c) {
+		this(carrier, null);
+		this.c[0] = c;
+	}
+
+	public Emoji(Carrier carrier, String relatedString) {
 		this.carrier = carrier;
-		this.c = c;
+		if (StringUtils.isNotEmpty(relatedString)) {
+			this.relatedChars = relatedString.toCharArray();
+		}
+		map = new HashMap<Carrier, Emoji>();
+		relate(this.carrier, this);
 	}
 
 	public void relate(Carrier carrier, Emoji emoji) {
-		if (map == null) {
-			map = new HashMap<Carrier, Emoji>();
-		}
 		map.put(carrier, emoji);
 	}
 
@@ -34,8 +43,12 @@ public class Emoji {
 		return carrier;
 	}
 
-	public char getCode() {
-		return c;
+	public char[] getCodes() {
+		if (c[0] != 0x00) {
+			return c;
+		} else {
+			return relatedChars;
+		}
 	}
 
 	@Override
