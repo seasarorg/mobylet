@@ -1,6 +1,7 @@
 package org.mobylet.core.dialect.impl;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.define.DefCharset;
 
 
 public class DefaultDialect extends AbstractMobyletDialect {
@@ -12,7 +13,7 @@ public class DefaultDialect extends AbstractMobyletDialect {
 
 	@Override
 	public String getCharsetName() {
-		return CHARSET_NAME_UTF8;
+		return DefCharset.UTF8;
 	}
 
 }

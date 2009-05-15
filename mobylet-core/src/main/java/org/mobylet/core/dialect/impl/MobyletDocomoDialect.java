@@ -1,6 +1,7 @@
 package org.mobylet.core.dialect.impl;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.define.DefCharset;
 
 
 public class MobyletDocomoDialect extends AbstractMobyletDialect {
@@ -12,6 +13,6 @@ public class MobyletDocomoDialect extends AbstractMobyletDialect {
 
 	@Override
 	public String getCharsetName() {
-		return CHARSET_NAME_DOCOMO;
+		return DefCharset.DOCOMO;
 	}
 }
