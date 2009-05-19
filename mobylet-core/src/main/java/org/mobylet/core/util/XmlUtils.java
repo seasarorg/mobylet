@@ -1,15 +1,13 @@
 package org.mobylet.core.util;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.mobylet.core.MobyletInitializeException;
+import org.mobylet.core.MobyletRuntimeException;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -27,20 +25,14 @@ public class XmlUtils {
 				SAXParser parser = spfactory.newSAXParser();
 				parser.parse(xmlStream, handler);
 			}
-		} catch (FileNotFoundException e) {
-			throw new MobyletInitializeException(
-					"ファイルが存在しません [" + path + "]", e);
-		} catch (URISyntaxException e) {
-			throw new MobyletInitializeException(
-					"URI参照出来ません [" + path + "]", e);
 		} catch (ParserConfigurationException e) {
-			throw new MobyletInitializeException(
+			throw new MobyletRuntimeException(
 					"重大な構成エラーがあります [" + path + "]", e);
 		} catch (SAXException e) {
-			throw new MobyletInitializeException(
+			throw new MobyletRuntimeException(
 					"SAXパース中にエラーが発生しました [" + path + "]", e);
 		} catch (IOException e) {
-			throw new MobyletInitializeException(
+			throw new MobyletRuntimeException(
 					"IO例外が発生しました [" + path + "]", e);
 		} finally {
 			if (xmlStream != null) {

@@ -1,16 +1,14 @@
 package org.mobylet.core.device.impl;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.mobylet.core.MobyletInitializeException;
+import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.device.DeviceProfile;
@@ -61,14 +59,8 @@ public class ValueEngineDeviceReader implements DeviceReader {
 				String[] val = line.split(",");
 				uaMap.put(val[0]+"/"+val[1], val[3]);
 			}
-		} catch (FileNotFoundException e) {
-			throw new MobyletInitializeException(
-					"ユーザエージェント定義ファイルが見つかりません", e);
-		} catch (URISyntaxException e) {
-			throw new MobyletInitializeException(
-					"URI情報が不正です", e);
 		} catch (IOException e) {
-			throw new MobyletInitializeException(
+			throw new MobyletRuntimeException(
 					"IO例外が発生しました", e);
 		}	finally {
 			if (reader != null) {
@@ -105,14 +97,8 @@ public class ValueEngineDeviceReader implements DeviceReader {
 				}
 				dpMap.put(uaMap.get(val[0]+"/"+val[1]), dp);
 			}
-		} catch (FileNotFoundException e) {
-			throw new MobyletInitializeException(
-					"プロファイル定義ファイルが見つかりません", e);
-		} catch (URISyntaxException e) {
-			throw new MobyletInitializeException(
-					"URI情報が不正です", e);
 		} catch (IOException e) {
-			throw new MobyletInitializeException(
+			throw new MobyletRuntimeException(
 					"IO例外が発生しました", e);
 		}	finally {
 			if (reader != null) {
@@ -170,14 +156,8 @@ public class ValueEngineDeviceReader implements DeviceReader {
 					}
 				}
 			}
-		} catch (FileNotFoundException e) {
-			throw new MobyletInitializeException(
-					"プロファイル定義ファイルが見つかりません", e);
-		} catch (URISyntaxException e) {
-			throw new MobyletInitializeException(
-					"URI情報が不正です", e);
 		} catch (IOException e) {
-			throw new MobyletInitializeException(
+			throw new MobyletRuntimeException(
 					"IO例外が発生しました", e);
 		}	finally {
 			if (reader != null) {

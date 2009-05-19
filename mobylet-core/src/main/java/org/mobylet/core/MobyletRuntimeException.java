@@ -1,6 +1,6 @@
 package org.mobylet.core;
 
-public class MobyletInitializeException extends RuntimeException {
+public class MobyletRuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = -43750892036452500L;
 
@@ -9,7 +9,7 @@ public class MobyletInitializeException extends RuntimeException {
 	protected Exception cause;
 
 
-	public MobyletInitializeException(String msg, Exception e) {
+	public MobyletRuntimeException(String msg, Exception e) {
 		message = msg;
 		cause = e;
 	}
