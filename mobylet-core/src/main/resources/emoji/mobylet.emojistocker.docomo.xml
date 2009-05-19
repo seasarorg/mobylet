@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<emojistocker stockcarrier="DOCOMO">
+<emojipool carrier="DOCOMO">
    <emoji name="晴れ" code="0xE63E">
        <relation carrier="AU">0xE92C</relation>
        <relation carrier="SOFTBANK">0xE04A</relation>
@@ -1260,4 +1260,4 @@
        <relation carrier="SOFTBANK">0xE107</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-</emojistocker>
+</emojipool>

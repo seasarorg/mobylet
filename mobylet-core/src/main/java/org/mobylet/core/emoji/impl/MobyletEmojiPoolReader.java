@@ -4,19 +4,19 @@ import java.util.Stack;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.emoji.Emoji;
-import org.mobylet.core.emoji.EmojiStocker;
-import org.mobylet.core.emoji.EmojiStockerReader;
+import org.mobylet.core.emoji.EmojiPool;
+import org.mobylet.core.emoji.EmojiPoolReader;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.XmlUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class MobyletEmojiStockerReader
-	extends DefaultHandler implements EmojiStockerReader, MobyletEmojiStockerXml {
+public class MobyletEmojiPoolReader
+	extends DefaultHandler implements EmojiPoolReader, MobyletEmojiPoolXml {
 
 
-	protected EmojiStocker stocker;
+	protected EmojiPool stocker;
 
 	protected Stack<String> tagStack;
 
@@ -29,12 +29,12 @@ public class MobyletEmojiStockerReader
 
 
 	@Override
-	public EmojiStocker get() {
+	public EmojiPool get() {
 		return stocker;
 	}
 
 	@Override
-	public EmojiStockerReader read(String path) {
+	public EmojiPoolReader read(String path) {
 		XmlUtils.parseSax(path, this);
 		return this;
 	}
@@ -51,11 +51,11 @@ public class MobyletEmojiStockerReader
 		tagStack.push(name);
 		if (TAG_EMOJISTOCK.equals(name)) {
 			Carrier carrier = Carrier.OTHER;
-			String carrierStr = attributes.getValue(ATT_STOCKCARRIER);
+			String carrierStr = attributes.getValue(ATT_CARRIER);
 			if (StringUtils.isNotEmpty(carrierStr)) {
 				carrier = Carrier.valueOf(carrierStr);
 			}
-			stocker = new EmojiStocker(carrier);
+			stocker = new EmojiPool(carrier);
 		} else if (TAG_EMOJI.equals(name)) {
 			String codeStr = attributes.getValue(ATT_CODE);
 			if (StringUtils.isNotEmpty(codeStr) &&

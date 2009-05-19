@@ -7,8 +7,8 @@ import org.mobylet.core.dialect.impl.DefaultDialect;
 import org.mobylet.core.dialect.impl.MobyletAuDialect;
 import org.mobylet.core.dialect.impl.MobyletDocomoDialect;
 import org.mobylet.core.dialect.impl.MobyletSoftbankDialect;
-import org.mobylet.core.emoji.impl.MobyletEmojiStockerFamily;
-import org.mobylet.core.emoji.impl.MobyletEmojiStockerReader;
+import org.mobylet.core.emoji.impl.MobyletEmojiPoolFamily;
+import org.mobylet.core.emoji.impl.MobyletEmojiPoolReader;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -22,8 +22,8 @@ public class MobyletInitializer {
 		SingletonUtils.put(new MobyletAuDialect());
 		SingletonUtils.put(new MobyletSoftbankDialect());
 		SingletonUtils.put(new DefaultDialect());
-		SingletonUtils.put(new MobyletEmojiStockerFamily());
-		SingletonUtils.put(new MobyletEmojiStockerReader());
+		SingletonUtils.put(new MobyletEmojiPoolFamily());
+		SingletonUtils.put(new MobyletEmojiPoolReader());
 		SingletonUtils.put(new ValueEngineDeviceReader());
 		SingletonUtils.put(new MobyletDevicePool());
 	}

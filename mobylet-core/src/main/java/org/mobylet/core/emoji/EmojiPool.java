@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefChar;
 
-public class EmojiStocker {
+public class EmojiPool {
 
 	protected Carrier carrier;
 
@@ -24,7 +24,7 @@ public class EmojiStocker {
 	protected boolean isConstructed = false;
 
 
-	public EmojiStocker(Carrier carrier) {
+	public EmojiPool(Carrier carrier) {
 		this.carrier = carrier;
 		emojiMap = new HashMap<Character, Emoji>(512);
 	}

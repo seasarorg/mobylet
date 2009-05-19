@@ -6,7 +6,7 @@ import java.io.Writer;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.emoji.Emoji;
-import org.mobylet.core.emoji.EmojiStockerFamily;
+import org.mobylet.core.emoji.EmojiPoolFamily;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -14,13 +14,13 @@ public class MobyletPrintWriter extends PrintWriter {
 
 	protected Carrier outCarrier;
 
-	protected EmojiStockerFamily family;
+	protected EmojiPoolFamily family;
 
 
 	public MobyletPrintWriter(Writer out, Carrier outCarrier) {
 		super(out);
 		this.outCarrier = outCarrier;
-		family = SingletonUtils.get(EmojiStockerFamily.class);
+		family = SingletonUtils.get(EmojiPoolFamily.class);
 	}
 
 	/**

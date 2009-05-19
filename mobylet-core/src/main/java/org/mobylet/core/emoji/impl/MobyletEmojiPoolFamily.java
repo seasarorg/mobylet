@@ -7,41 +7,41 @@ import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefChar;
 import org.mobylet.core.define.DefPath;
 import org.mobylet.core.emoji.Emoji;
-import org.mobylet.core.emoji.EmojiStocker;
-import org.mobylet.core.emoji.EmojiStockerFamily;
-import org.mobylet.core.emoji.EmojiStockerReader;
+import org.mobylet.core.emoji.EmojiPool;
+import org.mobylet.core.emoji.EmojiPoolFamily;
+import org.mobylet.core.emoji.EmojiPoolReader;
 import org.mobylet.core.util.SingletonUtils;
 
-public class MobyletEmojiStockerFamily implements EmojiStockerFamily {
+public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
 
 
-	protected Map<Carrier, EmojiStocker> family;
+	protected Map<Carrier, EmojiPool> family;
 
-	protected EmojiStocker[] stockerArray;
+	protected EmojiPool[] stockerArray;
 
 	protected char minEmoji = DefChar.MAX_CHAR;
 
 	protected char maxEmoji = DefChar.MIN_CHAR;
 
 
-	public MobyletEmojiStockerFamily() {
+	public MobyletEmojiPoolFamily() {
 		initialize();
 	}
 
 	@Override
-	public EmojiStocker getEmojiStocker(Carrier carrier) {
+	public EmojiPool getEmojiStocker(Carrier carrier) {
 		return family.get(carrier);
 	}
 
 	protected void initialize() {
-		family = new HashMap<Carrier, EmojiStocker>();
-		EmojiStockerReader reader = SingletonUtils.get(EmojiStockerReader.class);
+		family = new HashMap<Carrier, EmojiPool>();
+		EmojiPoolReader reader = SingletonUtils.get(EmojiPoolReader.class);
 		stock(reader, DefPath.EMOJIXML_PATH_D);
 		stock(reader, DefPath.EMOJIXML_PATH_A);
 		stock(reader, DefPath.EMOJIXML_PATH_S);
-		stockerArray = new EmojiStocker[family.size()];
+		stockerArray = new EmojiPool[family.size()];
 		int index = 0;
-		for (EmojiStocker stocker : family.values()) {
+		for (EmojiPool stocker : family.values()) {
 			stocker.construct();
 			stockerArray[index++] = stocker;
 			if (stocker.getMinEmoji() < minEmoji) {
@@ -53,8 +53,8 @@ public class MobyletEmojiStockerFamily implements EmojiStockerFamily {
 		}
 	}
 
-	protected void stock(EmojiStockerReader reader, String path) {
-		EmojiStocker stocker = null;
+	protected void stock(EmojiPoolReader reader, String path) {
+		EmojiPool stocker = null;
 		if (reader != null &&
 				(stocker = reader.read(path).get()) != null) {
 			family.put(stocker.getCarrier(), stocker);
@@ -69,7 +69,7 @@ public class MobyletEmojiStockerFamily implements EmojiStockerFamily {
 		if (c < minEmoji || c > maxEmoji) {
 			return null;
 		}
-		for (EmojiStocker stocker : stockerArray) {
+		for (EmojiPool stocker : stockerArray) {
 			if (stocker.isEmoji(c)) {
 				return stocker.get(c);
 			}

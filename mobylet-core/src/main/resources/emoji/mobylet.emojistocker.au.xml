@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf8"?>
-<emojistocker stockcarrier="AU">
+<emojipool carrier="AU">
    <emoji name="！" code="0xE901">
        <relation carrier="DOCOMO">0xE737</relation>
        <relation carrier="SOFTBANK">0xE252</relation>
@@ -3235,4 +3235,4 @@
        <relation carrier="SOFTBANK">[WIN]</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-</emojistocker>
+</emojipool>

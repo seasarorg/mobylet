@@ -1,10 +1,8 @@
 package org.mobylet.core.emoji.impl;
 
-public interface MobyletEmojiStockerXml {
+public interface MobyletEmojiPoolXml {
 
-	public static final String TAG_EMOJISTOCK = "emojistock";
-
-	public static final String ATT_STOCKCARRIER = "stockcarrier";
+	public static final String TAG_EMOJISTOCK = "emojipool";
 
 	public static final String TAG_EMOJI = "emoji";
 
