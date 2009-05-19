@@ -9,7 +9,9 @@ import java.util.regex.Pattern;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.http.MobyletContext;
+import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
 public class MobyletCarrierDetector implements CarrierDetector {
@@ -46,8 +48,13 @@ public class MobyletCarrierDetector implements CarrierDetector {
 
 	protected void initialize() {
 		patternMap = new LinkedHashMap<Carrier, Pattern>();
-		patternMap.put(Carrier.DOCOMO, Pattern.compile("^DoCoMo.+"));
-		patternMap.put(Carrier.AU, Pattern.compile("^KDDI.+"));
-		patternMap.put(Carrier.SOFTBANK, Pattern.compile("^(Vodafone|SoftBank|MOT).+"));
+		DialectSelector dialectSelector =
+			SingletonUtils.get(DialectSelector.class);
+		patternMap.put(Carrier.DOCOMO,
+				dialectSelector.getDialect(Carrier.DOCOMO).getCarrierMatchRegex());
+		patternMap.put(Carrier.AU,
+				dialectSelector.getDialect(Carrier.AU).getCarrierMatchRegex());
+		patternMap.put(Carrier.SOFTBANK,
+				dialectSelector.getDialect(Carrier.SOFTBANK).getCarrierMatchRegex());
 	}
 }

@@ -10,6 +10,9 @@ import org.mobylet.core.dialect.MobyletDialect;
 
 public class MobyletSoftbankDialect implements MobyletDialect {
 
+	private static final Pattern REGEX_CARRIER_MATCH =
+		Pattern.compile("^(Vodafone|SoftBank|MOT).+");
+
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile("^Vodafone/[0-9.]+[/ ]{1}[0-9a-zA-Z]+" + "|"
 				+ "^SoftBank/[0-9.]+[/ ]{1}[0-9a-zA-Z]+" + "|"
@@ -23,6 +26,11 @@ public class MobyletSoftbankDialect implements MobyletDialect {
 	@Override
 	public String getCharsetName() {
 		return DefCharset.UTF8;
+	}
+
+	@Override
+	public Pattern getCarrierMatchRegex() {
+		return REGEX_CARRIER_MATCH;
 	}
 
 	@Override

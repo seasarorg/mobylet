@@ -9,6 +9,13 @@ import org.mobylet.core.dialect.MobyletDialect;
 
 public class DefaultDialect implements MobyletDialect {
 
+	private static final Pattern REGEX_CARRIER_MATCH =
+		Pattern.compile(".+");
+
+	private static final Pattern REGEX_DEVICE_MATCH =
+		Pattern.compile(".+");
+
+
 	@Override
 	public Carrier getCarrier() {
 		return Carrier.OTHER;
@@ -20,8 +27,13 @@ public class DefaultDialect implements MobyletDialect {
 	}
 
 	@Override
+	public Pattern getCarrierMatchRegex() {
+		return REGEX_CARRIER_MATCH;
+	}
+
+	@Override
 	public Pattern getDeviceMatchRegex() {
-		return null;
+		return REGEX_DEVICE_MATCH;
 	}
 
 }

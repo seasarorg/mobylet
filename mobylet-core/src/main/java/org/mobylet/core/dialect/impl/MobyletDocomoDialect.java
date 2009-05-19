@@ -9,6 +9,9 @@ import org.mobylet.core.dialect.MobyletDialect;
 
 public class MobyletDocomoDialect implements MobyletDialect {
 
+	private static final Pattern REGEX_CARRIER_MATCH =
+		Pattern.compile("^DoCoMo.+");
+
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile("^DoCoMo/[0-9.]+[/ ]{1}[0-9a-zA-Z_+]+");
 
@@ -20,6 +23,11 @@ public class MobyletDocomoDialect implements MobyletDialect {
 	@Override
 	public String getCharsetName() {
 		return DefCharset.DOCOMO;
+	}
+
+	@Override
+	public Pattern getCarrierMatchRegex() {
+		return REGEX_CARRIER_MATCH;
 	}
 
 	@Override

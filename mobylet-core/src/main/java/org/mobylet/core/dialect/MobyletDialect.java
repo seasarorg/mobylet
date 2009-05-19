@@ -11,6 +11,8 @@ public interface MobyletDialect {
 
 	public String getCharsetName();
 
+	public Pattern getCarrierMatchRegex();
+
 	public Pattern getDeviceMatchRegex();
 
 }
