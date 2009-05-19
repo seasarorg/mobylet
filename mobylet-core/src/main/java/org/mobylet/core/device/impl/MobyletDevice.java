@@ -18,4 +18,12 @@ public class MobyletDevice implements Device {
 		return null;
 	}
 
+	public void setDeviceDisplay(DeviceDisplay dd) {
+
+	}
+
+	public void setDeviceProfile(DeviceProfile dp) {
+
+	}
+
 }
