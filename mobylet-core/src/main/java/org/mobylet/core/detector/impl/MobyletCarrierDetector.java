@@ -6,16 +6,14 @@ import java.util.Set;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.mobylet.core.Carrier;
 import org.mobylet.core.detector.CarrierDetector;
+import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
 
 public class MobyletCarrierDetector implements CarrierDetector {
 
-	private static final String KEY = Carrier.class.getName();
 
 	protected HashMap<Carrier, Pattern> patternMap;
 
@@ -26,23 +24,23 @@ public class MobyletCarrierDetector implements CarrierDetector {
 
 	@Override
 	public Carrier getCarrier() {
-		HttpServletRequest request = RequestUtils.get();
-		Object carrierObj = request.getAttribute(KEY);
-		if (carrierObj == null || !(carrierObj instanceof Carrier)) {
+		MobyletContext context = RequestUtils.getMobyletContext();
+		Carrier carrier = context.get(Carrier.class);
+		if (carrier == null) {
 			String userAgent = RequestUtils.getUserAgent();
 			if (StringUtils.isNotEmpty(userAgent)) {
 				Set<Entry<Carrier, Pattern>> entrySet = patternMap.entrySet();
 				for (Entry<Carrier, Pattern> entry : entrySet) {
 					if (entry.getValue().matcher(userAgent).matches()) {
-						request.setAttribute(KEY, entry.getKey());
+						context.set(entry.getKey());
 						return getCarrier();
 					}
 				}
 			}
 		} else {
-			return Carrier.class.cast(carrierObj);
+			return carrier;
 		}
-		request.setAttribute(KEY, Carrier.OTHER);
+		context.set(Carrier.OTHER);
 		return getCarrier();
 	}
 

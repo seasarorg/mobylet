@@ -5,19 +5,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DevicePool;
 import org.mobylet.core.device.DeviceReader;
+import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
 public class MobyletDevicePool implements DevicePool {
-
-	private static final String KEY = Device.class.getName();
 
 	protected Map<String, Device> deviceMap;
 
@@ -30,18 +27,14 @@ public class MobyletDevicePool implements DevicePool {
 
 	@Override
 	public Device get() {
-		HttpServletRequest request = RequestUtils.get();
-		if (request != null) {
-			Object obj = null;
-			if ((obj = request.getAttribute(KEY)) != null &&
-					obj instanceof Device) {
-				return (Device)obj;
-			} else {
-				request.setAttribute(KEY, deviceMap.get(getKeyString()));
-				return get();
-			}
+		MobyletContext context = RequestUtils.getMobyletContext();
+		Device d = null;
+		if ((d = context.get(Device.class)) != null) {
+			return d;
+		} else {
+			context.set(deviceMap.get(getKeyString()));
+			return get();
 		}
-		return null;
 	}
 
 	public String getKeyString() {
