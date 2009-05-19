@@ -7,6 +7,4 @@ public interface DialectSelector {
 
 	public MobyletDialect getDialect(Carrier carrier);
 
-	public MobyletDialect getDefaultDialect();
-
 }

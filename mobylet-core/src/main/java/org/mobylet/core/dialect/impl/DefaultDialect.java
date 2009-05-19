@@ -1,10 +1,13 @@
 package org.mobylet.core.dialect.impl;
 
+import java.util.regex.Pattern;
+
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefCharset;
+import org.mobylet.core.dialect.MobyletDialect;
 
 
-public class DefaultDialect extends AbstractMobyletDialect {
+public class DefaultDialect implements MobyletDialect {
 
 	@Override
 	public Carrier getCarrier() {
@@ -14,6 +17,11 @@ public class DefaultDialect extends AbstractMobyletDialect {
 	@Override
 	public String getCharsetName() {
 		return DefCharset.UTF8;
+	}
+
+	@Override
+	public Pattern getDeviceMatchRegex() {
+		return null;
 	}
 
 }

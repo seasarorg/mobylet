@@ -1,6 +1,7 @@
 package org.mobylet.core.http;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,15 +12,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.mobylet.core.Carrier;
-import org.mobylet.core.detector.CarrierDetector;
-import org.mobylet.core.detector.impl.MobyletCarrierDetector;
+import org.mobylet.core.Mobylet;
+import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.dialect.MobyletDialect;
-import org.mobylet.core.emoji.impl.MobyletEmojiStockerFamily;
-import org.mobylet.core.emoji.impl.MobyletEmojiStockerReader;
-import org.mobylet.core.selector.DialectSelector;
-import org.mobylet.core.selector.impl.MobyletDialectSelector;
-import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.RequestUtils;
 
 public class MobyletFilter implements Filter {
 
@@ -33,33 +29,34 @@ public class MobyletFilter implements Filter {
 		//request/response
 		HttpServletRequest httpRequest = HttpServletRequest.class.cast(request);
 		HttpServletResponse httpResponse = HttpServletResponse.class.cast(response);
-		//Carrier
-		Carrier carrier = Carrier.OTHER;
-		CarrierDetector carrierDetector = SingletonUtils.get(CarrierDetector.class);
-		if (carrierDetector != null) {
-			carrier = carrierDetector.getCarrier(httpRequest);
+		//requestScope
+		RequestUtils.set(httpRequest);
+		try {
+			processFilter(chain, httpRequest, httpResponse);
+		} finally {
+			RequestUtils.remove();
 		}
+	}
+
+	protected void processFilter(FilterChain chain,
+			HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException, IOException, ServletException {
+		//Mobylet
+		Mobylet m = MobyletFactory.getInstance();
 		//Dialect
-		DialectSelector selector = SingletonUtils.get(DialectSelector.class);
-		MobyletDialect dialect = selector.getDialect(carrier);
-		if (dialect == null) {
-			dialect = selector.getDefaultDialect();
-		}
+		MobyletDialect dialect = m.getDialect();
 		//Charset
 		String charsetName = dialect.getCharsetName();
-		httpRequest.setCharacterEncoding(charsetName);
+		request.setCharacterEncoding(charsetName);
 		//doChain
-		MobyletResponse mResponse = new MobyletResponse(httpResponse, dialect);
+		MobyletResponse mResponse = new MobyletResponse(response, dialect);
 		chain.doFilter(request, mResponse);
 		mResponse.flush();
 	}
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		SingletonUtils.put(new MobyletCarrierDetector());
-		SingletonUtils.put(new MobyletDialectSelector());
-		SingletonUtils.put(new MobyletEmojiStockerFamily());
-		SingletonUtils.put(new MobyletEmojiStockerReader());
+		MobyletInitializer.initialize();
 	}
 
 }
