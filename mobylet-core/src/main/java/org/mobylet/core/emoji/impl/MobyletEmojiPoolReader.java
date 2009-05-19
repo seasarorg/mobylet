@@ -16,7 +16,7 @@ public class MobyletEmojiPoolReader
 	extends DefaultHandler implements EmojiPoolReader, MobyletEmojiPoolXml {
 
 
-	protected EmojiPool stocker;
+	protected EmojiPool pool;
 
 	protected Stack<String> tagStack;
 
@@ -30,7 +30,7 @@ public class MobyletEmojiPoolReader
 
 	@Override
 	public EmojiPool get() {
-		return stocker;
+		return pool;
 	}
 
 	@Override
@@ -55,13 +55,13 @@ public class MobyletEmojiPoolReader
 			if (StringUtils.isNotEmpty(carrierStr)) {
 				carrier = Carrier.valueOf(carrierStr);
 			}
-			stocker = new EmojiPool(carrier);
+			pool = new EmojiPool(carrier);
 		} else if (TAG_EMOJI.equals(name)) {
 			String codeStr = attributes.getValue(ATT_CODE);
 			if (StringUtils.isNotEmpty(codeStr) &&
 					codeStr.startsWith("0x")) {
 				char c = (char)Integer.parseInt(codeStr.substring(2), 16);
-				targetEmoji = stocker.put(c);
+				targetEmoji = pool.put(c);
 			}
 		} else if (TAG_RELATION.equals(name)) {
 			Carrier carrier = Carrier.OTHER;

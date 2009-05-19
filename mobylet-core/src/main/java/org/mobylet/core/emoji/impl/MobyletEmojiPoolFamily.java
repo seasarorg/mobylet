@@ -17,7 +17,7 @@ public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
 
 	protected Map<Carrier, EmojiPool> family;
 
-	protected EmojiPool[] stockerArray;
+	protected EmojiPool[] poolArray;
 
 	protected char minEmoji = DefChar.MAX_CHAR;
 
@@ -29,7 +29,7 @@ public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
 	}
 
 	@Override
-	public EmojiPool getEmojiStocker(Carrier carrier) {
+	public EmojiPool getEmojiPool(Carrier carrier) {
 		return family.get(carrier);
 	}
 
@@ -39,42 +39,55 @@ public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
 		stock(reader, DefPath.EMOJIXML_PATH_D);
 		stock(reader, DefPath.EMOJIXML_PATH_A);
 		stock(reader, DefPath.EMOJIXML_PATH_S);
-		stockerArray = new EmojiPool[family.size()];
+		poolArray = new EmojiPool[family.size()];
 		int index = 0;
-		for (EmojiPool stocker : family.values()) {
-			stocker.construct();
-			stockerArray[index++] = stocker;
-			if (stocker.getMinEmoji() < minEmoji) {
-				minEmoji = stocker.getMinEmoji();
+		for (EmojiPool pool : family.values()) {
+			pool.construct();
+			poolArray[index++] = pool;
+			if (pool.getMinEmoji() < minEmoji) {
+				minEmoji = pool.getMinEmoji();
 			}
-			if (stocker.getMaxEmoji() > maxEmoji) {
-				maxEmoji = stocker.getMaxEmoji();
+			if (pool.getMaxEmoji() > maxEmoji) {
+				maxEmoji = pool.getMaxEmoji();
 			}
 		}
 	}
 
 	protected void stock(EmojiPoolReader reader, String path) {
-		EmojiPool stocker = null;
+		EmojiPool pool = null;
 		if (reader != null &&
-				(stocker = reader.read(path).get()) != null) {
-			family.put(stocker.getCarrier(), stocker);
+				(pool = reader.read(path).get()) != null) {
+			family.put(pool.getCarrier(), pool);
 		}
 	}
 
 	@Override
 	public Emoji getEmoji(char c) {
-		if (stockerArray == null) {
+		if (poolArray == null) {
 			return null;
 		}
 		if (c < minEmoji || c > maxEmoji) {
 			return null;
 		}
-		for (EmojiPool stocker : stockerArray) {
+		for (EmojiPool stocker : poolArray) {
 			if (stocker.isEmoji(c)) {
 				return stocker.get(c);
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isEmoji(char c) {
+		if (poolArray != null &&
+				minEmoji <= c && c <= maxEmoji) {
+			for (EmojiPool pool : poolArray) {
+				if (pool.isEmoji(c)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
