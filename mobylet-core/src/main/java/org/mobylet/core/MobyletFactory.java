@@ -5,7 +5,6 @@ import org.mobylet.core.util.RequestUtils;
 
 public class MobyletFactory {
 
-
 	public static Mobylet getInstance() {
 		MobyletContext context = RequestUtils.getMobyletContext();
 		Mobylet m = null;
