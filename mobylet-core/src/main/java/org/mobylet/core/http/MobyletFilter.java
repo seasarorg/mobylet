@@ -73,7 +73,6 @@ public class MobyletFilter implements Filter {
 		request.setCharacterEncoding(charsetName);
 		//doChain
 		MobyletResponse mResponse = new MobyletResponse(response, dialect);
-		mResponse.setContentType(dialect.getContentTypeString());
 		chain.doFilter(request, mResponse);
 		mResponse.flush();
 	}

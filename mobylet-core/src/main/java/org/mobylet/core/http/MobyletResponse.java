@@ -28,6 +28,8 @@ import org.mobylet.core.dialect.MobyletDialect;
 
 public class MobyletResponse extends HttpServletResponseWrapper {
 
+	protected HttpServletResponse response;
+
 	protected MobyletDialect dialect;
 
 	protected PrintWriter printWriter;
@@ -38,6 +40,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	public MobyletResponse(HttpServletResponse response, MobyletDialect dialect) {
 		super(response);
 		this.dialect = dialect;
+		this.response = response;
 	}
 
 	@Override
@@ -47,6 +50,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 					new OutputStreamWriter(getOutputStream(),
 							Charset.forName(dialect.getCharsetName())),
 						dialect.getCarrier());
+			response.setContentType(dialect.getContentTypeString());
 		}
 		return printWriter;
 	}

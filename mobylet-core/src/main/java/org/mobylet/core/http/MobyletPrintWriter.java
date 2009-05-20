@@ -93,7 +93,8 @@ public class MobyletPrintWriter extends PrintWriter {
 					}
 				}
 			}
-			super.write(caw.toCharArray());
+			char[] chars = caw.toCharArray();
+			super.write(chars, 0, chars.length);
 		} else {
 			super.write(buf, off, len);
 		}
