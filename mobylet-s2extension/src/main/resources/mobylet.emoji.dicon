@@ -6,6 +6,7 @@
 	<!-- EmojiPoolReader -->
 	<component name="emojiPoolReader"
 			   class="org.mobylet.core.emoji.impl.MobyletEmojiPoolReader"
+			   autoBinding="none"
 			   instance="singleton" >
 	</component>
 

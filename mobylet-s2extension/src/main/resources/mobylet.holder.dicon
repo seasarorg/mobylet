@@ -5,7 +5,7 @@
 
 	<!-- RequestHolder -->
 	<component name="requestHolder"
-			   class="org.mobylet.core.holder.MobyletRequestHolder"
+			   class="org.mobylet.core.holder.impl.MobyletRequestHolder"
 			   instance="singleton" >
 	</component>
 
