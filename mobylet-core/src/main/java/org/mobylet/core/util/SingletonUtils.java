@@ -19,8 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.mobylet.core.MobyletRuntimeException;
-import org.mobylet.core.holder.MobyletSingletonHolder;
 import org.mobylet.core.holder.SingletonHolder;
+import org.mobylet.core.holder.impl.MobyletSingletonHolder;
 
 public class SingletonUtils {
 

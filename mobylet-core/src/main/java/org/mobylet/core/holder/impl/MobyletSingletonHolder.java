@@ -13,32 +13,38 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.mobylet.core.holder;
+package org.mobylet.core.holder.impl;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MobyletRequestHolder implements RequestHolder {
+import org.mobylet.core.holder.SingletonHolder;
 
-	protected ThreadLocal<HttpServletRequest> requestHolder;
+public class MobyletSingletonHolder implements SingletonHolder {
+
+	protected Map<Class<?>, Object> singletonHolder;
 
 
-	public MobyletRequestHolder() {
-		requestHolder = new ThreadLocal<HttpServletRequest>();
+	public MobyletSingletonHolder() {
+		singletonHolder = new HashMap<Class<?>, Object>();
 	}
 
 	@Override
-	public HttpServletRequest get() {
-		return requestHolder.get();
+	@SuppressWarnings("unchecked")
+	public <T> T get(Class<T> clazz) {
+		return (T)singletonHolder.get(clazz);
 	}
 
 	@Override
-	public void set(HttpServletRequest request) {
-		requestHolder.set(request);
+	public void set(Class<?> clazz, Object object) {
+		if (clazz != null && object != null) {
+			singletonHolder.put(clazz, object);
+		}
 	}
 
 	@Override
-	public void remove() {
-		requestHolder.remove();
+	public void remove(Class<?> clazz) {
+		singletonHolder.remove(clazz);
 	}
 
 }
