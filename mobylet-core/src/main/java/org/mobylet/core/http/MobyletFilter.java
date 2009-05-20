@@ -79,7 +79,9 @@ public class MobyletFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		SingletonUtils.initialize(null);
+		if (!SingletonUtils.isInitialized()) {
+			SingletonUtils.initialize(null);
+		}
 		Properties properties = new Properties();
 		try {
 			properties.load(
