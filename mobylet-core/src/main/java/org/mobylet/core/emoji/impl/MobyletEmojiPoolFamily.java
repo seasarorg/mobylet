@@ -15,7 +15,7 @@
  */
 package org.mobylet.core.emoji.impl;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.mobylet.core.Carrier;
@@ -34,46 +34,22 @@ public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
 
 	protected EmojiPool[] poolArray;
 
-	protected char minEmoji = DefChar.MAX_CHAR;
+	protected int minEmoji = DefChar.MAX_CHAR;
 
-	protected char maxEmoji = DefChar.MIN_CHAR;
+	protected int maxEmoji = DefChar.MIN_CHAR;
 
 
 	public MobyletEmojiPoolFamily() {
-		initialize();
 	}
 
 	@Override
 	public EmojiPool getEmojiPool(Carrier carrier) {
-		return family.get(carrier);
-	}
-
-	protected void initialize() {
-		family = new HashMap<Carrier, EmojiPool>();
-		EmojiPoolReader reader = SingletonUtils.get(EmojiPoolReader.class);
-		stock(reader, DefPath.EMOJIXML_PATH_D);
-		stock(reader, DefPath.EMOJIXML_PATH_A);
-		stock(reader, DefPath.EMOJIXML_PATH_S);
-		poolArray = new EmojiPool[family.size()];
-		int index = 0;
-		for (EmojiPool pool : family.values()) {
-			pool.construct();
-			poolArray[index++] = pool;
-			if (pool.getMinEmoji() < minEmoji) {
-				minEmoji = pool.getMinEmoji();
-			}
-			if (pool.getMaxEmoji() > maxEmoji) {
-				maxEmoji = pool.getMaxEmoji();
-			}
+		EmojiPool pool = family.get(carrier);
+		if (pool == null) {
+			pool = new EmojiPool(carrier);
+			family.put(carrier, pool);
 		}
-	}
-
-	protected void stock(EmojiPoolReader reader, String path) {
-		EmojiPool pool = null;
-		if (reader != null &&
-				(pool = reader.read(path).get()) != null) {
-			family.put(pool.getCarrier(), pool);
-		}
+		return pool;
 	}
 
 	@Override
@@ -103,6 +79,36 @@ public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void initialize() {
+		family = new LinkedHashMap<Carrier, EmojiPool>();
+		EmojiPoolReader reader = SingletonUtils.get(EmojiPoolReader.class);
+		stock(reader, DefPath.EMOJIXML_PATH_D);
+		stock(reader, DefPath.EMOJIXML_PATH_A);
+		stock(reader, DefPath.EMOJIXML_PATH_S);
+		family.remove(Carrier.OTHER);
+		poolArray = new EmojiPool[family.size()];
+		int index = 0;
+		for (EmojiPool pool : family.values()) {
+			pool.construct();
+			poolArray[index++] = pool;
+			if (pool.getMinEmoji() < minEmoji) {
+				minEmoji = pool.getMinEmoji();
+			}
+			if (pool.getMaxEmoji() > maxEmoji) {
+				maxEmoji = pool.getMaxEmoji();
+			}
+		}
+	}
+
+	protected void stock(EmojiPoolReader reader, String path) {
+		EmojiPool pool = null;
+		if (reader != null &&
+				(pool = reader.read(path).get()) != null) {
+			family.put(pool.getCarrier(), pool);
+		}
 	}
 
 }

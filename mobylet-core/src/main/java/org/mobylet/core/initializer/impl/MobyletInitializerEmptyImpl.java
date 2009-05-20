@@ -13,16 +13,21 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.mobylet.core.define;
+package org.mobylet.core.initializer.impl;
 
-public interface DefPath {
+import org.mobylet.core.initializer.MobyletInitializer;
 
-	public static final String CONFIG_PATH = "mobylet.properties";
+public class MobyletInitializerEmptyImpl implements MobyletInitializer {
 
-	public static final String EMOJIXML_PATH_D = "emoji/mobylet.emojistocker.docomo.xml";
+	protected boolean isInitialized = false;
 
-	public static final String EMOJIXML_PATH_A = "emoji/mobylet.emojistocker.au.xml";
+	@Override
+	public void initialize() {
+		isInitialized = true;
+	}
 
-	public static final String EMOJIXML_PATH_S = "emoji/mobylet.emojistocker.softbank.xml";
-
+	@Override
+	public boolean isInitialized() {
+		return isInitialized;
+	}
 }

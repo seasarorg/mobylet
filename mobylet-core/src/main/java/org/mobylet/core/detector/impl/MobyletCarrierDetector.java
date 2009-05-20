@@ -15,14 +15,12 @@
  */
 package org.mobylet.core.detector.impl;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.detector.CarrierDetector;
+import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.util.RequestUtils;
@@ -32,7 +30,7 @@ import org.mobylet.core.util.StringUtils;
 public class MobyletCarrierDetector implements CarrierDetector {
 
 
-	protected HashMap<Carrier, Pattern> patternMap;
+	protected Set<MobyletDialect> dialects;
 
 
 	public MobyletCarrierDetector() {
@@ -46,10 +44,9 @@ public class MobyletCarrierDetector implements CarrierDetector {
 		if (carrier == null) {
 			String userAgent = RequestUtils.getUserAgent();
 			if (StringUtils.isNotEmpty(userAgent)) {
-				Set<Entry<Carrier, Pattern>> entrySet = patternMap.entrySet();
-				for (Entry<Carrier, Pattern> entry : entrySet) {
-					if (entry.getValue().matcher(userAgent).matches()) {
-						context.set(entry.getKey());
+				for (MobyletDialect dialect : dialects) {
+					if (dialect.getCarrierMatchRegex().matcher(userAgent).matches()) {
+						context.set(dialect.getCarrier());
 						return getCarrier();
 					}
 				}
@@ -62,14 +59,11 @@ public class MobyletCarrierDetector implements CarrierDetector {
 	}
 
 	protected void initialize() {
-		patternMap = new LinkedHashMap<Carrier, Pattern>();
+		dialects = new LinkedHashSet<MobyletDialect>();
 		DialectSelector dialectSelector =
 			SingletonUtils.get(DialectSelector.class);
-		patternMap.put(Carrier.DOCOMO,
-				dialectSelector.getDialect(Carrier.DOCOMO).getCarrierMatchRegex());
-		patternMap.put(Carrier.AU,
-				dialectSelector.getDialect(Carrier.AU).getCarrierMatchRegex());
-		patternMap.put(Carrier.SOFTBANK,
-				dialectSelector.getDialect(Carrier.SOFTBANK).getCarrierMatchRegex());
+		dialects.add(dialectSelector.getDialect(Carrier.DOCOMO));
+		dialects.add(dialectSelector.getDialect(Carrier.AU));
+		dialects.add(dialectSelector.getDialect(Carrier.SOFTBANK));
 	}
 }

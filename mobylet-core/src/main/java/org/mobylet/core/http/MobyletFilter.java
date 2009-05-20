@@ -17,6 +17,7 @@ package org.mobylet.core.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -29,8 +30,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.define.DefPath;
+import org.mobylet.core.define.DefProperties;
 import org.mobylet.core.dialect.MobyletDialect;
+import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.ResourceUtils;
+import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
 
 public class MobyletFilter implements Filter {
 
@@ -71,7 +79,39 @@ public class MobyletFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		MobyletInitializer.initialize();
+		Properties properties = new Properties();
+		try {
+			properties.load(
+					ResourceUtils.getResourceFileOrInputStream(
+							DefPath.CONFIG_PATH));
+		} catch (IOException e) {
+			throw new MobyletRuntimeException(
+					DefPath.CONFIG_PATH+"の読み込みに失敗しました", e);
+		}
+		String className = properties.getProperty(DefProperties.KEY_INITIALIZER);
+		if (StringUtils.isEmpty(className)) {
+			return;
+		}
+		try {
+			Class<?> initializerClass = Class.forName(className);
+			Object initializer = initializerClass.newInstance();
+			if (initializer instanceof MobyletInitializer) {
+				MobyletInitializer.class.cast(initializer).initialize();
+				SingletonUtils.put(initializer);
+			} else {
+				throw new MobyletRuntimeException(
+						"Class["+className+"]はMobyletInitializerを実装していません", null);
+			}
+		} catch (ClassNotFoundException e) {
+			throw new MobyletRuntimeException(
+					"Class["+className+"]が見つかりません", e);
+		} catch (InstantiationException e) {
+			throw new MobyletRuntimeException(
+					"Class["+className+"]のインスタンスを生成できません", e);
+		} catch (IllegalAccessException e) {
+			throw new MobyletRuntimeException(
+					"Class["+className+"]にアクセスできません", e);
+		}
 	}
 
 }

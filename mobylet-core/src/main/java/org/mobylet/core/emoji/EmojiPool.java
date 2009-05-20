@@ -27,9 +27,9 @@ public class EmojiPool {
 
 	protected Carrier carrier;
 
-	protected char minEmoji = DefChar.MAX_CHAR;
+	protected int minEmoji = DefChar.MAX_CHAR;
 
-	protected char maxEmoji = DefChar.MIN_CHAR;
+	protected int maxEmoji = DefChar.MIN_CHAR;
 
 	protected Map<Character, Emoji> emojiMap;
 
@@ -45,16 +45,27 @@ public class EmojiPool {
 	}
 
 	public void construct() {
-		emojiArray = new Emoji[maxEmoji - minEmoji + 1];
-		Set<Entry<Character, Emoji>> entrySet = emojiMap.entrySet();
-		for (Entry<Character, Emoji> emojiEntry : entrySet) {
-			emojiArray[emojiEntry.getKey() - minEmoji] = emojiEntry.getValue();
+		if (maxEmoji != DefChar.MIN_CHAR &&
+				minEmoji != DefChar.MAX_CHAR) {
+			emojiArray = new Emoji[maxEmoji - minEmoji + 1];
+			Set<Entry<Character, Emoji>> entrySet = emojiMap.entrySet();
+			for (Entry<Character, Emoji> emojiEntry : entrySet) {
+				emojiArray[emojiEntry.getKey() - minEmoji] = emojiEntry.getValue();
+			}
 		}
 		isConstructed = true;
 	}
 
 	public Carrier getCarrier() {
 		return carrier;
+	}
+
+	public Emoji putOnce(char c) {
+		Emoji e = getUnConstructed(c);
+		if (e != null) {
+			return e;
+		}
+		return put(c);
 	}
 
 	public Emoji put(char c) {
@@ -99,11 +110,11 @@ public class EmojiPool {
 	}
 
 	public char getMinEmoji() {
-		return minEmoji;
+		return (char)minEmoji;
 	}
 
 	public char getMaxEmoji() {
-		return maxEmoji;
+		return (char)maxEmoji;
 	}
 
 }

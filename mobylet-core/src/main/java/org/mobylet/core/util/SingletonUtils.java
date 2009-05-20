@@ -16,7 +16,9 @@
 package org.mobylet.core.util;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class SingletonUtils {
 
@@ -32,12 +34,28 @@ public class SingletonUtils {
 		if (obj == null) {
 			return;
 		}
-		Class<?>[] interfaces = obj.getClass().getInterfaces();
-		if (interfaces != null) {
+		Set<Class<?>> interfaces = getSuperInterfaces(obj.getClass());
+		if (interfaces != null && interfaces.size() > 0) {
 			for (Class<?> clazz : interfaces) {
 				MAP_SINGLETON.put(clazz, obj);
 			}
 		}
 		MAP_SINGLETON.put(obj.getClass(), obj);
+	}
+
+	private static Set<Class<?>> getSuperInterfaces(Class<?> clazz) {
+		Set<Class<?>> classSet = new HashSet<Class<?>>();
+		Class<?>[] interfaces = clazz.getInterfaces();
+		if (interfaces != null) {
+			for (Class<?> i : interfaces) {
+				classSet.add(i);
+			}
+		}
+		Class<?> superClass = null;
+		if ((superClass = clazz.getSuperclass()) != null) {
+			Set<Class<?>> tmpSet = getSuperInterfaces(superClass);
+			classSet.addAll(tmpSet);
+		}
+		return classSet;
 	}
 }

@@ -26,4 +26,5 @@ public interface EmojiPoolFamily {
 
 	public boolean isEmoji(char c);
 
+	public void initialize();
 }

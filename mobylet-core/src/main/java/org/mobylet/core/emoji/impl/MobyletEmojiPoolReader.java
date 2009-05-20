@@ -20,7 +20,9 @@ import java.util.Stack;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.emoji.Emoji;
 import org.mobylet.core.emoji.EmojiPool;
+import org.mobylet.core.emoji.EmojiPoolFamily;
 import org.mobylet.core.emoji.EmojiPoolReader;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.XmlUtils;
 import org.xml.sax.Attributes;
@@ -70,13 +72,13 @@ public class MobyletEmojiPoolReader
 			if (StringUtils.isNotEmpty(carrierStr)) {
 				carrier = Carrier.valueOf(carrierStr);
 			}
-			pool = new EmojiPool(carrier);
+			pool = SingletonUtils.get(EmojiPoolFamily.class).getEmojiPool(carrier);
 		} else if (TAG_EMOJI.equals(name)) {
 			String codeStr = attributes.getValue(ATT_CODE);
 			if (StringUtils.isNotEmpty(codeStr) &&
 					codeStr.startsWith("0x")) {
 				char c = (char)Integer.parseInt(codeStr.substring(2), 16);
-				targetEmoji = pool.put(c);
+				targetEmoji = pool.putOnce(c);
 			}
 		} else if (TAG_RELATION.equals(name)) {
 			Carrier carrier = Carrier.OTHER;
@@ -93,8 +95,24 @@ public class MobyletEmojiPoolReader
 		tagStack.pop();
 		if (TAG_RELATION.equals(name)) {
 			if (StringUtils.isNotEmpty(relationValue)) {
-				//TODO これから
+				EmojiPool relationPool =
+					SingletonUtils.get(EmojiPoolFamily.class).getEmojiPool(relationCarrier);
+				Emoji e = null;
+				if (relationValue.startsWith("0x")) {
+					char c = (char)Integer.parseInt(relationValue.substring(2), 16);
+					e = relationPool.getUnConstructed(c);
+					if (e == null) {
+						e = relationPool.putOnce(c);
+					}
+				} else {
+					e = new Emoji(relationCarrier, relationValue);
+				}
+				targetEmoji.relate(relationCarrier, e);
+				relationCarrier = null;
+				relationValue = null;
 			}
+		} else if (TAG_EMOJI.equals(name)) {
+			targetEmoji = null;
 		}
 	}
 
