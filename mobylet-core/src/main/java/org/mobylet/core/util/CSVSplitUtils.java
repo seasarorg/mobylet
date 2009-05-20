@@ -35,15 +35,16 @@ public class CSVSplitUtils {
 		char[] lineChars = line.toCharArray();
 		boolean isInnerQuote = false;
 		boolean isQuoted = false;
-		int elementStartIndex = 0;
+		int elemStartIndex = 0;
 		int pos = 0;
 		for (; pos<lineChars.length; pos++) {
 			if (lineChars[pos] == ',') {
 				if (!isInnerQuote) {
-					if (pos == elementStartIndex) {
+					if (pos == elemStartIndex) {
 						splitList.add("");
 					} else {
-						String elem = new String(lineChars, elementStartIndex, pos-elementStartIndex);
+						String elem =
+							new String(lineChars, elemStartIndex, pos-elemStartIndex);
 						if (isQuoted && elem.contains(BACKSLASH)) {
 							splitList.add(elem
 									.replaceAll(BACKSLASH + W_QUOTE, W_QUOTE)
@@ -52,7 +53,7 @@ public class CSVSplitUtils {
 							splitList.add(elem);
 						}
 					}
-					elementStartIndex = pos + 1;
+					elemStartIndex = pos + 1;
 					isQuoted = false;
 				}
 			} else if (lineChars[pos] == '"') {
