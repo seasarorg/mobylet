@@ -15,19 +15,40 @@
  */
 package org.mobylet.core.util;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+
+import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.holder.MobyletSingletonHolder;
+import org.mobylet.core.holder.SingletonHolder;
 
 public class SingletonUtils {
 
-	private static Map<Class<?>, Object> SINGLETON_MAP = new HashMap<Class<?>, Object>();
+	private static SingletonHolder singletonHolder;
 
+	public static void initialize(Class<? extends SingletonHolder> holderClass) {
+		if (singletonHolder == null && holderClass == null) {
+			singletonHolder = new MobyletSingletonHolder();
+		} else if (singletonHolder == null && holderClass != null) {
+			try {
+				singletonHolder = holderClass.newInstance();
+			} catch (InstantiationException e) {
+				throw new MobyletRuntimeException(
+						"SingletonHolder["+holderClass.getName()+
+						"]のインスタンス化に失敗しました", e);
+			} catch (IllegalAccessException e) {
+				throw new MobyletRuntimeException(
+						"SingletonHolder["+holderClass.getName()+
+						"]のインスタンス化に失敗しました", e);
+			}
+		} else {
+			throw new MobyletRuntimeException(
+					"SingletonHolderは既に構築済みです", null);
+		}
+	}
 
-	@SuppressWarnings("unchecked")
 	public static <S extends Object> S get(Class<S> clazz) {
-		return (S)SINGLETON_MAP.get(clazz);
+		return singletonHolder.get(clazz);
 	}
 
 	public static void put(Object obj) {
@@ -37,10 +58,10 @@ public class SingletonUtils {
 		Set<Class<?>> interfaces = getInterfaces(obj.getClass());
 		if (interfaces != null && interfaces.size() > 0) {
 			for (Class<?> clazz : interfaces) {
-				SINGLETON_MAP.put(clazz, obj);
+				singletonHolder.set(clazz, obj);
 			}
 		}
-		SINGLETON_MAP.put(obj.getClass(), obj);
+		singletonHolder.set(obj.getClass(), obj);
 	}
 
 	private static Set<Class<?>> getInterfaces(Class<?> clazz) {

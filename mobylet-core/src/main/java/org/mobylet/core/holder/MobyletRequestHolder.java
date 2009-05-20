@@ -13,11 +13,11 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.mobylet.core.http;
+package org.mobylet.core.holder;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class MobyletRequestHolder {
+public class MobyletRequestHolder implements RequestHolder {
 
 	protected ThreadLocal<HttpServletRequest> requestHolder;
 
@@ -26,14 +26,17 @@ public class MobyletRequestHolder {
 		requestHolder = new ThreadLocal<HttpServletRequest>();
 	}
 
+	@Override
 	public HttpServletRequest get() {
 		return requestHolder.get();
 	}
 
+	@Override
 	public void set(HttpServletRequest request) {
 		requestHolder.set(request);
 	}
 
+	@Override
 	public void remove() {
 		requestHolder.remove();
 	}

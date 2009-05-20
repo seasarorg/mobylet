@@ -24,6 +24,7 @@ import org.mobylet.core.dialect.impl.MobyletDocomoDialect;
 import org.mobylet.core.dialect.impl.MobyletSoftbankDialect;
 import org.mobylet.core.emoji.impl.MobyletEmojiPoolFamily;
 import org.mobylet.core.emoji.impl.MobyletEmojiPoolReader;
+import org.mobylet.core.holder.MobyletRequestHolder;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
 import org.mobylet.core.util.SingletonUtils;
 

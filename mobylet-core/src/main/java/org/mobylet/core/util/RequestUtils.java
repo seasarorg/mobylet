@@ -17,21 +17,21 @@ package org.mobylet.core.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mobylet.core.holder.RequestHolder;
 import org.mobylet.core.http.MobyletContext;
-import org.mobylet.core.http.MobyletRequestHolder;
 
 public class RequestUtils {
 
 	public static HttpServletRequest get() {
-		return SingletonUtils.get(MobyletRequestHolder.class).get();
+		return SingletonUtils.get(RequestHolder.class).get();
 	}
 
 	public static void set(HttpServletRequest request) {
-		SingletonUtils.get(MobyletRequestHolder.class).set(request);
+		SingletonUtils.get(RequestHolder.class).set(request);
 	}
 
 	public static void remove() {
-		SingletonUtils.get(MobyletRequestHolder.class).remove();
+		SingletonUtils.get(RequestHolder.class).remove();
 	}
 
 	public static MobyletContext getMobyletContext() {
