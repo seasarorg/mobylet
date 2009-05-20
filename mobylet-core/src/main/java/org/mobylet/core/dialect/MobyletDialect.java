@@ -30,4 +30,8 @@ public interface MobyletDialect {
 
 	public Pattern getDeviceMatchRegex();
 
+	public String getContentTypeString();
+
+	public String getXContentTypeString();
+
 }

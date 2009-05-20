@@ -30,6 +30,8 @@ public class DefaultDialect implements MobyletDialect {
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile(".+");
 
+	private static final String CONTENT_TYPE =
+		"text/html; charset=utf-8";
 
 	@Override
 	public Carrier getCarrier() {
@@ -49,6 +51,16 @@ public class DefaultDialect implements MobyletDialect {
 	@Override
 	public Pattern getDeviceMatchRegex() {
 		return REGEX_DEVICE_MATCH;
+	}
+
+	@Override
+	public String getContentTypeString() {
+		return CONTENT_TYPE;
+	}
+
+	@Override
+	public String getXContentTypeString() {
+		return CONTENT_TYPE;
 	}
 
 }

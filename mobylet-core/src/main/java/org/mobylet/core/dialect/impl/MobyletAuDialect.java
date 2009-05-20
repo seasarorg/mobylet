@@ -30,6 +30,9 @@ public class MobyletAuDialect implements MobyletDialect {
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile("^KDDI-[0-9a-zA-Z]+");
 
+	private static final String CONTENT_TYPE =
+		"text/html; charset=shift_jis";
+
 	@Override
 	public Carrier getCarrier() {
 		return Carrier.AU;
@@ -48,6 +51,16 @@ public class MobyletAuDialect implements MobyletDialect {
 	@Override
 	public Pattern getDeviceMatchRegex() {
 		return REGEX_DEVICE_MATCH;
+	}
+
+	@Override
+	public String getContentTypeString() {
+		return CONTENT_TYPE;
+	}
+
+	@Override
+	public String getXContentTypeString() {
+		return CONTENT_TYPE;
 	}
 
 }

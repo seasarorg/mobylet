@@ -30,6 +30,9 @@ public class MobyletDocomoDialect implements MobyletDialect {
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile("^DoCoMo/[0-9.]+[/ ]{1}[0-9a-zA-Z_+]+");
 
+	private static final String CONTENT_TYPE =
+		"text/html; charset=shift_jis";
+
 	@Override
 	public Carrier getCarrier() {
 		return Carrier.DOCOMO;
@@ -48,6 +51,16 @@ public class MobyletDocomoDialect implements MobyletDialect {
 	@Override
 	public Pattern getDeviceMatchRegex() {
 		return REGEX_DEVICE_MATCH;
+	}
+
+	@Override
+	public String getContentTypeString() {
+		return CONTENT_TYPE;
+	}
+
+	@Override
+	public String getXContentTypeString() {
+		return CONTENT_TYPE;
 	}
 
 }
