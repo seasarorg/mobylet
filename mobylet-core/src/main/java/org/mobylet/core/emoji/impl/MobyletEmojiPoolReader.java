@@ -26,6 +26,7 @@ import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.XmlUtils;
 import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -42,7 +43,6 @@ public class MobyletEmojiPoolReader
 	protected Carrier relationCarrier;
 
 	protected String relationValue;
-
 
 
 	@Override
@@ -125,6 +125,10 @@ public class MobyletEmojiPoolReader
 				relationValue += new String(ac, i, j);
 			}
 		}
+	}
+
+	public Locator getDocumentLocator() {
+		return null;
 	}
 
 }
