@@ -47,6 +47,10 @@ public class SingletonUtils {
 		}
 	}
 
+	public static boolean isInitialized() {
+		return singletonHolder != null;
+	}
+
 	public static <S extends Object> S get(Class<S> clazz) {
 		return singletonHolder.get(clazz);
 	}
