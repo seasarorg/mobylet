@@ -17,7 +17,6 @@ package org.mobylet.core.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.Properties;
 
 import javax.servlet.Filter;
@@ -81,11 +80,6 @@ public class MobyletFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		try {
-			System.out.println(Charset.forName("x-mobylet-docomo"));
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
 		if (!SingletonUtils.isInitialized()) {
 			SingletonUtils.initialize(null);
 		}
