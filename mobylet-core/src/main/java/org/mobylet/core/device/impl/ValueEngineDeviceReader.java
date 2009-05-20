@@ -13,6 +13,7 @@ import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.device.DeviceProfile;
 import org.mobylet.core.device.DeviceReader;
+import org.mobylet.core.util.CSVSplitUtils;
 import org.mobylet.core.util.ResourceUtils;
 
 public class ValueEngineDeviceReader implements DeviceReader {
@@ -53,10 +54,10 @@ public class ValueEngineDeviceReader implements DeviceReader {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				if (header == null) {
-					header = line.split(",");
+					header = CSVSplitUtils.splitLineToArray(line);
 					continue;
 				}
-				String[] val = line.split(",");
+				String[] val = CSVSplitUtils.splitLineToArray(line);
 				uaMap.put(val[0]+"/"+val[1], val[3]);
 			}
 		} catch (IOException e) {
@@ -87,10 +88,10 @@ public class ValueEngineDeviceReader implements DeviceReader {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				if (header == null) {
-					header = line.split(",");
+					header = CSVSplitUtils.splitLineToArray(line);
 					continue;
 				}
-				String[] val = line.split(",");
+				String[] val = CSVSplitUtils.splitLineToArray(line);
 				DeviceProfile dp = new DeviceProfile();
 				for (int i=0; i<val.length; i++) {
 					dp.put(header[i], val[i]);
@@ -126,10 +127,10 @@ public class ValueEngineDeviceReader implements DeviceReader {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				if (header == null) {
-					header = line.split(",");
+					header = CSVSplitUtils.splitLineToArray(line);
 					continue;
 				}
-				String[] val = line.split(",");
+				String[] val = CSVSplitUtils.splitLineToArray(line);
 				String key = uaMap.get(val[0]+"/"+val[1]);
 				if ("ブラウザ画像サイズ".equals(val[2])) {
 					if (diMap.get(key) == null) {

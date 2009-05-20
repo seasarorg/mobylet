@@ -6,24 +6,26 @@ import org.mobylet.core.device.DeviceProfile;
 
 public class MobyletDevice implements Device {
 
+	protected DeviceDisplay display;
+
+	protected DeviceProfile profile;
+
 	@Override
 	public DeviceDisplay getDeviceDisplay() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return display;
 	}
 
 	@Override
-	public DeviceProfile getProfile() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public DeviceProfile getDeviceProfile() {
+		return profile;
 	}
 
 	public void setDeviceDisplay(DeviceDisplay dd) {
-
+		display = dd;
 	}
 
 	public void setDeviceProfile(DeviceProfile dp) {
-
+		profile = dp;
 	}
 
 }

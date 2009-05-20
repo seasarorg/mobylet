@@ -4,6 +4,6 @@ public interface Device {
 
 	public DeviceDisplay getDeviceDisplay();
 
-	public DeviceProfile getProfile();
+	public DeviceProfile getDeviceProfile();
 
 }
