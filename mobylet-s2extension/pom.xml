@@ -14,6 +14,11 @@
 		<url>http://mobylet.sandbox.seasar.org/</url>
 	</organization>
 	<inceptionYear>2009</inceptionYear>
+	<scm>
+		<connection>scm:svn:https://www.seasar.org/svn/sandbox/mobylet/trunk/mobylet-s2extension/</connection>
+		<developerConnection>scm:svn:https://www.seasar.org/svn/sandbox/mobylet/trunk/mobylet-s2extension/</developerConnection>
+		<url>http://svn.seasar.org/browse/?root=sandbox.s2mobylet</url>
+	</scm>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<outputDirectory>target/classes</outputDirectory>
@@ -76,10 +81,10 @@
 	</distributionManagement>
 	<repositories>
 		<repository>
-			<id>maven.mobylet.org</id>
-			<name>Mobylet Repositories</name>
-			<url>https://www.seasar.org/maven/maven2</url>
-		</repository>
+			<id>maven.seasar.org</id>
+			<name>The Seasar Foundation Maven2 Repository</name>
+			<url>http://maven.seasar.org/maven2</url>
+ 	   </repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -87,6 +92,11 @@
 			<artifactId>junit</artifactId>
 			<version>4.4</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seasar.container</groupId>
+			<artifactId>s2-tiger</artifactId>
+			<version>2.4.37</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seasar.mobylet</groupId>
