@@ -20,6 +20,13 @@ import java.util.List;
 
 public class CSVSplitUtils {
 
+	public static final String BACKSLASH = "\\";
+
+	public static final String W_BACKSLASH = "\\\\";
+
+	public static final String W_QUOTE = "\"";
+
+
 	public static List<String> splitLine(String line) {
 		List<String> splitList = new ArrayList<String>();
 		if (StringUtils.isEmpty(line)) {
@@ -27,6 +34,7 @@ public class CSVSplitUtils {
 		}
 		char[] lineChars = line.toCharArray();
 		boolean isInnerQuote = false;
+		boolean isQuoted = false;
 		int elementStartIndex = 0;
 		int pos = 0;
 		for (; pos<lineChars.length; pos++) {
@@ -35,14 +43,24 @@ public class CSVSplitUtils {
 					if (pos == elementStartIndex) {
 						splitList.add("");
 					} else {
-						splitList.add(new String(lineChars, elementStartIndex, pos-elementStartIndex));
+						String elem = new String(lineChars, elementStartIndex, pos-elementStartIndex);
+						if (isQuoted && elem.contains(BACKSLASH)) {
+							splitList.add(elem
+									.replaceAll(BACKSLASH + W_QUOTE, W_QUOTE)
+									.replaceAll(W_BACKSLASH, BACKSLASH));
+						} else {
+							splitList.add(elem);
+						}
 					}
 					elementStartIndex = pos + 1;
+					isQuoted = false;
 				}
 			} else if (lineChars[pos] == '"') {
 				if (pos == 0 ||
-						pos == lineChars.length-1 ||
-						lineChars[pos-1] == ',' ||
+						lineChars[pos-1] == ',') {
+					isInnerQuote = !isInnerQuote;
+					isQuoted = true;
+				} else if (pos == lineChars.length-1 ||
 						lineChars[pos+1] == ',') {
 					isInnerQuote = !isInnerQuote;
 				}

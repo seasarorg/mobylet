@@ -22,28 +22,28 @@ import java.util.Set;
 
 public class SingletonUtils {
 
-	private static Map<Class<?>, Object> MAP_SINGLETON = new HashMap<Class<?>, Object>();
+	private static Map<Class<?>, Object> SINGLETON_MAP = new HashMap<Class<?>, Object>();
 
 
 	@SuppressWarnings("unchecked")
 	public static <S extends Object> S get(Class<S> clazz) {
-		return (S)MAP_SINGLETON.get(clazz);
+		return (S)SINGLETON_MAP.get(clazz);
 	}
 
 	public static void put(Object obj) {
 		if (obj == null) {
 			return;
 		}
-		Set<Class<?>> interfaces = getSuperInterfaces(obj.getClass());
+		Set<Class<?>> interfaces = getInterfaces(obj.getClass());
 		if (interfaces != null && interfaces.size() > 0) {
 			for (Class<?> clazz : interfaces) {
-				MAP_SINGLETON.put(clazz, obj);
+				SINGLETON_MAP.put(clazz, obj);
 			}
 		}
-		MAP_SINGLETON.put(obj.getClass(), obj);
+		SINGLETON_MAP.put(obj.getClass(), obj);
 	}
 
-	private static Set<Class<?>> getSuperInterfaces(Class<?> clazz) {
+	private static Set<Class<?>> getInterfaces(Class<?> clazz) {
 		Set<Class<?>> classSet = new HashSet<Class<?>>();
 		Class<?>[] interfaces = clazz.getInterfaces();
 		if (interfaces != null) {
@@ -53,8 +53,11 @@ public class SingletonUtils {
 		}
 		Class<?> superClass = null;
 		if ((superClass = clazz.getSuperclass()) != null) {
-			Set<Class<?>> tmpSet = getSuperInterfaces(superClass);
+			Set<Class<?>> tmpSet = getInterfaces(superClass);
 			classSet.addAll(tmpSet);
+			if (!Object.class.equals(superClass)) {
+				classSet.add(superClass);
+			}
 		}
 		return classSet;
 	}
