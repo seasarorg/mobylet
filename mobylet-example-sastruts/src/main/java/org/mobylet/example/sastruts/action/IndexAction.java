@@ -15,17 +15,12 @@
  */
 package org.mobylet.example.sastruts.action;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.seasar.framework.container.SingletonS2Container;
 import org.seasar.struts.annotation.Execute;
 
 public class IndexAction {
 
     @Execute(validator = false)
 	public String index() {
-    	System.out.println("########### UA ######### " +
-    	SingletonS2Container.getComponent(HttpServletRequest.class).getHeader("User-Agent"));
         return "index.jsp";
 	}
 }
