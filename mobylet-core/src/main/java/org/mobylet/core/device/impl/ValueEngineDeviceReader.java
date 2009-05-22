@@ -35,11 +35,11 @@ import org.mobylet.core.util.ResourceUtils;
 
 public class ValueEngineDeviceReader implements DeviceReader {
 
-	private static final String PATH_UA = "device/UserAgent.csv";
+	public String pathUserAgent = "device/UserAgent.csv";
 
-	private static final String PATH_PF = "device/ProfileData.csv";
+	public String pathProfile = "device/ProfileData.csv";
 
-	private static final String PATH_DP = "device/DisplayInfo.csv";
+	public String pathDisplay = "device/DisplayInfo.csv";
 
 
 	@Override
@@ -65,7 +65,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(PATH_UA)
+							ResourceUtils.getResourceFileOrInputStream(pathUserAgent)
 							)
 					);
 			String line = null;
@@ -107,7 +107,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(PATH_PF)
+							ResourceUtils.getResourceFileOrInputStream(pathProfile)
 							)
 					);
 			String line = null;
@@ -151,7 +151,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(PATH_DP)
+							ResourceUtils.getResourceFileOrInputStream(pathDisplay)
 							)
 					);
 			String line = null;

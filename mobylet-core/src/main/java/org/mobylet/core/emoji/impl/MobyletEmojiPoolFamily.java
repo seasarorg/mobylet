@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefChar;
-import org.mobylet.core.define.DefPath;
 import org.mobylet.core.emoji.Emoji;
 import org.mobylet.core.emoji.EmojiPool;
 import org.mobylet.core.emoji.EmojiPoolFamily;
@@ -28,6 +27,12 @@ import org.mobylet.core.emoji.EmojiPoolReader;
 import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
+
+	public String pathEmojiDocomo = "emoji/mobylet.emojistocker.docomo.xml";
+
+	public String pathEmojiAu = "emoji/mobylet.emojistocker.au.xml";
+
+	public String pathEmojiSoftbank = "emoji/mobylet.emojistocker.softbank.xml";
 
 
 	protected Map<Carrier, EmojiPool> family;
@@ -85,9 +90,9 @@ public class MobyletEmojiPoolFamily implements EmojiPoolFamily {
 	public void initialize() {
 		family = new LinkedHashMap<Carrier, EmojiPool>();
 		EmojiPoolReader reader = SingletonUtils.get(EmojiPoolReader.class);
-		stock(reader, DefPath.EMOJIXML_PATH_D);
-		stock(reader, DefPath.EMOJIXML_PATH_A);
-		stock(reader, DefPath.EMOJIXML_PATH_S);
+		stock(reader, pathEmojiDocomo);
+		stock(reader, pathEmojiAu);
+		stock(reader, pathEmojiSoftbank);
 		family.remove(Carrier.OTHER);
 		poolArray = new EmojiPool[family.size()];
 		int index = 0;
