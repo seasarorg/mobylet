@@ -26,6 +26,7 @@ import org.mobylet.core.emoji.EmojiPoolFamily;
 import org.mobylet.core.emoji.impl.MobyletEmojiPoolFamily;
 import org.mobylet.core.emoji.impl.MobyletEmojiPoolReader;
 import org.mobylet.core.holder.impl.MobyletRequestHolder;
+import org.mobylet.core.selector.impl.MobyletCharsetSelector;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -35,6 +36,8 @@ public class MobyletInitializerImpl extends MobyletInitializerEmptyImpl {
 	public void initialize() {
 		//RequestHolder
 		SingletonUtils.put(new MobyletRequestHolder());
+		//CharsetSelector
+		SingletonUtils.put(new MobyletCharsetSelector());
 		//Dialect
 		SingletonUtils.put(new MobyletDialectSelector());
 		SingletonUtils.put(new MobyletDocomoDialect());

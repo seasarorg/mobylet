@@ -18,11 +18,9 @@ package org.mobylet.core.dialect.impl;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
-import org.mobylet.core.define.DefCharset;
-import org.mobylet.core.dialect.MobyletDialect;
 
 
-public class MobyletDocomoDialect implements MobyletDialect {
+public class MobyletDocomoDialect extends AbstractDialect {
 
 	private static final Pattern REGEX_CARRIER_MATCH =
 		Pattern.compile("^DoCoMo.+");
@@ -36,11 +34,6 @@ public class MobyletDocomoDialect implements MobyletDialect {
 	@Override
 	public Carrier getCarrier() {
 		return Carrier.DOCOMO;
-	}
-
-	@Override
-	public String getCharsetName() {
-		return DefCharset.DOCOMO;
 	}
 
 	@Override
