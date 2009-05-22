@@ -74,7 +74,6 @@ public class MobyletFilter implements Filter {
 		//doChain
 		MobyletResponse mResponse = new MobyletResponse(response, dialect);
 		chain.doFilter(request, mResponse);
-		mResponse.flush();
 	}
 
 	@Override
