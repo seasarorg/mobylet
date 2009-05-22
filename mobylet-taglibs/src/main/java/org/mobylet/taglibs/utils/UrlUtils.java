@@ -15,6 +15,10 @@ public class UrlUtils {
 
 	public static String EQ = "=";
 
+	public static String SC = ";";
+
+	public static String SP = "#";
+
 
 	public static String addParameter(String url, String pKey, String pValue) {
 		if (StringUtils.isEmpty(pKey)) {
@@ -41,4 +45,34 @@ public class UrlUtils {
 			return Q + pKey + EQ + encodedValue;
 		}
 	}
+
+	public static String addSession(String url, String sessionId) {
+		if(url == null || sessionId == null) {
+			return url;
+		}
+		String path = url;
+		String query = "";
+		String anchor = "";
+		int question = url.indexOf(Q);
+		if(question >= 0) {
+			path = url.substring(0, question);
+			query = url.substring(question);
+		}
+		int pound = path.indexOf(SP);
+		if(pound >= 0) {
+			anchor = path.substring(pound);
+			path = path.substring(0, pound);
+		}
+		StringBuilder sb = new StringBuilder(path);
+		if(sb.length() > 0) {
+			sb.append(SC);
+			sb.append("jsessionid");
+			sb.append(EQ);
+			sb.append(sessionId);
+		}
+		sb.append(anchor);
+		sb.append(query);
+		return sb.toString();
+	}
+
 }
