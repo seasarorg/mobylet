@@ -10,7 +10,7 @@ import org.mobylet.core.selector.CharsetSelector;
 
 public class MobyletCharsetSelector implements CharsetSelector {
 
-	protected boolean isInstalledCharset = false;
+	protected boolean isCharsetInstalled = false;
 
 	protected Map<Carrier, Charset> charsetMap;
 
@@ -21,7 +21,7 @@ public class MobyletCharsetSelector implements CharsetSelector {
 
 	@Override
 	public Charset getCharset(Carrier carrier) {
-		if (isInstalledCharset) {
+		if (isCharsetInstalled) {
 			return charsetMap.get(carrier);
 		} else {
 			return charsetMap.get(Carrier.OTHER);
@@ -31,6 +31,11 @@ public class MobyletCharsetSelector implements CharsetSelector {
 	@Override
 	public String getCharsetName(Carrier carrier) {
 		return getCharset(carrier).name();
+	}
+
+	@Override
+	public boolean isCharsetInstalled() {
+		return isCharsetInstalled;
 	}
 
 	protected void initialize() {
@@ -44,9 +49,9 @@ public class MobyletCharsetSelector implements CharsetSelector {
 					Charset.forName(DefCharset.AU));
 			charsetMap.put(Carrier.SOFTBANK,
 					Charset.forName(DefCharset.UTF8));
-			isInstalledCharset = true;
+			isCharsetInstalled = true;
 		} catch (Throwable t) {
-			isInstalledCharset = false;
+			isCharsetInstalled = false;
 		}
 	}
 }

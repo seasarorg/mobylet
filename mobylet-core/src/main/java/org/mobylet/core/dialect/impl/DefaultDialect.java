@@ -18,6 +18,7 @@ package org.mobylet.core.dialect.impl;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.util.StringUtils;
 
 
 public class DefaultDialect extends AbstractDialect {
@@ -28,8 +29,8 @@ public class DefaultDialect extends AbstractDialect {
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile(".+");
 
-	private static final String CONTENT_TYPE =
-		"text/html; charset=utf-8";
+	protected String contentTypeString = null;
+
 
 	@Override
 	public Carrier getCarrier() {
@@ -48,12 +49,26 @@ public class DefaultDialect extends AbstractDialect {
 
 	@Override
 	public String getContentTypeString() {
-		return CONTENT_TYPE;
+		if (StringUtils.isEmpty(contentTypeString)) {
+			contentTypeString = "text/html; charset=" +
+				charsetSelector.getCharsetName(getCarrier());
+		}
+		return contentTypeString;
 	}
 
 	@Override
 	public String getXContentTypeString() {
-		return CONTENT_TYPE;
+		return getContentTypeString();
+	}
+
+	@Override
+	public String getGuid() {
+		return null;
+	}
+
+	@Override
+	public String getUid() {
+		return null;
 	}
 
 }

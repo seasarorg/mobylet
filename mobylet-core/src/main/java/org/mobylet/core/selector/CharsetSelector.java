@@ -25,4 +25,6 @@ public interface CharsetSelector {
 
 	public String getCharsetName(Carrier carrier);
 
+	public boolean isCharsetInstalled();
+
 }

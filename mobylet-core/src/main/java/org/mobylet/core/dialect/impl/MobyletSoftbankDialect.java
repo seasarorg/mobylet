@@ -18,6 +18,8 @@ package org.mobylet.core.dialect.impl;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.StringUtils;
 
 
 
@@ -31,8 +33,9 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 				+ "^SoftBank/[0-9.]+[/ ]{1}[0-9a-zA-Z]+" + "|"
 				+ "^MOT-[0-9a-zA-Z]+");
 
-	private static final String CONTENT_TYPE =
-		"text/html; charset=utf-8";
+	protected String contentTypeString = null;
+
+	protected String xContentTypeString = null;
 
 
 	@Override
@@ -52,12 +55,38 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 
 	@Override
 	public String getContentTypeString() {
-		return CONTENT_TYPE;
+		if (StringUtils.isEmpty(contentTypeString)) {
+			if (charsetSelector.isCharsetInstalled()) {
+				contentTypeString = "text/html; charset=utf-8";
+			} else {
+				contentTypeString = "text/html; charset=" +
+					charsetSelector.getCharsetName(getCarrier());
+			}
+		}
+		return contentTypeString;
 	}
 
 	@Override
 	public String getXContentTypeString() {
-		return CONTENT_TYPE;
+		if (StringUtils.isEmpty(xContentTypeString)) {
+			if (charsetSelector.isCharsetInstalled()) {
+				xContentTypeString = "application/xhtml+xml; charset=utf-8";
+			} else {
+				xContentTypeString = "application/xhtml+xml; charset=" +
+					charsetSelector.getCharsetName(getCarrier());
+			}
+		}
+		return xContentTypeString;
+	}
+
+	@Override
+	public String getUid() {
+		return RequestUtils.get().getHeader("x-jphone-uid");
+	}
+
+	@Override
+	public String getGuid() {
+		return getUid();
 	}
 
 }

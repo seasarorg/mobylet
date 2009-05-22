@@ -34,4 +34,8 @@ public interface MobyletDialect {
 
 	public String getXContentTypeString();
 
+	public String getUid();
+
+	public String getGuid();
+
 }

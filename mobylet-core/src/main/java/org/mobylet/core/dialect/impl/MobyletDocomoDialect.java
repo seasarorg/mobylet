@@ -18,6 +18,8 @@ package org.mobylet.core.dialect.impl;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.StringUtils;
 
 
 public class MobyletDocomoDialect extends AbstractDialect {
@@ -28,8 +30,10 @@ public class MobyletDocomoDialect extends AbstractDialect {
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile("^DoCoMo/[0-9.]+[/ ]{1}[0-9a-zA-Z_+]+");
 
-	private static final String CONTENT_TYPE =
-		"text/html; charset=shift_jis";
+	protected String contentTypeString = null;
+
+	protected String xContentTypeString = null;
+
 
 	@Override
 	public Carrier getCarrier() {
@@ -48,12 +52,38 @@ public class MobyletDocomoDialect extends AbstractDialect {
 
 	@Override
 	public String getContentTypeString() {
-		return CONTENT_TYPE;
+		if (StringUtils.isEmpty(contentTypeString)) {
+			if (charsetSelector.isCharsetInstalled()) {
+				contentTypeString = "text/html; charset=shift_jis";
+			} else {
+				contentTypeString = "text/html; charset=" +
+					charsetSelector.getCharsetName(getCarrier());
+			}
+		}
+		return contentTypeString;
 	}
 
 	@Override
 	public String getXContentTypeString() {
-		return CONTENT_TYPE;
+		if (StringUtils.isEmpty(xContentTypeString)) {
+			if (charsetSelector.isCharsetInstalled()) {
+				xContentTypeString = "application/xhtml+xml; charset=shift_jis";
+			} else {
+				xContentTypeString = "application/xhtml+xml; charset=" +
+					charsetSelector.getCharsetName(getCarrier());
+			}
+		}
+		return xContentTypeString;
+	}
+
+	@Override
+	public String getUid() {
+		return RequestUtils.get().getParameter("uid");
+	}
+
+	@Override
+	public String getGuid() {
+		return RequestUtils.get().getHeader("X-DCMGUID");
 	}
 
 }
