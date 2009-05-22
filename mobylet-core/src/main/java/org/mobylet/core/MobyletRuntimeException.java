@@ -34,4 +34,9 @@ public class MobyletRuntimeException extends RuntimeException {
 		return cause;
 	}
 
+	@Override
+	public String getMessage() {
+		return message;
+	}
+
 }
