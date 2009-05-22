@@ -21,6 +21,7 @@ import org.mobylet.core.device.DevicePool;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
 
 public class Mobylet {
 
@@ -48,6 +49,22 @@ public class Mobylet {
 			device = SingletonUtils.get(DevicePool.class).get();
 		}
 		return device;
+	}
+
+	public String getUid() {
+		return dialect.getUid();
+	}
+
+	public String getGuid() {
+		return dialect.getGuid();
+	}
+
+	public String getUniqueId() {
+		String id = getGuid();
+		if (StringUtils.isEmpty(id)) {
+			id = getUid();
+		}
+		return id;
 	}
 
 	protected void initialize() {
