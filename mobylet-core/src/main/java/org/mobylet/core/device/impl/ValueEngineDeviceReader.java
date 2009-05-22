@@ -18,7 +18,9 @@ package org.mobylet.core.device.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -43,7 +45,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 	@Override
 	public Map<String, Device> read() {
 		Map<String, Device> dvMap = new HashMap<String, Device>(1024);
-		Map<String, String> uaMap = readUserAgent();
+		Map<String, List<String>> uaMap = readUserAgent();
 		Map<String, DeviceProfile> pfMap = readProfileData(uaMap);
 		Map<String, DeviceDisplay> diMap = readDisplayInfo(uaMap);
 		Set<Entry<String, DeviceProfile>> entrySet = pfMap.entrySet();
@@ -56,9 +58,9 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		return dvMap;
 	}
 
-	protected Map<String, String> readUserAgent() {
+	protected Map<String, List<String>> readUserAgent() {
 		BufferedReader reader = null;
-		Map<String, String> uaMap = new HashMap<String, String>();
+		Map<String, List<String>> uaMap = new HashMap<String, List<String>>();
 		String[] header = null;
 		try {
 			reader = new BufferedReader(
@@ -73,7 +75,15 @@ public class ValueEngineDeviceReader implements DeviceReader {
 					continue;
 				}
 				String[] val = CSVSplitUtils.splitLineToArray(line);
-				uaMap.put(val[0]+"/"+val[1], val[3]);
+				String key = val[0]+"/"+val[1];
+				List<String> uaSet = uaMap.get(key);
+				if (uaSet == null) {
+					uaSet = new ArrayList<String>();
+					uaSet.add(val[3]);
+					uaMap.put(key, uaSet);
+				} else {
+					uaSet.add(val[3]);
+				}
 			}
 		} catch (IOException e) {
 			throw new MobyletRuntimeException(
@@ -90,7 +100,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		return uaMap;
 	}
 
-	protected Map<String, DeviceProfile> readProfileData(Map<String, String> uaMap) {
+	protected Map<String, DeviceProfile> readProfileData(Map<String, List<String>> uaMap) {
 		BufferedReader reader = null;
 		Map<String, DeviceProfile> dpMap = new HashMap<String, DeviceProfile>();
 		String[] header = null;
@@ -111,7 +121,12 @@ public class ValueEngineDeviceReader implements DeviceReader {
 				for (int i=0; i<val.length; i++) {
 					dp.put(header[i], val[i]);
 				}
-				dpMap.put(uaMap.get(val[0]+"/"+val[1]), dp);
+				List<String> uaSet = uaMap.get(val[0]+"/"+val[1]);
+				if (uaSet != null) {
+					for (String ua : uaSet) {
+						dpMap.put(ua, dp);
+					}
+				}
 			}
 		} catch (IOException e) {
 			throw new MobyletRuntimeException(
@@ -129,7 +144,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 	}
 
 
-	protected Map<String, DeviceDisplay> readDisplayInfo(Map<String, String> uaMap) {
+	protected Map<String, DeviceDisplay> readDisplayInfo(Map<String, List<String>> uaMap) {
 		BufferedReader reader = null;
 		Map<String, DeviceDisplay> diMap = new HashMap<String, DeviceDisplay>();
 		String[] header = null;
@@ -146,15 +161,20 @@ public class ValueEngineDeviceReader implements DeviceReader {
 					continue;
 				}
 				String[] val = CSVSplitUtils.splitLineToArray(line);
-				String key = uaMap.get(val[0]+"/"+val[1]);
+				List<String> keys = uaMap.get(val[0]+"/"+val[1]);
+				if (keys == null) {
+					continue;
+				}
 				if ("ブラウザ画像サイズ".equals(val[2])) {
-					if (diMap.get(key) == null) {
+					if (diMap.get(keys) == null) {
 						DeviceDisplay dd = new DeviceDisplay();
 						dd.setWidth(new Integer(val[3]));
 						dd.setHeight(new Integer(val[4]));
-						diMap.put(key, dd);
+						for (String key : keys) {
+							diMap.put(key, dd);
+						}
 					} else {
-						DeviceDisplay dd = diMap.get(key);
+						DeviceDisplay dd = diMap.get(keys.get(0));
 						dd.setWidth(new Integer(val[3]));
 						dd.setHeight(new Integer(val[4]));
 					}
@@ -162,12 +182,14 @@ public class ValueEngineDeviceReader implements DeviceReader {
 					DeviceDisplay dd = new DeviceDisplay();
 					dd.setWidth(new Integer(val[3]));
 					dd.setHeight(new Integer(val[4]));
-					if (diMap.get(key) == null) {
+					if (diMap.get(keys) == null) {
 						DeviceDisplay pdd = new DeviceDisplay();
 						pdd.putAnotherDisplay(val[2], dd);
-						diMap.put(key, pdd);
+						for (String key : keys) {
+							diMap.put(key, dd);
+						}
 					} else {
-						DeviceDisplay pdd = diMap.get(key);
+						DeviceDisplay pdd = diMap.get(keys.get(0));
 						pdd.putAnotherDisplay(val[2], dd);
 					}
 				}
