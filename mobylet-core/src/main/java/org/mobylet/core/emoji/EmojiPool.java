@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefChar;
+import org.mobylet.core.util.StringUtils;
 
 public class EmojiPool {
 
@@ -33,6 +34,8 @@ public class EmojiPool {
 
 	protected Map<Character, Emoji> emojiMap;
 
+	protected Map<String, Emoji> emojiNameMap;
+
 	protected Emoji[] emojiArray;
 
 
@@ -42,6 +45,7 @@ public class EmojiPool {
 	public EmojiPool(Carrier carrier) {
 		this.carrier = carrier;
 		emojiMap = new HashMap<Character, Emoji>(512);
+		emojiNameMap = new HashMap<String, Emoji>(512);
 	}
 
 	public void construct() {
@@ -60,9 +64,14 @@ public class EmojiPool {
 		return carrier;
 	}
 
-	public Emoji putOnce(char c) {
+	public Emoji putWithName(String name, char c) {
 		Emoji e = getUnConstructed(c);
 		if (e != null) {
+			if (StringUtils.isEmpty(e.getName()) &&
+					StringUtils.isNotEmpty(name)) {
+				e.setName(name);
+				emojiNameMap.put(name, e);
+			}
 			return e;
 		}
 		return put(c);
@@ -103,6 +112,10 @@ public class EmojiPool {
 		} else {
 			return null;
 		}
+	}
+
+	public Emoji get(String name) {
+		return emojiNameMap.get(name);
 	}
 
 	public Emoji getUnConstructed(char c) {

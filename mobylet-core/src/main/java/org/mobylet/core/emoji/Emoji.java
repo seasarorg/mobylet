@@ -26,9 +26,11 @@ public class Emoji {
 
 	protected Carrier carrier;
 
+	protected String name;
+
 	protected char[] c = new char[]{ DefChar.MIN_CHAR };
 
-	protected char[] relatedChars;
+	protected char[] substitutionChars;
 
 	protected Map<Carrier, Emoji> map;
 
@@ -38,10 +40,10 @@ public class Emoji {
 		this.c[0] = c;
 	}
 
-	public Emoji(Carrier carrier, String relatedString) {
+	public Emoji(Carrier carrier, String substitutionChars) {
 		this.carrier = carrier;
-		if (StringUtils.isNotEmpty(relatedString)) {
-			this.relatedChars = relatedString.toCharArray();
+		if (StringUtils.isNotEmpty(substitutionChars)) {
+			this.substitutionChars = substitutionChars.toCharArray();
 		}
 		map = new HashMap<Carrier, Emoji>();
 		relate(this.carrier, this);
@@ -63,8 +65,16 @@ public class Emoji {
 		if (c[0] != DefChar.MIN_CHAR) {
 			return c;
 		} else {
-			return relatedChars;
+			return substitutionChars;
 		}
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

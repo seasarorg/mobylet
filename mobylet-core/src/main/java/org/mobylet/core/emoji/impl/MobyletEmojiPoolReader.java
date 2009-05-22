@@ -74,10 +74,11 @@ public class MobyletEmojiPoolReader
 			pool = SingletonUtils.get(EmojiPoolFamily.class).getEmojiPool(carrier);
 		} else if (TAG_EMOJI.equals(name)) {
 			String codeStr = attributes.getValue(ATT_CODE);
+			String emojiName = attributes.getValue(ATT_NAME);
 			if (StringUtils.isNotEmpty(codeStr) &&
 					codeStr.startsWith("0x")) {
 				char c = (char)Integer.parseInt(codeStr.substring(2), 16);
-				targetEmoji = pool.putOnce(c);
+				targetEmoji = pool.putWithName(emojiName, c);
 			}
 		} else if (TAG_RELATION.equals(name)) {
 			Carrier carrier = Carrier.OTHER;
@@ -101,7 +102,7 @@ public class MobyletEmojiPoolReader
 					char c = (char)Integer.parseInt(relationValue.substring(2), 16);
 					e = relationPool.getUnConstructed(c);
 					if (e == null) {
-						e = relationPool.putOnce(c);
+						e = relationPool.putWithName(null, c);
 					}
 				} else {
 					e = new Emoji(relationCarrier, relationValue);
