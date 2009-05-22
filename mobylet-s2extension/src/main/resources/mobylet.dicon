@@ -4,6 +4,7 @@
 <components>
 
 	<include path="mobylet.holder.dicon" />
+	<include path="mobylet.charset.dicon" />
 	<include path="mobylet.dialect.dicon" />
 	<include path="mobylet.detector.dicon" />
 	<include path="mobylet.emoji.dicon" />
