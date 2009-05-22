@@ -15,6 +15,7 @@
  */
 package org.mobylet.core.util;
 
+import java.io.CharArrayWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +47,22 @@ public class CSVSplitUtils {
 						String elem =
 							new String(lineChars, elemStartIndex, pos-elemStartIndex);
 						if (isQuoted && elem.contains(BACKSLASH)) {
-							splitList.add(elem
-									.replaceAll(BACKSLASH + W_QUOTE, W_QUOTE)
-									.replaceAll(W_BACKSLASH, BACKSLASH));
+							CharArrayWriter caw = new CharArrayWriter(128);
+							char[] elemChars = elem.toCharArray();
+							for (int i=0; i<elemChars.length; i++) {
+								if (elemChars[i] == '\\' && i > 1) {
+									if (elemChars[i-1] == '\\') {
+										caw.append(elemChars[i]);
+									}
+								} else if (elemChars[i] == '"' && i > 1) {
+									if (elemChars[i-1] == '\\') {
+										caw.append(elemChars[i]);
+									}
+								} else {
+									caw.append(elemChars[i]);
+								}
+							}
+							splitList.add(caw.toString());
 						} else {
 							splitList.add(elem);
 						}
