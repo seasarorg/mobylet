@@ -15,6 +15,7 @@
  */
 package org.mobylet.core.util;
 
+import org.mobylet.core.Carrier;
 import org.mobylet.core.emoji.EmojiPoolFamily;
 
 public class EmojiUtils {
@@ -40,6 +41,15 @@ public class EmojiUtils {
 
 	public static String removeEmoji(String src) {
 		return replaceEmoji(src, "");
+	}
+
+	public static String getEmoji(String name) {
+		return getEmoji(name, Carrier.DOCOMO);
+	}
+
+	public static String getEmoji(String name, Carrier carrier) {
+		EmojiPoolFamily family = SingletonUtils.get(EmojiPoolFamily.class);
+		return new String(family.getEmojiPool(carrier).get(name).getCodes());
 	}
 
 }
