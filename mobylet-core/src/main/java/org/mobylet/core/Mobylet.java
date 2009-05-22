@@ -24,15 +24,34 @@ import org.mobylet.core.util.SingletonUtils;
 
 public class Mobylet {
 
-	public Carrier getCarrier() {
-		return SingletonUtils.get(CarrierDetector.class).getCarrier();
+	protected Carrier carrier;
+
+	protected MobyletDialect dialect;
+
+	protected Device device;
+
+
+	public Mobylet() {
+		initialize();
 	}
 
-	public Device getDevice() {
-		return SingletonUtils.get(DevicePool.class).get();
+	public Carrier getCarrier() {
+		return carrier;
 	}
 
 	public MobyletDialect getDialect() {
-		return SingletonUtils.get(DialectSelector.class).getDialect(getCarrier());
+		return dialect;
+	}
+
+	public Device getDevice() {
+		if (device == null) {
+			device = SingletonUtils.get(DevicePool.class).get();
+		}
+		return device;
+	}
+
+	protected void initialize() {
+		carrier = SingletonUtils.get(CarrierDetector.class).getCarrier();
+		dialect = SingletonUtils.get(DialectSelector.class).getDialect(carrier);
 	}
 }
