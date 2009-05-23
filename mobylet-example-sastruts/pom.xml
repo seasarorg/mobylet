@@ -5,6 +5,73 @@
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>mobylet-example-sastruts</name>
+	<url>http://mobylet.sandbox.seasar.org/</url>
+	<inceptionYear>2009</inceptionYear>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<organization>
+		<name>The Seasar Foundation</name>
+		<url>http://www.seasar.org/</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>stakeuchi</id>
+			<name>Shin Takeuchi</name>
+			<email>s.takeuchi_at_leihauoli.com</email>
+			<url>http://www.leihauoli.com/</url>
+			<timezone>+9</timezone>
+		</developer>
+	</developers>
+	<issueManagement>
+		<system>JIRA</system>
+		<url><![CDATA[https://www.seasar.org/issues/browse/MOBYLET]]></url>
+	</issueManagement>
+	<mailingLists>
+		<mailingList>
+			<name>Seasar-user</name>
+			<subscribe>
+				https://www.seasar.org/mailman/listinfo/seasar-user
+			</subscribe>
+			<unsubscribe>
+				https://www.seasar.org/mailman/listinfo/seasar-user
+			</unsubscribe>
+			<post>seasar-user@ml.seasar.org</post>
+			<archive>
+				https://www.seasar.org/mailman/listinfo/seasar-user
+			</archive>
+		</mailingList>
+		<mailingList>
+			<name>Seasar-dev</name>
+			<subscribe>
+				https://www.seasar.org/mailman/listinfo/seasar-dev
+			</subscribe>
+			<unsubscribe>
+				https://www.seasar.org/mailman/listinfo/seasar-dev
+			</unsubscribe>
+			<post>seasar-dev@ml.seasar.org</post>
+			<archive>
+				https://www.seasar.org/mailman/listinfo/seasar-dev
+			</archive>
+		</mailingList>
+		<mailingList>
+			<name>Seasar-user-en</name>
+			<subscribe>
+				https://www.seasar.org/mailman/listinfo/seasar-user-en
+			</subscribe>
+			<unsubscribe>
+				https://www.seasar.org/mailman/listinfo/seasar-user-en
+			</unsubscribe>
+			<post>seasar-user-en@ml.seasar.org</post>
+			<archive>
+				http://ml.seasar.org/archives/seasar-user-en/
+			</archive>
+		</mailingList>
+	</mailingLists>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
