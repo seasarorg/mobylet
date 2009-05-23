@@ -16,7 +16,7 @@ public class GpsTag extends ATag {
 
 	protected String kickBackUrl;
 
-	protected boolean useEasySurvey = true;
+	protected boolean useEasySurveying = true;
 
 
 	@Override
@@ -27,7 +27,8 @@ public class GpsTag extends ATag {
 		}
 		//GPS情報取得URL
 		if (StringUtils.isNotEmpty(kickBackUrl) &&
-				(m.getDevice() != null && m.getDevice().hasGps())) {
+				m.getDevice() != null &&
+				m.getDevice().hasGps()) {
 			addAttribute("href", getGpsUrl(kickBackUrl));
 			if (m.getCarrier() == Carrier.DOCOMO) {
 				addAttribute("lcs", new EmptyValue());
@@ -35,7 +36,7 @@ public class GpsTag extends ATag {
 		}
 		//簡易位置取得URL
 		else if (StringUtils.isNotEmpty(kickBackUrl) &&
-				isUseEasySurvey()) {
+				isUseEasySurveying()) {
 			addAttribute("href", getEasyGpsUrl(kickBackUrl));
 		}
 		JspWriterUtils.write(
@@ -81,12 +82,12 @@ public class GpsTag extends ATag {
 		this.kickBackUrl = kickBackUrl;
 	}
 
-	public boolean isUseEasySurvey() {
-		return useEasySurvey;
+	public boolean isUseEasySurveying() {
+		return useEasySurveying;
 	}
 
-	public void setUseEasySurvey(boolean useEasySurvey) {
-		this.useEasySurvey = useEasySurvey;
+	public void setUseEasySurveying(boolean useEasySurveying) {
+		this.useEasySurveying = useEasySurveying;
 	}
 
 }
