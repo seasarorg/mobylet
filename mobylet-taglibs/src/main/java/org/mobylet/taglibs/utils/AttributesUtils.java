@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.Attribute;
+import org.mobylet.taglibs.Attribute.EmptyValue;
 
 public class AttributesUtils {
 
@@ -25,8 +26,17 @@ public class AttributesUtils {
 			Set<Attribute> dynAttributes) {
 		StringBuilder sb = new StringBuilder();
 		for (Attribute attribute : dynAttributes) {
-			sb.append(" " + attribute.getKey() + "=\"");
-			sb.append(getInnerDoubleQuoteString(attribute.getValue()) + "\"");
+			Object val = attribute.getValue();
+			if (val instanceof EmptyValue) {
+				sb.append(" " + attribute.getKey());
+			} else {
+				if (val == null) {
+					val = "";
+				}
+				sb.append(" " + attribute.getKey() + "=\"");
+				sb.append(getInnerDoubleQuoteString(
+						attribute.getValue().toString()) + "\"");
+			}
 		}
 		return sb;
 	}

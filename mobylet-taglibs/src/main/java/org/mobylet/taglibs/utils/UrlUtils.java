@@ -24,17 +24,7 @@ public class UrlUtils {
 		if (StringUtils.isEmpty(pKey)) {
 			return url;
 		}
-		String charsetName =
-			MobyletFactory.getInstance().getDialect().getCharsetName();
-		String encodedValue = null;
-		try {
-			encodedValue = (pValue == null ? "" : URLEncoder.encode(pValue, charsetName));
-		} catch (UnsupportedEncodingException e) {
-			throw new MobyletRenderingException(
-					"URLエンコード中に例外発生 " +
-					"charset=[" + charsetName + "] " +
-					"string=[" + pValue + "]", e);
-		}
+		String encodedValue = encodeUrl(pValue);
 		if (StringUtils.isNotEmpty(url)) {
 			if (url.contains(Q)) {
 				return AMP + pKey + EQ + encodedValue;
@@ -44,6 +34,21 @@ public class UrlUtils {
 		} else {
 			return Q + pKey + EQ + encodedValue;
 		}
+	}
+
+	public static String encodeUrl(String url) {
+		String charsetName =
+			MobyletFactory.getInstance().getDialect().getCharsetName();
+		String encodedUrl = null;
+		try {
+			encodedUrl = (url == null ? "" : URLEncoder.encode(url, charsetName));
+		} catch (UnsupportedEncodingException e) {
+			throw new MobyletRenderingException(
+					"URLエンコード中に例外発生 " +
+					"charset=[" + charsetName + "] " +
+					"string=[" + url + "]", e);
+		}
+		return encodedUrl;
 	}
 
 	public static String addSession(String url, String sessionId) {

@@ -4,7 +4,7 @@ public class Attribute {
 
 	public String key;
 
-	public String value;
+	public Object value;
 
 	public Attribute() {
 		key = null;
@@ -24,12 +24,18 @@ public class Attribute {
 		this.key = key;
 	}
 
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
+	public static class EmptyValue {
+
+		public EmptyValue() {
+			//NOP
+		}
+	}
 }

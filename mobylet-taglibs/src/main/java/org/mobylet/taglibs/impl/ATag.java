@@ -39,8 +39,18 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 
 	@Override
 	public int doStartTag() throws JspException {
-		if (href == null) {
-			href = "";
+		//URL
+		addAttribute("href", constructUrl(href));
+		JspWriterUtils.write(
+				pageContext.getOut(),
+				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
+		//BodyBuffered
+		return EVAL_BODY_BUFFERED;
+	}
+
+	protected String constructUrl(String url) {
+		if (url == null) {
+			url = "";
 		}
 		Mobylet m = MobyletFactory.getInstance();
 		HttpServletRequest request = RequestUtils.get();
@@ -48,41 +58,35 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 		if (isSessionQueryRequired()) {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
-				href = UrlUtils.addSession(href, session.getId());
+				url = UrlUtils.addSession(url, session.getId());
 			}
 		}
 		//SecureQuery
 		if (isUidOrGuidQueryRequiredInSecure() &&
 				m.getCarrier() == Carrier.DOCOMO &&
-				(href.startsWith("https:") ||
-						(!href.startsWith("http:") && request.isSecure()))) {
+				(url.startsWith("https:") ||
+						(!url.startsWith("http:") && request.isSecure()))) {
 			String id = m.getGuid();
 			if (StringUtils.isEmpty(id)) {
 				id = m.getUid();
 				if (StringUtils.isNotEmpty(id)) {
-					href = UrlUtils.addParameter(href, "uid", id);
+					url = UrlUtils.addParameter(url, "uid", id);
 				}
 			}
 		//UidQuery
 		} else if (isUidQueryRequired() &&
 				m.getCarrier() == Carrier.DOCOMO &&
-				(href.startsWith("http:") ||
-						(!href.startsWith("https:") && !request.isSecure()))) {
-			href = UrlUtils.addParameter(href, "uid", "NULLGWDOCOMO");
+				(url.startsWith("http:") ||
+						(!url.startsWith("https:") && !request.isSecure()))) {
+			url = UrlUtils.addParameter(url, "uid", "NULLGWDOCOMO");
 		//GuidQuery
 		} else if (isGuidQueryRequired() &&
 				m.getCarrier() == Carrier.DOCOMO &&
-				(href.startsWith("http:") ||
-						(!href.startsWith("https:") && !request.isSecure()))) {
-			href = UrlUtils.addParameter(href, "guid", "ON");
+				(url.startsWith("http:") ||
+						(!url.startsWith("https:") && !request.isSecure()))) {
+			url = UrlUtils.addParameter(url, "guid", "ON");
 		}
-		//URL
-		addAttribute("href", href);
-		JspWriterUtils.write(
-				pageContext.getOut(),
-				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
-		//BodyBuffered
-		return EVAL_BODY_BUFFERED;
+		return url;
 	}
 
 	@Override
