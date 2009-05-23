@@ -35,6 +35,11 @@ public class MobyletDevice implements Device {
 		return profile;
 	}
 
+	@Override
+	public boolean hasGps() {
+		return "Y".equals(profile.get("GPS対応"));
+	}
+
 	public void setDeviceDisplay(DeviceDisplay dd) {
 		display = dd;
 	}

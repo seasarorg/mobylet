@@ -21,4 +21,6 @@ public interface Device {
 
 	public DeviceProfile getDeviceProfile();
 
+	public boolean hasGps();
+
 }
