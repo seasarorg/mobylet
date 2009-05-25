@@ -32,6 +32,6 @@ public class ValueEngineDeviceReaderTest extends TestCase {
 		Map<String, Device> map = reader.read();
 
 		//## ASSERT ##
-		assertEquals(map.size(), 1068);
+		assertEquals(map.size(), 716);
 	}
 }
