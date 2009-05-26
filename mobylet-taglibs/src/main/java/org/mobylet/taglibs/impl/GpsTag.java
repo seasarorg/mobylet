@@ -69,7 +69,7 @@ public class GpsTag extends ATag {
 		case AU:
 			return "device:location?url=" + url.replace('?', '&');
 		case SOFTBANK:
-			return "location:cell?url=" + url.replace('?', '&');
+			return "location:auto?url=" + url.replace('?', '&');
 		}
 		return "";
 	}
