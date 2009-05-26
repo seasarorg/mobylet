@@ -2,14 +2,14 @@ package org.mobylet.core.gps.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.mobylet.core.gps.GeoLocation;
-import org.mobylet.core.gps.GeoLocationParser;
+import org.mobylet.core.gps.Gps;
+import org.mobylet.core.gps.GeoParser;
 import org.mobylet.core.util.RequestUtils;
 
-public class MobyletGeoLocationParser implements GeoLocationParser {
+public class MobyletGeoParser implements GeoParser {
 
 	@Override
-	public GeoLocation parse() {
+	public Gps parse() {
 		//TODO
 		HttpServletRequest request = RequestUtils.get();
 		request.getParameter("lat");
