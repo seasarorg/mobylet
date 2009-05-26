@@ -21,9 +21,11 @@ public class MobyletGeoConverter implements GeoConverter {
 					r.getX() + DatumWgs84.DX2TOKYO,
 					r.getY() + DatumWgs84.DY2TOKYO,
 					r.getZ() + DatumWgs84.DZ2TOKYO);
-			return rect2Ellip(r,
-					DatumWgs84.semimajorAxis,
-					DatumWgs84.eccentricity);
+			Gps g = rect2Ellip(r,
+					DatumTokyo.semimajorAxis,
+					DatumTokyo.eccentricity);
+			g.setGeo(Geo.TOKYO);
+			return g;
 		} else {
 			return in;
 		}
@@ -39,9 +41,11 @@ public class MobyletGeoConverter implements GeoConverter {
 					r.getX() + DatumTokyo.DX2WGS84,
 					r.getY() + DatumTokyo.DY2WGS84,
 					r.getZ() + DatumTokyo.DZ2WGS84);
-			return rect2Ellip(r,
-					DatumTokyo.semimajorAxis,
-					DatumTokyo.eccentricity);
+			Gps g = rect2Ellip(r,
+					DatumWgs84.semimajorAxis,
+					DatumWgs84.eccentricity);
+			g.setGeo(Geo.WGS84);
+			return g;
 		} else {
 			return in;
 		}
@@ -66,11 +70,11 @@ public class MobyletGeoConverter implements GeoConverter {
 		double sinLon = Math.sin(rLon);
 		double cosLon = Math.cos(rLon);
 
-		double rn = sa / Math.sqrt(1 - (ecc * sinLat * sinLat));
+		double rn = sa / Math.sqrt(1.0 - (ecc * sinLat * sinLat));
 
 		double x = (rn + g.getHeight()) * cosLat * cosLon;
 		double y = (rn + g.getHeight()) * cosLat * sinLon;
-		double z = (rn * (1 - ecc) + g.getHeight()) * sinLat;
+		double z = (rn * (1.0 - ecc) + g.getHeight()) * sinLat;
 
 		return new Rectangular(x, y, z);
 	}
@@ -84,7 +88,7 @@ public class MobyletGeoConverter implements GeoConverter {
 	 * @return
 	 */
 	protected Gps rect2Ellip(Rectangular r, double sa, double ecc) {
-		double bpa = Math.sqrt(1 - ecc);
+		double bpa = Math.sqrt(1.0 - ecc);
 		double p = Math.sqrt((r.getX() * r.getX()) + (r.getY() * r.getY()));
 		double t = Math.atan2(r.getZ(), p * bpa);
 		double sinT = Math.sin(t);
