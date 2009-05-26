@@ -64,7 +64,7 @@ public class GpsTag extends ATag {
 		switch (MobyletFactory.getInstance().getCarrier()) {
 		case DOCOMO:
 			return "http://w1m.docomo.ne.jp/cp/iarea?" +
-				"ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=2" +
+				"ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=1" +
 				"&nl=" + url.replace('?', '&').replaceAll("[=]", "%3d");
 		case AU:
 			return "device:location?url=" + url.replace('?', '&');
