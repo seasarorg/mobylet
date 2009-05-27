@@ -24,7 +24,6 @@ import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DevicePool;
 import org.mobylet.core.device.DeviceReader;
-import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
@@ -42,14 +41,7 @@ public class MobyletDevicePool implements DevicePool {
 
 	@Override
 	public Device get() {
-		MobyletContext context = RequestUtils.getMobyletContext();
-		Device d = null;
-		if ((d = context.get(Device.class)) != null) {
-			return d;
-		} else {
-			context.set(deviceMap.get(getKeyString()));
-			return get();
-		}
+		return deviceMap.get(getKeyString());
 	}
 
 	public String getKeyString() {

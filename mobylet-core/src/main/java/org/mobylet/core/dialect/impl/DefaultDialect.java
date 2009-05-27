@@ -18,6 +18,7 @@ package org.mobylet.core.dialect.impl;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.gps.Gps;
 import org.mobylet.core.util.StringUtils;
 
 
@@ -68,6 +69,11 @@ public class DefaultDialect extends AbstractDialect {
 
 	@Override
 	public String getUid() {
+		return null;
+	}
+
+	@Override
+	public Gps getGps() {
 		return null;
 	}
 

@@ -19,7 +19,10 @@ import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DevicePool;
 import org.mobylet.core.dialect.MobyletDialect;
+import org.mobylet.core.gps.Gps;
+import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.selector.DialectSelector;
+import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -30,6 +33,8 @@ public class Mobylet {
 	protected MobyletDialect dialect;
 
 	protected Device device;
+
+	protected boolean isPopedDevice = false;
 
 
 	public Mobylet() {
@@ -45,8 +50,12 @@ public class Mobylet {
 	}
 
 	public Device getDevice() {
-		if (device == null) {
+		if (!isPopedDevice) {
 			device = SingletonUtils.get(DevicePool.class).get();
+			if (device != null) {
+				RequestUtils.getMobyletContext().set(device);
+			}
+			isPopedDevice = true;
 		}
 		return device;
 	}
@@ -65,6 +74,18 @@ public class Mobylet {
 			id = getUid();
 		}
 		return id;
+	}
+
+	public Gps getGps() {
+		MobyletContext context = RequestUtils.getMobyletContext();
+		Gps g = null;
+		if ((g = context.get(Gps.class)) != null) {
+			return g;
+		} else {
+			g = dialect.getGps();
+			context.set(g);
+			return getGps();
+		}
 	}
 
 	protected void initialize() {

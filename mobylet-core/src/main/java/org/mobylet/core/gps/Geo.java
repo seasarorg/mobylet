@@ -11,4 +11,5 @@ public enum Geo {
 	 * 世界測地系
 	 */
 	WGS84;
+
 }

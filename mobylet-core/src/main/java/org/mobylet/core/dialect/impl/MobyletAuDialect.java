@@ -17,7 +17,11 @@ package org.mobylet.core.dialect.impl;
 
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.mobylet.core.Carrier;
+import org.mobylet.core.gps.Geo;
+import org.mobylet.core.gps.Gps;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -84,6 +88,27 @@ public class MobyletAuDialect extends AbstractDialect {
 	@Override
 	public String getGuid() {
 		return getUid();
+	}
+
+	@Override
+	public Gps getGps() {
+		HttpServletRequest request = RequestUtils.get();
+		String lat = request.getParameter("lat");
+		String lon = request.getParameter("lon");
+		String geoString = request.getParameter("datum");
+		if (StringUtils.isEmpty(lat) ||
+				StringUtils.isEmpty(lon) ||
+				StringUtils.isEmpty(geoString)) {
+			return null;
+		}
+		//Geo
+		Geo geo = Geo.WGS84;
+		if ("1".equals(geoString)) {
+			geo = Geo.TOKYO;
+		}
+		//Gps
+		Gps g = new Gps(lat, lon, geo);
+		return g;
 	}
 
 }

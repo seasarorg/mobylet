@@ -17,7 +17,12 @@ package org.mobylet.core.dialect.impl;
 
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.mobylet.core.Carrier;
+import org.mobylet.core.gps.Accuracy;
+import org.mobylet.core.gps.Geo;
+import org.mobylet.core.gps.Gps;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -86,4 +91,27 @@ public class MobyletDocomoDialect extends AbstractDialect {
 		return RequestUtils.get().getHeader("X-DCMGUID");
 	}
 
+	@Override
+	public Gps getGps() {
+		HttpServletRequest request = RequestUtils.get();
+		String lat = request.getParameter("lat");
+		String lon = request.getParameter("lon");
+		String geoString = request.getParameter("datum");
+		String accString = request.getParameter("x-acc");
+		if (StringUtils.isEmpty(lat) ||
+				StringUtils.isEmpty(lon) ||
+				StringUtils.isEmpty(geoString) ||
+				StringUtils.isEmpty(accString)) {
+			return null;
+		}
+		//Geo
+		geoString = Geo.WGS84.name();
+		Geo geo = Geo.valueOf(geoString.toUpperCase());
+		//Gps
+		Gps g = new Gps(lat, lon, geo);
+		//Accuracy
+		Accuracy acc = Accuracy.getAccuracy(Integer.parseInt(accString));
+		g.setAccuracy(acc);
+		return g;
+	}
 }

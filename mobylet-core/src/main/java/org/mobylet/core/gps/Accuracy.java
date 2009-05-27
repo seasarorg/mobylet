@@ -2,10 +2,23 @@ package org.mobylet.core.gps;
 
 public enum Accuracy {
 
-	ACC1,
+	G300,
 
-	ACC2,
+	G50L300,
 
-	ACC3;
+	L50;
+
+	public static Accuracy getAccuracy(int code) {
+		switch (code) {
+		case 1:
+			return G300;
+		case 2:
+			return G50L300;
+		case 3:
+			return L50;
+		default:
+			return null;
+		}
+	}
 
 }
