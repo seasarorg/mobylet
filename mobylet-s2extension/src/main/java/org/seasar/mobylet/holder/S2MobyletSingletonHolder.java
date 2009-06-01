@@ -7,7 +7,11 @@ public class S2MobyletSingletonHolder implements SingletonHolder {
 
 	@Override
 	public <T> T get(Class<T> clazz) {
-		return SingletonS2Container.getComponent(clazz);
+		try {
+			return SingletonS2Container.getComponent(clazz);
+		} catch (Throwable t) {
+			return null;
+		}
 	}
 
 	@Override
