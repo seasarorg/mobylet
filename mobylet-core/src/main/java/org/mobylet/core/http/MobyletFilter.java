@@ -28,13 +28,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.mobylet.core.Mobylet;
-import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.define.DefPath;
 import org.mobylet.core.define.DefProperties;
+import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
+import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
@@ -64,10 +65,12 @@ public class MobyletFilter implements Filter {
 	protected void processFilter(FilterChain chain,
 			HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException, ServletException {
-		//Mobylet
-		Mobylet m = MobyletFactory.getInstance();
+		//Carrier
+		Carrier carrier =
+			SingletonUtils.get(CarrierDetector.class).getCarrier(request);
 		//Dialect
-		MobyletDialect dialect = m.getDialect();
+		MobyletDialect dialect =
+			SingletonUtils.get(DialectSelector.class).getDialect(carrier);
 		//Charset
 		String charsetName = dialect.getCharsetName();
 		request.setCharacterEncoding(charsetName);

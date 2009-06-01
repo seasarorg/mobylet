@@ -47,6 +47,11 @@ public class RequestUtils {
 	}
 
 	public static String getUserAgent() {
-		return get().getHeader("User-Agent");
+		return getUserAgent(get());
 	}
+
+	public static String getUserAgent(HttpServletRequest request) {
+		return request.getHeader("User-Agent");
+	}
+
 }

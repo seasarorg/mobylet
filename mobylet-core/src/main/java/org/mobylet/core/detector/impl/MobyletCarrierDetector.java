@@ -18,6 +18,8 @@ package org.mobylet.core.detector.impl;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.mobylet.core.Carrier;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
@@ -42,20 +44,24 @@ public class MobyletCarrierDetector implements CarrierDetector {
 		MobyletContext context = RequestUtils.getMobyletContext();
 		Carrier carrier = context.get(Carrier.class);
 		if (carrier == null) {
-			String userAgent = RequestUtils.getUserAgent();
-			if (StringUtils.isNotEmpty(userAgent)) {
-				for (MobyletDialect dialect : dialects) {
-					if (dialect.getCarrierMatchRegex().matcher(userAgent).matches()) {
-						context.set(dialect.getCarrier());
-						return getCarrier();
-					}
-				}
-			}
+			context.set(getCarrier(RequestUtils.get()));
+			return getCarrier();
 		} else {
 			return carrier;
 		}
-		context.set(Carrier.OTHER);
-		return getCarrier();
+	}
+
+	@Override
+	public Carrier getCarrier(HttpServletRequest request) {
+		String userAgent = RequestUtils.getUserAgent(request);
+		if (StringUtils.isNotEmpty(userAgent)) {
+			for (MobyletDialect dialect : dialects) {
+				if (dialect.getCarrierMatchRegex().matcher(userAgent).matches()) {
+					return dialect.getCarrier();
+				}
+			}
+		}
+		return Carrier.OTHER;
 	}
 
 	protected void initialize() {
