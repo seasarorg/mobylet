@@ -45,6 +45,12 @@ public class GpsTag extends ATag {
 		return EVAL_BODY_BUFFERED;
 	}
 
+	@Override
+	public int doEndTag() throws JspException {
+		recycle();
+		return super.doEndTag();
+	}
+
 	protected String getGpsUrl(String url) {
 		url = constructUrl(url);
 		switch (MobyletFactory.getInstance().getCarrier()) {

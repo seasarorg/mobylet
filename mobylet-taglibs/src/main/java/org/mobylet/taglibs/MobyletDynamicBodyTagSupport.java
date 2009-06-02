@@ -35,4 +35,8 @@ public abstract class MobyletDynamicBodyTagSupport
 			.getAttributesStringBuilder(dynAttributes);
 	}
 
+	public void recycle() {
+		dynAttributes.clear();
+	}
+
 }

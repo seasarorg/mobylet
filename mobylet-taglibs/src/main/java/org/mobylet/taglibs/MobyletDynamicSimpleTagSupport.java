@@ -33,4 +33,7 @@ public abstract class MobyletDynamicSimpleTagSupport
 			.getAttributesStringBuilder(dynAttributes);
 	}
 
+	public void recycle() {
+		dynAttributes.clear();
+	}
 }

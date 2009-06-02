@@ -12,6 +12,7 @@ public class HiddenUidTag extends MobyletDynamicSimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
+		recycle();
 	}
 
 }

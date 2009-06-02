@@ -94,6 +94,7 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 		JspWriterUtils.write(
 				pageContext.getOut(),
 				getBodyContent().getString() + STAG + SL + TAG + ETAG);
+		recycle();
 		return EVAL_PAGE;
 	}
 
