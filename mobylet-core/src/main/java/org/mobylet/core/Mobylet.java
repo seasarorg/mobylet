@@ -60,6 +60,10 @@ public class Mobylet {
 		return device;
 	}
 
+	public boolean hasCookies() {
+		return RequestUtils.get().getCookies() != null;
+	}
+
 	public String getUid() {
 		return dialect.getUid();
 	}
