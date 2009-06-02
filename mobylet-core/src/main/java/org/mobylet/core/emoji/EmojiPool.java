@@ -72,9 +72,10 @@ public class EmojiPool {
 				e.setName(name);
 				emojiNameMap.put(name, e);
 			}
-			return e;
+		} else {
+			e = putWithName(name, put(c).getCodes()[0]);
 		}
-		return put(c);
+		return e;
 	}
 
 	public Emoji put(char c) {

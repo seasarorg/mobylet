@@ -1390,7 +1390,7 @@
        <relation carrier="AU">0xEA8F</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-   <emoji name="トイレ" code="0xE309">
+   <emoji name="トイレ２" code="0xE309">
        <relation carrier="DOCOMO">[WC]</relation>
        <relation carrier="AU">[WC]</relation>
        <relation carrier="OTHER">〓</relation>
@@ -1905,12 +1905,12 @@
        <relation carrier="AU">0xEACF</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-   <emoji name="×" code="0xE423">
+   <emoji name="×２" code="0xE423">
        <relation carrier="DOCOMO">0xE72F</relation>
        <relation carrier="AU">0xEAD0</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-   <emoji name="○" code="0xE424">
+   <emoji name="○２" code="0xE424">
        <relation carrier="DOCOMO">0xE70B</relation>
        <relation carrier="AU">0xEAD1</relation>
        <relation carrier="OTHER">〓</relation>

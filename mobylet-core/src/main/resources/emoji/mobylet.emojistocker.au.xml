@@ -5,7 +5,7 @@
        <relation carrier="SOFTBANK">0xE252</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-   <emoji name="！" code="0xE902">
+   <emoji name="！２" code="0xE902">
        <relation carrier="DOCOMO">0xE702</relation>
        <relation carrier="SOFTBANK">0xE021</relation>
        <relation carrier="OTHER">〓</relation>
@@ -15,7 +15,7 @@
        <relation carrier="SOFTBANK">0xE020</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-   <emoji name="？" code="0xE904">
+   <emoji name="？２" code="0xE904">
        <relation carrier="DOCOMO">0xE6E1</relation>
        <relation carrier="SOFTBANK">[Q]</relation>
        <relation carrier="OTHER">〓</relation>
@@ -105,7 +105,7 @@
        <relation carrier="SOFTBANK">0xE21B</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-   <emoji name="大四角１" code="0xE916">
+   <emoji name="大四角２" code="0xE916">
        <relation carrier="DOCOMO">■</relation>
        <relation carrier="SOFTBANK">0xE21A</relation>
        <relation carrier="OTHER">〓</relation>
@@ -2885,7 +2885,7 @@
        <relation carrier="SOFTBANK">0xE10B</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
-   <emoji name="花" code="0xEB42">
+   <emoji name="花２" code="0xEB42">
        <relation carrier="DOCOMO">[花]</relation>
        <relation carrier="SOFTBANK">0xE305</relation>
        <relation carrier="OTHER">〓</relation>
