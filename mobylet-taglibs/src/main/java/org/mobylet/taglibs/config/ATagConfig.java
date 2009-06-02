@@ -6,7 +6,7 @@ public class ATagConfig {
 
 	protected boolean isGuidQueryRequired = true;
 
-	protected boolean isSessionQueryRequired = true;
+	protected boolean isSessionCookiePriority = true;
 
 	protected boolean isUidOrGuidQueryRequiredInSecure = true;
 
@@ -27,12 +27,12 @@ public class ATagConfig {
 		this.isGuidQueryRequired = isGuidQueryRequired;
 	}
 
-	public boolean isSessionQueryRequired() {
-		return isSessionQueryRequired;
+	public boolean isSessionCookiePriority() {
+		return isSessionCookiePriority;
 	}
 
-	public void setSessionQueryRequired(boolean isSessionQueryRequired) {
-		this.isSessionQueryRequired = isSessionQueryRequired;
+	public void setSessionCookiePriority(boolean isSessionCookiePriority) {
+		this.isSessionCookiePriority = isSessionCookiePriority;
 	}
 
 	public boolean isUidOrGuidQueryRequiredInSecure() {

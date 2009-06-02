@@ -31,7 +31,7 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 
 	protected boolean isGuidQueryRequired = config.isGuidQueryRequired();
 
-	protected boolean isSessionQueryRequired = config.isSessionQueryRequired();
+	protected boolean isSessionCookiePriority = config.isSessionCookiePriority();
 
 	protected boolean isUidOrGuidQueryRequiredInSecure =
 		config.isUidOrGuidQueryRequiredInSecure();
@@ -54,10 +54,11 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 		}
 		Mobylet m = MobyletFactory.getInstance();
 		HttpServletRequest request = RequestUtils.get();
-		//SessionQuery
-		if (isSessionQueryRequired()) {
-			HttpSession session = request.getSession(false);
-			if (session != null) {
+		//Session
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			if (!isSessionCookiePriority() ||
+					(isSessionCookiePriority() && !m.hasCookies())) {
 				url = UrlUtils.addSession(url, session.getId());
 			}
 		}
@@ -115,12 +116,12 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 		this.isGuidQueryRequired = isGuidQueryRequired;
 	}
 
-	public boolean isSessionQueryRequired() {
-		return isSessionQueryRequired;
+	public boolean isSessionCookiePriority() {
+		return isSessionCookiePriority;
 	}
 
-	public void setSessionQueryRequired(boolean isSessionQueryRequired) {
-		this.isSessionQueryRequired = isSessionQueryRequired;
+	public void setSessionCookiePriority(boolean isSessionCookiePriority) {
+		this.isSessionCookiePriority = isSessionCookiePriority;
 	}
 
 	public boolean isUidOrGuidQueryRequiredInSecure() {
