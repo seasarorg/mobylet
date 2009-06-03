@@ -18,8 +18,31 @@ package org.mobylet.core;
 import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.util.RequestUtils;
 
+/**
+ *
+ * <p><code>Mobylet</code>インスタンスを取得するためのファクトリ.</p>
+ * <p>
+ * <code>Mobylet</code>インスタンスを生成し、
+ * <code>MobyletContext</code>にキャッシュする。<br />
+ * 同一RequestScope内で2度目以降の呼び出しの場合は、
+ * キャッシュ済みの<code>Mobylet</code>インスタンスを返却する。
+ * </p>
+ *
+ * @author stakeuchi
+ *
+ */
 public class MobyletFactory {
 
+	/**
+	 * <p><code>Mobylet</code>インスタンスを取得します.</p>
+	 * <p>
+	 * 同一RequestScope内で初回呼び出し時は<code>Mobylet</code>インスタンスを生成し、
+	 * 2度目以降の呼び出しの場合は</code>MobyletContext</code>にキャッシュした
+	 * <code>Mobylet</code>インスタンスを返却します。
+	 * </p>
+	 *
+	 * @return	<code>Mobylet</code>インスタンス
+	 */
 	public static Mobylet getInstance() {
 		MobyletContext context = RequestUtils.getMobyletContext();
 		Mobylet m = null;

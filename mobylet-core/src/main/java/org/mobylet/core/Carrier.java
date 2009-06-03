@@ -15,6 +15,13 @@
  */
 package org.mobylet.core;
 
+/**
+ *
+ * mobylet対応キャリア.
+ *
+ * @author stakeuchi
+ *
+ */
 public enum Carrier {
 
 	/**

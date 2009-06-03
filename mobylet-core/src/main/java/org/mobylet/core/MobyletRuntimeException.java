@@ -15,25 +15,55 @@
  */
 package org.mobylet.core;
 
+/**
+ *
+ * <p>mobyletフレームワーク内で発生した例外をラップする例外クラス.</p>
+ *
+ * @author stakeuchi
+ *
+ */
 public class MobyletRuntimeException extends RuntimeException {
 
+	/**
+	 * Serial Version UID
+	 */
 	private static final long serialVersionUID = -43750892036452500L;
 
+	/**
+	 * 例外メッセージ
+	 */
 	protected String message;
 
+	/**
+	 * 原因例外
+	 */
 	protected Exception cause;
 
 
+	/**
+	 * <p>新たな例外インスタンスを作る。</p>
+	 *
+	 * @param msg	例外メッセージ
+	 * @param e		原因例外
+	 */
 	public MobyletRuntimeException(String msg, Exception e) {
 		message = msg;
 		cause = e;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * @see java.lang.Throwable#getCause()
+	 */
 	@Override
 	public Throwable getCause() {
 		return cause;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * @see java.lang.Throwable#getMessage()
+	 */
 	@Override
 	public String getMessage() {
 		return message;
