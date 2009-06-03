@@ -15,8 +15,18 @@
  */
 package org.mobylet.core.define;
 
+/**
+ *
+ * <p>path定義</p>
+ *
+ * @author stakeuchi
+ *
+ */
 public interface DefPath {
 
+	/**
+	 * 初期化時に読み込むconfigファイルパス
+	 */
 	public static final String CONFIG_PATH = "mobylet.properties";
 
 }

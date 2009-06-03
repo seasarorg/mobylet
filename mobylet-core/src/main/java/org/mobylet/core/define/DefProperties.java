@@ -18,4 +18,5 @@ package org.mobylet.core.define;
 public interface DefProperties {
 
 	public static final String KEY_INITIALIZER = "mobylet.initializer";
+
 }

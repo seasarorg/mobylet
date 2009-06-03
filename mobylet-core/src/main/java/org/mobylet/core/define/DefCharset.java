@@ -15,12 +15,28 @@
  */
 package org.mobylet.core.define;
 
+/**
+ *
+ * <p>charset定義</p>
+ *
+ * @author stakeuchi
+ *
+ */
 public interface DefCharset {
 
+	/**
+	 * mobylet-charsetで定義したdocomo用の文字コード
+	 */
 	public static final String DOCOMO = "x-mobylet-docomo";
 
+	/**
+	 * mobylet-charsetで定義したau用の文字コード
+	 */
 	public static final String AU = "x-mobylet-au";
 
+	/**
+	 * UTF-8
+	 */
 	public static final String UTF8 = "utf-8";
 
 }

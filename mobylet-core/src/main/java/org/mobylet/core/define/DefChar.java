@@ -15,10 +15,23 @@
  */
 package org.mobylet.core.define;
 
+/**
+ *
+ * <p>char定義</p>
+ *
+ * @author stakeuchi
+ *
+ */
 public interface DefChar {
 
+	/**
+	 * 最小char値
+	 */
 	public static final char MIN_CHAR = 0x0000;
 
+	/**
+	 * 最大char値
+	 */
 	public static final char MAX_CHAR = 0xFFFF;
 
 }
