@@ -1,0 +1,288 @@
+@charset "utf-8";
+
+/**********************************
+ * INITIALIZE
+ **********************************/
+
+body, form, img, div, ul, ol, dl, li, dt, dd, h1, h2, h3 ,h4 ,p {
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	border: none;
+}
+
+/* CONTAINER */
+.container {
+	overflow: hidden;
+}
+
+.container:after {
+	content: "";
+	display: block;
+	clear: both;
+	height: 1px;
+	overflow: hidden;
+}
+
+/*\*/
+* html .container {
+	height: 1em;
+	overflow: visible;
+}
+/**/
+
+/**************************************
+ * ANCHORS
+ **************************************/
+
+a:link {
+	color:#6666FF;
+	text-decoration: none;
+}
+
+a:visited {
+	color:#6666FF;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #C23438;
+	text-decoration: underline;
+}
+
+a:active {
+	color: #C23438;
+	text-decoration: underline;
+}
+
+/**************************************
+ * STYLE TAGS
+ **************************************/
+
+body, input, select, textarea, td, li ,a {
+	font-family: Helvetica , 'メイリオ' , Meiryo , "ＭＳ Ｐゴシック" , "ヒラギノ角ゴ ProW3" , 'Hiragino Kaku Gothic Pro' , Osaka, Arial, sans-serif;
+	font-size:9pt;
+	color:#3F2800;
+}
+
+html ,body {
+	height: 100%;
+}
+
+h2 {
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}
+
+h2.red {
+	border-bottom: 3px double #882200;
+}
+
+h2.green {
+	border-bottom: 3px double #008800;
+}
+
+h3 {
+	width: 80%;
+	height: 15px;
+	padding-left: 35px;
+	padding-bottom: 3px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	background: url("../../img/h3_bg.gif") no-repeat 0px 5px;
+}
+
+h3.green {
+	border-bottom: 1px solid #008800;
+}
+
+h3.text {
+	text-indent: 0px;
+}
+
+li {
+	list-style-type: none;
+}
+
+dt {
+	font-weight: bold;
+}
+
+th {
+	text-align: left;
+	vertical-align: top;
+}
+
+/**************************************
+ * STYLE IDS
+ **************************************/
+
+#wrapper {
+	width: 850px;
+	min-height: 100%;
+	_height: 100%;/* IE6 */
+	margin: 0 auto;
+	border-left: 1px solid #3F2800;
+	border-right: 1px solid #3F2800;
+}
+
+#header {
+	height: 60px;
+	padding: 15px;
+}
+
+#logo {
+	float: left;
+	margin-top: 5px;
+	width: 180px;
+	height: 53px;
+	text-indent: -9999px;
+	background: url(../img/logo.gif) no-repeat;
+}
+
+#leihauolilogo {
+	float: right;
+	margin-top: 5px;
+}
+
+#leihauolilogo img {
+	width: 113px;
+	height: 28px;
+}
+
+#seasarlogo {
+	float: right;
+	margin-top: 5px;
+	width: 226px;
+	height: 56px;
+}
+
+#seasarlogo img {
+	width: 234px;
+	height: 108px;
+}
+
+#globalNavi {
+	height: 30px;
+	padding: 5px 15px;
+	list-style: none;
+	border-top: 1px solid #3F2800;
+	border-bottom: 1px solid #3F2800;
+}
+
+#mainmenu {
+	float: left;
+	list-style: none;
+}
+
+#helpers {
+	float: right;
+	list-style: none;
+}
+
+#mainmenu li {
+	float: left;
+	padding-right: 10px;
+}
+
+#helpers li {
+	float: left;
+	padding-left: 10px;
+}
+
+#contents {
+	padding: 15px;
+}
+
+#leftcontents {
+	float: left;
+	width: 600px;
+}
+
+#rightcontents {
+	float: right;
+	width: 180px;
+}
+
+#undercontents{
+	margin-top: 40px;
+}
+
+#footer {
+	height: 50px;
+	padding: 15px;
+	border-top: 1px solid #3F2800;
+}
+
+#copyright {
+	text-align:right;
+}
+
+/**************************************
+ * STYLE CLASSES
+ **************************************/
+
+.fl	{ float: left; }
+
+.sf	{ font-size: 8pt; }
+
+.wLC {
+	width: 600px;
+}
+
+.w150 {
+	width: 150px;
+}
+
+.center {
+	text-align: center;
+}
+
+.ts {
+	margin-top: 10px;
+}
+
+.bs {
+	margin-bottom: 30px;
+}
+
+.cellsPad th ,
+.cellsPad td {
+	padding: 10px;
+}
+
+.pad5 {
+	padding: 5px;
+}
+
+.padL30 {
+	padding-left: 30px;
+}
+
+.bgGray {
+	background: #F5F5DC;
+}
+
+.bgGreen {
+	background: #F6FFE7;
+}
+
+.fgRed {
+	color: #FF0000;
+}
+
+.code {
+	padding:5px;
+	border: solid 1px #000;
+}
+
+.banner {
+	width: 180px;
+	height: 53px;
+	border: 1px solid #dddddd;
+	margin-bottom: 5px;
+}

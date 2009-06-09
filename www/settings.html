@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>mobylet</title>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="description" content="モバイルWebアプリケーション構築Javaフレームワーク | mobylet" />
+<meta name="keywords" content="携帯,モバイル,Java,OSS,mobylet" />
+<script src="js/rollover.js" type="text/javascript"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- ↓wrapperArea -->
+
+<div id="wrapper">
+<!-- ↓headerArea -->
+	<div id="header" class="container">
+		<h1><a id="logo" href="index.html" title="mobylet">mobylet</a></h1>
+	</div>
+<!-- ↑headerArea -->
+<!-- ↓glovalNaviArea -->
+	<div id="globalNavi" class="container">
+		<ul id="mainmenu" class="container">
+			<li><a href="firsttimer.html" title="初めての方へ"><img src="img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></a></li>
+			<li><img src="img/globalnavi/st_o.gif" alt="セットアップ" title="セットアップ"/></li>
+			<li><a href="contents/function/index.html"><img src="img/globalnavi/ft.gif" alt="機能リファレンス" title="機能リファレンス" class="imgover"/></a></li>
+			<li><a href="download.html"><img src="img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
+			<li><a href="information.html"><img src="img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
+		</ul>
+	</div>
+<!-- ↑glovalNaviArea -->
+<!-- ↓contentsArea -->
+	<div id="contents" class="container">
+		<div id="leftcontents">
+			<div id="uppercontents">
+				<h2 class="green">Settings</h2>
+				<p class="bs">
+mobyletは特定のアプリケーションサーバやコンテナに依存しません。
+				</p>
+				<h3 class="green">ダウンロード</h3>
+				<p>
+<a href="./download.html">ダウンロードのページ</a>から、最新版のjarファイルをダウンロードしてWEB-INF/libに配置します。
+				</p>
+				<h3 class="green">web.xmlの設定</h3>
+				<p>リクエストの文字コードを設定するため、mobyletのFilterをfilterタグの先頭に記述します。</p>
+				<p class="code">
+&lt;filter&gt;<br/>
+    &nbsp;&nbsp;&lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;<br/>
+    &nbsp;&nbsp;&lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;<br/>
+&lt;/filter&gt;
+<br/><br/>
+
+&lt;filter-mapping&gt;<br/>
+    &nbsp;&nbsp;&lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;<br/>
+    &nbsp;&nbsp;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;<br/>
+&lt;/filter-mapping&gt;<br/>
+				</p>
+				<h3 class="green">文字コードの設定</h3>
+				<p>
+mobyletの文字コード変換処理を有効にするために、以下のいずれかの方法でJVMエクステンションディレクトリを設定します。
+				</p>
+				<ul>
+					<li>JVMエクステンションディレクトリにmobylet-charset.jarを配置する</li>
+					<li>アプリケーションサーバの起動引数に「-Djava.ext.dirs=${mobylet-charset.jarを配置したディレクトリ}」を指定する。</li>
+				</ul>
+
+				<h3 class="green">機種情報の更新</h3>
+				<p>
+mobylet-core-xxx.jarには機種情報のCSVファイルが同梱されていますが、最新の機種情報と差異がある場合があります。<br/>
+最新の機種情報を株式会社バリューエンジン社のサイトから取得して、クラスパス配下に配置してください。
+<a href="http://valueengine.jp/index.html" title="株式会社バリューエンジン">http://valueengine.jp/index.html</a>
+				</p>
+
+				<h3 class="green">taglibの設定</h3>
+				<p>
+<a href="./download.html">ダウンロードのページ</a>から、最新版のmobylet-taglibs-xxx.jarをダウンローとしてWEB-INF/libに配置し、<br/>
+JSPの先頭にmobyletのtaglibディレクティブを指定してください。
+				</p>
+				<p class="code">
+&lt;%@&nbsp;taglib prefix="m" uri="http://taglibs.mobylet.org/" %&gt;
+				</p>
+				<p class="fgRed">※prefixは「m」を推奨していますが、既存のprefixと重複する場合は適切なprefixに変更してください。</p>
+			</div>
+			<div id="undercontents">
+			</div>
+		</div>
+		<div id="rightcontents">
+		</div>
+	</div>
+<!-- ↑contentsArea -->
+<!-- ↓footerArea -->
+	<div id="footer">
+		<div id="copyright">&copy; Copyright The Seasar Foundation and the others 2006, all rights reserved.</div>
+	</div>
+<!-- ↑footerArea -->
+</div>
+<!-- ↑wrapperArea -->
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>mobylet</title>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="description" content="モバイルWebアプリケーション構築Javaフレームワーク | mobylet" />
+<meta name="keywords" content="携帯,モバイル,Java,OSS,mobylet" />
+<script src="../../js/rollover.js" type="text/javascript"></script>
+<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- ↓wrapperArea -->
+
+<div id="wrapper">
+<!-- ↓headerArea -->
+	<div id="header" class="container">
+		<h1><a id="logo" href="../../index.html" title="mobylet">mobylet</a></h1>
+	</div>
+<!-- ↑headerArea -->
+<!-- ↓glovalNaviArea -->
+	<div id="globalNavi" class="container">
+		<ul id="mainmenu" class="container">
+
+			<li><a href="../../firsttimer.html" title="初めての方へ"><img src="../../img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></a></li>
+			<li><a href="../../settings.html"><img src="../../img/globalnavi/st.gif" alt="セットアップ" title="セットアップ" class="imgover"/></a></li>
+			<li><img src="../../img/globalnavi/ft_o.gif" alt="機能リファレンス" title="機能リファレンス"/></li>
+			<li><a href="../../download.html"><img src="../../img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
+			<li><a href="../../information.html"><img src="../../img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
+		</ul>
+	</div>
+<!-- ↑glovalNaviArea -->
+<!-- ↓contentsArea -->
+	<div id="contents" class="container">
+		<div id="leftcontents">
+			<div id="uppercontents">
+				<h2 class="green">Features</h2>
+				<p class="bs">
+mobyletは携帯Webアプリケーション構築用のフレームワークです。<br/>
+携帯でWebアプリケーションを構築する際に課題となるキャリア・機種毎の差異を吸収し、効率的な携帯Webアプリケーションの構築を支援します。
+				</p>
+
+				<h3 id="career" class="green">キャリアの識別</h3>
+				<p>アクセス端末のキャリアをMobyletインスタンスから取得します。</p>
+				<p class="code">
+Mobylet mobylet = MobyletFactory.getInstance();<br/>
+Carrier carrier = mobylet.getCarrier();
+				</p>
+
+				<h3 id="deviceDisplay" class="green">画面表示サイズの取得</h3>
+				<p>端末の画面表示サイズを取得します。</p>
+				<p class="code">
+Mobylet mobylet = MobyletFactory.getInstance();<br/>
+Device device = mobylet.getDevice();<br/>
+DeviceDisplay deviceDisplay = device.getDeviceDisplay();
+				</p>
+				<p>幅を取得します。</p>
+				<p class="code">
+deviceDisplay.getWidth();
+				</p>
+				<p>高さを取得します。</p>
+				<p class="code">
+deviceDisplay.getHeight()
+				</p>
+
+				<h3 id="deviceProfile" class="green">GPS対応機種の識別</h3>
+				<p>GPS対応機種の識別を識別します</p>
+				<p class="code">
+Mobylet mobylet = MobyletFactory.getInstance();<br/>
+Device device = mobylet.getDevice();<br/>
+device.hasGps()<br/>
+				</p>
+
+				<h3 id="emoji" class="green">絵文字の出し分け</h3>
+				<p>
+mobyletでは、どのキャリアのどの絵文字を基点とするかを指定し、<br/>
+実際にアクセスされたキャリアを自動的に識別して対応する絵文字を表示します。<br/>
+<br/>
+次の例ではDocomoの「晴れ」の絵文字を基点に指定しています。
+				</p>
+				<p class="code">
+&lt;m:emoji name="晴れ" carrier="DOCOMO"/&gt;
+				</p>
+				<p>実際の表示は、アクセス端末のキャリアにより次のようになります。</p>
+				<div class="container">
+					<div class="fl pad5 center">
+						<img src="../../img/emoji_shine_docomo.gif" alt="晴れ Docomo"/>
+						<p class="sf">Docomo</p>
+					</div>
+					<div class="fl pad5 center">
+						<img src="../../img/emoji_shine_au.gif" alt="晴れ Au"/>
+						<p class="sf">Au</p>
+					</div>
+					<div class="fl pad5 center">
+						<img src="../../img/emoji_shine_softbank.gif" alt="晴れ Softbank"/>
+						<p class="sf">Softbank</p>
+					</div>
+				</div>
+			</div>
+			<div id="undercontents">
+			</div>
+		</div>
+	</div>
+<!-- ↑contentsArea -->
+<!-- ↓footerArea -->
+	<div id="footer">
+		<div id="copyright">&copy; Copyright The Seasar Foundation and the others 2006, all rights reserved.</div>
+	</div>
+<!-- ↑footerArea -->
+</div>
+<!-- ↑wrapperArea -->
+</body>
+</html>
