@@ -9,5 +9,7 @@
 	<include path="mobylet.detector.dicon" />
 	<include path="mobylet.emoji.dicon" />
 	<include path="mobylet.device.dicon" />
+	<include path="mobylet.gps.dicon" />
+	<include path="mobylet.image.dicon" />
 
 </components>
