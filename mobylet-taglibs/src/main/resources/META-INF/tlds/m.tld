@@ -177,4 +177,43 @@
 		</dynamic-attributes>
 	</tag>
 
+	<!-- <m:img /> -->
+	<tag>
+		<name>img</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.AutoScaleImageTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+			<![CDATA[
+			画像パス
+			]]>
+			</description>
+			<name>src</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			ブラウザ横幅比拡大率（1.0でブラウザ横幅一杯）
+			]]>
+			</description>
+			<name>magniWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			ブラウザ縦幅比拡大率（1.0でブラウザ縦幅一杯）
+			]]>
+			</description>
+			<name>magniHeight</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 </taglib>
