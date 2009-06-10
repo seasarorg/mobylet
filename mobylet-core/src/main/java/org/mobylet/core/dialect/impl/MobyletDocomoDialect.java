@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Accuracy;
 import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.Gps;
@@ -114,4 +115,10 @@ public class MobyletDocomoDialect extends AbstractDialect {
 		g.setAccuracy(acc);
 		return g;
 	}
+
+	@Override
+	public DeviceDisplay getDeviceDisplayByRequestHeader() {
+		return null;
+	}
+
 }

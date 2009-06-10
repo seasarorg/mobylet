@@ -18,6 +18,7 @@ package org.mobylet.core.dialect;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Gps;
 
 
@@ -40,5 +41,7 @@ public interface MobyletDialect {
 	public String getGuid();
 
 	public Gps getGps();
+
+	public DeviceDisplay getDeviceDisplayByRequestHeader();
 
 }

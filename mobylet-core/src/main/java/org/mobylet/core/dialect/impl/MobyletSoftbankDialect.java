@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Accuracy;
 import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.Gps;
@@ -116,4 +117,36 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 		g.setAccuracy(acc);
 		return g;
 	}
+
+	@Override
+	public DeviceDisplay getDeviceDisplayByRequestHeader() {
+		String dpString =
+			RequestUtils.get().getHeader("x-s-display-info");
+		if (StringUtils.isEmpty(dpString)) {
+			dpString =
+				RequestUtils.get().getHeader("x-jphone-display");
+			try {
+				String[] splitDpString = dpString.split("[*]");
+				return new DeviceDisplay(
+						new Integer(splitDpString[0]),
+						new Integer(splitDpString[1]));
+			} catch (Exception e) {
+				return null;
+			}
+		} else {
+			try {
+				return new DeviceDisplay(
+						new Integer(dpString.substring(
+								0,
+								dpString.indexOf('*'))),
+						new Integer(dpString.substring(
+								dpString.indexOf('*')+1,
+								dpString.indexOf('/')))
+						);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
 }

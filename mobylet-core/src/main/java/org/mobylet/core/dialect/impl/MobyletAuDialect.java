@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.Gps;
 import org.mobylet.core.util.RequestUtils;
@@ -109,6 +110,23 @@ public class MobyletAuDialect extends AbstractDialect {
 		//Gps
 		Gps g = new Gps(lat, lon, geo);
 		return g;
+	}
+
+	@Override
+	public DeviceDisplay getDeviceDisplayByRequestHeader() {
+		String dpString =
+			RequestUtils.get().getHeader("X-UP-DEVCAP-SCREENPIXELS");
+		if (StringUtils.isEmpty(dpString)) {
+			return null;
+		}
+		try {
+			String[] splitDpString = dpString.split(",");
+			return new DeviceDisplay(
+					new Integer(splitDpString[0]),
+					new Integer(splitDpString[1]));
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }
