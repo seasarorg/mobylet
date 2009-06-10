@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.mobylet.core.dialect.MobyletDialect;
+import org.mobylet.core.util.RequestUtils;
 
 public class MobyletResponse extends HttpServletResponseWrapper {
 
@@ -41,6 +42,12 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		super(response);
 		this.dialect = dialect;
 		this.response = response;
+	}
+
+	@Override
+	public void setContentType(String type) {
+		super.setContentType(type);
+		RequestUtils.getMobyletContext().set(new MobyletContentType(type));
 	}
 
 	@Override
