@@ -18,6 +18,10 @@ import org.mobylet.core.util.StringUtils;
 
 public class MobyletImageScaleHelper implements ImageScaleHelper {
 
+	public static final String PKEY_AUTOSCALE = "autoScale";
+
+	public static final String PVAL_AUTOSCALE = "on";
+
 	public static final String PKEY_WIDTH = "w";
 
 	public static final String PKEY_HEIGHT = "h";
@@ -28,7 +32,7 @@ public class MobyletImageScaleHelper implements ImageScaleHelper {
 		MobyletContentType contentType = mobyletContext.get(MobyletContentType.class);
 		if (contentType != null && contentType.isImage()) {
 			HttpServletRequest request = RequestUtils.get();
-			if ("on".equalsIgnoreCase(request.getParameter("autoScale")) &&
+			if (PVAL_AUTOSCALE.equalsIgnoreCase(request.getParameter(PKEY_AUTOSCALE)) &&
 					(StringUtils.isNotEmpty(request.getParameter(PKEY_HEIGHT)) ||
 							StringUtils.isNotEmpty(request.getParameter(PKEY_WIDTH)))) {
 				return true;
