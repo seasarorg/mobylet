@@ -17,6 +17,7 @@ package org.mobylet.core;
 
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.device.Device;
+import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.device.DevicePool;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.gps.Gps;
@@ -197,6 +198,13 @@ public class Mobylet {
 		}
 	}
 
+	public DeviceDisplay getDisplay() {
+		DeviceDisplay dp = dialect.getDeviceDisplayByRequestHeader();
+		if (dp == null && getDevice() != null) {
+			dp = getDevice().getDeviceDisplay();
+		}
+		return dp;
+	}
 	/**
 	 * <p>初期化処理.</p>
 	 * <p>

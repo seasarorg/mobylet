@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.mobylet.core.dialect.MobyletDialect;
+import org.mobylet.core.image.ImageScaleHelper;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletResponse extends HttpServletResponseWrapper {
 
@@ -65,7 +67,11 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	@Override
 	public ServletOutputStream getOutputStream() throws IOException {
 		if (outputStream == null) {
-			outputStream = super.getOutputStream();
+			if (SingletonUtils.get(ImageScaleHelper.class).isAutoScaleImage()) {
+				outputStream = new MobyletBufferedOutputStream();
+			} else {
+				outputStream = super.getOutputStream();
+			}
 		}
 		return outputStream;
 	}
@@ -74,6 +80,12 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		if (printWriter != null) {
 			printWriter.flush();
 		} else if (outputStream != null) {
+			if (outputStream instanceof MobyletBufferedOutputStream) {
+				SingletonUtils.get(ImageScaleHelper.class).autoScale(
+						super.getOutputStream(),
+						MobyletBufferedOutputStream.class.cast(outputStream)
+						.getWrittenBytesInputStream());
+			}
 			outputStream.flush();
 		}
 	}
