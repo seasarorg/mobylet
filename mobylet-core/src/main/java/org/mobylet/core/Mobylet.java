@@ -65,6 +65,11 @@ public class Mobylet {
 	 */
 	protected boolean isPopedDevice = false;
 
+	/**
+	 * GPS情報取得フラグ
+	 */
+	protected boolean isPopedGps = false;
+
 
 	/**
 	 * <p>デフォルトコンストラクタ.</p>
@@ -188,12 +193,13 @@ public class Mobylet {
 	 */
 	public Gps getGps() {
 		MobyletContext context = RequestUtils.getMobyletContext();
-		Gps g = null;
-		if ((g = context.get(Gps.class)) != null) {
+		Gps g = context.get(Gps.class);
+		if (isPopedGps) {
 			return g;
 		} else {
 			g = dialect.getGps();
 			context.set(g);
+			isPopedGps = true;
 			return getGps();
 		}
 	}
