@@ -7,12 +7,14 @@ import org.seasar.framework.container.SingletonS2Container;
 
 public class S2MobyletRequestHolder implements RequestHolder {
 
+	protected HttpServletRequest nativeRequest;
+
 	@Override
 	public HttpServletRequest get() {
 		try {
 			return SingletonS2Container.getComponent(HttpServletRequest.class);
 		} catch (Throwable t) {
-			return null;
+			return nativeRequest;
 		}
 	}
 
@@ -23,7 +25,9 @@ public class S2MobyletRequestHolder implements RequestHolder {
 
 	@Override
 	public void set(HttpServletRequest request) {
-		//NOP
+		if (nativeRequest == null) {
+			nativeRequest = request;
+		}
 	}
 
 }
