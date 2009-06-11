@@ -99,7 +99,7 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 	public Gps getGps() {
 		HttpServletRequest request = RequestUtils.get();
 		String pos = request.getParameter("pos");
-		String geoString = request.getParameter("datum");
+		String geoString = request.getParameter("geo");
 		String accString = request.getParameter("x-acr");
 		if (StringUtils.isEmpty(pos) ||
 				StringUtils.isEmpty(geoString) ||

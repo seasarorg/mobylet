@@ -97,7 +97,7 @@ public class MobyletDocomoDialect extends AbstractDialect {
 		HttpServletRequest request = RequestUtils.get();
 		String lat = request.getParameter("lat");
 		String lon = request.getParameter("lon");
-		String geoString = request.getParameter("datum");
+		String geoString = request.getParameter("geo");
 		String accString = request.getParameter("x-acc");
 		if (StringUtils.isEmpty(lat) ||
 				StringUtils.isEmpty(lon) ||
