@@ -65,7 +65,8 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(pathUserAgent)
+							ResourceUtils.getResourceFileOrInputStream(pathUserAgent),
+							"windows-31j"
 							)
 					);
 			String line = null;
@@ -107,7 +108,8 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(pathProfile)
+							ResourceUtils.getResourceFileOrInputStream(pathProfile),
+							"windows-31j"
 							)
 					);
 			String line = null;
@@ -151,7 +153,8 @@ public class ValueEngineDeviceReader implements DeviceReader {
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(pathDisplay)
+							ResourceUtils.getResourceFileOrInputStream(pathDisplay),
+							"windows-31j"
 							)
 					);
 			String line = null;
