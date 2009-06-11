@@ -189,7 +189,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 						DeviceDisplay pdd = new DeviceDisplay();
 						pdd.putAnotherDisplay(val[2], dd);
 						for (String key : keys) {
-							diMap.put(key, dd);
+							diMap.put(key, pdd);
 						}
 					} else {
 						DeviceDisplay pdd = diMap.get(keys.get(0));
