@@ -169,7 +169,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 					continue;
 				}
 				if ("ブラウザ画像サイズ".equals(val[2])) {
-					if (diMap.get(keys) == null) {
+					if (diMap.get(keys.get(0)) == null) {
 						DeviceDisplay dd = new DeviceDisplay();
 						dd.setWidth(new Integer(val[3]));
 						dd.setHeight(new Integer(val[4]));
@@ -185,7 +185,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 					DeviceDisplay dd = new DeviceDisplay();
 					dd.setWidth(new Integer(val[3]));
 					dd.setHeight(new Integer(val[4]));
-					if (diMap.get(keys) == null) {
+					if (diMap.get(keys.get(0)) == null) {
 						DeviceDisplay pdd = new DeviceDisplay();
 						pdd.putAnotherDisplay(val[2], dd);
 						for (String key : keys) {
