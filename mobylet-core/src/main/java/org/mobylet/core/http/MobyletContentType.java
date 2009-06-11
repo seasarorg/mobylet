@@ -8,7 +8,7 @@ public class MobyletContentType {
 
 	protected String contentType;
 
-	public static String getContentTypeStringBySuffix() {
+	public static String getContentTypeStringByImageSuffix() {
 		String uri = RequestUtils.get().getRequestURI();
 		if (StringUtils.isNotEmpty(uri)) {
 			String suffix = uri.substring(uri.lastIndexOf('.')+1, uri.length());
@@ -25,7 +25,7 @@ public class MobyletContentType {
 				return "image/png";
 			}
 		}
-		return "text/html; charset=\"us-ascii\"";
+		return null;
 	}
 
 	public MobyletContentType(String contentType) {

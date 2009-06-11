@@ -52,6 +52,10 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		RequestUtils.getMobyletContext().set(new MobyletContentType(type));
 	}
 
+	public boolean hasContentType() {
+		return RequestUtils.getMobyletContext().get(MobyletContentType.class) != null;
+	}
+
 	@Override
 	public PrintWriter getWriter() throws IOException {
 		if (printWriter == null) {
@@ -67,11 +71,15 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	@Override
 	public ServletOutputStream getOutputStream() throws IOException {
 		if (outputStream == null) {
-			if (RequestUtils.getMobyletContext().get(MobyletContentType.class) == null) {
-				setContentType(MobyletContentType.getContentTypeStringBySuffix());
-			}
-			if (SingletonUtils.get(ImageScaleHelper.class).isAutoScaleImage()) {
-				outputStream = new MobyletBufferedOutputStream();
+			String imgContentType = null;
+			if (!hasContentType() &&
+					(imgContentType = MobyletContentType.getContentTypeStringByImageSuffix()) != null) {
+				setContentType(imgContentType);
+				if (SingletonUtils.get(ImageScaleHelper.class).isAutoScaleImage()) {
+					outputStream = new MobyletBufferedOutputStream();
+				} else {
+					outputStream = super.getOutputStream();
+				}
 			} else {
 				outputStream = super.getOutputStream();
 			}
