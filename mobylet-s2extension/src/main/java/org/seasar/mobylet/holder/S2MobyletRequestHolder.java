@@ -12,7 +12,12 @@ public class S2MobyletRequestHolder implements RequestHolder {
 	@Override
 	public HttpServletRequest get() {
 		try {
-			return SingletonS2Container.getComponent(HttpServletRequest.class);
+			HttpServletRequest request =
+				SingletonS2Container.getComponent(HttpServletRequest.class);
+			if (request == null) {
+				request = nativeRequest;
+			}
+			return request;
 		} catch (Throwable t) {
 			return nativeRequest;
 		}
