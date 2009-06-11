@@ -19,7 +19,7 @@ public class MobyletServletOutputStream extends ServletOutputStream {
 	@Override
 	public void write(int b) throws IOException {
 		sos.write(b);
-		b++;
+		length++;
 	}
 
 	@Override
