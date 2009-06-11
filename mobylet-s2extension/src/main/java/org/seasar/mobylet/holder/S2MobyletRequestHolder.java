@@ -7,7 +7,7 @@ import org.seasar.framework.container.SingletonS2Container;
 
 public class S2MobyletRequestHolder implements RequestHolder {
 
-	protected HttpServletRequest nativeRequest;
+	protected ThreadLocal<HttpServletRequest> nativeRequest;
 
 	@Override
 	public HttpServletRequest get() {
@@ -15,23 +15,23 @@ public class S2MobyletRequestHolder implements RequestHolder {
 			HttpServletRequest request =
 				SingletonS2Container.getComponent(HttpServletRequest.class);
 			if (request == null) {
-				request = nativeRequest;
+				request = nativeRequest.get();
 			}
 			return request;
 		} catch (Throwable t) {
-			return nativeRequest;
+			return nativeRequest.get();
 		}
 	}
 
 	@Override
 	public void remove() {
-		//NOP
+		nativeRequest.remove();
 	}
 
 	@Override
 	public void set(HttpServletRequest request) {
-		if (nativeRequest == null) {
-			nativeRequest = request;
+		if (nativeRequest.get() == null) {
+			nativeRequest.set(request);
 		}
 	}
 
