@@ -7,12 +7,12 @@ import java.io.InputStream;
 
 import javax.servlet.ServletOutputStream;
 
-public class MobyletBufferedOutputStream extends ServletOutputStream {
+public class ProxyImageOutputStream extends ServletOutputStream {
 
 	protected ByteArrayOutputStream outStream;
 
 
-	public MobyletBufferedOutputStream() {
+	public ProxyImageOutputStream() {
 		outStream = new ByteArrayOutputStream(8192);
 	}
 
