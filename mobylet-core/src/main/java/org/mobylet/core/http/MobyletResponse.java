@@ -49,7 +49,9 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	@Override
 	public void setContentType(String type) {
 		super.setContentType(type);
-		RequestUtils.getMobyletContext().set(new MobyletContentType(type));
+		if (!hasContentType()) {
+			RequestUtils.getMobyletContext().set(new MobyletContentType(type));
+		}
 	}
 
 	public boolean hasContentType() {
