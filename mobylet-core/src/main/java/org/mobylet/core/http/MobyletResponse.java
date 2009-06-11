@@ -67,6 +67,9 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	@Override
 	public ServletOutputStream getOutputStream() throws IOException {
 		if (outputStream == null) {
+			if (RequestUtils.getMobyletContext().get(MobyletContentType.class) == null) {
+				setContentType(MobyletContentType.getContentTypeStringBySuffix());
+			}
 			if (SingletonUtils.get(ImageScaleHelper.class).isAutoScaleImage()) {
 				outputStream = new MobyletBufferedOutputStream();
 			} else {
