@@ -9,6 +9,10 @@ public class S2MobyletRequestHolder implements RequestHolder {
 
 	protected ThreadLocal<HttpServletRequest> nativeRequest;
 
+	public S2MobyletRequestHolder() {
+		nativeRequest = new ThreadLocal<HttpServletRequest>();
+	}
+
 	@Override
 	public HttpServletRequest get() {
 		try {
