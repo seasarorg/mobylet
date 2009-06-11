@@ -27,9 +27,9 @@ public class UrlUtils {
 		String encodedValue = encodeUrl(pValue);
 		if (StringUtils.isNotEmpty(url)) {
 			if (url.contains(Q)) {
-				return AMP + pKey + EQ + encodedValue;
+				return url + AMP + pKey + EQ + encodedValue;
 			} else {
-				return Q + pKey + EQ + encodedValue;
+				return url + Q + pKey + EQ + encodedValue;
 			}
 		} else {
 			return Q + pKey + EQ + encodedValue;
