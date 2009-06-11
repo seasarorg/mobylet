@@ -92,10 +92,11 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			printWriter.flush();
 		} else if (outputStream != null) {
 			if (outputStream instanceof ProxyImageOutputStream) {
-				SingletonUtils.get(ImageScaleHelper.class).autoScale(
-						super.getOutputStream(),
-						ProxyImageOutputStream.class.cast(outputStream)
-						.getWrittenBytesInputStream());
+				setContentLength(
+						SingletonUtils.get(ImageScaleHelper.class).autoScale(
+								new MobyletServletOutputStream(super.getOutputStream()),
+								ProxyImageOutputStream.class.cast(outputStream)
+								.getWrittenBytesInputStream()));
 			}
 			outputStream.flush();
 		}

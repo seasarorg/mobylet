@@ -2,7 +2,6 @@ package org.mobylet.core.image.impl;
 
 import java.io.InputStream;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.Mobylet;
@@ -10,6 +9,7 @@ import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.http.MobyletContentType;
 import org.mobylet.core.http.MobyletContext;
+import org.mobylet.core.http.MobyletServletOutputStream;
 import org.mobylet.core.image.ImageScaleHelper;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.util.RequestUtils;
@@ -42,7 +42,7 @@ public class MobyletImageScaleHelper implements ImageScaleHelper {
 	}
 
 	@Override
-	public void autoScale(ServletOutputStream outStream, InputStream inStream) {
+	public int autoScale(MobyletServletOutputStream outStream, InputStream inStream) {
 		Mobylet m = MobyletFactory.getInstance();
 		DeviceDisplay dp = m.getDisplay();
 		HttpServletRequest request = RequestUtils.get();
@@ -64,7 +64,7 @@ public class MobyletImageScaleHelper implements ImageScaleHelper {
 				//NOP
 			}
 		}
-		SingletonUtils.get(ImageScaler.class).resize(
+		return SingletonUtils.get(ImageScaler.class).resize(
 				inStream,
 				outStream,
 				RequestUtils.getMobyletContext()

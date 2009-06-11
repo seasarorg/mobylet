@@ -1,11 +1,12 @@
 package org.mobylet.core.image;
 
 import java.io.InputStream;
-import java.io.OutputStream;
+
+import org.mobylet.core.http.MobyletServletOutputStream;
 
 public interface ImageScaler {
 
-	public void resize(InputStream imgStream, OutputStream scaledImage,
+	public int resize(InputStream imgStream, MobyletServletOutputStream scaledImage,
 			ImageCodec suffix, Integer width, Integer height);
 
 }

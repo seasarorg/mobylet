@@ -4,18 +4,18 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
 import org.mobylet.core.MobyletRuntimeException;
-import org.mobylet.core.image.ImageScaler;
+import org.mobylet.core.http.MobyletServletOutputStream;
 import org.mobylet.core.image.ImageCodec;
+import org.mobylet.core.image.ImageScaler;
 
 public class MobyletImageScaler implements ImageScaler {
 
 	@Override
-	public void resize(InputStream imgStream, OutputStream scaledImage,
+	public int resize(InputStream imgStream, MobyletServletOutputStream scaledImage,
 			ImageCodec codec, Integer width, Integer height) {
 		try {
 			BufferedImage bufImage = ImageIO.read(imgStream);
@@ -42,6 +42,7 @@ public class MobyletImageScaler implements ImageScaler {
 			if (!result) {
 				throw new MobyletRuntimeException("画像の書き出しに失敗", null);
 			}
+			return scaledImage.getLength();
 		} catch (IOException e) {
 			throw new MobyletRuntimeException("画像変換中にIO例外が発生", e);
 		}
