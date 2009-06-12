@@ -216,4 +216,67 @@
 		</attribute>
 	</tag>
 
+	<!-- <m:googlemap /> -->
+	<tag>
+		<name>googlemap</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.GoogleMapTag
+		</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>key</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>lat</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>lon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>width</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>height</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>zoom</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>sensor</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<!-- <m:marker /> -->
+	<tag>
+		<name>marker</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.GoogleMapMarkerTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>lat</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>lon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 </taglib>
