@@ -61,6 +61,7 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 				setLat(String.valueOf(gps.getLat()));
 				setLon(String.valueOf(gps.getLon()));
 			} else {
+				recycle();
 				return EVAL_PAGE;
 			}
 		}
