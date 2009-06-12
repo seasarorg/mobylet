@@ -7,6 +7,7 @@
 body, form, img, div, ul, ol, dl, li, dt, dd, h1, h2, h3 ,h4 ,p {
 	margin: 0;
 	padding: 0;
+	line-height: 130%;
 }
 
 img {
@@ -117,6 +118,9 @@ th {
 	vertical-align: top;
 }
 
+p {
+	margin-bottom: 5px;
+}
 /**************************************
  * STYLE IDS
  **************************************/
