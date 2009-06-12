@@ -7,7 +7,6 @@
 body, form, img, div, ul, ol, dl, li, dt, dd, h1, h2, h3 ,h4 ,p {
 	margin: 0;
 	padding: 0;
-	line-height: 130%;
 }
 
 img {
@@ -66,6 +65,7 @@ body, input, select, textarea, td, li ,a {
 	font-family: Helvetica , 'メイリオ' , Meiryo , "ＭＳ Ｐゴシック" , "ヒラギノ角ゴ ProW3" , 'Hiragino Kaku Gothic Pro' , Osaka, Arial, sans-serif;
 	font-size:9pt;
 	color:#3F2800;
+	line-height: 150%;
 }
 
 html ,body {
