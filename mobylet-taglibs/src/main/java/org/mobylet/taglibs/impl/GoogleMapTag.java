@@ -99,7 +99,14 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 	}
 
 	protected void recycle() {
+		key = null;
+		lat = null;
+		lon = null;
+		width = null;
+		height = null;
 		markers = null;
+		zoom = 15;
+		sensor = false;
 	}
 
 	public void addMarker(Marker marker) {
