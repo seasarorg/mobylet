@@ -76,13 +76,13 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 		String url = URL;
 		url = UrlUtils.addParameter(url, "maptype", "mobile");
 		url = UrlUtils.addParameter(url, "key", getKey());
-		url = UrlUtils.addParameter(url, "center", getLat() + "," + getLon());
+		url = UrlUtils.addParameter(url, "center", getLat() + "," + getLon(), false);
 		url = UrlUtils.addParameter(url, "zoom", "" + getZoom());
 		url = UrlUtils.addParameter(url, "size", "" + getWidth() + "x" + getHeight());
 		url = UrlUtils.addParameter(url, "sensor", "" + getSensor());
 		for (Marker marker : markers) {
 			url = UrlUtils.addParameter(
-					url, "markers", marker.getLat() + "," + marker.getLon());
+					url, "markers", marker.getLat() + "," + marker.getLon(), false);
 		}
 		//Write
 		JspWriterUtils.write(

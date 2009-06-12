@@ -19,12 +19,20 @@ public class UrlUtils {
 
 	public static String SP = "#";
 
-
 	public static String addParameter(String url, String pKey, String pValue) {
+		return addParameter(url, pKey, pValue, true);
+	}
+
+	public static String addParameter(String url, String pKey, String pValue, boolean sanitize) {
 		if (StringUtils.isEmpty(pKey)) {
 			return url;
 		}
-		String encodedValue = encodeUrl(pValue);
+		String encodedValue = null;
+		if (sanitize) {
+			encodedValue = encodeUrl(pValue);
+		} else {
+			encodedValue = pValue;
+		}
 		if (StringUtils.isNotEmpty(url)) {
 			if (url.contains(Q)) {
 				return url + AMP + pKey + EQ + encodedValue;
