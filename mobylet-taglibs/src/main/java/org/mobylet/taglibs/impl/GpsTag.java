@@ -57,7 +57,7 @@ public class GpsTag extends ATag {
 		case DOCOMO:
 			return constructUrl(url);
 		case AU:
-			url = url + UrlUtils.AMP + "var=1&datum=0&unit=0&acry=0&number=0";
+			url = url + UrlUtils.AMP + "ver=1&datum=0&unit=0&acry=0&number=0";
 			return "device:gpsone?url=" + url.replace('?', '&');
 		case SOFTBANK:
 			return "location:gps?url=" + url.replace('?', '&');
