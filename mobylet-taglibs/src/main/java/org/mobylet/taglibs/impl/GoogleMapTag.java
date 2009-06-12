@@ -70,7 +70,7 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 				height == null) {
 			DeviceDisplay dp = m.getDisplay();
 			setWidth(dp.getWidth());
-			setWidth(dp.getHeight());
+			setHeight(dp.getHeight());
 		}
 		//URL構築
 		String url = URL;
