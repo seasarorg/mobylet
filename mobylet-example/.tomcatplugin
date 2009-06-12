@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tomcatProjectProperties>
-    <rootDir>/src/main/webapp</rootDir>
+    <rootDir>src/main/webapp</rootDir>
     <exportSource>false</exportSource>
-    <reloadable>true</reloadable>
-    <redirectLogger>false</redirectLogger>
+    <reloadable>false</reloadable>
+    <redirectLogger>true</redirectLogger>
     <updateXml>true</updateXml>
     <warLocation></warLocation>
     <extraInfo></extraInfo>
-    <webPath>/mobylet</webPath>
+    <webPath>/mobylet-example</webPath>
 </tomcatProjectProperties>

@@ -1,13 +1,14 @@
 <html>
 <head>
-<title>Hello World!</title>
+<title>mobylet-example</title>
 </head>
 <body>
-<div>Hello World!</div>
-<form action="." method="post">
-input-&gt;<input type="text" name="txt" size="10" /><br />
-<input type="submit" name="go" value="GO!" /><br />
-</form>
-output-&gt;<%= request.getParameter("txt") %>
+<div>mobylet-example</div>
+<div>
+<a href="hello.jsp">Hello World</a><br/>
+<a href="profile.jsp">端末情報</a><br/>
+<a href="resize.jsp">画像リサイズ</a><br/>
+<m:gps kickBackUrl="http://YOUR-DOMAIN/mobylet-example/gps.jsp">位置情報(GPS)</m:gps>
+</div>
 </body>
 </html>
