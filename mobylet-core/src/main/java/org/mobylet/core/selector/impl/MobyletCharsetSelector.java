@@ -41,7 +41,7 @@ public class MobyletCharsetSelector implements CharsetSelector {
 	protected void initialize() {
 		charsetMap = new HashMap<Carrier, Charset>();
 		charsetMap.put(Carrier.OTHER,
-				Charset.forName(DefCharset.UTF8));
+				Charset.forName(DefCharset.DEFAULT));
 		try {
 			charsetMap.put(Carrier.DOCOMO,
 					Charset.forName(DefCharset.DOCOMO));

@@ -39,4 +39,9 @@ public interface DefCharset {
 	 */
 	public static final String UTF8 = "utf-8";
 
+	/**
+	 * Default-Charset
+	 */
+	public static final String DEFAULT = "windows-31j";
+
 }
