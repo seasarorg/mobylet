@@ -51,7 +51,8 @@
 経度：<%= strLonTokyo %>
 </div>
 <% if(lat != null && lon != null){ %>
-<img src="http://maps.google.com/staticmap?center=<%= lat %>,<%= lon %>&zoom=15&size=200x200&maptype=mobile&markers=<%= lat %>,<%= lon %>&key=ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469IRSmYo0djw2uXw79MXwwZacmUqYReQ&sensor=false"/>
+<m:googlemap key="ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469IRSmYo0djw2uXw79MXwwZacmUqYReQ">
+</m:googlemap>
 <% } %>
 </body>
 </html>
