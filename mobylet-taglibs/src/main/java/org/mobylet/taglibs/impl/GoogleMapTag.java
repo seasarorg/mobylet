@@ -13,11 +13,15 @@ import org.mobylet.core.gps.GeoConverter;
 import org.mobylet.core.gps.Gps;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.taglibs.MobyletTag;
+import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.taglibs.utils.UrlUtils;
 
-public class GoogleMapTag extends TagSupport {
+public class GoogleMapTag extends TagSupport implements MobyletTag {
 
 	private static final long serialVersionUID = -2122566184950353337L;
+
+	public static final String TAG = "img";
 
 	public static final String URL = "http://maps.google.com/staticmap";
 
@@ -80,6 +84,10 @@ public class GoogleMapTag extends TagSupport {
 			url = UrlUtils.addParameter(
 					url, "markers", marker.getLat() + "," + marker.getLon());
 		}
+		//Write
+		JspWriterUtils.write(
+				pageContext.getOut(),
+				STAG + TAG + " src=\"" + url + "\"" + ETAG);
 		//EvalPage
 		recycle();
 		return EVAL_PAGE;
