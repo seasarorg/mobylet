@@ -25,7 +25,7 @@
 		<ul id="mainmenu" class="container">
 			<li><a href="firsttimer.html" title="初めての方へ"><img src="img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></a></li>
 			<li><img src="img/globalnavi/st_o.gif" alt="セットアップ" title="セットアップ"/></li>
-			<li><a href="contents/function/index.html"><img src="img/globalnavi/ft.gif" alt="機能リファレンス" title="機能リファレンス" class="imgover"/></a></li>
+			<li><a href="function.html"><img src="img/globalnavi/ft.gif" alt="機能リファレンス" title="機能リファレンス" class="imgover"/></a></li>
 			<li><a href="download.html"><img src="img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
 			<li><a href="information.html"><img src="img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
 		</ul>
@@ -36,57 +36,105 @@
 		<div id="leftcontents">
 			<div id="uppercontents">
 				<h2 class="green">Settings</h2>
-				<p class="bs">
-mobyletは特定のアプリケーションサーバやコンテナに依存しません。
-				</p>
-				<h3 class="green">ダウンロード</h3>
 				<p>
-<a href="./download.html">ダウンロードのページ</a>から、最新版のjarファイルをダウンロードしてWEB-INF/libに配置します。
+mobyletは特定のアプリケーションサーバやコンテナに依存していないため、<br/>
+最小限の構成で動作させる場合わずか３ステップで設定完了です。
 				</p>
-				<h3 class="green">web.xmlの設定</h3>
-				<p>リクエストの文字コードを設定するため、mobyletのFilterをfilterタグの先頭に記述します。</p>
-				<p class="code">
-&lt;filter&gt;<br/>
-    &nbsp;&nbsp;&lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;<br/>
-    &nbsp;&nbsp;&lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;<br/>
-&lt;/filter&gt;
-<br/><br/>
-
-&lt;filter-mapping&gt;<br/>
-    &nbsp;&nbsp;&lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;<br/>
-    &nbsp;&nbsp;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;<br/>
-&lt;/filter-mapping&gt;<br/>
-				</p>
-				<h3 class="green">文字コードの設定</h3>
-				<p>
-mobyletの文字コード変換処理を有効にするために、以下のいずれかの方法でJVMエクステンションディレクトリを設定します。
-				</p>
-				<ul>
-					<li>JVMエクステンションディレクトリにmobylet-charset.jarを配置する</li>
-					<li>アプリケーションサーバの起動引数に「-Djava.ext.dirs=${mobylet-charset.jarを配置したディレクトリ}」を指定する。</li>
+				<ul class="ts">
+					<li>１．<a href="#download">ダウンロード</a></li>
+					<li>２．<a href="#charset">mobylet用文字コード設定</a></li>
+					<li>３．<a href="#webxml">web.xmlの設定</a></li>
 				</ul>
-
-				<h3 class="green">機種情報の更新</h3>
+				<p class="ts">
+これだけでキャリアの判別や、絵文字の使用ができるようになります。<br/>
+<br/>
+画像のリサイズやGPS情報の取得など、端末に依存する機能を利用する場合は
+				</p>
+				<h3 class="green" id="download">ダウンロード</h3>
 				<p>
-mobylet-core-xxx.jarには機種情報のCSVファイルが同梱されていますが、最新の機種情報と差異がある場合があります。<br/>
-最新の機種情報を株式会社バリューエンジン社のサイトから取得して、クラスパス配下に配置してください。
-<a href="http://valueengine.jp/index.html" title="株式会社バリューエンジン">http://valueengine.jp/index.html</a>
+<a href="./download.html">ダウンロードのページ</a>から、最新版のzipファイルをダウンロードして、<br/>
+mobylet-charset-xxx.jar以外をWEB-INF/libに配置します。<br/>
+<br/>
+mobylet-charset-xxx.jarは、アプリケーションサーバの<br/>
+実行ユーザが読み込み可能なディレクトリに配置してください。
 				</p>
 
-				<h3 class="green">taglibの設定</h3>
+				<h3 class="green" id="charset">mobylet用文字コードの設定</h3>
 				<p>
-<a href="./download.html">ダウンロードのページ</a>から、最新版のmobylet-taglibs-xxx.jarをダウンローとしてWEB-INF/libに配置し、<br/>
-JSPの先頭にmobyletのtaglibディレクティブを指定してください。
+mobyletの文字コード変換処理を有効にするために、<br/>
+アプリケーションサーバーの起動引数でJVMエクステンションディレクトリを設定します。<br/>
+<br/>
+Tomcatの場合は${CATALINA_HOME}/bin配下にsetenv.sh又はsetenv.batを作成し、
 				</p>
-				<p class="code">
-&lt;%@&nbsp;taglib prefix="m" uri="http://taglibs.mobylet.org/" %&gt;
+				<pre class="code">
+Linuxの場合
+CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ}
+
+Windowsの場合
+set CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ}
+				</pre>
+				<p>
+と記述します。<br/>
+<br/>
+Eclipse上で設定する場合「ウィンドウ」→「設定」→「Tomcat」→「JVM設定」から「JVMパラメータへ追加」で設定します。
 				</p>
+				<img src="img/setting_charset.gif" alt="JVM設定"/>
+				<p class="ts">
+上記の方法以外にも、規定のJVMエクステンションディレクトリにmobylet-charset-xxx.jarを配置する方法もあります。
+				</p>
+				<h3 class="green" id="webxml">web.xmlの設定</h3>
+				<p>リクエストの文字コードを設定するため、mobyletのFilterをfilterタグの先頭に記述します。</p>
+<pre class="code">
+&lt;filter&gt;
+	&lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+	&lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+	&lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+	&lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</pre>
+				<h3 class="green" id="deviceupdate">機種情報の更新</h3>
+				<p>
+mobylet-core-xxx.jarには機種情報のCSVファイルが<br/>
+同梱されていますが、最新の機種情報と差異がある場合があります。<br/>
+最新の機種情報は<a href="http://valueengine.jp/index.html" title="株式会社バリューエンジン">株式会社バリューエンジン社のサイト</a>から取得してください。
+<br/>
+取得した機種情報ファイルのファイル名を次のように変更し、
+				<pre class="code">
+ProfileData_YYYY-MM-DD.csv → ProfileData.csv
+UserAgent_YYYY-MM-DD.csv → UserAgent.csv
+DisplayInfo_YYYY-MM-DD.csv → DisplayInfo.csv</pre>
+クラスパス配下に「device」ディレクトリを作成して配置してください。
+				</p>
+
+				<h3 class="green" id="taglib">taglibの使用</h3>
+				<p>
+JSPの先頭にmobyletのtaglibディレクティブを指定します。
+				</p>
+<pre class="code">
+&lt;%@ taglib prefix="m" uri="http://taglibs.mobylet.org/" %&gt;
+</pre>
 				<p class="fgRed">※prefixは「m」を推奨していますが、既存のprefixと重複する場合は適切なprefixに変更してください。</p>
 			</div>
 			<div id="undercontents">
 			</div>
 		</div>
 		<div id="rightcontents">
+			<div class="submenu">
+				<p>基本設定</p>
+				<ul>
+					<li><a href="#download">ダウンロード</a></li>
+					<li><a href="#charset">mobylet用文字コード設定</a></li>
+					<li><a href="#webxml">web.xmlの設定</a></li>
+				</ul>
+				<p class="ts">追加設定</p>
+				<ul>
+					<li><a href="#deviceupdate">機種情報の更新</a></li>
+					<li><a href="#taglib">taglibの使用</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 <!-- ↑contentsArea -->

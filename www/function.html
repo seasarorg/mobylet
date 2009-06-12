@@ -8,8 +8,8 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <meta name="description" content="モバイルWebアプリケーション構築Javaフレームワーク | mobylet" />
 <meta name="keywords" content="携帯,モバイル,Java,OSS,mobylet" />
-<script src="../../js/rollover.js" type="text/javascript"></script>
-<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+<script src="js/rollover.js" type="text/javascript"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <!-- ↓wrapperArea -->
@@ -17,18 +17,18 @@
 <div id="wrapper">
 <!-- ↓headerArea -->
 	<div id="header" class="container">
-		<h1><a id="logo" href="../../index.html" title="mobylet">mobylet</a></h1>
+		<h1><a id="logo" href="index.html" title="mobylet">mobylet</a></h1>
 	</div>
 <!-- ↑headerArea -->
 <!-- ↓glovalNaviArea -->
 	<div id="globalNavi" class="container">
 		<ul id="mainmenu" class="container">
 
-			<li><a href="../../firsttimer.html" title="初めての方へ"><img src="../../img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></a></li>
-			<li><a href="../../settings.html"><img src="../../img/globalnavi/st.gif" alt="セットアップ" title="セットアップ" class="imgover"/></a></li>
-			<li><img src="../../img/globalnavi/ft_o.gif" alt="機能リファレンス" title="機能リファレンス"/></li>
-			<li><a href="../../download.html"><img src="../../img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
-			<li><a href="../../information.html"><img src="../../img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
+			<li><a href="firsttimer.html" title="初めての方へ"><img src="../../img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></a></li>
+			<li><a href="settings.html"><img src="../../img/globalnavi/st.gif" alt="セットアップ" title="セットアップ" class="imgover"/></a></li>
+			<li><img src="img/globalnavi/ft_o.gif" alt="機能リファレンス" title="機能リファレンス"/></li>
+			<li><a href="download.html"><img src="img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
+			<li><a href="information.html"><img src="img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
 		</ul>
 	</div>
 <!-- ↑glovalNaviArea -->
@@ -44,62 +44,73 @@ mobyletは携帯Webアプリケーション構築用のフレームワークで�
 
 				<h3 id="career" class="green">キャリアの識別</h3>
 				<p>アクセス端末のキャリアをMobyletインスタンスから取得します。</p>
-				<p class="code">
-Mobylet mobylet = MobyletFactory.getInstance();<br/>
+<pre class="code">
+Mobylet mobylet = MobyletFactory.getInstance();
 Carrier carrier = mobylet.getCarrier();
-				</p>
+</pre>
 
 				<h3 id="deviceDisplay" class="green">画面表示サイズの取得</h3>
 				<p>端末の画面表示サイズを取得します。</p>
-				<p class="code">
-Mobylet mobylet = MobyletFactory.getInstance();<br/>
-Device device = mobylet.getDevice();<br/>
+<pre class="code">
+Mobylet mobylet = MobyletFactory.getInstance();
+Device device = mobylet.getDevice();
 DeviceDisplay deviceDisplay = device.getDeviceDisplay();
-				</p>
+</pre>
 				<p>幅を取得します。</p>
-				<p class="code">
+<pre class="code">
 deviceDisplay.getWidth();
-				</p>
+</pre>
 				<p>高さを取得します。</p>
-				<p class="code">
+<pre class="code">
 deviceDisplay.getHeight()
-				</p>
+</pre>
 
-				<h3 id="deviceProfile" class="green">GPS対応機種の識別</h3>
+				<h3 id="gps" class="green">GPS対応機種の識別</h3>
 				<p>GPS対応機種の識別を識別します</p>
-				<p class="code">
-Mobylet mobylet = MobyletFactory.getInstance();<br/>
-Device device = mobylet.getDevice();<br/>
-device.hasGps()<br/>
-				</p>
+<pre class="code">
+Mobylet mobylet = MobyletFactory.getInstance();
+Device device = mobylet.getDevice();
+device.hasGps();
+</pre>
 
-				<h3 id="emoji" class="green">絵文字の出し分け</h3>
+				<h3 id="emoji" class="green">絵文字の表示</h3>
 				<p>
 mobyletでは、どのキャリアのどの絵文字を基点とするかを指定し、<br/>
 実際にアクセスされたキャリアを自動的に識別して対応する絵文字を表示します。<br/>
 <br/>
 次の例ではDocomoの「晴れ」の絵文字を基点に指定しています。
 				</p>
-				<p class="code">
+<pre class="code">
 &lt;m:emoji name="晴れ" carrier="DOCOMO"/&gt;
-				</p>
+</pre>
 				<p>実際の表示は、アクセス端末のキャリアにより次のようになります。</p>
 				<div class="container">
 					<div class="fl pad5 center">
-						<img src="../../img/emoji_shine_docomo.gif" alt="晴れ Docomo"/>
+						<img src="img/emoji_shine_docomo.gif" alt="晴れ Docomo"/>
 						<p class="sf">Docomo</p>
 					</div>
 					<div class="fl pad5 center">
-						<img src="../../img/emoji_shine_au.gif" alt="晴れ Au"/>
+						<img src="img/emoji_shine_au.gif" alt="晴れ Au"/>
 						<p class="sf">Au</p>
 					</div>
 					<div class="fl pad5 center">
-						<img src="../../img/emoji_shine_softbank.gif" alt="晴れ Softbank"/>
+						<img src="img/emoji_shine_softbank.gif" alt="晴れ Softbank"/>
 						<p class="sf">Softbank</p>
 					</div>
 				</div>
 			</div>
 			<div id="undercontents">
+			</div>
+		</div>
+		<div id="rightcontents">
+			<div class="submenu">
+				<p>Menu</p>
+				<ul>
+					<li><a href="#career">キャリアの識別</a></li>
+					<li><a href="#deviceDisplay">画面表示サイズの取得</a></li>
+					<li><a href="#gps">GPS対応機種の識別</a></li>
+					<li><a href="#emoji">絵文字の表示</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>

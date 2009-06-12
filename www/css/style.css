@@ -276,8 +276,14 @@ th {
 }
 
 .code {
+	font-family: courier;
 	padding:5px;
 	border: solid 1px #000;
+}
+
+.submenu {
+	border-left: solid 1px;
+	padding-left: 5px;
 }
 
 .banner {
