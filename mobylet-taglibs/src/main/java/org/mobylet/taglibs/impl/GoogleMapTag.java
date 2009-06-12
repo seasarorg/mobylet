@@ -54,12 +54,13 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 		Mobylet m = MobyletFactory.getInstance();
 		//現在地
 		if (StringUtils.isEmpty(lat) &&
-				StringUtils.isEmpty(lon) &&
-				markers == null) {
+				StringUtils.isEmpty(lon)) {
 			Gps gps =
 				SingletonUtils.get(GeoConverter.class).toWgs84(m.getGps());
 			setLat(String.valueOf(gps.getLat()));
 			setLon(String.valueOf(gps.getLon()));
+		}
+		if(markers == null) {
 			Marker marker = new Marker();
 			marker.setLat(getLat());
 			marker.setLon(getLon());
