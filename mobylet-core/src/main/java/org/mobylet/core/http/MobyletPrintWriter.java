@@ -22,6 +22,7 @@ import java.io.Writer;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.emoji.Emoji;
 import org.mobylet.core.emoji.EmojiPoolFamily;
+import org.mobylet.core.selector.CharsetSelector;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -31,11 +32,14 @@ public class MobyletPrintWriter extends PrintWriter {
 
 	protected EmojiPoolFamily family;
 
+	protected CharsetSelector charSelector;
+
 
 	public MobyletPrintWriter(Writer out, Carrier outCarrier) {
 		super(out);
 		this.outCarrier = outCarrier;
 		family = SingletonUtils.get(EmojiPoolFamily.class);
+		charSelector = SingletonUtils.get(CharsetSelector.class);
 	}
 
 	/**
@@ -44,7 +48,7 @@ public class MobyletPrintWriter extends PrintWriter {
 	 */
 	@Override
 	public void write(int c) {
-		if (family != null) {
+		if (charSelector.isCharsetInstalled() && family != null) {
 			char ch = (char)c;
 			Emoji e = family.getEmoji(ch);
 			if (e == null) {
@@ -73,7 +77,7 @@ public class MobyletPrintWriter extends PrintWriter {
 	 */
 	@Override
 	public void write(char buf[], int off, int len) {
-		if (family != null) {
+		if (charSelector.isCharsetInstalled() && family != null) {
 			CharArrayWriter caw = new CharArrayWriter(len);
 			for (int i=off; i<off+len; i++) {
 				Emoji e = family.getEmoji(buf[i]);
