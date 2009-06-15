@@ -15,6 +15,8 @@
  */
 package org.mobylet.core.initializer.impl;
 
+import java.util.Properties;
+
 import org.mobylet.core.initializer.MobyletInitializer;
 
 public class MobyletInitializerEmptyImpl implements MobyletInitializer {
@@ -29,5 +31,10 @@ public class MobyletInitializerEmptyImpl implements MobyletInitializer {
 	@Override
 	public boolean isInitialized() {
 		return isInitialized;
+	}
+
+	@Override
+	public void readProperties(Properties props) {
+		//NOP
 	}
 }

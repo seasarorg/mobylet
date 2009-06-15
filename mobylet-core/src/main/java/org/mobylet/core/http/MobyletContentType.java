@@ -10,6 +10,10 @@ public class MobyletContentType {
 
 	public static String getContentTypeStringByImageSuffix() {
 		String uri = RequestUtils.get().getRequestURI();
+		return getContentTypeStringByImageSuffix(uri);
+	}
+
+	public static String getContentTypeStringByImageSuffix(String uri) {
 		if (StringUtils.isNotEmpty(uri)) {
 			String suffix = uri.substring(uri.lastIndexOf('.')+1, uri.length());
 			if (suffix.startsWith("jpg") ||

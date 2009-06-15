@@ -35,6 +35,7 @@ import org.mobylet.core.define.DefProperties;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
+import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.ResourceUtils;
@@ -82,42 +83,69 @@ public class MobyletFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		initSingletonContainer(filterConfig);
+		initInitializer(filterConfig);
+	}
+
+
+	protected void initSingletonContainer(FilterConfig filterConfig) {
 		if (!SingletonUtils.isInitialized()) {
 			SingletonUtils.initialize(null);
 		}
+	}
+
+
+	protected void initInitializer(FilterConfig filterConfig) {
+		String configDir = "";
+		if (filterConfig != null) {
+			configDir = filterConfig.getInitParameter("mobylet.config.dir");
+			if (configDir == null) {
+				configDir = "";
+			}
+		}
 		Properties properties = new Properties();
+		String configPath = configDir + DefPath.CONFIG_PATH;
 		try {
 			properties.load(
-					ResourceUtils.getResourceFileOrInputStream(
-							DefPath.CONFIG_PATH));
-		} catch (IOException e) {
+					ResourceUtils.getResourceFileOrInputStream(configPath));
+		} catch (Exception e) {
 			throw new MobyletRuntimeException(
-					DefPath.CONFIG_PATH+"の読み込みに失敗しました", e);
+					configPath+"の読み込みに失敗しました", e);
 		}
 		String className = properties.getProperty(DefProperties.KEY_INITIALIZER);
 		if (StringUtils.isEmpty(className)) {
-			return;
-		}
-		try {
-			Class<?> initializerClass = Class.forName(className);
-			Object initializer = initializerClass.newInstance();
-			if (initializer instanceof MobyletInitializer) {
-				MobyletInitializer.class.cast(initializer).initialize();
-				SingletonUtils.put(initializer);
-			} else {
-				throw new MobyletRuntimeException(
-						"Class["+className+"]はMobyletInitializerを実装していません", null);
+			MobyletInitializer initializer =
+				SingletonUtils.get(MobyletInitializer.class);
+			if (initializer == null) {
+				initializer = new MobyletInitializerImpl();
 			}
-		} catch (ClassNotFoundException e) {
-			throw new MobyletRuntimeException(
-					"Class["+className+"]が見つかりません", e);
-		} catch (InstantiationException e) {
-			throw new MobyletRuntimeException(
-					"Class["+className+"]のインスタンスを生成できません", e);
-		} catch (IllegalAccessException e) {
-			throw new MobyletRuntimeException(
-					"Class["+className+"]にアクセスできません", e);
-		}
-	}
+			initializer.readProperties(properties);
+			initializer.initialize();
+			SingletonUtils.put(initializer);
+		} else {
+			try {
+				Class<?> initializerClass = Class.forName(className);
+				Object initializer = initializerClass.newInstance();
+				if (initializer instanceof MobyletInitializer) {
+					MobyletInitializer mobyletInitializer =
+						MobyletInitializer.class.cast(initializer);
+					mobyletInitializer.readProperties(properties);
+					mobyletInitializer.initialize();
+					SingletonUtils.put(initializer);
+				} else {
+					throw new MobyletRuntimeException(
+							"Class["+className+"]はMobyletInitializerを実装していません", null);
+				}
+			} catch (ClassNotFoundException e) {
+				throw new MobyletRuntimeException(
+						"Class["+className+"]が見つかりません", e);
+			} catch (InstantiationException e) {
+				throw new MobyletRuntimeException(
+						"Class["+className+"]のインスタンスを生成できません", e);
+			} catch (IllegalAccessException e) {
+				throw new MobyletRuntimeException(
+						"Class["+className+"]にアクセスできません", e);
+			}
+		}	}
 
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>
+		<![CDATA[
+		<p>
+		mobylet-GAE/Jカスタムタグライブラリ。
+		</p>
+		]]>
+	</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>gm</short-name>
+	<uri>http://taglibs.gae.mobylet.org/</uri>
+	<!-- <gm:img /> -->
+	<tag>
+		<name>img</name>
+		<tag-class>
+			org.mobylet.gae.taglibs.GaeAutoScaleImageTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+			<![CDATA[
+			画像パス
+			]]>
+			</description>
+			<name>src</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			ブラウザ横幅比拡大率（1.0でブラウザ横幅一杯）
+			]]>
+			</description>
+			<name>magniWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			ブラウザ縦幅比拡大率（1.0でブラウザ縦幅一杯）
+			]]>
+			</description>
+			<name>magniHeight</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+</taglib>

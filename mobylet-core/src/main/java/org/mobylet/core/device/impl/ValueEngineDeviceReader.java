@@ -26,20 +26,22 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.device.DeviceProfile;
 import org.mobylet.core.device.DeviceReader;
 import org.mobylet.core.util.CSVSplitUtils;
 import org.mobylet.core.util.ResourceUtils;
+import org.mobylet.core.util.SingletonUtils;
 
 public class ValueEngineDeviceReader implements DeviceReader {
 
-	public String pathUserAgent = "device/UserAgent.csv";
+	public String pathUserAgent = "UserAgent.csv";
 
-	public String pathProfile = "device/ProfileData.csv";
+	public String pathProfile = "ProfileData.csv";
 
-	public String pathDisplay = "device/DisplayInfo.csv";
+	public String pathDisplay = "DisplayInfo.csv";
 
 
 	@Override
@@ -59,13 +61,15 @@ public class ValueEngineDeviceReader implements DeviceReader {
 	}
 
 	protected Map<String, List<String>> readUserAgent() {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		BufferedReader reader = null;
 		Map<String, List<String>> uaMap = new HashMap<String, List<String>>();
 		String[] header = null;
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(pathUserAgent),
+							ResourceUtils.getResourceFileOrInputStream(
+									config.getDeviceDir() + pathUserAgent),
 							"windows-31j"
 							)
 					);
@@ -102,13 +106,15 @@ public class ValueEngineDeviceReader implements DeviceReader {
 	}
 
 	protected Map<String, DeviceProfile> readProfileData(Map<String, List<String>> uaMap) {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		BufferedReader reader = null;
 		Map<String, DeviceProfile> dpMap = new HashMap<String, DeviceProfile>();
 		String[] header = null;
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(pathProfile),
+							ResourceUtils.getResourceFileOrInputStream(
+									config.getDeviceDir() + pathProfile),
 							"windows-31j"
 							)
 					);
@@ -147,13 +153,15 @@ public class ValueEngineDeviceReader implements DeviceReader {
 
 
 	protected Map<String, DeviceDisplay> readDisplayInfo(Map<String, List<String>> uaMap) {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		BufferedReader reader = null;
 		Map<String, DeviceDisplay> diMap = new HashMap<String, DeviceDisplay>();
 		String[] header = null;
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(
-							ResourceUtils.getResourceFileOrInputStream(pathDisplay),
+							ResourceUtils.getResourceFileOrInputStream(
+									config.getDeviceDir() + pathDisplay),
 							"windows-31j"
 							)
 					);

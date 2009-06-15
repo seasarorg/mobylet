@@ -10,21 +10,14 @@ import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.http.MobyletContentType;
 import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.http.MobyletServletOutputStream;
+import org.mobylet.core.image.ImageScaleConfig;
 import org.mobylet.core.image.ImageScaleHelper;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
-public class MobyletImageScaleHelper implements ImageScaleHelper {
-
-	public static final String PKEY_AUTOSCALE = "autoScale";
-
-	public static final String PVAL_AUTOSCALE = "on";
-
-	public static final String PKEY_WIDTH = "w";
-
-	public static final String PKEY_HEIGHT = "h";
+public class MobyletImageScaleHelper implements ImageScaleHelper, ImageScaleConfig {
 
 
 	public boolean isAutoScaleImage() {

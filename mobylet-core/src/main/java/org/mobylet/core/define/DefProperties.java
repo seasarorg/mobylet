@@ -19,4 +19,8 @@ public interface DefProperties {
 
 	public static final String KEY_INITIALIZER = "mobylet.initializer";
 
+	public static final String KEY_DEVICE_DIR = "mobylet.device.dir";
+
+	public static final String KEY_EMOJI_DIR = "mobylet.emoji.dir";
+
 }

@@ -161,12 +161,23 @@
 	</distributionManagement>
 	<repositories>
 		<repository>
+			<id>local</id>
+			<name>Local Repository</name>
+			<url>file:repo</url>
+		</repository>
+		<repository>
 			<id>maven.seasar.org</id>
 			<name>The Seasar Foundation Maven2 Repository</name>
 			<url>http://maven.seasar.org/maven2</url>
  	   </repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId>
+			<version>1.2.1</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -188,7 +199,12 @@
 		<dependency>
 			<groupId>org.seasar.mobylet</groupId>
 			<artifactId>mobylet-core</artifactId>
-			<version>0.1.0</version>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seasar.mobylet</groupId>
+			<artifactId>mobylet-taglibs</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

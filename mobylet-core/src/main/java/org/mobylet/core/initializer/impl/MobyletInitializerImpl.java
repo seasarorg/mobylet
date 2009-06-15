@@ -15,6 +15,10 @@
  */
 package org.mobylet.core.initializer.impl;
 
+import java.util.Properties;
+
+import org.mobylet.core.config.MobyletConfig;
+import org.mobylet.core.define.DefProperties;
 import org.mobylet.core.detector.impl.MobyletCarrierDetector;
 import org.mobylet.core.device.impl.MobyletDevicePool;
 import org.mobylet.core.device.impl.ValueEngineDeviceReader;
@@ -33,7 +37,8 @@ import org.mobylet.core.selector.impl.MobyletCharsetSelector;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
 import org.mobylet.core.util.SingletonUtils;
 
-public class MobyletInitializerImpl extends MobyletInitializerEmptyImpl {
+public class MobyletInitializerImpl
+	extends MobyletInitializerEmptyImpl implements DefProperties {
 
 	@Override
 	public void initialize() {
@@ -63,5 +68,15 @@ public class MobyletInitializerImpl extends MobyletInitializerEmptyImpl {
 		SingletonUtils.put(new MobyletImageScaleHelper());
 		//initialized
 		super.initialize();
+	}
+
+	@Override
+	public void readProperties(Properties props) {
+		MobyletConfig config = new MobyletConfig();
+		if (props != null) {
+			config.setDeviceDir(props.getProperty(KEY_DEVICE_DIR));
+			config.setEmojiDir(props.getProperty(KEY_EMOJI_DIR));
+		}
+		SingletonUtils.put(config);
 	}
 }
