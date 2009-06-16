@@ -1,6 +1,6 @@
 package org.mobylet.mail;
 
-public interface MobyletMailConfg {
+public interface MailConstants {
 
 	public static final String CONTENT_TYPE = "Content-Type";
 
@@ -21,6 +21,8 @@ public interface MobyletMailConfg {
 	public static final String DISPOSITION_ATTACHMENT = "attachment";
 
 	public static final String CHARSET_ISO_2022_1 = "X-WINDOWS-ISO2022JP";
+
+	public static final String CHARSET_SJIS = "Shift_JIS";
 
 	public static final String CHARSET_JIS_STANDARD = "ISO-2022-JP";
 
