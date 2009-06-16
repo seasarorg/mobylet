@@ -8,9 +8,15 @@ public class MobyletConfig {
 
 	public static final String RES_EMOJI_DIR = "emoji/";
 
+	protected String configDir;
+
 	protected String deviceDir;
 
 	protected String emojiDir;
+
+	public MobyletConfig(String configDir) {
+		this.configDir = configDir;
+	}
 
 	public String getDeviceDir() {
 		if (StringUtils.isEmpty(deviceDir)) {
@@ -26,6 +32,10 @@ public class MobyletConfig {
 		} else {
 			return emojiDir;
 		}
+	}
+
+	public String getConfigDir() {
+		return this.configDir;
 	}
 
 	public void setDeviceDir(String deviceDir) {

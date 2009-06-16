@@ -17,6 +17,7 @@ package org.mobylet.core.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.Filter;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.define.DefPath;
 import org.mobylet.core.define.DefProperties;
 import org.mobylet.core.detector.CarrierDetector;
@@ -37,6 +39,7 @@ import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
 import org.mobylet.core.selector.DialectSelector;
+import org.mobylet.core.util.CSVSplitUtils;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
@@ -81,10 +84,12 @@ public class MobyletFilter implements Filter {
 		mResponse.flush();
 	}
 
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		initSingletonContainer(filterConfig);
 		initInitializer(filterConfig);
+		initChainInitializer(filterConfig);
 	}
 
 
@@ -103,6 +108,7 @@ public class MobyletFilter implements Filter {
 				configDir = "";
 			}
 		}
+		SingletonUtils.put(new MobyletConfig(configDir));
 		Properties properties = new Properties();
 		String configPath = configDir + DefPath.CONFIG_PATH;
 		try {
@@ -113,25 +119,20 @@ public class MobyletFilter implements Filter {
 					configPath+"の読み込みに失敗しました", e);
 		}
 		String className = properties.getProperty(DefProperties.KEY_INITIALIZER);
+		MobyletInitializer initializer = null;
 		if (StringUtils.isEmpty(className)) {
-			MobyletInitializer initializer =
+			initializer =
 				SingletonUtils.get(MobyletInitializer.class);
 			if (initializer == null) {
 				initializer = new MobyletInitializerImpl();
 			}
-			initializer.readProperties(properties);
-			initializer.initialize();
-			SingletonUtils.put(initializer);
 		} else {
 			try {
 				Class<?> initializerClass = Class.forName(className);
-				Object initializer = initializerClass.newInstance();
-				if (initializer instanceof MobyletInitializer) {
-					MobyletInitializer mobyletInitializer =
-						MobyletInitializer.class.cast(initializer);
-					mobyletInitializer.readProperties(properties);
-					mobyletInitializer.initialize();
-					SingletonUtils.put(initializer);
+				Object initializerObj = initializerClass.newInstance();
+				if (initializerObj instanceof MobyletInitializer) {
+					initializer =
+						MobyletInitializer.class.cast(initializerObj);
 				} else {
 					throw new MobyletRuntimeException(
 							"Class["+className+"]はMobyletInitializerを実装していません", null);
@@ -146,6 +147,42 @@ public class MobyletFilter implements Filter {
 				throw new MobyletRuntimeException(
 						"Class["+className+"]にアクセスできません", e);
 			}
-		}	}
+		}
+		//初期化
+		if (initializer != null) {
+			initializer.readProperties(properties);
+			initializer.initialize();
+			SingletonUtils.put(initializer);
+		}
+	}
+
+
+	protected void initChainInitializer(FilterConfig filterConfig) {
+		String strInitializers = null;
+		if (filterConfig != null) {
+			strInitializers = filterConfig.getInitParameter("mobylet.chain.initializers");
+			if (StringUtils.isEmpty(strInitializers)) {
+				return;
+			}
+		} else {
+			return;
+		}
+		//チェイン初期化
+		List<String> initializers = CSVSplitUtils.splitLine(strInitializers);
+		for (String strInitializer : initializers) {
+			try {
+				Class<?> clazz = Class.forName(strInitializer);
+				Object initializerObj = clazz.newInstance();
+				if (initializerObj instanceof MobyletInitializer) {
+					MobyletInitializer initializer =
+						MobyletInitializer.class.cast(initializerObj);
+					initializer.initialize();
+				}
+			} catch (Exception e) {
+				throw new MobyletRuntimeException(
+						"[ChainInitialize]初期化に失敗しました className = " + strInitializer, e);
+			}
+		}
+	}
 
 }

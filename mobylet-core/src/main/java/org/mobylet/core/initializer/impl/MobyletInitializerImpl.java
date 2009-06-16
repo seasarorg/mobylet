@@ -72,7 +72,7 @@ public class MobyletInitializerImpl
 
 	@Override
 	public void readProperties(Properties props) {
-		MobyletConfig config = new MobyletConfig();
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		if (props != null) {
 			config.setDeviceDir(props.getProperty(KEY_DEVICE_DIR));
 			config.setEmojiDir(props.getProperty(KEY_EMOJI_DIR));

@@ -3,6 +3,7 @@
 	"http://www.seasar.org/dtd/components24.dtd">
 <components>
 
+	<include path="mobylet.config.dicon" />
 	<include path="mobylet.holder.dicon" />
 	<include path="mobylet.charset.dicon" />
 	<include path="mobylet.dialect.dicon" />
