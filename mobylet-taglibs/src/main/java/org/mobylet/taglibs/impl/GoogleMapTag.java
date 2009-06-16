@@ -57,7 +57,7 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 				StringUtils.isEmpty(lon)) {
 			Gps gps = m.getGps();
 			if (gps != null) {
-				gps = SingletonUtils.get(GeoConverter.class).toWgs84(m.getGps());
+				gps = SingletonUtils.get(GeoConverter.class).toWgs84(gps);
 				setLat(String.valueOf(gps.getLat()));
 				setLon(String.valueOf(gps.getLon()));
 			} else {
