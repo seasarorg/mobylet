@@ -26,6 +26,14 @@
 	String strLon = null;
 	String strLatTokyo = null;
 	String strLonTokyo = null;
+
+	String alt = null;
+	String smaj = null;
+	String smin = null;
+	String majaa = null;
+	String vert = null;
+	String fm = null;
+
 	if(gps != null){
 		lat = gps.getLat();
 		lon = gps.getLon();
@@ -35,6 +43,13 @@
 		lonTokyo = gpsTokyo.getLon();
 		strLatTokyo = gpsTokyo.getStrLat();
 		strLonTokyo = gpsTokyo.getStrLon();
+
+		alt = request.getParameter("alt");
+		smaj = request.getParameter("smaj");
+		smin = request.getParameter("smin");
+		majaa = request.getParameter("majaa");
+		vert = request.getParameter("vert");
+		fm = request.getParameter("fm");
 	}
 %>
 <div>
@@ -50,7 +65,14 @@
 経度：<%= lonTokyo %><br/>
 ■日本測地系(度分秒)<br/>
 緯度：<%= strLatTokyo %><br/>
-経度：<%= strLonTokyo %>
+経度：<%= strLonTokyo %><br/>
+<br />
+alt:<%= alt %><br />
+smaj:<%= smaj %><br />
+smin:<%= smin %><br />
+majaa:<%= majaa %><br />
+vert:<%= vert %><br />
+fm:<%= fm %><br />
 </div>
 <% if(lat != null && lon != null){ %>
 <m:googlemap key="ABQIAAAA7XT8fivn1ERPxb2sJeqDmxRNOWY0OPnw67gvoURkZ1j5QQjgqRS0j2Bw3twZQTQEqagNXbIbgdJUmA">
