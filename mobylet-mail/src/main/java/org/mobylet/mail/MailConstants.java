@@ -20,6 +20,8 @@ public interface MailConstants {
 
 	public static final String DISPOSITION_ATTACHMENT = "attachment";
 
+	public static final String CHARSET_ASCII = "us-ascii";
+
 	public static final String CHARSET_ISO_2022_1 = "X-WINDOWS-ISO2022JP";
 
 	public static final String CHARSET_SJIS = "Shift_JIS";
