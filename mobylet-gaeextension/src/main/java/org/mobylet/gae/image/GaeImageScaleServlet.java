@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.http.MobyletContentType;
-import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
 import com.google.appengine.api.images.Image;
@@ -22,6 +21,9 @@ public class GaeImageScaleServlet extends HttpServlet {
 	private static final long serialVersionUID = -776458083694815211L;
 
 	public static final String KEY_IMGPATH = "img";
+
+	public static final GaeImageScaleHelper scaleHelper = new GaeImageScaleHelper();
+
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -57,8 +59,7 @@ public class GaeImageScaleServlet extends HttpServlet {
 			}
 		}
 		//Resize-Image
-		GaeImageScaleHelper helper = SingletonUtils.get(GaeImageScaleHelper.class);
-		Image image = helper.getScaledImage(ImagesServiceFactory.makeImage(imageData));
+		Image image = scaleHelper.getScaledImage(ImagesServiceFactory.makeImage(imageData));
 		imageData = image.getImageData();
 		//Write
 		resp.setContentLength(imageData.length);
