@@ -24,9 +24,11 @@ public interface MailConstants {
 
 	public static final String CHARSET_ISO_2022_1 = "X-WINDOWS-ISO2022JP";
 
-	public static final String CHARSET_SJIS = "Shift_JIS";
+	public static final String CHARSET_SJIS = "shift_jis";
 
 	public static final String CHARSET_JIS_STANDARD = "ISO-2022-JP";
+
+	public static final String CHARSET_AU_MAIL_SJIS = "x-mobylet-mail-sjis-au";
 
 	public static final String APPLICATION_OCTETSTREAM = "application/octet-stream";
 }

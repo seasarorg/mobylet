@@ -25,6 +25,10 @@ public class MailPart {
 		this.headerMap.remove(key);
 	}
 
+	public Map<String, String> getHeaderMap() {
+		return headerMap;
+	}
+
 	public void setHandler(DataHandler handler) {
 		this.handler = handler;
 	}

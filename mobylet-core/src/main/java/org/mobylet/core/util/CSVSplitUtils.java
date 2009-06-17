@@ -39,13 +39,15 @@ public class CSVSplitUtils {
 		int elemStartIndex = 0;
 		int pos = 0;
 		for (; pos<lineChars.length; pos++) {
-			if (lineChars[pos] == ',') {
+			if (lineChars[pos] == ',' || pos == lineChars.length - 1) {
 				if (!isInnerQuote) {
 					if (pos == elemStartIndex) {
 						splitList.add("");
 					} else {
 						String elem =
-							new String(lineChars, elemStartIndex, pos-elemStartIndex);
+							(pos == lineChars.length - 1 && lineChars[pos] != ',' ?
+									new String(lineChars, elemStartIndex, pos-elemStartIndex+1) :
+										new String(lineChars, elemStartIndex, pos-elemStartIndex));
 						if (isQuoted && elem.contains(BACKSLASH)) {
 							CharArrayWriter caw = new CharArrayWriter(128);
 							char[] elemChars = elem.toCharArray();

@@ -16,7 +16,7 @@ public class MobyletMailCharsetSelector implements MailCharsetSelector {
 		case DOCOMO:
 			return DefCharset.DOCOMO;
 		case AU:
-			return DefCharset.AU;
+			return MailConstants.CHARSET_AU_MAIL_SJIS;
 		case SOFTBANK:
 			return DefCharset.UTF8;
 		default:
