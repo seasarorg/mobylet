@@ -37,6 +37,7 @@ public class MobyletCharsetProvider extends CharsetProvider {
 		this.charsets = new HashMap<String, Charset>();
 		this.charsets.put("X-MOBYLET-DOCOMO", new MobyletDocomoCharset());
 		this.charsets.put("X-MOBYLET-AU", new MobyletAuCharset());
+		this.charsets.put("X-MOBYLET-MAIL-SJIS-AU", new MobyletAuMailSjisCharset());
 	}
 
 	@Override

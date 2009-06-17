@@ -19,7 +19,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 
-import org.mobylet.charset.codemap.MobyletAuCodeMap;
+import org.mobylet.charset.codemap.MobyletAuMailSjisCodeMap;
 
 public class MobyletAuMailSjisCharset extends Charset {
 
@@ -53,7 +53,7 @@ public class MobyletAuMailSjisCharset extends Charset {
 
 		@Override
 		protected byte[] encodeEmojiDouble(char c) {
-			int bi = MobyletAuCodeMap.toByte(c);
+			int bi = MobyletAuMailSjisCodeMap.toByte(c);
 			if (bi > 0xFF) {
 				byte[] b = new byte[2];
 				b[0] = (byte)((bi & 0xFF00) >> 8);
@@ -85,17 +85,17 @@ public class MobyletAuMailSjisCharset extends Charset {
 
 		@Override
 		protected char decodeEmojiDouble(int b1, int b2) {
-			return MobyletAuCodeMap.toChar((b1 << 8) + b2);
+			return MobyletAuMailSjisCodeMap.toChar((b1 << 8) + b2);
 		}
 
 		@Override
 		protected short getMaxEmojiFirstCode() {
-			return 0xF7;
+			return 0xEE;
 		}
 
 		@Override
 		protected short getMinEmojiFirstCode() {
-			return 0xF3;
+			return 0xEB;
 		}
 
 	}
