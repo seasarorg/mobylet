@@ -1,5 +1,6 @@
 package org.mobylet.mail.parts.builder;
 
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
@@ -9,6 +10,7 @@ import javax.mail.util.ByteArrayDataSource;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.http.MobyletPrintWriter;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.mail.MailConstants;
 import org.mobylet.mail.parts.MailPart;
@@ -27,9 +29,14 @@ public class HtmlPartsBuilder implements PartsBuilder, MailConstants {
 		if (source == null) {
 			source = "";
 		}
+		//Convert-Emoji
+		StringWriter stringWriter = new StringWriter(1024);
+		MobyletPrintWriter printWriter = new MobyletPrintWriter(stringWriter, carrier);
+		printWriter.write(source);
+		printWriter.flush();
 		ByteBuffer buf = null;
 		try {
-			buf = ByteBuffer.wrap(source.getBytes(encodingCharset));
+			buf = ByteBuffer.wrap(stringWriter.toString().getBytes(encodingCharset));
 		} catch (UnsupportedEncodingException e) {
 			throw new MobyletRuntimeException("Unsupported Charset = " + encodingCharset, e);
 		}
