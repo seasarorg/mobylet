@@ -2,6 +2,13 @@ package org.mobylet.mail;
 
 public interface MailConstants {
 
+	public static final String MIXED = "mixed";
+
+	public static final String RELATED = "related";
+
+	public static final String ALTERNATIVE = "alternative";
+
+
 	public static final String CONTENT_TYPE = "Content-Type";
 
 	public static final String TEXT_HTML = "text/html";

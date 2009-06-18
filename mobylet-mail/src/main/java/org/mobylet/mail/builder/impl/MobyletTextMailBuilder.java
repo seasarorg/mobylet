@@ -1,11 +1,17 @@
 package org.mobylet.mail.builder.impl;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimePart;
 
+import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.mail.MailConstants;
+import org.mobylet.mail.builder.AttachPartHelper;
 import org.mobylet.mail.builder.MobyletMailBuilder;
 import org.mobylet.mail.message.MobyletMessage;
+import org.mobylet.mail.message.MessageBody.Attach;
 import org.mobylet.mail.util.DataHandlerUtils;
 
 public class MobyletTextMailBuilder implements MobyletMailBuilder, MailConstants {
@@ -20,21 +26,49 @@ public class MobyletTextMailBuilder implements MobyletMailBuilder, MailConstants
 	}
 
 	public MobyletMessage buildSimpleTextMail(MobyletMessage message) {
-		try {
-			message.setDataHandler(
-					DataHandlerUtils.getDataHandler(
-							message.getCarrier(),
-							message.getBody().getText()));
-			message.addHeader(TRANSFER_ENCODING, ENCODING_7BIT);
-			message.addHeader(CONTENT_TYPE,
-					TEXT_PLAIN + "; charset=\"" + message.getNotifyCharset() + "\"");
-			return message;
-		} catch (MessagingException e) {
-			throw new MobyletRuntimeException("パートの設定に失敗", e);
-		}
+		return buildTextPart(
+				message,
+				message.getCarrier(),
+				message.getBody().getText(),
+				message.getNotifyCharset());
 	}
 
 	public MobyletMessage buildAttachedTextMail(MobyletMessage message) {
+		MimeMultipart multipart =
+			AttachPartHelper.createAttachMultipart(message.getCarrier());
+		MimeBodyPart part = buildTextPart(
+				new MimeBodyPart(),
+				message.getCarrier(),
+				message.getBody().getText(),
+				message.getNotifyCharset());
+		try {
+			multipart.addBodyPart(part);
+			for (Attach attach : message.getBody().getAttaches()) {
+				multipart.addBodyPart(
+						AttachPartHelper.buildAttachPart(
+								message.getCarrier(),
+								attach)
+						);
+			}
+		} catch (MessagingException e) {
+			throw new MobyletRuntimeException("メッセージ構築時に例外発生", e);
+		}
 		return message;
+	}
+
+	public <M extends MimePart> M buildTextPart(
+			M part, Carrier carrier, String text, String notifyCharset) {
+		try {
+			part.setDataHandler(
+					DataHandlerUtils.getDataHandler(
+							carrier,
+							text));
+			part.addHeader(TRANSFER_ENCODING, ENCODING_7BIT);
+			part.addHeader(CONTENT_TYPE,
+					TEXT_PLAIN + "; charset=\"" + notifyCharset + "\"");
+			return part;
+		} catch (MessagingException e) {
+			throw new MobyletRuntimeException("パートの設定に失敗", e);
+		}
 	}
 }

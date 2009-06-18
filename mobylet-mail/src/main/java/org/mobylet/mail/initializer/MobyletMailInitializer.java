@@ -8,6 +8,7 @@ import org.mobylet.mail.builder.impl.MobyletDecoMailBuilder;
 import org.mobylet.mail.builder.impl.MobyletHtmlMailBuilder;
 import org.mobylet.mail.builder.impl.MobyletTextMailBuilder;
 import org.mobylet.mail.config.impl.MobyletMailConfig;
+import org.mobylet.mail.config.impl.MobyletMailMimeConfig;
 import org.mobylet.mail.detector.impl.MobyletMailCarrierDetector;
 import org.mobylet.mail.selector.impl.MobyletMailCharsetSelector;
 
@@ -19,6 +20,7 @@ public class MobyletMailInitializer implements MobyletInitializer {
 	public void initialize() {
 		//Config
 		SingletonUtils.put(new MobyletMailConfig());
+		SingletonUtils.put(new MobyletMailMimeConfig());
 		//Detector
 		SingletonUtils.put(new MobyletMailCarrierDetector());
 		//Selector
