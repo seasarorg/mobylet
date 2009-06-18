@@ -111,7 +111,7 @@ public class MobyletPrintWriter extends PrintWriter {
 	@Override
 	public void write(String s, int off, int len) {
 		if (StringUtils.isNotEmpty(s)) {
-			super.write(s.toCharArray(), off, len);
+			write(s.toCharArray(), off, len);
 		}
 	}
 
