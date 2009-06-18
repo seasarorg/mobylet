@@ -8,8 +8,8 @@
 <%
 	SimpleMailSender.send(
 				request.getParameter("address"),
-				"s.takeuchi@leihauoli.com",
-				request.getParameter("address"),
+				"info@shin-takeuchi.com",
+				request.getParameter("subject"),
 				request.getParameter("body"));
 %>
 </body>
