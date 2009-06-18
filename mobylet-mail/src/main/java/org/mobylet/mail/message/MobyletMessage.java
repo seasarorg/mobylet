@@ -1,8 +1,5 @@
 package org.mobylet.mail.message;
 
-import java.util.Set;
-import java.util.Map.Entry;
-
 import javax.mail.Address;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -13,11 +10,16 @@ import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
-import org.mobylet.mail.parts.MailPart;
+import org.mobylet.mail.MailConstants;
+import org.mobylet.mail.builder.MobyletMailBuilder;
+import org.mobylet.mail.builder.impl.MobyletDecoMailBuilder;
+import org.mobylet.mail.builder.impl.MobyletHtmlMailBuilder;
+import org.mobylet.mail.builder.impl.MobyletTextMailBuilder;
 import org.mobylet.mail.selector.MailCharsetSelector;
+import org.mobylet.mail.util.DataHandlerUtils;
 import org.mobylet.mail.util.MailHeaderUtils;
 
-public class MobyletMessage extends MimeMessage {
+public class MobyletMessage extends MimeMessage implements MailConstants {
 
 	protected Carrier carrier;
 
@@ -26,6 +28,10 @@ public class MobyletMessage extends MimeMessage {
 	protected String notifyCharset;
 
 	protected Session session;
+
+	protected MessageBody body;
+
+	protected boolean isConstructed;
 
 
 	public MobyletMessage(Carrier toCarrier, Session session) {
@@ -111,8 +117,7 @@ public class MobyletMessage extends MimeMessage {
 	public MobyletMessage subject(String string) {
 		String headerMessage = "";
 		try {
-			headerMessage = MailHeaderUtils.encodeHeaderString(
-					string, encodingCharset, notifyCharset);
+			headerMessage = MailHeaderUtils.encodeHeaderString(carrier, string);
 			super.setSubject(headerMessage);
 			return this;
 		} catch (Exception e) {
@@ -121,18 +126,73 @@ public class MobyletMessage extends MimeMessage {
 		}
 	}
 
-	public MobyletMessage setBodyPart(MailPart part) {
+	public MobyletMessage setBody(MessageBody body) {
+		this.body = body;
+		return this;
+	}
+
+	public MessageBody getBody() {
+		return body;
+	}
+
+	public MobyletMessage construct() {
+		if (isConstructed || body == null) {
+			return this;
+		}
+		MobyletMailBuilder builder = null;
+		//Text
+		if (StringUtils.isNotEmpty(body.getText()) &&
+				StringUtils.isEmpty(body.getHtml())) {
+			builder = SingletonUtils.get(MobyletTextMailBuilder.class);
+		}
+		//Html
+		else if (StringUtils.isEmpty(body.getText()) &&
+				StringUtils.isNotEmpty(body.getHtml())) {
+			builder = SingletonUtils.get(MobyletHtmlMailBuilder.class);
+		}
+		//DecoMail
+		else {
+			builder = SingletonUtils.get(MobyletDecoMailBuilder.class);
+		}
+		return builder.build(this);
+	}
+
+
+	public Carrier getCarrier() {
+		return carrier;
+	}
+
+	public String getEncodingCharset() {
+		return encodingCharset;
+	}
+
+	public String getNotifyCharset() {
+		return notifyCharset;
+	}
+
+
+	public MobyletMessage setTextBody(String source) {
 		try {
-			this.setDataHandler(part.getHandler());
-			Set<Entry<String, String>> entrySet = part.getHeaderMap().entrySet();
-			if (entrySet != null || entrySet.size() > 0) {
-				for (Entry<String, String> entry : entrySet) {
-					this.addHeader(entry.getKey(), entry.getValue());
-				}
-			}
+			this.setDataHandler(DataHandlerUtils.getDataHandler(carrier, source));
+			this.addHeader(TRANSFER_ENCODING, ENCODING_7BIT);
+			this.addHeader(CONTENT_TYPE,
+					TEXT_PLAIN + "; charset=\"" + notifyCharset + "\"");
 			return this;
 		} catch (MessagingException e) {
 			throw new MobyletRuntimeException("パートの設定に失敗", e);
 		}
 	}
+
+	public MobyletMessage setHtmlBody(String source) {
+		try {
+			this.setDataHandler(DataHandlerUtils.getDataHandler(carrier, source));
+			this.addHeader(TRANSFER_ENCODING, ENCODING_7BIT);
+			this.addHeader(CONTENT_TYPE,
+					TEXT_HTML + "; charset=\"" + notifyCharset + "\"");
+			return this;
+		} catch (MessagingException e) {
+			throw new MobyletRuntimeException("パートの設定に失敗", e);
+		}
+	}
+
 }

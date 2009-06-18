@@ -7,8 +7,10 @@ import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.mail.MailConstants;
+import org.mobylet.mail.selector.MailCharsetSelector;
 
 public class MailHeaderUtils implements MailConstants {
 
@@ -24,13 +26,19 @@ public class MailHeaderUtils implements MailConstants {
 
 
 	public static String encodeHeaderString(
-			String srcString, String encodingCharset, String notifyCharset) {
+			Carrier carrier, String srcString) {
 		if (StringUtils.isEmpty(srcString)) {
 			return "";
 		}
+		//Get-Charset
+		MailCharsetSelector charsetSelector =
+			SingletonUtils.get(MailCharsetSelector.class);
+		String encodingCharset = charsetSelector.getEncodingCharset(carrier);
+		String notifyCharset = charsetSelector.getNotifyCharset(carrier);
 		byte[] encodedBytes = null;
 		try {
-			encodedBytes = srcString.getBytes(encodingCharset);
+			encodedBytes = MailEmojiUtils.convert(
+					carrier, srcString).getBytes(encodingCharset);
 		} catch (UnsupportedEncodingException e) {
 			throw new MobyletRuntimeException(
 					"文字コード変換に失敗 charset = " + encodingCharset, e);

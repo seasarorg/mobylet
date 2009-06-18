@@ -9,30 +9,30 @@ import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.mail.config.MailConfig;
 import org.mobylet.mail.detector.MailCarrierDetector;
 import org.mobylet.mail.message.MobyletMessage;
-import org.mobylet.mail.parts.builder.PartsBuilder;
-import org.mobylet.mail.parts.builder.TextPartsBuilder;
 
-public class SimpleMailSender {
+public class MobyletMailer {
 
-	public static void send(String to, String from, String subject, String body) {
+	public static MobyletMessage createMessage(String to) {
+		//Config
 		MailConfig config = SingletonUtils.get(MailConfig.class);
 		Session session = config.createSession();
-
+		//Carrier
 		MailCarrierDetector carrierDetector =
 			SingletonUtils.get(MailCarrierDetector.class);
 		Carrier carrier = carrierDetector.getCarrierByAddress(to);
-
-		PartsBuilder builder = new TextPartsBuilder();
+		//Message
 		MobyletMessage message = new MobyletMessage(carrier, session);
-		message.from(from)
-				.to(to)
-				.subject(subject)
-				.setBodyPart(builder.buildPart(carrier, body));
+		return message.to(to);
+	}
 
+	public static MobyletMessage send(MobyletMessage message) {
+		message.construct();
 		try {
 			Transport.send(message);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		return message;
 	}
+
 }
