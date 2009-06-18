@@ -12,10 +12,11 @@ public class MobyletMailCarrierDetector implements MailCarrierDetector {
 		Pattern.compile("^.+@docomo[.]ne[.]jp$");
 
 	public static final Pattern PTN_AU =
-		Pattern.compile("^.+@ezweb[.]ne[.]jp$");
+		Pattern.compile("^.+@(ezweb|.+[.]biz[.]ezweb)[.]ne[.]jp$");
 
 	public static final Pattern PTN_SOFTBANK =
-		Pattern.compile("^.+@(softbank|.+[.]vodafone[.]ne[.]jp|jp-[tc])[.]ne[.]jp$");
+		Pattern.compile("^.+@(disney|softbank|" +
+				"[dhtkrsnq][.]vodafone[.]ne[.]jp|jp-[dhtkrsnq])[.]ne[.]jp$");
 
 
 	@Override
