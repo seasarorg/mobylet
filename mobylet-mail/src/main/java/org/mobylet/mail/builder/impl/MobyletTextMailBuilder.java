@@ -8,11 +8,11 @@ import javax.mail.internet.MimePart;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.mail.MailConstants;
-import org.mobylet.mail.builder.AttachPartHelper;
 import org.mobylet.mail.builder.MobyletMailBuilder;
 import org.mobylet.mail.message.MobyletMessage;
 import org.mobylet.mail.message.MessageBody.Attach;
 import org.mobylet.mail.util.DataHandlerUtils;
+import org.mobylet.mail.util.PartUtils;
 
 public class MobyletTextMailBuilder implements MobyletMailBuilder, MailConstants {
 
@@ -35,7 +35,7 @@ public class MobyletTextMailBuilder implements MobyletMailBuilder, MailConstants
 
 	public MobyletMessage buildAttachedTextMail(MobyletMessage message) {
 		MimeMultipart multipart =
-			AttachPartHelper.createAttachMultipart(message.getCarrier());
+			createAttachMultipart(message.getCarrier());
 		MimeBodyPart part = buildTextPart(
 				new MimeBodyPart(),
 				message.getCarrier(),
@@ -45,7 +45,7 @@ public class MobyletTextMailBuilder implements MobyletMailBuilder, MailConstants
 			multipart.addBodyPart(part);
 			for (Attach attach : message.getBody().getAttaches()) {
 				multipart.addBodyPart(
-						AttachPartHelper.buildAttachPart(
+						PartUtils.buildAttachPart(
 								message.getCarrier(),
 								attach)
 						);
@@ -70,5 +70,24 @@ public class MobyletTextMailBuilder implements MobyletMailBuilder, MailConstants
 		} catch (MessagingException e) {
 			throw new MobyletRuntimeException("パートの設定に失敗", e);
 		}
+	}
+
+	public MimeMultipart createAttachMultipart(Carrier carrier) {
+		MimeMultipart multiPart = new MimeMultipart();
+		try {
+			switch (carrier) {
+			case DOCOMO:
+			case AU:
+			case OTHER:
+				multiPart.setSubType(MIXED);
+				break;
+			case SOFTBANK:
+				multiPart.setSubType(RELATED);
+				break;
+			}
+		} catch (MessagingException e) {
+			throw new MobyletRuntimeException("Multipartが作成出来ません", e);
+		}
+		return multiPart;
 	}
 }

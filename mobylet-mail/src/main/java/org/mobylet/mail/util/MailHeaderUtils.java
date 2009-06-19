@@ -30,6 +30,17 @@ public class MailHeaderUtils implements MailConstants {
 		if (StringUtils.isEmpty(srcString)) {
 			return "";
 		}
+		//Ascii-Check
+		boolean isAsciiAll = true;
+		for (char c : srcString.toCharArray()) {
+			if (c > 0xFF) {
+				isAsciiAll = false;
+				break;
+			}
+		}
+		if (isAsciiAll) {
+			return srcString;
+		}
 		//Get-Charset
 		MailCharsetSelector charsetSelector =
 			SingletonUtils.get(MailCharsetSelector.class);

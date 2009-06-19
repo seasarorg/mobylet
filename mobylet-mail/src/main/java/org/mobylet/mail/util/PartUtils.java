@@ -1,24 +1,35 @@
-package org.mobylet.mail.builder;
+package org.mobylet.mail.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.mail.MailConstants;
+import org.mobylet.mail.builder.HtmlPart;
 import org.mobylet.mail.config.MailMimeConfig;
 import org.mobylet.mail.message.MessageBody.Attach;
-import org.mobylet.mail.util.MailHeaderUtils;
 
-public class AttachPartHelper implements MailConstants {
+public class PartUtils implements MailConstants {
+
+	public static final Pattern PATTERN_IMGTAG =
+		Pattern.compile("<(img|IMG)[ ]+.+?>");
+
+	public static final Pattern PATTERN_INLINEIMAGESRC =
+		Pattern.compile("src[ ]*=[ ]*\"[0-9a-zA-Z._/:\\\\-]+\"");
+
 
 	public static MimeBodyPart buildAttachPart(Carrier carrier, Attach attach) {
 		MimeBodyPart part = new MimeBodyPart();
@@ -69,14 +80,45 @@ public class AttachPartHelper implements MailConstants {
 		return part;
 	}
 
-	public static MimeMultipart createAttachMultipart(Carrier carrier) {
-		MimeMultipart multiPart = new MimeMultipart();
-		try {
-			multiPart.setSubType(MIXED);
-		} catch (MessagingException e) {
-			throw new MobyletRuntimeException("Multipartが作成出来ません", e);
+	public static HtmlPart buildHtmlPart(Carrier carrier, String body) {
+		List<MimeBodyPart> inlineParts = new ArrayList<MimeBodyPart>();
+		StringBuffer buf = new StringBuffer("");
+		List<Attach> inlines = new ArrayList<Attach>();
+		//ReBuild-Html
+		Matcher imgTagMatcher = PATTERN_IMGTAG.matcher(body);
+		int cidindex = 0;
+		while (imgTagMatcher.find()) {
+			String cid = cidindex + "@mobylet";
+			String imgTagString = imgTagMatcher.group();
+			Matcher srcAttMatcher =
+				PATTERN_INLINEIMAGESRC.matcher(imgTagString);
+			if (srcAttMatcher.find()) {
+				String srcString = srcAttMatcher.group();
+				String srcValue = srcString.substring(
+						srcString.indexOf("\"") + 1,
+						srcString.lastIndexOf("\"")
+						);
+				inlines.add(
+						new Attach(srcValue,
+								cid,
+								ResourceUtils.getResourceFileOrInputStream(srcValue))
+						);
+			}
+			imgTagMatcher.appendReplacement(buf, "<img src=\"cid:"+cid+"\">");
+			cidindex++;
 		}
-		return multiPart;
+		imgTagMatcher.appendTail(buf);
+		HtmlPart htmlPart = new HtmlPart(buf.toString());
+		//Build-InlineBody
+		if (inlines.size() != 0) {
+			for (Attach inline : inlines) {
+				inlineParts.add(buildAttachPart(carrier, inline));
+			}
+		}
+		htmlPart.setInlineParts(inlineParts);
+		return htmlPart;
 	}
+
+
 
 }
