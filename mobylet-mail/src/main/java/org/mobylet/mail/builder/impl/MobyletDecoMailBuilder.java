@@ -56,7 +56,11 @@ public class MobyletDecoMailBuilder implements MobyletMailBuilder, MailConstants
 		MimeMultipart overMultipart = new MimeMultipart();
 		MimeMultipart innerMultipart = new MimeMultipart();
 		try {
-			overMultipart.setSubType(RELATED);
+			if (message.getCarrier() == Carrier.AU) {
+				overMultipart.setSubType(MIXED);
+			} else {
+				overMultipart.setSubType(RELATED);
+			}
 			innerMultipart.setSubType(ALTERNATIVE);
 			//TextPart
 			MobyletTextMailBuilder textBuilder =
