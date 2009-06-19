@@ -7,10 +7,6 @@ version="2.4">
     <filter>
         <filter-name>encodingfilter</filter-name>
         <filter-class>org.mobylet.core.http.MobyletFilter</filter-class>
-        <init-param>
-        	<param-name>mobylet.chain.initializers</param-name>
-        	<param-value>org.mobylet.mail.initializer.MobyletMailInitializer</param-value>
-        </init-param>
     </filter>
 
     <filter-mapping>

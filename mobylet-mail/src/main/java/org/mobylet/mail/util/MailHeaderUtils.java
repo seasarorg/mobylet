@@ -52,7 +52,7 @@ public class MailHeaderUtils implements MailConstants {
 					carrier, srcString).getBytes(encodingCharset);
 		} catch (UnsupportedEncodingException e) {
 			throw new MobyletRuntimeException(
-					"文字コード変換に失敗 charset = " + encodingCharset, e);
+					"Unsupported Charset = " + encodingCharset, e);
 		}
 		String base64String = Base64Utils.encode(encodedBytes);
 		String base64EncodedString = "=?" + notifyCharset + "?B?" + base64String + "?=";

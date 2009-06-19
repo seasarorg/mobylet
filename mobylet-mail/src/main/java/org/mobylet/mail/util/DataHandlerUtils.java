@@ -30,7 +30,8 @@ public class DataHandlerUtils {
 			buf = ByteBuffer.wrap(
 					MailEmojiUtils.convert(carrier, source).getBytes(encodingCharset));
 		} catch (UnsupportedEncodingException e) {
-			throw new MobyletRuntimeException("Unsupported Charset = " + encodingCharset, e);
+			throw new MobyletRuntimeException(
+					"Unsupported Charset = " + encodingCharset, e);
 		}
 		DataSource dataSource =
 			new ByteArrayDataSource(
