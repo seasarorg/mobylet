@@ -1,7 +1,5 @@
 package org.mobylet.mail.initializer;
 
-import java.util.Properties;
-
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.mail.builder.impl.MobyletDecoMailBuilder;
@@ -35,11 +33,6 @@ public class MobyletMailInitializer implements MobyletInitializer {
 	@Override
 	public boolean isInitialized() {
 		return isInitialize;
-	}
-
-	@Override
-	public void readProperties(Properties props) {
-		//NOP
 	}
 
 }
