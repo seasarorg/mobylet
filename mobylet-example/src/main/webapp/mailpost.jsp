@@ -10,8 +10,8 @@
 	MobyletMessage message = MobyletMailer.createMessage(request.getParameter("address"));
 	MessageBody body = new MessageBody();
 	body.setHtml("<html><body>テストHTML</body></html>");
-	body.setText("テストテキスト");
-	message.from("info@shin-takeuchi.com")
+	body.setText(request.getParameter("body");
+	message.from("info@mobylet.org")
 		.subject(request.getParameter("subject"))
 		.setBody(body);
 	MobyletMailer.send(message);
