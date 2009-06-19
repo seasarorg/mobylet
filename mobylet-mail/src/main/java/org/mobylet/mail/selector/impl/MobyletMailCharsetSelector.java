@@ -1,16 +1,11 @@
 package org.mobylet.mail.selector.impl;
 
-import java.nio.charset.spi.CharsetProvider;
-
-import org.mobylet.charset.MobyletCharsetProvider;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefCharset;
 import org.mobylet.mail.MailConstants;
 import org.mobylet.mail.selector.MailCharsetSelector;
 
 public class MobyletMailCharsetSelector implements MailCharsetSelector {
-
-	protected CharsetProvider provider = new MobyletCharsetProvider();
 
 	@Override
 	public String getEncodingCharset(Carrier carrier) {
