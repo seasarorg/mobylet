@@ -1,5 +1,9 @@
 package org.mobylet.core.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.util.StringUtils;
 
 public class MobyletConfig {
@@ -10,12 +14,17 @@ public class MobyletConfig {
 
 	protected String configDir;
 
+	protected List<MobyletInitializer> initializers;
+
 	protected String deviceDir;
 
 	protected String emojiDir;
 
+
+
 	public MobyletConfig(String configDir) {
 		this.configDir = configDir;
+		initializers = new ArrayList<MobyletInitializer>();
 	}
 
 	public String getDeviceDir() {
@@ -44,6 +53,18 @@ public class MobyletConfig {
 
 	public void setEmojiDir(String emojiDir) {
 		this.emojiDir = emojiDir;
+	}
+
+	public void addInitializer(MobyletInitializer initializer) {
+		initializers.add(initializer);
+	}
+
+	public boolean removeInitializer(MobyletInitializer initializer) {
+		return initializers.remove(initializer);
+	}
+
+	public List<MobyletInitializer> getInitializers() {
+		return initializers;
 	}
 
 }

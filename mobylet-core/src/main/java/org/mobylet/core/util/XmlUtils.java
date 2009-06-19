@@ -28,9 +28,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class XmlUtils {
 
-	public static void parseSax(String path, DefaultHandler handler) {
+	public static boolean parseSax(String path, DefaultHandler handler) {
 		if (StringUtils.isEmpty(path)) {
-			return;
+			return false;
 		}
 		InputStream xmlStream = null;
 		try {
@@ -39,7 +39,9 @@ public class XmlUtils {
 				SAXParserFactory spfactory = SAXParserFactory.newInstance();
 				SAXParser parser = spfactory.newSAXParser();
 				parser.parse(xmlStream, handler);
+				return true;
 			}
+			return false;
 		} catch (ParserConfigurationException e) {
 			throw new MobyletRuntimeException(
 					"重大な構成エラーがあります [" + path + "]", e);

@@ -17,8 +17,6 @@ package org.mobylet.core.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -30,20 +28,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.Carrier;
-import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.MobyletConfig;
-import org.mobylet.core.define.DefPath;
-import org.mobylet.core.define.DefProperties;
+import org.mobylet.core.config.xml.MobyletConfigXmlReader;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
-import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
 import org.mobylet.core.selector.DialectSelector;
-import org.mobylet.core.util.CSVSplitUtils;
 import org.mobylet.core.util.RequestUtils;
-import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
-import org.mobylet.core.util.StringUtils;
 
 public class MobyletFilter implements Filter {
 
@@ -89,7 +81,6 @@ public class MobyletFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 		initSingletonContainer(filterConfig);
 		initInitializer(filterConfig);
-		initChainInitializer(filterConfig);
 	}
 
 
@@ -99,7 +90,6 @@ public class MobyletFilter implements Filter {
 		}
 	}
 
-
 	protected void initInitializer(FilterConfig filterConfig) {
 		String configDir = "";
 		if (filterConfig != null) {
@@ -108,80 +98,13 @@ public class MobyletFilter implements Filter {
 				configDir = "";
 			}
 		}
-		SingletonUtils.put(new MobyletConfig(configDir));
-		Properties properties = new Properties();
-		String configPath = configDir + DefPath.CONFIG_PATH;
-		try {
-			properties.load(
-					ResourceUtils.getResourceFileOrInputStream(configPath));
-		} catch (Exception e) {
-			throw new MobyletRuntimeException(
-					configPath+"の読み込みに失敗しました", e);
-		}
-		String className = properties.getProperty(DefProperties.KEY_INITIALIZER);
-		MobyletInitializer initializer = null;
-		if (StringUtils.isEmpty(className)) {
-			initializer =
-				SingletonUtils.get(MobyletInitializer.class);
-			if (initializer == null) {
-				initializer = new MobyletInitializerImpl();
-			}
-		} else {
-			try {
-				Class<?> initializerClass = Class.forName(className);
-				Object initializerObj = initializerClass.newInstance();
-				if (initializerObj instanceof MobyletInitializer) {
-					initializer =
-						MobyletInitializer.class.cast(initializerObj);
-				} else {
-					throw new MobyletRuntimeException(
-							"Class["+className+"]はMobyletInitializerを実装していません", null);
-				}
-			} catch (ClassNotFoundException e) {
-				throw new MobyletRuntimeException(
-						"Class["+className+"]が見つかりません", e);
-			} catch (InstantiationException e) {
-				throw new MobyletRuntimeException(
-						"Class["+className+"]のインスタンスを生成できません", e);
-			} catch (IllegalAccessException e) {
-				throw new MobyletRuntimeException(
-						"Class["+className+"]にアクセスできません", e);
-			}
-		}
+		MobyletConfigXmlReader configXml =
+			new MobyletConfigXmlReader(configDir);
+		MobyletConfig config = configXml.getConfig();
 		//初期化
-		if (initializer != null) {
-			initializer.readProperties(properties);
+		for (MobyletInitializer initializer : config.getInitializers()) {
 			initializer.initialize();
 			SingletonUtils.put(initializer);
-		}
-	}
-
-
-	protected void initChainInitializer(FilterConfig filterConfig) {
-		String strInitializers = null;
-		if (filterConfig != null) {
-			strInitializers = filterConfig.getInitParameter("mobylet.chain.initializers");
-			if (StringUtils.isEmpty(strInitializers)) {
-				return;
-			}
-		} else {
-			return;
-		}
-		//チェイン初期化
-		List<String> initializers = CSVSplitUtils.splitLine(strInitializers);
-		for (String strInitializer : initializers) {
-			try {
-				Class<?> clazz = Class.forName(strInitializer);
-				Object initializerObj = clazz.newInstance();
-				if (initializerObj instanceof MobyletInitializer) {
-					MobyletInitializer initializer =
-						MobyletInitializer.class.cast(initializerObj);
-					initializer.initialize();
-				}
-			} catch (Exception e) {
-				throw new MobyletRuntimeException(
-						"[ChainInitialize]初期化に失敗しました className = " + strInitializer, e);
-			}
 		}
 	}
 

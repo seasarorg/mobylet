@@ -15,9 +15,6 @@
  */
 package org.mobylet.core.initializer.impl;
 
-import java.util.Properties;
-
-import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.define.DefProperties;
 import org.mobylet.core.detector.impl.MobyletCarrierDetector;
 import org.mobylet.core.device.impl.MobyletDevicePool;
@@ -68,15 +65,5 @@ public class MobyletInitializerImpl
 		SingletonUtils.put(new MobyletImageScaleHelper());
 		//initialized
 		super.initialize();
-	}
-
-	@Override
-	public void readProperties(Properties props) {
-		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-		if (props != null) {
-			config.setDeviceDir(props.getProperty(KEY_DEVICE_DIR));
-			config.setEmojiDir(props.getProperty(KEY_EMOJI_DIR));
-		}
-		SingletonUtils.put(config);
 	}
 }
