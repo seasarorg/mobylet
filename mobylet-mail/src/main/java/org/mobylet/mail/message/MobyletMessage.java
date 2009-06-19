@@ -154,6 +154,7 @@ public class MobyletMessage extends MimeMessage implements MailConstants {
 		else {
 			builder = SingletonUtils.get(MobyletDecoMailBuilder.class);
 		}
+		isConstructed = true;
 		return builder.build(this);
 	}
 

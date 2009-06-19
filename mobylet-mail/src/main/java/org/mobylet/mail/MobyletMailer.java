@@ -26,7 +26,7 @@ public class MobyletMailer {
 	}
 
 	public static MobyletMessage send(MobyletMessage message) {
-		message.construct();
+		message = message.construct();
 		try {
 			Transport.send(message);
 		} catch (MessagingException e) {

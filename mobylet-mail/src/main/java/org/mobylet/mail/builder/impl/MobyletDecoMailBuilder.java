@@ -43,10 +43,14 @@ public class MobyletDecoMailBuilder implements MobyletMailBuilder, MailConstants
 									attach)
 						);
 				}
-				message.setContent(topMultipart);
 			} catch (MessagingException e) {
 				throw new MobyletRuntimeException("メッセージ構築時に例外発生", e);
 			}
+		}
+		try {
+			message.setContent(topMultipart);
+		} catch (MessagingException e) {
+			throw new MobyletRuntimeException("メッセージ構築時に例外発生", e);
 		}
 		return message;
 
