@@ -53,6 +53,8 @@ public class MobyletFilter implements Filter {
 		RequestUtils.set(httpRequest);
 		try {
 			processFilter(chain, httpRequest, httpResponse);
+		} catch (Exception e) {
+			throw new ServletException(e);
 		} finally {
 			RequestUtils.remove();
 		}
