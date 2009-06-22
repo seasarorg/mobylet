@@ -65,7 +65,7 @@ body, input, select, textarea, td, li ,a {
 	font-family: Helvetica , 'メイリオ' , Meiryo , "ＭＳ Ｐゴシック" , "ヒラギノ角ゴ ProW3" , 'Hiragino Kaku Gothic Pro' , Osaka, Arial, sans-serif;
 	font-size:9pt;
 	color:#3F2800;
-	line-height: 150%;
+	line-height: 140%;
 }
 
 html ,body {
@@ -74,8 +74,9 @@ html ,body {
 
 h2 {
 	width: 100%;
-	margin-top: 10px;
+	margin-top: 5px;
 	margin-bottom: 10px;
+	padding-top: 5px;
 	padding-bottom: 5px;
 }
 
@@ -91,7 +92,7 @@ h2.green {
 
 h3 {
 	width: 100%;
-	margin-top: 10px;
+	margin-top: 15px;
 	margin-bottom: 10px;
 	padding-bottom: 5px;
 	padding-left: 2px;
@@ -103,6 +104,15 @@ h3.red {
 }
 
 h3.green {
+	color: #008800;
+	border-bottom: 1px solid #008800;
+}
+
+h4 {
+	width: 100%;
+	margin-bottom: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
 	color: #008800;
 	border-bottom: 1px solid #008800;
 }
@@ -236,6 +246,22 @@ th {
 .lm {
 	margin-left: 30px;
 }
+
+.img {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #000000;
+	padding: 1px;
+}
+
+.menu {
+	margin-left: 10px;
+}
+
+.menu li {
+	list-style-type: none;
+}
+
 .wLC {
 	width: 600px;
 }
@@ -283,6 +309,8 @@ th {
 
 .code {
 	font-family: courier new;
+	color: #FFFFFF;
+	background-color: #555555;
 	padding:5px;
 	border: solid 1px #000;
 }

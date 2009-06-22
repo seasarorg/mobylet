@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>mobylet</title>
+<title>Java/OSS/携帯Webアプリケーション構築フレームワーク | 初めての方へ | mobylet</title>
 <meta http-equiv="Content-Language" content="ja" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
-<meta name="description" content="モバイルWebアプリケーション構築Javaフレームワーク | mobylet" />
-<meta name="keywords" content="携帯,モバイル,Java,OSS,mobylet" />
-<script src="js/rollover.js" type="text/javascript"></script>
-<link href="css/style.css" rel="stylesheet" type="text/css" />
+<meta name="description" content="「mobylet」はJavaで作られたオープンソースのモバイルWebアプリケーションフレームワークで、様々なWebフレームワークと共に利用することが可能です。" />
+<meta name="keywords" content="携帯,モバイル,Web,Java,OSS,絵文字,mobylet" />
+<script src="../js/rollover.js" type="text/javascript"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <!-- ↓wrapperArea -->
@@ -17,152 +17,175 @@
 <div id="wrapper">
 <!-- ↓headerArea -->
 	<div id="header" class="container">
-		<h1><a id="logo" href="index.html" title="mobylet">mobylet</a></h1>
+		<h1><a id="logo" href="../index.html" title="mobylet">mobylet</a></h1>
 	</div>
 <!-- ↑headerArea -->
 <!-- ↓glovalNaviArea -->
 	<div id="globalNavi" class="container">
 		<ul id="mainmenu" class="container">
-			<li><img src="img/globalnavi/bg_o.gif" alt="初めての方へ" title="初めての方へ"/></li>
-			<li><a href="settings.html"><img src="img/globalnavi/st.gif" alt="セットアップ" title="セットアップ" class="imgover"/></a></li>
-			<li><a href="function.html"><img src="img/globalnavi/ft.gif" alt="機能リファレンス" title="機能リファレンス" class="imgover"/></a></li>
-			<li><a href="download.html"><img src="img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
-			<li><a href="https://www.seasar.org/issues/browse/MOBYLET"><img src="img/globalnavi/jr.gif" alt="JIRA" title="JIRA" class="imgover"></a></li>
-			<li><a href="information.html"><img src="img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
-			<li><a href="http://blog.livedoor.jp/mobylet/"><img src="img/globalnavi/bl.gif" alt="ブログ" title="ブログ" class="imgover"></a></li>
+			<li><img src="../img/globalnavi/bg_o.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></li>
+			<li><a href="settings/"><img src="../img/globalnavi/st.gif" alt="セットアップ" title="セットアップ" class="imgover"/></a></li>
+			<li><a href="references/"><img src="../img/globalnavi/ft.gif" alt="機能リファレンス" title="機能リファレンス" class="imgover"/></a></li>
+			<li><a href="downloads/"><img src="../img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
+			<li><a href="https://www.seasar.org/issues/browse/MOBYLET" target="_blank"><img src="../img/globalnavi/jr.gif" alt="JIRA" title="JIRA" class="imgover"></a></li>
+			<li><a href="informations/"><img src="../img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
+			<li><a href="http://blog.livedoor.jp/mobylet/" target="_blank"><img src="../img/globalnavi/bl.gif" alt="ブログ" title="ブログ" class="imgover"></a></li>
 		</ul>
 	</div>
 <!-- ↑glovalNaviArea -->
 <!-- ↓contentsArea -->
 	<div id="contents" class="container">
-		<div id="leftcontents">
-			<div id="uppercontents">
-				<h2 class="green">To First One</h2>
-				<p>
-mobyletは特定のアプリケーションサーバやコンテナに依存していないため、<br/>
-最小限の構成ですぐに動作させることができます。<br/>
-<br/>
-それでは実際にサンプルプロジェクトを使用して、mobyletの便利な機能を実感してください。<br/>
-Eclipse上からmobylet-exampleをチェックアウトして、<a href="settings.html#charset">文字コードの設定</a>を行います。<br/>
-<br/>
-サンプルプロジェクトには必要なjarファイルや設定ファイルが含まれていますので、これで準備完了です。<br/>
-早速アプリケーションサーバを起動して<a href="http://localhost:8080/mobylet-example/" target="_blank">http://localhost:8080/mobylet-example/</a>にアクセスしてください。<br/>
-もしくは↓のリンクをクリックしてプロジェクトをダウンロードしてください。<br />
-<a href="/download/mobylet-example-0.1.0.zip">mobylet-exampleプロジェクト</a><br />
-<br/>
-シュミレーターは、各キャリアが配布している公式シュミレーターか、<a href="http://firemobilesimulator.org/">FireMobileSimulator</a>もお勧めです。
-				</p>
+		<div id="uppercontents">
+<h2 class="green">初めての方へ</h2>
+<p>
+まず、最初に知って貰いたいことがあります。<br />
+それは「mobylet」の基本機能であり、最も強力なツールである「絵文字」の機能です。<br />
+</p>
+<a name="setup" />
+<h3 class="green">セットアップ</h3>
+<p>
+「mobylet」を使ったモバイルWebアプリケーション開発に際して必要な<br />
+次のアプリケーション/ソフトウェアを開発端末にインストールしてください。<br />
+</p>
+<ul class="ts bs lm">
+	<li><a href="http://mozilla.jp/firefox/" target="_blank">Firefox</a>&nbsp;・・・携帯端末を擬似的にエミュレートするために使用するブラウザ</li>
+	<li><a href="http://firemobilesimulator.org/" target="_blank">Fire Mobile Simulator</a>&nbsp;・・・携帯端末をエミュレートするFirefoxのアドオン</li>
+	<li><a href="http://www.nttdocomo.co.jp/service/imode/make/content/pictograph/tool/" target="_blank">i絵文字</a>&nbsp;・・・docomoの絵文字をバイナリコードで直接入力するためのツール</li>
+</ul>
+<p>
+EclipseやJDKなど、Java開発に必要な基本的なもので<br />
+インストールしていないものがあれば、以下のものをインストールして下さい。
+</p>
+<ul class="ts bs lm">
+	<li><a href="http://java.sun.com/javase/ja/6/download.html" target="_blank">JDK6.0</a>&nbsp;・・・JDK6.0以上であればOK</li>
+	<li><a href="http://tomcat.apache.org/download-60.cgi" target="_blank">Tomcat6.0</a>&nbsp;・・・他のWebアプリケーションサーバでもOK（説明はTomcatベースで行います）</li>
+	<li><a href="http://www.eclipse.org/downloads/index.php" target="_blank">Eclipse</a>&nbsp;・・・お手持ちのバージョンのものでOK</li>
+</ul>
+<a name="project" />
+<h3 class="green">ブランクプロジェクトのインポート</h3>
+<p>
+「mobylet」を今すぐ試すことの出来る最小限のブランクプロジェクトを用意しました。<br />
+次のリンクからプロジェクトをダウンロードして、Eclipseにインポートしてみてください。
+</p>
+<ul class="ts bs lm">
+	<li><a href="../resources/mobylet-blank.zip" target="_blank">mobylet-blank project</a></li>
+</ul>
+<p>
+Tomcatのsysdeoプラグインがインストールされている場合、<br />
+プロジェクトはインポートした時点でTomcatプロジェクトとして認識されます。<br />
+（認識されない場合はお使いの環境毎にプロジェクトをWebアプリケーションに関連付けてください）
+</p>
+<h3 class="green">JVMパラメータの設定</h3>
+<p>
+プロジェクトをインポートした後、JVMパラメータの設定を行います。<br />
+Eclipseのツールバーから、[ウィンドウ]→[設定]画面を開き、[Tomcat]→[JVM設定]をクリックします。<br />
+</p>
+<img class="img" src="../img/guides/project00.gif" alt="mobyletブランクプロジェクト"/>
+<p>
+「JVM設定」画面が表示されたら、次の文字列を「JVMパラメータ」に追加します。
+</p>
+<pre class="code">
+-Djava.ext.dirs={mobylet-blankプロジェクトディレクトリ}/extlibs/
+</pre>
+<p>
+この設定は「mobylet」が持つ絵文字を含む文字コードをWebアプリケーション上で利用可能にするために必要な設定です。<br />
+JVMパラメータでの設定を好まない方は、<br />
+「extlibs」ディレクトリ配下のjarを以下のディレクトリに配置することでも利用可能になります。
+</p>
+<pre class="code">
+{JREホームディレクトリ}/lib/ext/
+</pre>
+<p>
+設定方法は上記のどちらでも問題ありません。
+</p>
 
-				<h3 class="green" id="hello">Hello World!</h3>
-				<p>
-Hello World!の文字の両側に絵文字が表示されていますね。<br/>
-次に別キャリアのシュミレーターでもアクセスしてみて下さい。<br/>
-<br/>
-各キャリアに対応した絵文字が表示されていることが確認できましたか？<br/>
-これがmobyletの強力な絵文字表示機能です。<br/>
-<br/>
-ソースをhello.jspを見るとバイナリが埋め込まれていますが、<br/>
-<a href="http://www.nttdocomo.co.jp/service/imode/make/content/pictograph/tool/">i絵文字</a>をインストールするとソース上でも絵文字を確認することができます。<br/>
-<br/>
-Docomoの絵文字以外を使いたい！、バイナリを直接埋め込むのはちょっと。。。という方は、<br/>
-mobyletの絵文字taglibを使ってみましょう。<br/>
-<br/>
-<a href="settings.html#taglib">タグリブの使用</a>を参照して、hello.jspの先頭にtaglibの記述をしてください。<br/>
-次に、晴れ絵文字の箇所を
-				</p>
-				<pre class="code">
-&lt;m:emoji name="雨" carrier="AU"/&gt;</pre>
-				<p>
-としてアクセスしてみましょう。<br/>
-雨絵文字に変わっていますね？別キャリアのシュミレーターでも確認してみましょう。<br/>
-キャリア毎の雨絵文字が表示されましたね<br/>
-<br/>
-このようにmobyletでは簡単に絵文字表示機能を使用することができます。
-				</p>
+<h3 class="green">Tomcatの設定</h3>
+<p>
+TomcatのContextの設定を行います。<br />
+Sysdeoのプラグインをご利用の方は、「mobylet-blank」プロジェクトを右クリックして<br />
+[Tomcatプロジェクト]→[コンテキスト定義を更新]<br />
+を選択することでコンテキストの設定が完了します。<br />
+（※[Tomcatプロジェクト]のコンテキストメニューが表示されない場合はEclipseのTomcatの設定を見直してください）
+</p>
+<img class="img" src="../img/guides/project01.gif" alt="mobyletブランクプロジェクト"/>
 
-				<h3 class="green" id="">端末情報の取得</h3>
-				<p>
-端末情報にアクセスするとキャリアや機種名、ブラウザサイズなどが表示されていますね。<br/>
-各種情報の取得には、まず
-				</p>
-				<pre class="code">
-Mobylet mobylet = MobyletFactory.getInstance();</pre>
-				<p>
-と記述し、キャリアは
-				</p>
-				<pre class="code">
-mobylet.getCarrier()</pre>
-				<p>
-で取得していますね。<br/>
-その他の端末情報は、
-				</p>
-				<pre class="code">
-Device device = mobylet.getDevice();</pre>
-				<p>でデバイス情報を取得して、ディスプレイサイズは</p>
-				<pre class="code">
-DeviceDisplay display = device.getDeviceDisplay();
-display.getWidth()
-display.getHeight()</pre>
-				<p>機種名は</p>
-				<pre class="code">
-DeviceProfile profile = device.getDeviceProfile();
-profile.get("機種名")</pre>
-				<p>
-と書くだけで取得できます。<br/>
-機種名の部分を<a href="">端末情報のキー一覧</a>にある内容に変更すると様々な情報を取得することができます。
-				</p>
+<h3 class="green">Tomcatの起動と絵文字の表示</h3>
+<p>
+Eclipse上からTomcatを起動して、次のURLへアクセスします。
+</p>
+<ul class="ts lm">
+	<li><a href="http://localhost:8080/mobylet-blank/">http://localhost:8080/mobylet-blank/</a></li>
+</ul>
+<p class="ts">
+「This is mobylet blank project.」<br />
+と表示されていれば問題ありません。
+</p>
+<p class="ts">
+それでは、今表示されているページ（JSP）に絵文字を表示してみましょう。<br />
+「mobylet-blank」プロジェクトの「src/main/webapp/」ディレクトリ配下に「index.jsp」があるので、それを開きます。
+</p>
+<img class="img" src="../img/guides/project02.gif" alt=""/>
+<p>
+index.jspに対して、上の絵のように「i絵文字」を使用して太陽の絵文字を直接入力します。<br />
+（※実際にはUTF-8で絵文字のバイナリコードが入力されることになります）
+</p>
 
-				<h3 class="green" id="resize">画像リサイズ</h3>
-				<p>
-画像リサイズを見てみると、mobyletのロゴが10%ずつ縮小されて表示されています。<br/>
-シュミレーターで別端末でアクセスすると、その端末の画像サイズに合わせて画像が縮小されているのが分かります。<br/>
-<br/>
-携帯は端末毎にブラウザサイズが異なるので、画像を表示する際に悩んだことがある人も多いでしょう。<br/>
-resize.jspのソースのように、mobyletでは、
-				</p>
-				<pre class="code">
-&lt;m:img src="./images/resize.jpg" magniWidth="0.8"/&gt;</pre>
-				<p>
-と書くだけで、画像を各端末のブラウザ幅の80%に縮小して表示できます。<br/>
-<br/>
-もちろん縦横比を保ったままリサイズ処理をしているので、画像が汚くなることもありません。<br/>
-色々な端末で、縮小率を変更して試してみましょう。
-				</p>
+<h3 class="green">Fire Mobile Simulatorで確認</h3>
+<p>
+それではFirefoxを立ち上げて、先ほどと同じく次のURLへアクセスします。
+</p>
+<ul class="ts lm">
+	<li><a href="http://localhost:8080/mobylet-blank/">http://localhost:8080/mobylet-blank/</a></li>
+</ul>
+<img class="img" src="../img/guides/project06.gif" alt=""/>
+<p>
+ここでは上の絵のように、絵文字が「〓」マークに表示されていればOKです。<br />
+「mobylet」ではPCなどのブラウザでアクセスした場合、デフォルトで絵文字を「〓」に変換する機能が備わっています。<br />
+逆に言い換えると、mobyletの「絵文字変換機能」が動作している証拠でもあります。<br />
+</p>
+<p class="ts">
+それでは、Fire Mobile Simulatorを利用してdocomoの端末をエミュレートしてみます。
+</p>
+<img class="img" src="../img/guides/project03.gif" alt=""/>
+<p>
+上の絵のように、Fire Mobile Simulatorにデフォルトで設定されている「P903i」を選択して、画面をリフレッシュしてみてください。
+</p>
+<img class="img" src="../img/guides/project04.gif" alt=""/>
+<p>
+このように表示されればOKです。<br />
+正しく絵文字が表示されているのが確認できると思います。<br />
+（※Fire Mobile Simulator上では絵文字は画像に変換、表示されます）
+</p>
+<p class="ts">
+続いてFire Mobile Simulatorでauの端末「W53CA」を選択して、表示してみてください。
+</p>
+<img class="img" src="../img/guides/project05.gif" alt=""/>
+<p>
+この場合、auの太陽の絵文字に変換されて表示されます（太陽の絵文字の種類がdocomoと少し変わっていると思います）。<br />
+</p>
 
-				<h3 class="green" id="gps">位置情報(GPS)の取得</h3>
-				<p>
-GPS情報を使用した機能の開発は、携帯ならではの機能なのでぜひとも実装したい機能です。<br/>
-しかしキャリア毎にリンク記述方法や位置情報の取得方法が異なるため、実装するのは大変です。<br/>
-<br/>
-mobyletでGPS用リンクを作成するには
-				</p>
-				<pre class="code">
-&lt;m:gps kickBackUrl="http://localhost:8080/mobylet-example/gps.jsp"&gt;
-	位置情報(GPS)
-&lt;/m:gps&gt;</pre>
-				<p>
-とするだけです。kickBackUrlに指定した遷移後画面で位置情報を取得するには
-				</p>
-				<pre class="code">
-Mobylet mobylet = MobyletFactory.getInstance();
-Gps gps = mobylet.getGps();
-gps.getLat();//緯度
-gps.getLon();//経度</pre>
-				<p>と記述します。</p>
-			</div>
-			<div id="undercontents">
-			</div>
+<h3 class="green">mobyletの絵文字変換機能はいかがでしたか？</h3>
+<p>
+いかがでしょうか？簡単に絵文字が扱える印象を持っていただけたら幸いです。<br />
+この機能は絵文字の表示だけではなく、フォームからの入力にも対応していて<br />
+メール送信時にアドレスからキャリアを自動判定して、絵文字を変換したメールを送出する機能もあります。<br />
+</p>
+<p class="ts">
+まだまだこれはmobyletの持つ機能の一部です。<br />
+興味が出てきた方は、実際にアプリに組み込んでみたり、チュートリアルを実施してみたりして下さい。<br />
+</p>
+<ul class="ts lm">
+	<li><a href="../settings/">mobyletを使うための設定方法</a></li>
+	<li><a href="../settings/tutorial.html">mobyletチュートリアル（Simple Version）</a></li>
+	<li><!-- <a href="../settings/tutorial-sastruts.html"> -->mobyletチュートリアル（SAStruts Version）※只今準備中<!-- </a> --></li>
+	<li><!-- <a href="../settings/tutorial-gae4j.html"> -->mobyletチュートリアル（GAE/J Version）※只今準備中<!-- </a> --></li>
+</ul>
+<p class="ts">
+mobylet projectチームは、「mobylet」を使った
+素敵なモバイルWebアプリケーションが出来上がることを夢に見ています。
+</p>
 		</div>
-		<div id="rightcontents">
-			<div class="submenu">
-				<p>Menu</p>
-				<ul>
-					<li><a href="#hello">Hello World!</a></li>
-					<li><a href="#profile">端末情報</a></li>
-					<li><a href="#resize">画像リサイズ</a></li>
-					<li><a href="#gps">位置情報(GPS)の取得</a></li>
-				</ul>
-			</div>
+		<div id="undercontents">
 		</div>
 	</div>
 <!-- ↑contentsArea -->
@@ -170,8 +193,8 @@ gps.getLon();//経度</pre>
 	<div id="footer">
 		<div id="copyright">
 			&copy; Copyright The Seasar Foundation and the others 2006, all rights reserved.<br/>
-			<a href="http://www.leihauoli.com/" title="株式会社レイハウオリ">株式会社Lei Hau'oli</a><br/>
-			<a href="http://valueengine.jp/" title="株式会社バリューエンジン">株式会社バリューエンジン</a>
+			constructed by <a href="http://www.leihauoli.com/" title="株式会社レイハウオリ">株式会社Lei Hau'oli</a><br/>
+			supported by <a href="http://valueengine.jp/" title="株式会社バリューエンジン">株式会社バリューエンジン</a>
 		</div>
 	</div>
 <!-- ↑footerArea -->
