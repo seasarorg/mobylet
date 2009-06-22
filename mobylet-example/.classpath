@@ -5,7 +5,7 @@
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar" sourcepath="M2_REPO/javax/mail/mail/1.4/mail-1.4-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-core/0.1.1-SNAPSHOT/mobylet-core-0.1.1-SNAPSHOT.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-core/0.1.1-SNAPSHOT/mobylet-core-0.1.1-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-core/0.1.1-SNAPSHOT/mobylet-core-0.1.1-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-mail/0.1.1-SNAPSHOT/mobylet-mail-0.1.1-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.1.1-SNAPSHOT/mobylet-taglibs-0.1.1-SNAPSHOT.jar"/>
 </classpath>
