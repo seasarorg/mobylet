@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Java/OSS/携帯Webアプリケーション構築フレームワーク | 初めての方へ | mobylet</title>
+<title>Java/OSS/携帯Webアプリケーション構築フレームワーク | mobyletの設定 | mobylet</title>
 <meta http-equiv="Content-Language" content="ja" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
@@ -23,169 +23,202 @@
 <!-- ↓glovalNaviArea -->
 	<div id="globalNavi" class="container">
 		<ul id="mainmenu" class="container">
-			<li><img src="../img/globalnavi/bg_o.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></li>
-			<li><a href="settings/"><img src="../img/globalnavi/st.gif" alt="セットアップ" title="セットアップ" class="imgover"/></a></li>
-			<li><a href="references/"><img src="../img/globalnavi/ft.gif" alt="機能リファレンス" title="機能リファレンス" class="imgover"/></a></li>
-			<li><a href="downloads/"><img src="../img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
+			<li><a href="../guides/"><img src="../img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover"/></a></li>
+			<li><img src="../img/globalnavi/st_o.gif" alt="mobyletの設定" title="mobyletの設定" /></li>
+			<li><a href="../references/"><img src="../img/globalnavi/ft.gif" alt="機能リファレンス" title="機能リファレンス" class="imgover"/></a></li>
+			<li><a href="../downloads/"><img src="../img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover"/></a></li>
 			<li><a href="https://www.seasar.org/issues/browse/MOBYLET" target="_blank"><img src="../img/globalnavi/jr.gif" alt="JIRA" title="JIRA" class="imgover"></a></li>
-			<li><a href="informations/"><img src="../img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
+			<li><a href="../informations/"><img src="../img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover"/></a></li>
 			<li><a href="http://blog.livedoor.jp/mobylet/" target="_blank"><img src="../img/globalnavi/bl.gif" alt="ブログ" title="ブログ" class="imgover"></a></li>
 		</ul>
 	</div>
 <!-- ↑glovalNaviArea -->
 <!-- ↓contentsArea -->
 	<div id="contents" class="container">
-		<div id="uppercontents">
-<h2 class="green">初めての方へ</h2>
+		<div id="leftcontents">
+			<div id="uppercontents">
+
+<h2 class="green">mobyletの設定</h2>
 <p>
-まず、最初に知って貰いたいことがあります。<br />
-それは「mobylet」の基本機能であり、最も強力なツールである「絵文字」の機能です。<br />
+mobyletフレームワークを適用するための設定は、わずか5ステップ。
 </p>
-<a name="setup" />
-<h3 class="green">セットアップ</h3>
+<ol class="ts bs lm">
+	<li>ライブラリをWebアプリケーションのビルドパスに含める</li>
+	<li>MobyletFilterを適用する（web.xmlの編集）</li>
+	<li>文字コードの設定</li>
+	<li>最新の端末情報を取得する（バリューエンジン社提供）</li>
+	<li>taglibの利用設定（任意）</li>
+</ol>
+
+<h3 class="green">ライブラリをWebアプリケーションのビルドパスに含める</h3>
 <p>
-「mobylet」を使ったモバイルWebアプリケーション開発に際して必要な<br />
-次のアプリケーション/ソフトウェアを開発端末にインストールしてください。<br />
-</p>
-<ul class="ts bs lm">
-	<li><a href="http://mozilla.jp/firefox/" target="_blank">Firefox</a>&nbsp;・・・携帯端末を擬似的にエミュレートするために使用するブラウザ</li>
-	<li><a href="http://firemobilesimulator.org/" target="_blank">Fire Mobile Simulator</a>&nbsp;・・・携帯端末をエミュレートするFirefoxのアドオン</li>
-	<li><a href="http://www.nttdocomo.co.jp/service/imode/make/content/pictograph/tool/" target="_blank">i絵文字</a>&nbsp;・・・docomoの絵文字をバイナリコードで直接入力するためのツール</li>
-</ul>
-<p>
-EclipseやJDKなど、Java開発に必要な基本的なもので<br />
-インストールしていないものがあれば、以下のものをインストールして下さい。
-</p>
-<ul class="ts bs lm">
-	<li><a href="http://java.sun.com/javase/ja/6/download.html" target="_blank">JDK6.0</a>&nbsp;・・・JDK6.0以上であればOK</li>
-	<li><a href="http://tomcat.apache.org/download-60.cgi" target="_blank">Tomcat6.0</a>&nbsp;・・・他のWebアプリケーションサーバでもOK（説明はTomcatベースで行います）</li>
-	<li><a href="http://www.eclipse.org/downloads/index.php" target="_blank">Eclipse</a>&nbsp;・・・お手持ちのバージョンのものでOK</li>
-</ul>
-<a name="project" />
-<h3 class="green">ブランクプロジェクトのインポート</h3>
-<p>
-「mobylet」を今すぐ試すことの出来る最小限のブランクプロジェクトを用意しました。<br />
-次のリンクからプロジェクトをダウンロードして、Eclipseにインポートしてみてください。
-</p>
-<ul class="ts bs lm">
-	<li><a href="../resources/mobylet-blank.zip" target="_blank">mobylet-blank project</a></li>
-</ul>
-<p>
-Tomcatのsysdeoプラグインがインストールされている場合、<br />
-プロジェクトはインポートした時点でTomcatプロジェクトとして認識されます。<br />
-（認識されない場合はお使いの環境毎にプロジェクトをWebアプリケーションに関連付けてください）
-</p>
-<h3 class="green">JVMパラメータの設定</h3>
-<p>
-プロジェクトをインポートした後、JVMパラメータの設定を行います。<br />
-Eclipseのツールバーから、[ウィンドウ]→[設定]画面を開き、[Tomcat]→[JVM設定]をクリックします。<br />
-</p>
-<img class="img" src="../img/guides/project00.gif" alt="mobyletブランクプロジェクト"/>
-<p>
-「JVM設定」画面が表示されたら、次の文字列を「JVMパラメータ」に追加します。
+■ Maven2をご利用の方<br />
+<br />
+Maven2をご利用の方は、適用したいプロジェクトのpom.xmlファイルに<br />
+以下のrepository/dependencyを加えることでライブラリをダウンロードできます。
 </p>
 <pre class="code">
--Djava.ext.dirs={mobylet-blankプロジェクトディレクトリ}/extlibs/
+&lt;repository&gt;
+    &lt;id&gt;maven.seasar.org&lt;/id&gt;
+    &lt;name&gt;The Seasar Foundation Maven2 Repository&lt;/name&gt;
+    &lt;url&gt;http://maven.seasar.org/maven2&lt;/url&gt;
+&lt;/repository&gt;
+</pre>
+<pre class="code">
+&lt;dependency&gt;
+    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
+    &lt;artifactId&gt;mobylet-core&lt;/artifactId&gt;
+    &lt;version&gt;0.6.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
+    &lt;artifactId&gt;mobylet-taglibs&lt;/artifactId&gt;
+    &lt;version&gt;0.6.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
+    &lt;artifactId&gt;mobylet-mail&lt;/artifactId&gt;
+    &lt;version&gt;0.6.0&lt;/version&gt;
+&lt;/dependency&gt;
 </pre>
 <p>
-この設定は「mobylet」が持つ絵文字を含む文字コードをWebアプリケーション上で利用可能にするために必要な設定です。<br />
-JVMパラメータでの設定を好まない方は、<br />
-「extlibs」ディレクトリ配下のjarを以下のディレクトリに配置することでも利用可能になります。
+■ その他の方<br />
+<br />
+以下のページから最新バージョンのライブラリを取得し<br />
+プロジェクトに展開、及び適用（WEB-INF/libディレクトリなどに配置）してください。
+</p>
+<ul class="ts bs lm">
+	<li><a href="../downloads/">mobyletライブラリダウンロードページ</a></li>
+</ul>
+
+<h3 class="green">MobyletFilterを適用する</h3>
+<p>
+web.xmlに以下の設定を行います。
+</p>
+<pre class="code">
+&lt;filter&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</pre>
+<p>
+このMobyletFilterはパラメータやレスポンスのエンコード/デコード処理などを行っているため、<br />
+必ずFilterChainの最初に適用するようにしてください。<br />
+（※filter-mappingの最初に記述されていれば問題ありません）<br />
+</p>
+<p class="ts">
+他のフレームワークを併用する場合、既にエンコード用のFilterなどが存在する場合がありますが<br />
+その場合はエンコード用のFilterを外して、MobyletFilterを代わりに使用して下さい。
+</p>
+
+<h3 class="green">文字コードの設定</h3>
+<p>
+まずは以下のページから最新の文字コードライブラリ（mobylet-charset.jar）を取得します。
+</p>
+<ul class="ts bs lm">
+	<li><a href="../downloads/">mobyletライブラリダウンロードページ</a></li>
+</ul>
+<p>
+mobyletの文字コードを利用するために<br />
+以下のディレクトリにライブラリを配置します。
 </p>
 <pre class="code">
 {JREホームディレクトリ}/lib/ext/
 </pre>
 <p>
-設定方法は上記のどちらでも問題ありません。
+インフラの都合などにより、上記のディレクトリにライブラリを配置することが困難な場合、<br />
+JVMパラメータの「-Djava.ext.dirs」を指定することにより<br />
+任意のディレクトリに配置した文字コードライブラリを利用することが可能です。
+</p>
+<p class="ts">
+以下、Tomcatの場合の設定例を記述します。
+</p>
+<p class="ts">
+■ Windowsの場合<br />
+<br />
+Tomcatのbinディレクトリにあるsetenv.batに以下の記述を追加します。
+</p>
+<pre class="code">
+set CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ}
+</pre>
+<p class="ts">
+■ Linuxの場合<br />
+<br />
+Tomcatのbinディレクトリにあるsetenv.shに以下の記述を追加します。
+</p>
+<pre class="code">
+CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ}
+</pre>
+<p class="ts">
+■ Eclipseで動作させる場合<br />
+<br />
+<a href="../guides/">「初めての方へ」</a>の内容に沿って、GUI上で設定してください。
 </p>
 
-<h3 class="green">Tomcatの設定</h3>
+<h3 class="green">最新の端末情報を取得する（バリューエンジン社提供）</h3>
 <p>
-TomcatのContextの設定を行います。<br />
-Sysdeoのプラグインをご利用の方は、「mobylet-blank」プロジェクトを右クリックして<br />
-[Tomcatプロジェクト]→[コンテキスト定義を更新]<br />
-を選択することでコンテキストの設定が完了します。<br />
-（※[Tomcatプロジェクト]のコンテキストメニューが表示されない場合はEclipseのTomcatの設定を見直してください）
+mobyletは<a href="http://valueengine.jp/" target="_blank">バリューエンジン社</a>が無償提供している<br />
+端末プロファイル情報をデフォルトでサポートしています。<br />
+（バリューエンジン社の許諾も頂いております）<br />
+<br />
+<a href="http://valueengine.jp/" target="_blank">バリューエンジン社</a>のホームページから最新版のプロファイル情報（CSVデータ）をダウンロードし、<br />
+以下のようにリネームしてください。
 </p>
-<img class="img" src="../img/guides/project01.gif" alt="mobyletブランクプロジェクト"/>
-
-<h3 class="green">Tomcatの起動と絵文字の表示</h3>
+<pre class="code">
+ProfileData_YYYY-MM-DD.csv → ProfileData.csv
+UserAgent_YYYY-MM-DD.csv → UserAgent.csv
+DisplayInfo_YYYY-MM-DD.csv → DisplayInfo.csv
+</pre>
 <p>
-Eclipse上からTomcatを起動して、次のURLへアクセスします。
+リネームした3種類のファイルをクラスパス上のdeviceディレクトリ（作成する）配下に配置してください。<br />
+例） Maven2を利用したプロジェクトの場合
 </p>
-<ul class="ts lm">
-	<li><a href="http://localhost:8080/mobylet-blank/">http://localhost:8080/mobylet-blank/</a></li>
-</ul>
-<p class="ts">
-「This is mobylet blank project.」<br />
-と表示されていれば問題ありません。
-</p>
-<p class="ts">
-それでは、今表示されているページ（JSP）に絵文字を表示してみましょう。<br />
-「mobylet-blank」プロジェクトの「src/main/webapp/」ディレクトリ配下に「index.jsp」があるので、それを開きます。
-</p>
-<img class="img" src="../img/guides/project02.gif" alt=""/>
+<pre class="code">
+{projectディレクトリ}/src/main/resources/device/
+</pre>
 <p>
-index.jspに対して、上の絵のように「i絵文字」を使用して太陽の絵文字を直接入力します。<br />
-（※実際にはUTF-8で絵文字のバイナリコードが入力されることになります）
+例） 通常のWebアプリケーションプロジェクトの場合
 </p>
-
-<h3 class="green">Fire Mobile Simulatorで確認</h3>
+<pre class="code">
+{webappルート}/WEB-INF/classes/device/
+</pre>
 <p>
-それではFirefoxを立ち上げて、先ほどと同じく次のURLへアクセスします。
-</p>
-<ul class="ts lm">
-	<li><a href="http://localhost:8080/mobylet-blank/">http://localhost:8080/mobylet-blank/</a></li>
-</ul>
-<img class="img" src="../img/guides/project06.gif" alt=""/>
-<p>
-ここでは上の絵のように、絵文字が「〓」マークに表示されていればOKです。<br />
-「mobylet」ではPCなどのブラウザでアクセスした場合、デフォルトで絵文字を「〓」に変換する機能が備わっています。<br />
-逆に言い換えると、mobyletの「絵文字変換機能」が動作している証拠でもあります。<br />
-</p>
-<p class="ts">
-それでは、Fire Mobile Simulatorを利用してdocomoの端末をエミュレートしてみます。
-</p>
-<img class="img" src="../img/guides/project03.gif" alt=""/>
-<p>
-上の絵のように、Fire Mobile Simulatorにデフォルトで設定されている「P903i」を選択して、画面をリフレッシュしてみてください。
-</p>
-<img class="img" src="../img/guides/project04.gif" alt=""/>
-<p>
-このように表示されればOKです。<br />
-正しく絵文字が表示されているのが確認できると思います。<br />
-（※Fire Mobile Simulator上では絵文字は画像に変換、表示されます）
-</p>
-<p class="ts">
-続いてFire Mobile Simulatorでauの端末「W53CA」を選択して、表示してみてください。
-</p>
-<img class="img" src="../img/guides/project05.gif" alt=""/>
-<p>
-この場合、auの太陽の絵文字に変換されて表示されます（太陽の絵文字の種類がdocomoと少し変わっていると思います）。<br />
+端末プロファイル情報を配置するディレクトリは、mobylet.xmlファイルに記述することで変更することも可能です。
 </p>
 
-<h3 class="green">mobyletの絵文字変換機能はいかがでしたか？</h3>
+<h3 class="green">taglibの利用設定（任意）</h3>
 <p>
-いかがでしょうか？簡単に絵文字が扱える印象を持っていただけたら幸いです。<br />
-この機能は絵文字の表示だけではなく、フォームからの入力にも対応していて<br />
-メール送信時にアドレスからキャリアを自動判定して、絵文字を変換したメールを送出する機能もあります。<br />
+ViewにJSPを利用される場合は、便利なtaglibライブラリがあります。<br />
+既にダウンロードしたライブラリの中に「mobylet-taglibs-xxx.jar」が入っていると思いますので<br />
+JSPの上部に以下のpageディレクティブを記述することで、mobyletが提供するtaglibをご利用いただけます。
 </p>
-<p class="ts">
-まだまだこれはmobyletの持つ機能の一部です。<br />
-興味が出てきた方は、実際にアプリに組み込んでみたり、チュートリアルを実施してみたりして下さい。<br />
-</p>
-<ul class="ts lm">
-	<li><a href="../settings/">mobyletを使うための設定方法</a></li>
-	<li><a href="../settings/tutorial.html">mobyletチュートリアル（Simple Version）</a></li>
-	<li><!-- <a href="../settings/tutorial-sastruts.html"> -->mobyletチュートリアル（SAStruts Version）※只今準備中<!-- </a> --></li>
-	<li><!-- <a href="../settings/tutorial-gae4j.html"> -->mobyletチュートリアル（GAE/J Version）※只今準備中<!-- </a> --></li>
-</ul>
-<p class="ts">
-mobylet projectチームは、「mobylet」を使った
-素敵なモバイルWebアプリケーションが出来上がることを夢に見ています。
-</p>
+<pre class="code">
+&lt;%@ taglib prefix="m" uri="http://taglibs.mobylet.org/" %&gt;
+</pre>
+
+			</div>
+			<div id="undercontents">
+			</div>
 		</div>
-		<div id="undercontents">
+		<div id="rightcontents">
+			<div class="submenu">
+				<h4>Settings</h4>
+				<ul class="menu">
+					<li><a href="index.html">mobyletの設定</a></li>
+					<li>mobylet.xmlの設定</li>
+				</ul>
+				<h4 class="ts">Tutorials</h4>
+				<ul class="menu">
+					<li>Simple Version（JSP only）</li>
+					<li>SAStruts Version</li>
+					<li>GAE/J Version</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 <!-- ↑contentsArea -->
