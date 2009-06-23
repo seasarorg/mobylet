@@ -85,7 +85,8 @@ Eclipseのツールバーから、[ウィンドウ]→[設定]画面を開き、
 「JVM設定」画面が表示されたら、次の文字列を「JVMパラメータ」に追加します。
 </p>
 <pre class="code">
--Djava.ext.dirs={mobylet-blankプロジェクトディレクトリ}/extlibs/
+-Djava.ext.dirs={mobylet-blankプロジェクトディレクトリ}/extlibs; (以下続けて)
+                {JREホームディレクトリ}/lib/ext
 </pre>
 <p>
 この設定は「mobylet」が持つ絵文字を含む文字コードをWebアプリケーション上で利用可能にするために必要な設定です。<br />

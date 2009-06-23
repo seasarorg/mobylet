@@ -144,7 +144,8 @@ JVMパラメータの「-Djava.ext.dirs」を指定することにより<br />
 Tomcatのbinディレクトリにあるsetenv.batに以下の記述を追加します。
 </p>
 <pre class="code">
-set CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ}
+set CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ}:
+                        （改行せず）${JREホームディレクトリ}/lib/ext
 </pre>
 <p class="ts">
 ■ Linuxの場合<br />
@@ -152,7 +153,8 @@ set CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディ
 Tomcatのbinディレクトリにあるsetenv.shに以下の記述を追加します。
 </p>
 <pre class="code">
-CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ}
+CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレクトリ};
+                    （改行せず）${JREホームディレクトリ}/lib/ext
 </pre>
 <p class="ts">
 ■ Eclipseで動作させる場合<br />
