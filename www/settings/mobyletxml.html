@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Java/OSS/携帯Webアプリケーション構築フレームワーク | mobyletの設定 | mobylet</title>
+<title>Java/OSS/携帯Webアプリケーション構築フレームワーク | mobylet.xml | mobylet</title>
 <meta http-equiv="Content-Language" content="ja" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
@@ -38,49 +38,82 @@
 		<div id="leftcontents">
 			<div id="uppercontents">
 
-<h2 class="green">mobyletの設定</h2>
+<h2 class="green">mobylet.xml</h2>
 <p>
-mobyletフレームワークを適用するための設定は、わずか5ステップ。
+mobyletの基本的な設定は、全て「mobylet.xml」という設定ファイルに記述します。<br />
+「mobylet.xml」には、主に以下のような設定を記述します。
 </p>
 <ol class="ts bs lm">
-	<li>ライブラリをWebアプリケーションのビルドパスに含める</li>
-	<li>MobyletFilterを適用する（web.xmlの編集）</li>
-	<li>文字コードの設定</li>
-	<li>最新の端末情報を取得する（バリューエンジン社提供）</li>
-	<li>taglibの利用設定（任意）</li>
+	<li>mobylet内部コンポーネント初期化</li>
+	<li>外部ファイル読み込み時のディレクトリ指定</li>
 </ol>
-
-<h3 class="green">ライブラリをWebアプリケーションのビルドパスに含める</h3>
 <p>
-■ Maven2をご利用の方<br />
-<br />
-Maven2をご利用の方は、適用したいプロジェクトのpom.xmlファイルに<br />
-以下のrepository/dependencyを加えることでライブラリをダウンロードできます。
+以下、mobylet.xmlのサンプルとなります。<br />
+（mobylet-core-xxx.jarに含まれているファイルです）
 </p>
 <pre class="code">
-&lt;repository&gt;
-    &lt;id&gt;maven.seasar.org&lt;/id&gt;
-    &lt;name&gt;The Seasar Foundation Maven2 Repository&lt;/name&gt;
-    &lt;url&gt;http://maven.seasar.org/maven2&lt;/url&gt;
-&lt;/repository&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;mobylet&gt;
+    &lt;initializers&gt;
+        &lt;chain&gt;org.mobylet.core.initializer.impl.MobyletInitializerImpl&lt;/chain&gt;
+    &lt;/initializers&gt;
+    &lt;device&gt;
+        &lt;basedir&gt;device/&lt;/basedir&gt;
+    &lt;/device&gt;
+    &lt;emoji&gt;
+        &lt;basedir&gt;emoji/&lt;/basedir&gt;
+    &lt;/emoji&gt;
+&lt;/mobylet&gt;
 </pre>
+<p>
+「mobylet.xml」は、Webアプリケーション単位に用意されなかった場合<br />
+mobylet-core-xxx.jarに含まれているmobylet.xmlを読み込むことで初期化を行いまが<br />
+Webアプリケーション単位にファイルが用意されている場合は、そちらを優先して読み込みます。<br />
+<br />
+「mobylet.xml」を配置するディレクトリはデフォルトでクラスパス上となりますが<br />
+MobyletFilterのInitParameterに指定することで、任意の位置の「mobylet.xml」を使用することも可能です。<br />
+以下、「mobylet.xml」を読み込むディレクトリを設定した例です。<br />
+（※クラスパスからの相対パス指定も可能）
+</p>
 <pre class="code">
-&lt;dependency&gt;
-    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-core&lt;/artifactId&gt;
-    &lt;version&gt;0.6.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-taglibs&lt;/artifactId&gt;
-    &lt;version&gt;0.6.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-mail&lt;/artifactId&gt;
-    &lt;version&gt;0.6.0&lt;/version&gt;
-&lt;/dependency&gt;
+&lt;filter&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;mobylet.config.dir&lt;/param-name&gt;
+        &lt;param-value&gt;/var/mobylet/config/&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/filter&gt;
 </pre>
+
+<h3 class="green">mobylet内部コンポーネント初期化</h3>
+<p>
+mobyletは内部にSingleton-Scope/Request-Scopeの簡易的なコンテナを持っています。<br />
+このコンテナに登録するコンポーネントを初期化する際、<br />
+MobyletInitializerインターフェースを実装したクラスを初期化時に走らせることで<br />
+各種コンポーネントを初期化しています。<br />
+<br />
+以下のように&lt;inilializers&gt;タグ内に&lt;chain&gt;タグで、複数の初期化クラスを指定できます。<br />
+&lt;chain&gt;タグは上から順番に読み込み、初期化処理を行います。<br />
+デフォルトで指定されている「org.mobylet.core.initializer.impl.MobyletInitializerImpl」クラスは<br />
+mobyletフレームワーク内部を初期化するためのクラスですので、このクラスの指定は削除しないでください。<br />
+<br />
+例えばmobylet-mailを利用するためにはmobylet-mailに対しての初期化を行う必要があるため<br />
+以下のように初期化クラスを指定することになります。<br />
+</p>
+<pre class="code">
+&lt;initializers&gt;
+    &lt;chain&gt;org.mobylet.core.initializer.impl.MobyletInitializerImpl&lt;/chain&gt;
+    &lt;chain&gt;org.mobylet.mail.initializer.MobyletMailInitializer&lt;/chain&gt;
+&lt;/initializers&gt;
+</pre>
+<p>
+mobyletフレームワークを拡張する際や、コンポーネントを変更したい場合は<br />
+初期化クラスを別途実装し、chainに指定することで、フレームワークの内部の動作を変更することが可能です。
+</p>
+
+
+
 <p>
 ■ その他の方<br />
 <br />
