@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ImageScaleHelper;
 import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.core.util.URLUtils;
 
 public class MobyletImageScaleServlet extends HttpServlet {
 
@@ -35,14 +37,28 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		}
 		//SecurityCheck
 		boolean isNetworkPath = PathUtils.isNetworkPath(path);
-		if (!isNetworkPath && StringUtils.isEmpty(imageDir)) {
-			return;
-		}
 		if (!isNetworkPath) {
-			if (path.startsWith(File.separator)) {
-				path = path.substring(1);
+			if (StringUtils.isEmpty(imageDir)) {
+				String currentUrl = URLUtils.getCurrentUrl();
+				if (StringUtils.isNotEmpty(currentUrl)) {
+					currentUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/')+1);
+					if (path.startsWith(File.separator)) {
+						path = path.substring(1);
+					}
+					path = currentUrl + path;
+				} else {
+					return;
+				}
+			} else {
+				if (PathUtils.isClimbPath(path)) {
+					throw new MobyletRuntimeException(
+							"危険なパスが指定されています path = " + path, null);
+				}
+				if (path.startsWith(File.separator)) {
+					path = path.substring(1);
+				}
+				path = imageDir + path;
 			}
-			path = imageDir + path;
 		}
 		//Content-Type
 		resp.setContentType(
