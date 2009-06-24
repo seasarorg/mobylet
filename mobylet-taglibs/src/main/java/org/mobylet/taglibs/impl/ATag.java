@@ -8,7 +8,6 @@ import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.util.RequestUtils;
-import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletDynamicBodyTagSupport;
 import org.mobylet.taglibs.config.ATagConfig;
@@ -21,9 +20,8 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 
 	public static final String TAG = "a";
 
-	public static final ATagConfig config =
-		(SingletonUtils.get(ATagConfig.class) != null ?
-				SingletonUtils.get(ATagConfig.class) : new ATagConfig());
+	public static final ATagConfig config = new ATagConfig();
+
 
 	protected String href;
 
