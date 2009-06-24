@@ -90,21 +90,27 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		if (StringUtils.isNotEmpty(cacheDir) &&
 				display != null) {
 			String cacheFileName = PathUtils.getUniqueFilePath(path);
+			String w = req.getParameter(ImageScaleConfig.PKEY_WIDTH);
+			String h = req.getParameter(ImageScaleConfig.PKEY_HEIGHT);
 			if (isNetworkPath) {
-				String w = req.getParameter(ImageScaleConfig.PKEY_WIDTH);
-				String h = req.getParameter(ImageScaleConfig.PKEY_HEIGHT);
 				connection =
 					HttpUtils.getHttpUrlConnection(path);
 				connection.setRequestMethod("HEAD");
 				cacheFileName = cacheFileName + "+" +
 						PathUtils.getUniqueFilePath(
-								connection.getHeaderField("Last-Modified")) +
-						(StringUtils.isNotEmpty(w) ?
-								"w" + w + "x" + display.getWidth() : "") +
-						(StringUtils.isNotEmpty(h) ?
-								"h" + h + "x" + display.getHeight() : "");
+								connection.getHeaderField("Last-Modified"));
 				connection.disconnect();
+			} else {
+				File localImage = new File(path);
+				if (localImage.exists()) {
+					cacheFileName = cacheFileName + "+" + localImage.lastModified();
+				}
 			}
+			cacheFileName = cacheFileName +
+				(StringUtils.isNotEmpty(w) ?
+						"w" + w + "x" + display.getWidth() : "") +
+				(StringUtils.isNotEmpty(h) ?
+						"h" + h + "x" + display.getHeight() : "");
 			cacheFile = new File(cacheDir + cacheFileName);
 			if (cacheFile != null &&
 					cacheFile.exists() &&
