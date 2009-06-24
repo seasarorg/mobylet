@@ -157,6 +157,7 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		resp.getOutputStream().flush();
 		//CacheWrite
 		if (display != null &&
+				new File(cacheDir).exists() &&
 				cacheFile != null &&
 				!cacheFile.exists()) {
 			if (cacheFile.createNewFile()) {
