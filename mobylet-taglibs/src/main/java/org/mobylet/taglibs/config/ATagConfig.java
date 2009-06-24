@@ -74,9 +74,4 @@ public class ATagConfig extends AbstractTagConfig {
 		return isUidOrGuidQueryRequiredInSecure;
 	}
 
-	public void setUidOrGuidQueryRequiredInSecure(
-			boolean isUidOrGuidQueryRequiredInSecure) {
-		this.isUidOrGuidQueryRequiredInSecure = isUidOrGuidQueryRequiredInSecure;
-	}
-
 }
