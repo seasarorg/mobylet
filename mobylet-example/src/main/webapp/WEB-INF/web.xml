@@ -14,6 +14,20 @@ version="2.4">
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+	<servlet>
+		<servlet-name>imageScaleServlet</servlet-name>
+		<servlet-class>org.mobylet.core.http.MobyletImageScaleServlet</servlet-class>
+		<init-param>
+			<param-name>mobylet.imagescaler.cachedir</param-name>
+			<param-value>c:\\\\cachedir\\\\</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>imageScaleServlet</servlet-name>
+		<url-pattern>/imageScaler</url-pattern>
+	</servlet-mapping>
+
     <jsp-config>
     	<jsp-property-group>
     		<url-pattern>*.jsp</url-pattern>

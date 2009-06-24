@@ -4,15 +4,20 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 
+import org.mobylet.core.http.MobyletImageScaleServlet;
 import org.mobylet.core.image.impl.MobyletImageScaleHelper;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletDynamicSimpleTagSupport;
+import org.mobylet.taglibs.config.ImageTagConfig;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.taglibs.utils.UrlUtils;
 
-public class AutoScaleImageTag extends MobyletDynamicSimpleTagSupport {
+public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
 	public static final String TAG = "img";
+
+	public static ImageTagConfig config = new ImageTagConfig();
+
 
 	protected String src = "";
 
@@ -23,6 +28,14 @@ public class AutoScaleImageTag extends MobyletDynamicSimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
+		if(config.useServlet()) {
+			useServlet();
+		} else {
+			useFilter();
+		}
+	}
+
+	protected void useFilter() {
 		String imgSrc = src;
 		if (StringUtils.isNotEmpty(imgSrc)) {
 			imgSrc = UrlUtils.addParameter(
@@ -42,7 +55,28 @@ public class AutoScaleImageTag extends MobyletDynamicSimpleTagSupport {
 		JspWriterUtils.write(
 				getJspContext().getOut(),
 				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
+	}
 
+	protected void useServlet() {
+		String imgSrc = config.getServletPath();
+		if (StringUtils.isNotEmpty(imgSrc)) {
+			imgSrc = UrlUtils.addParameter(
+					imgSrc,
+					MobyletImageScaleServlet.KEY_IMGPATH,
+					src);
+			imgSrc = UrlUtils.addParameter(
+					imgSrc,
+					MobyletImageScaleHelper.PKEY_WIDTH,
+					magniWidth);
+			imgSrc = UrlUtils.addParameter(
+					imgSrc,
+					MobyletImageScaleHelper.PKEY_HEIGHT,
+					magniHeight);
+		}
+		addAttribute("src", imgSrc);
+		JspWriterUtils.write(
+				getJspContext().getOut(),
+				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
 	}
 
 	public String getSrc() {

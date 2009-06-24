@@ -7,16 +7,22 @@ version="2.4">
     <filter>
         <filter-name>encodingfilter</filter-name>
         <filter-class>org.mobylet.core.http.MobyletFilter</filter-class>
-        <init-param>
-        	<param-name>mobylet.chain.initializers</param-name>
-        	<param-value>org.mobylet.mail.initializer.MobyletMailInitializer</param-value>
-        </init-param>
     </filter>
 
     <filter-mapping>
         <filter-name>encodingfilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+	<servlet>
+		<servlet-name>imageScaleServlet</servlet-name>
+		<servlet-class>org.mobylet.core.http.MobyletImageScaleServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>imageScaleServlet</servlet-name>
+		<url-pattern>/imageScaler</url-pattern>
+	</servlet-mapping>
 
     <jsp-config>
     	<jsp-property-group>

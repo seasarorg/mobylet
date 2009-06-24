@@ -2,27 +2,10 @@
   <classpathentry kind="src" path="src/main/java"/>
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
   <classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar" sourcepath="M2_REPO/javax/mail/mail/1.4/mail-1.4-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-charset/0.6.0/mobylet-charset-0.6.0.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-charset/0.6.0/mobylet-charset-0.6.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/C:/Documents%20and%20Settings/takeuchishin/.m2/repository/org/seasar/mobylet/mobylet-charset/0.6.0/mobylet-charset-0.6.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-core/0.6.0/mobylet-core-0.6.0.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-core/0.6.0/mobylet-core-0.6.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/C:/Documents%20and%20Settings/takeuchishin/.m2/repository/org/seasar/mobylet/mobylet-core/0.6.0/mobylet-core-0.6.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-mail/0.6.0/mobylet-mail-0.6.0.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-mail/0.6.0/mobylet-mail-0.6.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/C:/Documents%20and%20Settings/takeuchishin/.m2/repository/org/seasar/mobylet/mobylet-mail/0.6.0/mobylet-mail-0.6.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.6.0/mobylet-taglibs-0.6.0.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.6.0/mobylet-taglibs-0.6.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/C:/Documents%20and%20Settings/takeuchishin/.m2/repository/org/seasar/mobylet/mobylet-taglibs/0.6.0/mobylet-taglibs-0.6.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-core/0.7.0-SNAPSHOT/mobylet-core-0.7.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-core/0.7.0-SNAPSHOT/mobylet-core-0.7.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-mail/0.6.0/mobylet-mail-0.6.0.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-mail/0.6.0/mobylet-mail-0.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.7.0-SNAPSHOT/mobylet-taglibs-0.7.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.7.0-SNAPSHOT/mobylet-taglibs-0.7.0-SNAPSHOT-sources.jar"/>
 </classpath>

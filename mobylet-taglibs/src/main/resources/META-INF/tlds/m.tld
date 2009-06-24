@@ -181,7 +181,7 @@
 	<tag>
 		<name>img</name>
 		<tag-class>
-			org.mobylet.taglibs.impl.AutoScaleImageTag
+			org.mobylet.taglibs.impl.ImageTag
 		</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
