@@ -14,10 +14,10 @@ public abstract class AbstractTagConfig {
 		if (tagConfig != null) {
 			return tagConfig;
 		} else {
+			tagConfig = new Properties();
 			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 			String path = this.getClass().getName() + ".properties";
 			try {
-				tagConfig = new Properties();
 				tagConfig.load(ResourceUtils.getResourceFileOrInputStream(
 						config.getConfigDir() + path));
 			} catch (Exception e) {
