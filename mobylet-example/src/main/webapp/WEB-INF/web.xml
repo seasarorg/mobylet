@@ -19,7 +19,7 @@ version="2.4">
 		<servlet-class>org.mobylet.core.http.MobyletImageScaleServlet</servlet-class>
 		<init-param>
 			<param-name>mobylet.imagescaler.cachedir</param-name>
-			<param-value>c:\\\\cachedir\\\\</param-value>
+			<param-value>c:/cachedirs/</param-value>
 		</init-param>
 	</servlet>
 
