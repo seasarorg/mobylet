@@ -15,4 +15,10 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_BASEDIR = "basedir";
 
+	public static final String TAG_PROXY = "proxy";
+
+	public static final String TAG_HOST = "host";
+
+	public static final String TAG_PORT = "port";
+
 }

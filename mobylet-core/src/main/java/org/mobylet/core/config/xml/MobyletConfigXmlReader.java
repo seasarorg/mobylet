@@ -1,5 +1,8 @@
 package org.mobylet.core.config.xml;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
 import java.util.Stack;
 
 import org.mobylet.core.MobyletRuntimeException;
@@ -24,6 +27,11 @@ public class MobyletConfigXmlReader
 	protected MobyletConfig config;
 
 	protected String value;
+
+	protected String tmpProxyHost;
+
+	protected String tmpProxyPort;
+
 
 
 	public MobyletConfigXmlReader(String configDir) {
@@ -105,6 +113,37 @@ public class MobyletConfigXmlReader
 				}
 			}
 		}
+		//ProxyHost/Port
+		else if (name.equals(TAG_HOST) ||
+				name.equals(TAG_PORT)) {
+			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
+			if (parent == null) {
+				value = null;
+				return;
+			}
+			if (parent.equals(TAG_PROXY) &&
+					StringUtils.isNotEmpty(value)) {
+				if (name.equals(TAG_HOST)) {
+					tmpProxyHost = value;
+				} else if (name.equals(TAG_PORT)) {
+					tmpProxyPort = value;
+				}
+			}
+		}
+		//Proxy
+		else if (name.equals(TAG_PROXY)) {
+			int proxyPort = 80;
+			try {
+				proxyPort = Integer.parseInt(tmpProxyPort);
+			} catch (Exception e) {
+				//NOP
+			}
+			SocketAddress proxyAddress =
+				new InetSocketAddress(tmpProxyHost, proxyPort);
+			config.setHttpProxy(new Proxy(Proxy.Type.HTTP, proxyAddress));
+			tmpProxyHost = null;
+			tmpProxyPort = null;
+		}
 		value = null;
 	}
 
@@ -113,7 +152,9 @@ public class MobyletConfigXmlReader
 			throws SAXException {
 		String tag = tagStack.peek();
 		if (tag.equals(TAG_CHAIN) ||
-				tag.equals(TAG_BASEDIR)) {
+				tag.equals(TAG_BASEDIR) ||
+				tag.equals(TAG_HOST) ||
+				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {
 				value = new String(ch, start, length);
 			} else {

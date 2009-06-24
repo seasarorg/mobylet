@@ -43,18 +43,20 @@ public class MobyletImageScaleHelper implements ImageScaleHelper, ImageScaleConf
 		String h = request.getParameter(PKEY_HEIGHT);
 		Integer iw = null;
 		Integer ih = null;
-		if (StringUtils.isNotEmpty(w)) {
-			try {
-				iw = (int)(Double.valueOf(w) * dp.getWidth());
-			} catch (NumberFormatException e) {
-				//NOP
+		if (dp != null) {
+			if (StringUtils.isNotEmpty(w)) {
+				try {
+					iw = (int)(Double.valueOf(w) * dp.getWidth());
+				} catch (NumberFormatException e) {
+					//NOP
+				}
 			}
-		}
-		if (StringUtils.isNotEmpty(h)) {
-			try {
-				ih = (int)(Double.valueOf(h) * dp.getHeight());
-			} catch (NumberFormatException e) {
-				//NOP
+			if (StringUtils.isNotEmpty(h)) {
+				try {
+					ih = (int)(Double.valueOf(h) * dp.getHeight());
+				} catch (NumberFormatException e) {
+					//NOP
+				}
 			}
 		}
 		return SingletonUtils.get(ImageScaler.class).resize(

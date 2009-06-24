@@ -18,9 +18,14 @@ package org.mobylet.core.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.config.MobyletConfig;
 
 public class ResourceUtils {
 
@@ -28,6 +33,28 @@ public class ResourceUtils {
 		if (StringUtils.isEmpty(path)) {
 			return null;
 		}
+		//Network-Path
+		if (PathUtils.isNetworkPath(path)) {
+			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+			try {
+				URL url = new URL(path);
+				URLConnection urlConnection = null;
+				if (config.getHttpProxy() != null) {
+					urlConnection =
+						url.openConnection(config.getHttpProxy());
+				} else {
+					urlConnection = url.openConnection();
+				}
+				return urlConnection.getInputStream();
+			} catch (MalformedURLException e) {
+				throw new MobyletRuntimeException(
+						"[Malformed URL] path = " + path, e);
+			} catch (IOException e) {
+				throw new MobyletRuntimeException(
+						"[URL IO-Exception] path = " + path, e);
+			}
+		}
+		//File-Path
 		if (path.indexOf(File.separator) > 0) {
 			File f = new File(path);
 			if (f != null && f.exists() && f.canRead()) {
@@ -39,6 +66,7 @@ public class ResourceUtils {
 				}
 			}
 		}
+		//Resource-Path
 		ClassLoader classLoader =
 			Thread.currentThread().getContextClassLoader();
 		if (classLoader == null) {
@@ -49,4 +77,5 @@ public class ResourceUtils {
 		}
 		return classLoader.getResourceAsStream(path);
 	}
+
 }

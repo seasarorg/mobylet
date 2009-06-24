@@ -1,5 +1,6 @@
 package org.mobylet.core.config;
 
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class MobyletConfig {
 	protected String deviceDir;
 
 	protected String emojiDir;
+
+	protected Proxy httpProxy;
 
 
 
@@ -65,6 +68,14 @@ public class MobyletConfig {
 
 	public List<MobyletInitializer> getInitializers() {
 		return initializers;
+	}
+
+	public Proxy getHttpProxy() {
+		return httpProxy;
+	}
+
+	public void setHttpProxy(Proxy httpProxy) {
+		this.httpProxy = httpProxy;
 	}
 
 }

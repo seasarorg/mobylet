@@ -45,6 +45,14 @@ public class MobyletImageScaler implements ImageScaler {
 			return scaledImage.getLength();
 		} catch (IOException e) {
 			throw new MobyletRuntimeException("画像変換中にIO例外が発生", e);
+		} finally {
+			try {
+				if (imgStream != null) {
+					imgStream.close();
+				}
+			} catch (Exception e) {
+				//NOP
+			}
 		}
 	}
 
