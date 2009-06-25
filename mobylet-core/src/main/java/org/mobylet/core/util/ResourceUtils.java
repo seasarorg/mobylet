@@ -42,15 +42,13 @@ public class ResourceUtils {
 			}
 		}
 		//File-Path
-		if (path.startsWith(File.separator)) {
-			File f = new File(path);
-			if (f != null && f.exists() && f.canRead()) {
-				try {
-					return new FileInputStream(f);
-				} catch (FileNotFoundException e) {
-					throw new MobyletRuntimeException(
-							"[File Not Fount] filename = " + path, e);
-				}
+		File f = new File(path);
+		if (f != null && f.exists() && f.canRead()) {
+			try {
+				return new FileInputStream(f);
+			} catch (FileNotFoundException e) {
+				throw new MobyletRuntimeException(
+						"[File Not Fount] filename = " + path, e);
 			}
 		}
 		//Resource-Path
