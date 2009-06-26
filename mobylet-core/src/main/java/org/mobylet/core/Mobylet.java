@@ -204,13 +204,28 @@ public class Mobylet {
 		}
 	}
 
+	/**
+	 * <p>ブラウザ画面サイズ情報を返します.</p>
+	 * <p>
+	 * 端末プロファイル情報に該当端末が存在すればその値を返し、
+	 * 無ければHTTPヘッダからディスプレイ情報を取得します。<br />
+	 * それでも取得出来ない場合はnullを返却します。
+	 * </p>
+	 *
+	 * @return	ブラウザ画面サイズ情報
+	 */
 	public DeviceDisplay getDisplay() {
-		DeviceDisplay dp = dialect.getDeviceDisplayByRequestHeader();
-		if (dp == null && getDevice() != null) {
-			dp = getDevice().getDeviceDisplay();
+		Device device = null;
+		DeviceDisplay dp = null;
+		if ((device = getDevice()) != null) {
+			dp = device.getDeviceDisplay();
+		}
+		if (dp == null) {
+			dp = dialect.getDeviceDisplayByRequestHeader();
 		}
 		return dp;
 	}
+
 	/**
 	 * <p>初期化処理.</p>
 	 * <p>
