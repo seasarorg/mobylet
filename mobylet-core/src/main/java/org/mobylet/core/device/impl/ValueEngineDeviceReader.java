@@ -45,7 +45,7 @@ public class ValueEngineDeviceReader implements DeviceReader {
 
 
 	@Override
-	public Map<String, Device> read() {
+	public synchronized Map<String, Device> read() {
 		Map<String, Device> dvMap = new HashMap<String, Device>(1024);
 		Map<String, List<String>> uaMap = readUserAgent();
 		Map<String, DeviceProfile> pfMap = readProfileData(uaMap);
