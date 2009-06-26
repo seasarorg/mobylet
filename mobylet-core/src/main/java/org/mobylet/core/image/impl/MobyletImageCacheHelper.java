@@ -78,7 +78,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 					if (path.startsWith(File.separator)) {
 						imagePath = path.substring(1);
 					}
-					imagePath = currentUrl + imagePath;
+					imagePath = currentUrl + path;
 				}
 				return imagePath;
 			} else {
