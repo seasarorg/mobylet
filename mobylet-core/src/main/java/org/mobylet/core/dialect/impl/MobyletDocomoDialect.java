@@ -89,7 +89,11 @@ public class MobyletDocomoDialect extends AbstractDialect {
 
 	@Override
 	public String getGuid() {
-		return RequestUtils.get().getHeader("X-DCMGUID");
+		String guid = RequestUtils.get().getHeader("X-DCMGUID");
+		if (StringUtils.isEmpty(guid)) {
+			guid = getUid();
+		}
+		return guid;
 	}
 
 	@Override

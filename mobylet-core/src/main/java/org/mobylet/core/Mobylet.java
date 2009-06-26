@@ -170,7 +170,7 @@ public class Mobylet {
 	 * docomoの場合にはiモードID、その他のキャリアはuidと同一の値を返却します<br />
 	 * それぞれのキャリアでの取得するパラメータは以下の通りです。
 	 * <ul>
-	 * <li>docomo: リクエストヘッダX-DCMGUIDの値</li>
+	 * <li>docomo: リクエストヘッダX-DCMGUIDの値（無ければUIDパラメータ）</li>
 	 * <li>その他: <code>getUid()</code>と同じ値</li>
 	 * </ul>
 	 * </p>

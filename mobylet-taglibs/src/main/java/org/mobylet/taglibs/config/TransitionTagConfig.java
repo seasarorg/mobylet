@@ -4,20 +4,20 @@ import java.util.Properties;
 
 import org.mobylet.core.util.StringUtils;
 
-public class ATagConfig extends AbstractTagConfig {
+public class TransitionTagConfig extends AbstractTagConfig {
 
 
 	public static final String KEY_ISUIDQUERYREQUIRED =
-		"atag.isUidQueryRequired";
+		"transition.isUidQueryRequired";
 
 	public static final String KEY_ISGUIDQUERYREQUIRED =
-		"atag.isGuidQueryRequired";
+		"transition.isGuidQueryRequired";
 
 	public static final String KEY_ISSESSIONCOOKIEPRIORITY =
-		"atag.isSessionCookiePriority";
+		"transition.isSessionCookiePriority";
 
 	public static final String KEY_ISUIDORGUIDQUERYREQUIREDINSECURE =
-		"atag.isUidOrGuidQueryRequiredInSecure";
+		"transition.isUidOrGuidQueryRequiredInSecure";
 
 
 	protected boolean isUidQueryRequired = false;
@@ -29,7 +29,7 @@ public class ATagConfig extends AbstractTagConfig {
 	protected boolean isUidOrGuidQueryRequiredInSecure = true;
 
 
-	public ATagConfig() {
+	public TransitionTagConfig() {
 		Properties config = getConfig();
 		if (StringUtils.isNotEmpty(
 				config.getProperty(KEY_ISUIDQUERYREQUIRED))) {
