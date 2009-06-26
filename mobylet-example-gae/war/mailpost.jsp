@@ -14,7 +14,7 @@
     	MessageBody body = new MessageBody();
     	body.setHtml("<html><body>テストHTML</body></html>");
     	body.setText(request.getParameter("body"));
-    	message.from("info@mobylet.org")
+    	message.from("s.takeuchi.leihauoli@gmail.com")
     		.subject(request.getParameter("subject"))
     		.setBody(body);
     	MobyletMailer.send(message);

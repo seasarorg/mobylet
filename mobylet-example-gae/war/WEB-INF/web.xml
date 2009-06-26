@@ -24,9 +24,19 @@
 		<servlet-class>org.mobylet.gae.image.GaeImageScaleServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>mailer</servlet-name>
+		<servlet-class>org.mobylet.gae.MailServlet</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>imageScaleServlet</servlet-name>
 		<url-pattern>/imageScaler</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>mailer</servlet-name>
+		<url-pattern>/mailer</url-pattern>
 	</servlet-mapping>
 
     <jsp-config>
