@@ -133,23 +133,15 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		super.init(config);
 		String baseDir = config.getInitParameter("mobylet.imagescaler.basedir");
 		if (StringUtils.isNotEmpty(baseDir)) {
-			if (baseDir.endsWith(File.separator)) {
-				imageDir = new File(baseDir);
-			} else {
-				imageDir = new File(baseDir + File.separator);
-			}
-			if (!this.imageDir.mkdirs()) {
-				this.imageDir = null;
+			imageDir = new File(baseDir);
+			if (!imageDir.exists() && !imageDir.mkdirs()) {
+				imageDir = null;
 			}
 		}
 		String cacheDir = config.getInitParameter("mobylet.imagescaler.cachedir");
 		if (StringUtils.isNotEmpty(cacheDir)) {
-			if (cacheDir.endsWith(File.separator)) {
-				this.cacheDir = new File(cacheDir);
-			} else {
-				this.cacheDir = new File(cacheDir + File.separator);
-			}
-			if (!this.cacheDir.mkdirs()) {
+			this.cacheDir = new File(cacheDir);
+			if (!this.cacheDir.exists() && !this.cacheDir.mkdirs()) {
 				this.cacheDir = null;
 			}
 		}

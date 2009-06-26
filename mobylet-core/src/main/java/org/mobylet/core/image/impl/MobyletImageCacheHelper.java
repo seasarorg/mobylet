@@ -62,7 +62,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 							CONJUNCTION_DATE + localImage.lastModified();
 				}
 			}
-			return dir.getAbsolutePath() + cacheFileName;
+			return dir.getAbsolutePath() + File.separator + cacheFileName;
 		}
 		return null;
 	}
@@ -89,7 +89,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				if (path.startsWith(File.separator)) {
 					imagePath = path.substring(1);
 				}
-				return localDir.getAbsolutePath() + imagePath;
+				return localDir.getAbsolutePath() + File.separator + imagePath;
 			}
 		}
 		return path;
@@ -116,7 +116,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 		if (display != null &&
 				StringUtils.isNotEmpty(path) &&
 				dir != null && dir.exists()) {
-			File cacheFile = new File(dir.getAbsolutePath() + path);
+			File cacheFile = new File(path);
 			//既にキャッシュがある場合は終了
 			if (cacheFile.exists()) {
 				return;
@@ -167,9 +167,10 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 
 		public GcCacheFileFilter(String path) {
 			if (StringUtils.isNotEmpty(path)) {
-				int index = path.lastIndexOf(CONJUNCTION_DATE);
-				if (index > 0) {
-					prefixPath = path.substring(0, index+1);
+				int from = path.lastIndexOf(File.separator);
+				int until = path.lastIndexOf(CONJUNCTION_DATE);
+				if (until > 0) {
+					prefixPath = path.substring(from+1, until+1);
 				}
 			}
 		}
