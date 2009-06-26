@@ -12,71 +12,7 @@
 </head>
 <body>
 <div>GPS</div>
-<%
-	Mobylet mobylet = MobyletFactory.getInstance();
-	GeoConverter converter = SingletonUtils.get(GeoConverter.class);
-	Gps gps = mobylet.getGps();
-	Gps gpsTokyo = converter.toTokyo(gps);
-	Double lat = null;
-	Double lon = null;
-	Double latTokyo = null;
-	Double lonTokyo = null;
-
-	String strLat = null;
-	String strLon = null;
-	String strLatTokyo = null;
-	String strLonTokyo = null;
-
-	String alt = null;
-	String smaj = null;
-	String smin = null;
-	String majaa = null;
-	String vert = null;
-	String fm = null;
-
-	if(gps != null){
-		lat = gps.getLat();
-		lon = gps.getLon();
-		strLat = gps.getStrLat();
-		strLon = gps.getStrLon();
-		latTokyo = gpsTokyo.getLat();
-		lonTokyo = gpsTokyo.getLon();
-		strLatTokyo = gpsTokyo.getStrLat();
-		strLonTokyo = gpsTokyo.getStrLon();
-
-		alt = request.getParameter("alt");
-		smaj = request.getParameter("smaj");
-		smin = request.getParameter("smin");
-		majaa = request.getParameter("majaa");
-		vert = request.getParameter("vert");
-		fm = request.getParameter("fm");
-	}
-%>
-<div>
-■世界測地系(度)<br/>
-緯度：<%= lat %><br/>
-経度：<%= lon %><br/>
-■世界測地系(度分秒)<br/>
-緯度：<%= strLat %><br/>
-経度：<%= strLon %><br/>
-<br/>
-■日本測地系(度)<br/>
-緯度：<%= latTokyo %><br/>
-経度：<%= lonTokyo %><br/>
-■日本測地系(度分秒)<br/>
-緯度：<%= strLatTokyo %><br/>
-経度：<%= strLonTokyo %><br/>
-<br />
-alt:<%= alt %><br />
-smaj:<%= smaj %><br />
-smin:<%= smin %><br />
-majaa:<%= majaa %><br />
-vert:<%= vert %><br />
-fm:<%= fm %><br />
-</div>
-<% if(lat != null && lon != null){ %>
 <m:googlemap key="ABQIAAAA7XT8fivn1ERPxb2sJeqDmxRNOWY0OPnw67gvoURkZ1j5QQjgqRS0j2Bw3twZQTQEqagNXbIbgdJUmA">
 </m:googlemap>
-<% } %>
 </body>
 </html>
