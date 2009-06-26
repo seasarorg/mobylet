@@ -203,6 +203,63 @@ JSPの上部に以下のpageディレクティブを記述することで、moby
 &lt;%@ taglib prefix="m" uri="http://taglibs.mobylet.org/" %&gt;
 </pre>
 
+<h3 class="green">画像リサイズServletの利用設定（任意）</h3>
+<p>
+デフォルトで提供する画像リサイズ機能は、アプリケーション内に配置された画像のリサイズにのみ対応しています。<br/>
+画像リサイズServletの設定を行うことで、任意の場所に配置した画像に対してもリサイズ機能をご利用いただけます。<br/>
+<br/>
+画像リサイズServletの設定は、<br/>
+■web.xmlへの記述追加<br/>
+■クラスパス内に設定ファイルを配置<br/>
+の2点を追加するだけです。<br/>
+<br/>
+■ web.xmlへの記述追加<br/>
+web.xmlに以下のServlet記述を追加します。<br/>
+（※mobylet.imagescaler.basedir、mobylet.imagescaler.cachedirには任意のディレクトリを設定してください。）
+</p>
+<pre class="code">
+&lt;servlet&gt;
+	&lt;servlet-name&gt;imageScaleServlet&lt;/servlet-name&gt;
+	&lt;servlet-class&gt;org.mobylet.core.http.MobyletImageScaleServlet&lt;/servlet-class&gt;
+	&lt;init-param&gt;
+		&lt;param-name&gt;mobylet.imagescaler.basedir&lt;/param-name&gt;
+		&lt;param-value&gt;/var/app/mobylet-example/img&lt;/param-value&gt;
+	&lt;/init-param&gt;
+	&lt;init-param&gt;
+		&lt;param-name&gt;mobylet.imagescaler.cachedir&lt;/param-name&gt;
+		&lt;param-value&gt;/tmp/mobylet-example/cachedirs&lt;/param-value&gt;
+	&lt;/init-param&gt;
+    &lt;load-on-startup&gt;3&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+</pre>
+<p>
+■クラスパス内に設定ファイルを配置<br/>
+クラスパス配下にorg.mobylet.taglibs.config.ImageTagConfig.propertiesを配置し、<br/>
+画像リサイズServletのパスを以下のように記述してください。<br/>
+（※mobylet-exampleの箇所はアプリケーションのコンテキスト名に変更してください。）
+</p>
+<pre class="code">
+servlet.path=/mobylet-example/imageScaler
+</pre>
+
+<p>
+<br/>
+<span class="fgRed">※Seasar2連携時、HotDeploy環境下では同ホスト同アプリケーションへのhttp経由での画像パス指定はできません。</span><br/>
+HotDeploy環境下での同ホスト同アプリケーション内への画像のパスは<br/>
+<pre class="code">
+&lt;m:img src="http://localhost:8080/mobylet-example/img/image.gif" magniWidth="0.9"/&gt;
+</pre>
+<p>
+のようにhttpから記述するのではなく、web.xmlでmobylet.imagescaler.basedirに設定したディレクトリ以降のパスを
+</p>
+<pre class="code">
+&lt;m:img src="image.gif" magniWidth="0.9"/&gt;
+</pre>
+<p>
+のように記述してください。
+</p>
+<br/>
+</p>
 			</div>
 			<div id="undercontents">
 			</div>
