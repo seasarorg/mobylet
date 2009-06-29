@@ -1,6 +1,7 @@
 package org.mobylet.core.image;
 
-public interface ImageScaleConfig {
+
+public interface ImageConfig {
 
 	public static final String PKEY_AUTOSCALE = "autoScale";
 

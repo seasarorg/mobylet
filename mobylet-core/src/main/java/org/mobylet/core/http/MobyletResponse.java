@@ -26,7 +26,9 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.dialect.MobyletDialect;
-import org.mobylet.core.image.ImageScaleHelper;
+import org.mobylet.core.http.image.MobyletImageContentType;
+import org.mobylet.core.image.ImageScaler;
+import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -51,12 +53,12 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	public void setContentType(String type) {
 		super.setContentType(type);
 		if (!hasContentType()) {
-			RequestUtils.getMobyletContext().set(new MobyletContentType(type));
+			RequestUtils.getMobyletContext().set(new MobyletImageContentType(type));
 		}
 	}
 
 	public boolean hasContentType() {
-		return RequestUtils.getMobyletContext().get(MobyletContentType.class) != null;
+		return RequestUtils.getMobyletContext().get(MobyletImageContentType.class) != null;
 	}
 
 	@Override
@@ -77,9 +79,10 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			String imgContentType = null;
 			if (dialect.getCarrier() != Carrier.OTHER &&
 					!hasContentType() &&
-					(imgContentType = MobyletContentType.getContentTypeStringByImageSuffix()) != null) {
+					(imgContentType =
+						MobyletImageContentType.getContentTypeStringByImageSuffix()) != null) {
 				setContentType(imgContentType);
-				if (SingletonUtils.get(ImageScaleHelper.class).isAutoScaleImage()) {
+				if (ImageUtils.isAutoScale()) {
 					outputStream = new ProxyImageOutputStream();
 				} else {
 					outputStream = super.getOutputStream();
@@ -96,11 +99,16 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			printWriter.flush();
 		} else if (outputStream != null) {
 			if (outputStream instanceof ProxyImageOutputStream) {
-				setContentLength(
-						SingletonUtils.get(ImageScaleHelper.class).autoScale(
-								new MobyletServletOutputStream(super.getOutputStream()),
-								ProxyImageOutputStream.class.cast(outputStream)
-								.getWrittenBytesInputStream()));
+				MobyletServletOutputStream outStream =
+					new MobyletServletOutputStream(super.getOutputStream());
+				SingletonUtils.get(ImageScaler.class).scale(
+						ProxyImageOutputStream.class.cast(outputStream)
+							.getWrittenBytesInputStream(),
+						outStream,
+						RequestUtils.getMobyletContext()
+							.get(MobyletImageContentType.class).getImageCodec(),
+						ImageUtils.getScaledWidth());
+				setContentLength(outStream.getLength());
 			}
 			outputStream.flush();
 		}

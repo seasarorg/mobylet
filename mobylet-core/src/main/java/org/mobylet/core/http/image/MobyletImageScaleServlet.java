@@ -1,4 +1,4 @@
-package org.mobylet.core.http;
+package org.mobylet.core.http.image;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,10 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.http.MobyletServletOutputStream;
 import org.mobylet.core.image.ImageCacheHelper;
-import org.mobylet.core.image.ImageScaleHelper;
+import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.util.HttpUtils;
+import org.mobylet.core.util.ImageUtils;
+import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.PathUtils;
+import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
@@ -46,7 +50,7 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		path = cacheHelper.getImagePath(imageDir, path);
 		//Content-Type
 		resp.setContentType(
-				MobyletContentType.getContentTypeStringByImageSuffix(path));
+				MobyletImageContentType.getContentTypeStringByImageSuffix(path));
 		//CacheProcess
 		String cacheFilePath = readCacheProcess(req, resp, path, cacheHelper);
 		if (StringUtils.isEmpty(cacheFilePath) &&
@@ -78,16 +82,15 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			imageStream =
 				ResourceUtils.getResourceFileOrInputStream(path);
 		}
-		//Resize-Image
-		SingletonUtils.get(ImageScaleHelper.class).autoScale(msos, imageStream);
+		//Scale-Image
+		SingletonUtils.get(ImageScaler.class).scale(
+				imageStream,
+				msos,
+				RequestUtils.getMobyletContext()
+					.get(MobyletImageContentType.class).getImageCodec(),
+				ImageUtils.getScaledWidth());
 		//Stream&ConnectionClose
-		if (imageStream != null) {
-			try {
-				imageStream.close();
-			} catch (IOException e) {
-				//NOP
-			}
-		}
+		InputStreamUtils.closeQuietly(imageStream);
 		if (connection != null) {
 			connection.disconnect();
 		}

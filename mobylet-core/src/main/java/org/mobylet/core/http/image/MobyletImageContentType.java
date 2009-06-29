@@ -1,10 +1,10 @@
-package org.mobylet.core.http;
+package org.mobylet.core.http.image;
 
 import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
 
-public class MobyletContentType {
+public class MobyletImageContentType {
 
 	protected String contentType;
 
@@ -32,7 +32,7 @@ public class MobyletContentType {
 		return null;
 	}
 
-	public MobyletContentType(String contentType) {
+	public MobyletImageContentType(String contentType) {
 		this.contentType = contentType;
 	}
 

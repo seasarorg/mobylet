@@ -15,7 +15,7 @@ import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.image.ImageCacheHelper;
-import org.mobylet.core.image.ImageScaleConfig;
+import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.StringUtils;
@@ -34,8 +34,8 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 		DeviceDisplay display = m.getDisplay();
 		if (display != null && StringUtils.isNotEmpty(path)) {
 			String cacheFileName = PathUtils.getUniqueFilePath(path);
-			String w = request.getParameter(ImageScaleConfig.PKEY_WIDTH);
-			String h = request.getParameter(ImageScaleConfig.PKEY_HEIGHT);
+			String w = request.getParameter(ImageConfig.PKEY_WIDTH);
+			String h = request.getParameter(ImageConfig.PKEY_HEIGHT);
 			cacheFileName = cacheFileName +
 			(StringUtils.isNotEmpty(w) ?
 					CONJUNCTION_SIZE + "w" + w + "x" + display.getWidth() : "") +

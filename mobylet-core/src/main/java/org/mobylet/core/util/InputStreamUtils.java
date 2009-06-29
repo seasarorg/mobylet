@@ -28,4 +28,14 @@ public class InputStreamUtils {
 		}
 		return data;
 	}
+
+	public static void closeQuietly(InputStream in) {
+		if (in != null) {
+			try {
+				in.close();
+			} catch (IOException e) {
+				//NOP
+			}
+		}
+	}
 }
