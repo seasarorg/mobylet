@@ -26,10 +26,8 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.dialect.MobyletDialect;
-import org.mobylet.core.http.image.MobyletImageContentType;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.util.ImageUtils;
-import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletResponse extends HttpServletResponseWrapper {
@@ -42,23 +40,26 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 
 	protected ServletOutputStream outputStream;
 
+	protected boolean hasContentType;
+
 
 	public MobyletResponse(HttpServletResponse response, MobyletDialect dialect) {
 		super(response);
 		this.dialect = dialect;
 		this.response = response;
+		this.hasContentType = false;
 	}
 
 	@Override
 	public void setContentType(String type) {
 		super.setContentType(type);
 		if (!hasContentType()) {
-			RequestUtils.getMobyletContext().set(new MobyletImageContentType(type));
+			hasContentType = true;
 		}
 	}
 
 	public boolean hasContentType() {
-		return RequestUtils.getMobyletContext().get(MobyletImageContentType.class) != null;
+		return hasContentType;
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			if (dialect.getCarrier() != Carrier.OTHER &&
 					!hasContentType() &&
 					(imgContentType =
-						MobyletImageContentType.getContentTypeStringByImageSuffix()) != null) {
+						ImageUtils.getContentTypeStringByRequestURI()) != null) {
 				setContentType(imgContentType);
 				if (ImageUtils.isAutoScale()) {
 					outputStream = new ProxyImageOutputStream();
@@ -105,8 +106,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 						ProxyImageOutputStream.class.cast(outputStream)
 							.getWrittenBytesInputStream(),
 						outStream,
-						RequestUtils.getMobyletContext()
-							.get(MobyletImageContentType.class).getImageCodec(),
+						ImageUtils.getImageCodec(),
 						ImageUtils.getScaledWidth());
 				setContentLength(outStream.getLength());
 			}

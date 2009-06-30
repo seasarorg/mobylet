@@ -1,19 +1,21 @@
 package org.mobylet.core.image;
 
-import java.io.File;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.net.URI;
 
 
 public interface ImageCacheHelper {
 
-	public String getImagePath(File localDir, String path);
+	public URI getCacheBase();
 
-	public String getCacheFilePath(HttpServletRequest request, File dir, String path);
+	public boolean enableCache();
 
-	public void writeCacheImage(File dir, String path, byte[] b);
+	public String getCacheKey(String imgPath);
 
-	public void write(HttpServletResponse response, byte[] b);
+	public boolean existsCache(String key);
+
+	public InputStream get(String key);
+
+	public void put(String key, InputStream imgStream);
 
 }

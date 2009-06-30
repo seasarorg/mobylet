@@ -21,6 +21,7 @@ public class HttpUtils {
 			} else {
 				urlConnection = (HttpURLConnection)url.openConnection();
 			}
+			//ReturnConnection
 			return urlConnection;
 		} catch (MalformedURLException e) {
 			throw new MobyletRuntimeException(
@@ -30,4 +31,5 @@ public class HttpUtils {
 					"[URL IO-Exception] path = " + path, e);
 		}
 	}
+
 }

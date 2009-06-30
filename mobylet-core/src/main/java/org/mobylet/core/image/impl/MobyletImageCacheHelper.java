@@ -1,14 +1,17 @@
 package org.mobylet.core.image.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
+import java.net.URI;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
@@ -16,113 +19,148 @@ import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.image.ImageCacheHelper;
 import org.mobylet.core.image.ImageConfig;
+import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.util.HttpUtils;
+import org.mobylet.core.util.InputStreamUtils;
+import org.mobylet.core.util.OutputStreamUtils;
 import org.mobylet.core.util.PathUtils;
+import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
-import org.mobylet.core.util.URLUtils;
 
 public class MobyletImageCacheHelper implements ImageCacheHelper {
 
 	public static final String CONJUNCTION_SIZE = "+";
 
+	public static final String CONJUNCTION_BSIZE = "x";
+
 	public static final String CONJUNCTION_DATE = "-";
 
 
+	protected URI cacheBaseUri;
+
+	protected boolean isInitializedUri = false;
+
+
 	@Override
-	public String getCacheFilePath(HttpServletRequest request, File dir, String path) {
+	public boolean existsCache(String key) {
+		URI cacheBase = getCacheBase();
+		if (cacheBase == null) {
+			return false;
+		}
+		File cacheBaseDir = new File(cacheBase);
+		File cacheFile = new File(
+				cacheBaseDir.getAbsolutePath() + File.separator + key);
+		return cacheFile.exists() &&
+				cacheFile.isFile() &&
+				cacheFile.canRead();
+	}
+
+	@Override
+	public InputStream get(String key) {
+		if (!existsCache(key)) {
+			return null;
+		}
+		File cacheFile = getCacheFile(key);
+		try {
+			return new FileInputStream(cacheFile);
+		} catch (FileNotFoundException e) {
+			throw new MobyletRuntimeException(
+					"File NotFound path = " + cacheFile.getAbsolutePath(), e);
+		}
+	}
+
+	@Override
+	public URI getCacheBase() {
+		if (isInitializedUri) {
+			return cacheBaseUri;
+		}
+		ImageConfig config = SingletonUtils.get(ImageConfig.class);
+		String cacheBaseDirPath = config.getCacheBaseDirPath();
+		if (StringUtils.isNotEmpty(cacheBaseDirPath)) {
+			File cacheBaseDir = new File(cacheBaseDirPath);
+			if (cacheBaseDir.exists() &&
+					cacheBaseDir.isDirectory() &&
+					cacheBaseDir.canWrite()) {
+				cacheBaseUri = cacheBaseDir.toURI();
+			} else if (cacheBaseDir.mkdirs() &&
+					cacheBaseDir.canWrite()) {
+				cacheBaseUri = cacheBaseDir.toURI();
+			}
+		}
+		isInitializedUri = true;
+		return getCacheBase();
+	}
+
+	@Override
+	public String getCacheKey(String imgPath) {
+		HttpServletRequest request = RequestUtils.get();
 		Mobylet m = MobyletFactory.getInstance();
 		DeviceDisplay display = m.getDisplay();
-		if (display != null && StringUtils.isNotEmpty(path)) {
-			String cacheFileName = PathUtils.getUniqueFilePath(path);
+		//ExistsBrowserSize
+		if (display != null &&
+				StringUtils.isNotEmpty(imgPath)) {
+			String cacheFileName = PathUtils.getUniqueFilePath(imgPath);
 			String w = request.getParameter(ImageConfig.PKEY_WIDTH);
 			String h = request.getParameter(ImageConfig.PKEY_HEIGHT);
 			cacheFileName = cacheFileName +
 			(StringUtils.isNotEmpty(w) ?
-					CONJUNCTION_SIZE + "w" + w + "x" + display.getWidth() : "") +
+					CONJUNCTION_SIZE +
+					ImageConfig.PKEY_WIDTH + w +
+					CONJUNCTION_BSIZE + display.getWidth() : "") +
 			(StringUtils.isNotEmpty(h) ?
-					CONJUNCTION_SIZE + "h" + h + "x" + display.getHeight() : "");
-			if (PathUtils.isNetworkPath(path)) {
+					CONJUNCTION_SIZE +
+					ImageConfig.PKEY_HEIGHT + h +
+					CONJUNCTION_BSIZE+ display.getHeight() : "");
+			//NetworkPath
+			if (PathUtils.isNetworkPath(imgPath)) {
 				HttpURLConnection connection =
-					HttpUtils.getHttpUrlConnection(path);
+					HttpUtils.getHttpUrlConnection(imgPath);
 				try {
 					connection.setRequestMethod("HEAD");
 				} catch (ProtocolException e) {
 					throw new MobyletRuntimeException(
 							"このコネクションではHEAD要求が行えません : " +
 							connection.getClass().getName(), e);
+				} finally {
+					connection.disconnect();
 				}
 				cacheFileName = cacheFileName + CONJUNCTION_DATE +
 						PathUtils.getUniqueFilePath(
 								connection.getHeaderField("Last-Modified"));
-				connection.disconnect();
-			} else {
-				File localImage = new File(path);
-				if (localImage.exists()) {
+			}
+			//LocalPath
+			else {
+				ImageReader imageReader = SingletonUtils.get(ImageReader.class);
+				File localFile = imageReader.getFile(imgPath);
+				if (localFile != null &&
+						localFile.exists() &&
+						localFile.canRead()) {
 					cacheFileName = cacheFileName +
-							CONJUNCTION_DATE + localImage.lastModified();
+							CONJUNCTION_DATE + localFile.lastModified();
 				}
 			}
-			return dir.getAbsolutePath() + File.separator + cacheFileName;
+			return getCacheFile(cacheFileName).getAbsolutePath();
 		}
 		return null;
 	}
 
 	@Override
-	public String getImagePath(File localDir, String path) {
-		String imagePath = null;
-		if (!PathUtils.isNetworkPath(path)) {
-			if (localDir == null || !localDir.exists() || !localDir.canRead()) {
-				String currentUrl = URLUtils.getCurrentUrl();
-				if (StringUtils.isNotEmpty(currentUrl)) {
-					currentUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/')+1);
-					if (path.startsWith(File.separator)) {
-						imagePath = path.substring(1);
-					}
-					imagePath = currentUrl + path;
-				}
-				return imagePath;
-			} else {
-				if (PathUtils.isClimbPath(path)) {
-					throw new MobyletRuntimeException(
-							"危険なパスが指定されています path = " + path, null);
-				}
-				if (path.startsWith(File.separator)) {
-					imagePath = path.substring(1);
-				}
-				return localDir.getAbsolutePath() + File.separator + imagePath;
-			}
-		}
-		return path;
-	}
-
-	@Override
-	public void write(HttpServletResponse response, byte[] b) {
-		if (b == null) {
+	public void put(String key, InputStream imgStream) {
+		if (!enableCache()) {
 			return;
 		}
-		response.setContentLength(b.length);
-		try {
-			response.getOutputStream().write(b);
-			response.getOutputStream().flush();
-		} catch (IOException e) {
-			throw new MobyletRuntimeException("Imageの表出に失敗", e);
-		}
-	}
-
-	@Override
-	public void writeCacheImage(File dir, String path, byte[] b) {
 		Mobylet m = MobyletFactory.getInstance();
 		DeviceDisplay display = m.getDisplay();
 		if (display != null &&
-				StringUtils.isNotEmpty(path) &&
-				dir != null && dir.exists()) {
-			File cacheFile = new File(path);
+				StringUtils.isNotEmpty(key)) {
+			File cacheFile = getCacheFile(key);
 			//既にキャッシュがある場合は終了
 			if (cacheFile.exists()) {
 				return;
 			} else {
 				//古いキャッシュの削除
-				File[] delFiles = dir.listFiles(
+				File[] delFiles = cacheFile.getParentFile().listFiles(
 						new GcCacheFileFilter(cacheFile.getAbsolutePath()));
 				if (delFiles != null && delFiles.length > 0) {
 					for (File delFile : delFiles) {
@@ -135,17 +173,12 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 					FileOutputStream cacheOutStream = null;
 					try {
 						cacheOutStream = new FileOutputStream(cacheFile);
-						cacheOutStream.write(b);
+						cacheOutStream.write(
+								InputStreamUtils.getAllBytes(imgStream));
 					} catch (IOException e) {
 						throw e;
 					} finally {
-						if (cacheOutStream != null) {
-							try {
-								cacheOutStream.close();
-							} catch (IOException e) {
-								//NOP
-							}
-						}
+						OutputStreamUtils.closeQuietly(cacheOutStream);
 					}
 				} else {
 					throw new MobyletRuntimeException(
@@ -158,6 +191,17 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 						cacheFile.getAbsolutePath(), e);
 			}
 		}
+	}
+
+	@Override
+	public boolean enableCache() {
+		return getCacheBase() != null;
+	}
+
+	protected File getCacheFile(String key) {
+		return new File(
+				new File(getCacheBase()).getAbsolutePath() +
+				File.separator + key);
 	}
 
 
@@ -186,4 +230,5 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 		}
 
 	}
+
 }
