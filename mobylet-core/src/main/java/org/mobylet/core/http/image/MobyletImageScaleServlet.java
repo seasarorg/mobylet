@@ -2,12 +2,10 @@ package org.mobylet.core.http.image;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +24,6 @@ import org.mobylet.core.util.StringUtils;
 public class MobyletImageScaleServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8330083988206718597L;
-
-	public File imageDir = null;
-
-	public File cacheDir = null;
 
 
 	@Override
@@ -114,25 +108,5 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			resp.flushBuffer();
 		}
 	}
-
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		String baseDir = config.getInitParameter("mobylet.imagescaler.basedir");
-		if (StringUtils.isNotEmpty(baseDir)) {
-			imageDir = new File(baseDir);
-			if (!imageDir.exists() && !imageDir.mkdirs()) {
-				imageDir = null;
-			}
-		}
-		String cacheDir = config.getInitParameter("mobylet.imagescaler.cachedir");
-		if (StringUtils.isNotEmpty(cacheDir)) {
-			this.cacheDir = new File(cacheDir);
-			if (!this.cacheDir.exists() && !this.cacheDir.mkdirs()) {
-				this.cacheDir = null;
-			}
-		}
-	}
-
 
 }
