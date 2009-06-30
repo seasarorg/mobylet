@@ -140,7 +140,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 							CONJUNCTION_DATE + localFile.lastModified();
 				}
 			}
-			return getCacheFile(cacheFileName).getAbsolutePath();
+			return cacheFileName;
 		}
 		return null;
 	}

@@ -1,5 +1,6 @@
 package org.mobylet.core.image.impl;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.IndexColorModel;
@@ -20,10 +21,9 @@ public class MobyletImageScaler implements ImageScaler {
 	public void scale(InputStream imgStream, OutputStream outImage, ImageCodec type, int newWidth) {
 		try {
 			BufferedImage img = ImageIO.read(imgStream);
-			int width = img.getWidth();
-			int height = img.getHeight();
-			height = (int)(height * (double)newWidth/(double)width);
-			width = newWidth;
+			Dimension newSize = getNewSize(img.getWidth(), img.getHeight(), newWidth);
+			int width = (int)newSize.getWidth();
+			int height = (int)newSize.getHeight();
 			BufferedImage outImg = null;
 			//NewScaledImage
 			if(img.getColorModel() instanceof IndexColorModel ) {
@@ -67,6 +67,13 @@ public class MobyletImageScaler implements ImageScaler {
 		} finally {
 			InputStreamUtils.closeQuietly(imgStream);
 		}
+	}
+
+	@Override
+	public Dimension getNewSize(int width, int height, int newWidth) {
+		return new Dimension(
+				newWidth,
+				(int)(height * (double)newWidth/(double)width));
 	}
 
 }

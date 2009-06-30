@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.image.ConnectionStream;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.util.HttpUtils;
@@ -13,6 +14,7 @@ import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.core.util.URLUtils;
 
 public class MobyletImageReader implements ImageReader {
 
@@ -41,7 +43,7 @@ public class MobyletImageReader implements ImageReader {
 	}
 
 	@Override
-	public InputStream getStream(String path) {
+	public ConnectionStream getStream(String path) {
 		InputStream imageStream = null;
 		if (PathUtils.isNetworkPath(path)) {
 			HttpURLConnection connection =
@@ -51,14 +53,13 @@ public class MobyletImageReader implements ImageReader {
 			} catch (IOException e) {
 				throw new MobyletRuntimeException(
 						"ストリームをオープンできません path = " + path, e);
-			} finally {
-				connection.disconnect();
 			}
+			return new ConnectionStream(connection, imageStream);
 		} else {
 			imageStream =
 				ResourceUtils.getResourceFileOrInputStream(path);
 		}
-		return imageStream;
+		return new ConnectionStream(null, imageStream);
 	}
 
 	@Override
@@ -68,6 +69,28 @@ public class MobyletImageReader implements ImageReader {
 		}
 		return new File(
 				getImageBase().getAbsolutePath() + File.separator + path);
+	}
+
+	@Override
+	public String constructPath(String path) {
+		if (StringUtils.isEmpty(path)) {
+			return path;
+		} else if (PathUtils.isNetworkPath(path)) {
+			return path;
+		}
+		File imageBase;
+		if ((imageBase = getImageBase()) == null) {
+			String currentUrl = URLUtils.getCurrentUrl();
+			int index = -1;
+			if ((index = currentUrl.lastIndexOf('/')) > 0) {
+				currentUrl = currentUrl.substring(0, index+1);
+			} else {
+				currentUrl = currentUrl + "/";
+			}
+			return currentUrl + path;
+		} else {
+			return imageBase.getAbsolutePath() + File.separator + path;
+		}
 	}
 
 

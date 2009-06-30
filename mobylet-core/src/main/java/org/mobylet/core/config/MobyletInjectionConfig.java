@@ -16,7 +16,7 @@ public abstract class MobyletInjectionConfig {
 		} else {
 			injectionConfig = new Properties();
 			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-			String path = this.getClass().getName() + ".properties";
+			String path = getConfigName();
 			try {
 				injectionConfig.load(ResourceUtils.getResourceFileOrInputStream(
 						config.getConfigDir() + path));

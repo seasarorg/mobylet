@@ -4,8 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 
-import org.mobylet.core.http.MobyletImageScaleServlet;
-import org.mobylet.core.image.impl.MobyletImageScaleHelper;
+import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletDynamicSimpleTagSupport;
 import org.mobylet.taglibs.config.ImageTagConfig;
@@ -40,15 +39,15 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 		if (StringUtils.isNotEmpty(imgSrc)) {
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					MobyletImageScaleHelper.PKEY_AUTOSCALE,
-					MobyletImageScaleHelper.PVAL_AUTOSCALE);
+					ImageConfig.PKEY_AUTOSCALE,
+					ImageConfig.PVAL_AUTOSCALE);
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					MobyletImageScaleHelper.PKEY_WIDTH,
+					ImageConfig.PKEY_WIDTH,
 					magniWidth);
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					MobyletImageScaleHelper.PKEY_HEIGHT,
+					ImageConfig.PKEY_HEIGHT,
 					magniHeight);
 		}
 		addAttribute("src", imgSrc);
@@ -62,15 +61,15 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 		if (StringUtils.isNotEmpty(imgSrc)) {
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					MobyletImageScaleServlet.KEY_IMGPATH,
+					ImageConfig.PKEY_IMGPATH,
 					src);
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					MobyletImageScaleHelper.PKEY_WIDTH,
+					ImageConfig.PKEY_WIDTH,
 					magniWidth);
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					MobyletImageScaleHelper.PKEY_HEIGHT,
+					ImageConfig.PKEY_HEIGHT,
 					magniHeight);
 		}
 		addAttribute("src", imgSrc);

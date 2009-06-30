@@ -2,7 +2,7 @@ package org.mobylet.gae.initializer;
 
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.util.SingletonUtils;
-import org.mobylet.gae.image.GaeImageScaleHelper;
+import org.mobylet.gae.image.GaeImageScaler;
 
 public class GaeMobyletInitializer implements MobyletInitializer {
 
@@ -10,7 +10,7 @@ public class GaeMobyletInitializer implements MobyletInitializer {
 
 	@Override
 	public void initialize() {
-		SingletonUtils.put(new GaeImageScaleHelper());
+		SingletonUtils.put(new GaeImageScaler());
 		isInitialize = true;
 	}
 

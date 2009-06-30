@@ -3,7 +3,6 @@ package org.mobylet.core.http.image;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.servlet.ServletException;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.http.MobyletServletOutputStream;
+import org.mobylet.core.image.ConnectionStream;
 import org.mobylet.core.image.ImageCacheHelper;
 import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.image.ImageConfig;
@@ -47,8 +47,10 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		//---------------------------------------------------------------------
 		// Read-Image
 		//---------------------------------------------------------------------
+		//ConvertPath
+		path = imageReader.constructPath(path);
 		//ImageInputStream
-		InputStream imageStream;
+		ConnectionStream imageConnectionStream;
 		OutputStream outStream;
 		//CacheKey
 		String key = null;
@@ -58,17 +60,18 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			key = cacheHelper.getCacheKey(path);
 			//ExsistsCache
 			if (cacheHelper.existsCache(key)) {
-				imageStream = cacheHelper.get(key);
+				imageConnectionStream =
+					new ConnectionStream(null, cacheHelper.get(key));
 			}
 			//NotExistsCache
 			else {
-				imageStream = imageReader.getStream(path);
+				imageConnectionStream = imageReader.getStream(path);
 			}
 			outStream = new ByteArrayOutputStream(4096);
 		}
 		//UnEnableCache
 		else {
-			imageStream = imageReader.getStream(path);
+			imageConnectionStream = imageReader.getStream(path);
 			outStream = new MobyletServletOutputStream(resp.getOutputStream());
 		}
 		//---------------------------------------------------------------------
@@ -79,10 +82,14 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		// Convert-Image
 		//---------------------------------------------------------------------
 		imageScaler.scale(
-				imageStream,
+				imageConnectionStream.getInputStream(),
 				outStream,
 				codec,
 				ImageUtils.getScaledWidth());
+		//closeConnection
+		if (imageConnectionStream.getConnection() != null) {
+			imageConnectionStream.getConnection().disconnect();
+		}
 		//---------------------------------------------------------------------
 		// WriteResponse
 		//---------------------------------------------------------------------
