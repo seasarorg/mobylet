@@ -1,5 +1,6 @@
 package org.mobylet.core.config;
 
+import java.io.File;
 import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,16 @@ public class MobyletConfig {
 
 
 	public MobyletConfig(String configDir) {
-		this.configDir = configDir;
+		if (StringUtils.isEmpty(configDir)) {
+			this.configDir = "." + File.separator;
+		} else {
+			if (configDir.endsWith(File.separator) ||
+					configDir.endsWith("/")) {
+				this.configDir = configDir;
+			} else {
+				this.configDir = configDir + File.separator;
+			}
+		}
 		initializers = new ArrayList<MobyletInitializer>();
 	}
 

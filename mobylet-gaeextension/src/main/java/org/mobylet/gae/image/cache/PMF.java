@@ -14,4 +14,8 @@ public final class PMF {
 		return pmfInstance;
 	}
 
+	public static PersistenceManagerFactory create() {
+		return JDOHelper.getPersistenceManagerFactory("transactions-optional");
+	}
+
 }

@@ -18,6 +18,7 @@ import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.util.ImageUtils;
+import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -60,8 +61,17 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			key = cacheHelper.getCacheKey(path);
 			//ExsistsCache
 			if (cacheHelper.existsCache(key)) {
+				//ReturnCacheImage
 				imageConnectionStream =
 					new ConnectionStream(null, cacheHelper.get(key));
+				byte[] imageBytes =
+					InputStreamUtils.getAllBytes(
+							imageConnectionStream.getInputStream());
+				resp.setContentType(ImageUtils.getContentTypeString(codec));
+				resp.setContentLength(imageBytes.length);
+				resp.getOutputStream().write(imageBytes);
+				resp.flushBuffer();
+				return;
 			}
 			//NotExistsCache
 			else {

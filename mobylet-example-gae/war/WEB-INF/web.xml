@@ -21,7 +21,7 @@
 
 	<servlet>
 		<servlet-name>imageScaleServlet</servlet-name>
-		<servlet-class>org.mobylet.gae.image.GaeImageScaleServlet</servlet-class>
+		<servlet-class>org.mobylet.core.http.image.MobyletImageScaleServlet</servlet-class>
 	</servlet>
 
 	<servlet>

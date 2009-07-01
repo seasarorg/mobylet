@@ -1,6 +1,5 @@
 package org.mobylet.core.image.impl;
 
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.IndexColorModel;
@@ -12,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ImageCodec;
+import org.mobylet.core.image.ImageDimension;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.util.InputStreamUtils;
 
@@ -21,9 +21,9 @@ public class MobyletImageScaler implements ImageScaler {
 	public void scale(InputStream imgStream, OutputStream outImage, ImageCodec type, int newWidth) {
 		try {
 			BufferedImage img = ImageIO.read(imgStream);
-			Dimension newSize = getNewSize(img.getWidth(), img.getHeight(), newWidth);
-			int width = (int)newSize.getWidth();
-			int height = (int)newSize.getHeight();
+			ImageDimension newSize = getNewSize(img.getWidth(), img.getHeight(), newWidth);
+			int width = newSize.getWidth();
+			int height = newSize.getHeight();
 			BufferedImage outImg = null;
 			//NewScaledImage
 			if(img.getColorModel() instanceof IndexColorModel ) {
@@ -70,8 +70,8 @@ public class MobyletImageScaler implements ImageScaler {
 	}
 
 	@Override
-	public Dimension getNewSize(int width, int height, int newWidth) {
-		return new Dimension(
+	public ImageDimension getNewSize(int width, int height, int newWidth) {
+		return new ImageDimension(
 				newWidth,
 				(int)(height * (double)newWidth/(double)width));
 	}

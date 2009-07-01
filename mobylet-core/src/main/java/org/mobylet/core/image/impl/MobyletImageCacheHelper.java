@@ -125,9 +125,17 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				} finally {
 					connection.disconnect();
 				}
+				String uniqueVersionString =
+					connection.getHeaderField("Last-Modified");
+				if (StringUtils.isEmpty(uniqueVersionString)) {
+					uniqueVersionString =
+						connection.getHeaderField("Content-Length");
+				}
+				if (StringUtils.isEmpty(uniqueVersionString)) {
+					uniqueVersionString = "1";
+				}
 				cacheFileName = cacheFileName + CONJUNCTION_DATE +
-						PathUtils.getUniqueFilePath(
-								connection.getHeaderField("Last-Modified"));
+						PathUtils.getUniqueFilePath(uniqueVersionString);
 			}
 			//LocalPath
 			else {

@@ -1,11 +1,11 @@
 package org.mobylet.gae.image;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ImageCodec;
+import org.mobylet.core.image.ImageDimension;
 import org.mobylet.core.image.impl.MobyletImageScaler;
 import org.mobylet.core.util.InputStreamUtils;
 
@@ -25,10 +25,10 @@ public class GaeImageScaler extends MobyletImageScaler {
 			Image image = ImagesServiceFactory.makeImage(
 					InputStreamUtils.getAllBytes(imgStream));
 			//CalcNewSize
-			Dimension newSize = getNewSize(
+			ImageDimension newSize = getNewSize(
 					image.getWidth(), image.getHeight(), newWidth);
-			int width = (int)newSize.getWidth();
-			int height = (int)newSize.getHeight();
+			int width = newSize.getWidth();
+			int height = newSize.getHeight();
 			//Transform
 			ImagesService imagesService = ImagesServiceFactory.getImagesService();
 			Transform transformer = ImagesServiceFactory.makeResize(width, height);
