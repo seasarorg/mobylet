@@ -48,6 +48,12 @@ public class Gps {
 		setGeo(geo);
 	}
 
+	public Gps(Gps gps) {
+		setLat(gps.getLat());
+		setLon(gps.getLon());
+		setGeo(gps.getGeo());
+	}
+
 	public String getStrLat() {
 		if (StringUtils.isEmpty(strLat) && lat != null) {
 			double s = (3600 * lat) % 60;

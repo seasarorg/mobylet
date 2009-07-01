@@ -1,14 +1,13 @@
 package org.mobylet.core.gps.impl;
 
+import org.mobylet.core.gps.DatumTokyo;
+import org.mobylet.core.gps.DatumWgs84;
 import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.GeoConverter;
 import org.mobylet.core.gps.Gps;
+import org.mobylet.core.util.GpsUtils;
 
 public class MobyletGeoConverter implements GeoConverter {
-
-	public static final double PI = Math.PI;
-
-	public static final double RD = PI / 180.0;
 
 
 	@Override
@@ -62,11 +61,11 @@ public class MobyletGeoConverter implements GeoConverter {
 	 */
 	protected Rectangular ellip2Rect(Gps g, double sa, double ecc) {
 		//緯度変換
-		double rLat = g.getLat() * RD;
+		double rLat = g.getLat() * GpsUtils.RD;
 		double sinLat = Math.sin(rLat);
 		double cosLat = Math.cos(rLat);
 		//経度変換
-		double rLon = g.getLon() * RD;
+		double rLon = g.getLon() * GpsUtils.RD;
 		double sinLon = Math.sin(rLon);
 		double cosLon = Math.cos(rLon);
 
@@ -104,7 +103,7 @@ public class MobyletGeoConverter implements GeoConverter {
 
 		double h = p / Math.cos(rLat) - rn;
 
-		Gps g = new Gps(rLat / RD, rLon / RD, null);
+		Gps g = new Gps(rLat / GpsUtils.RD, rLon / GpsUtils.RD, null);
 		g.setHeight(h);
 		return g;
 	}
@@ -141,71 +140,7 @@ public class MobyletGeoConverter implements GeoConverter {
 		}
 	}
 
-	/**
-	 *
-	 * WGS84データム
-	 *
-	 * @author stakeuchi
-	 *
-	 */
-	public interface DatumWgs84 {
 
-		/**
-		 * 赤道半径
-		 */
-		public static final double semimajorAxis = 6378137.0;
 
-		/**
-		 * 扁平率
-		 */
-		public static final double flattening = 1.0 / 298.257223;
-
-		/**
-		 * 第1離心率
-		 */
-		public static final double eccentricity =
-			(2.0 * flattening) - (flattening * flattening);
-
-		/**
-		 * 並行移動量（toTokyo）
-		 */
-		public static final double DX2TOKYO = 148.0;
-		public static final double DY2TOKYO = -507.0;
-		public static final double DZ2TOKYO = -681.0;
-
-	}
-
-	/**
-	 *
-	 * TOKYOデータム
-	 *
-	 * @author stakeuchi
-	 *
-	 */	public interface DatumTokyo {
-
-		/**
-		 * 赤道半径
-		 */
-		public static final double semimajorAxis = 6377397.155;
-
-		/**
-		 * 扁平率
-		 */
-		public static final double flattening = 1.0 / 299.152813;
-
-		/**
-		 * 第1離心率
-		 */
-		public static final double eccentricity =
-			(2.0 * flattening) - (flattening * flattening);
-
-		/**
-		 * 並行移動量（toTokyo）
-		 */
-		public static final double DX2WGS84 = -DatumWgs84.DX2TOKYO;
-		public static final double DY2WGS84 = -DatumWgs84.DY2TOKYO;
-		public static final double DZ2WGS84 = -DatumWgs84.DZ2TOKYO;
-
-	}
 
 }
