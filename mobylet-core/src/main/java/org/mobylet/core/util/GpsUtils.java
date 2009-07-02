@@ -26,12 +26,12 @@ public class GpsUtils {
 	public static Gps getMovedGps(Gps target, double dX, double dY) {
 		Gps g = new Gps(target);
 		if (dX != 0.0) {
-			double dLat = M_PER_LON * Math.cos(g.getLat() * RD);
-			g.setLat(g.getLat() + (dLat * dX));
+			double dLon = M_PER_LON * Math.cos(g.getLat() * RD);
+			g.setLon(g.getLon() + (dX / dLon));
 		}
 		if (dY != 0.0) {
-			double dLon = 1.0 / M_PER_LON;
-			g.setLon(g.getLon() + (dLon + dY));
+			double dLat = 1.0 / M_PER_LON;
+			g.setLat(g.getLat() + (dLat * dY));
 		}
 		return g;
 	}
