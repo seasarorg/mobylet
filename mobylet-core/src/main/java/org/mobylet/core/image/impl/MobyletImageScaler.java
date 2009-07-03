@@ -29,11 +29,9 @@ public class MobyletImageScaler implements ImageScaler {
 				getClipRectangle(img.getWidth(), img.getHeight(), newWidth, scaleType);
 			int scaledWidth = rectangle.getWidth();
 			int scaledHeight = rectangle.getHeight();
-			int drawWidth = scaledWidth;
-			int drawHeight = scaledHeight;
 			if (scaleType == ScaleType.CLIPSQUARE) {
-				drawWidth = newWidth;
-				drawWidth = newWidth;
+				scaledWidth = newWidth;
+				scaledHeight = newWidth;
 			}
 			BufferedImage outImg = null;
 			//NewScaledImage
@@ -65,10 +63,20 @@ public class MobyletImageScaler implements ImageScaler {
 				}
 			}
 			//Draw
+			if (scaleType == ScaleType.CLIPSQUARE) {
+				boolean isLongWidth = img.getWidth() > img.getHeight();
+				int clipWidth = isLongWidth ?
+						img.getHeight() : img.getWidth();
+				img = img.getSubimage(
+						(isLongWidth ? (img.getWidth() - clipWidth) / 2 : 0),
+						(isLongWidth ? 0 : (img.getHeight() - clipWidth) / 2),
+						clipWidth,
+						clipWidth);
+			}
 			outImg.getGraphics().drawImage(
 					img.getScaledInstance(
 							scaledWidth, scaledHeight, Image.SCALE_AREA_AVERAGING),
-							rectangle.getX(), rectangle.getY(), drawWidth, drawHeight, null);
+							0, 0, scaledWidth, scaledHeight, null);
 			boolean result =
 				ImageIO.write(outImg, imageCodec.name(), outImage);
 			if (!result) {
