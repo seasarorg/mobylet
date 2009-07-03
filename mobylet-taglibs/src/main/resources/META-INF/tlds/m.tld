@@ -279,4 +279,43 @@
 		</attribute>
 	</tag>
 
+	<!-- <m:han /> -->
+	<tag>
+		<name>han</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.HanTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+			<![CDATA[
+			半角変換対象文字
+			]]>
+			</description>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			サニタイジング指定[true/false]、デフォルトはtrue
+			]]>
+			</description>
+			<name>escapeXml</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			改行文字を&lt;br /&gt;への変換フラグ[true/false]、デフォルトはtrue
+			]]>
+			</description>
+			<name>breakToBr</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 </taglib>
