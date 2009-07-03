@@ -5,9 +5,10 @@ import java.io.IOException;
 import javax.servlet.jsp.JspException;
 
 import org.mobylet.core.image.ImageConfig;
+import org.mobylet.core.util.ImageUtils;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletDynamicSimpleTagSupport;
-import org.mobylet.taglibs.config.ImageTagConfig;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.taglibs.utils.UrlUtils;
 
@@ -15,19 +16,19 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
 	public static final String TAG = "img";
 
-	public static ImageTagConfig config = new ImageTagConfig();
+	public static ImageConfig config = SingletonUtils.get(ImageConfig.class);
 
 
 	protected String src = "";
 
 	protected String magniWidth = "";
 
-	protected String magniHeight = "";
+	protected String scaleType = "";
 
 
 	@Override
 	public void doTag() throws JspException, IOException {
-		if(config.useServlet()) {
+		if(config.useScaleServlet()) {
 			useServlet();
 		} else {
 			useFilter();
@@ -47,8 +48,8 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 					magniWidth);
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					ImageConfig.PKEY_HEIGHT,
-					magniHeight);
+					ImageConfig.PKEY_SCALETYPE,
+					ImageUtils.getScaleType(getScaleType()).name());
 		}
 		addAttribute("src", imgSrc);
 		JspWriterUtils.write(
@@ -57,7 +58,7 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 	}
 
 	protected void useServlet() {
-		String imgSrc = config.getServletPath();
+		String imgSrc = config.getScaleServletPath();
 		if (StringUtils.isNotEmpty(imgSrc)) {
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
@@ -69,8 +70,8 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 					magniWidth);
 			imgSrc = UrlUtils.addParameter(
 					imgSrc,
-					ImageConfig.PKEY_HEIGHT,
-					magniHeight);
+					ImageConfig.PKEY_SCALETYPE,
+					ImageUtils.getScaleType(getScaleType()).name());
 		}
 		addAttribute("src", imgSrc);
 		JspWriterUtils.write(
@@ -94,12 +95,12 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 		this.magniWidth = magniWidth;
 	}
 
-	public String getMagniHeight() {
-		return magniHeight;
+	public String getScaleType() {
+		return scaleType;
 	}
 
-	public void setMagniHeight(String magniHeight) {
-		this.magniHeight = magniHeight;
+	public void setScaleType(String scaleType) {
+		this.scaleType = scaleType;
 	}
 
 }

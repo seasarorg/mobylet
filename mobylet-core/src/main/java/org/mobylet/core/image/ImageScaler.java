@@ -5,9 +5,10 @@ import java.io.OutputStream;
 
 public interface ImageScaler {
 
-	public void scale(
-			InputStream imgStream, OutputStream outImage, ImageCodec type, int newWidth);
+	public void scale(InputStream imgStream, OutputStream outImage,
+			ImageCodec imageCodec, int newWidth, ScaleType scaleType);
 
-	public ImageDimension getNewSize(int width, int height, int newWidth);
+	public ImageRectangle getNewRectangle(
+			int width, int height, int newWidth, ScaleType scaleType);
 
 }

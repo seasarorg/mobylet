@@ -21,6 +21,7 @@ import org.mobylet.core.image.ImageCacheHelper;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.util.HttpUtils;
+import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.OutputStreamUtils;
 import org.mobylet.core.util.PathUtils;
@@ -102,16 +103,12 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				StringUtils.isNotEmpty(imgPath)) {
 			String cacheFileName = PathUtils.getUniqueFilePath(imgPath);
 			String w = request.getParameter(ImageConfig.PKEY_WIDTH);
-			String h = request.getParameter(ImageConfig.PKEY_HEIGHT);
 			cacheFileName = cacheFileName +
-			(StringUtils.isNotEmpty(w) ?
-					CONJUNCTION_SIZE +
-					ImageConfig.PKEY_WIDTH + w +
-					CONJUNCTION_BSIZE + display.getWidth() : "") +
-			(StringUtils.isNotEmpty(h) ?
-					CONJUNCTION_SIZE +
-					ImageConfig.PKEY_HEIGHT + h +
-					CONJUNCTION_BSIZE+ display.getHeight() : "");
+					(StringUtils.isNotEmpty(w) ?
+							CONJUNCTION_SIZE +
+							ImageConfig.PKEY_WIDTH + w +
+							CONJUNCTION_BSIZE + display.getWidth() : "") +
+					CONJUNCTION_SIZE + ImageUtils.getScaleType();
 			//NetworkPath
 			if (PathUtils.isNetworkPath(imgPath)) {
 				HttpURLConnection connection =

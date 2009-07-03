@@ -11,35 +11,46 @@ import javax.imageio.ImageIO;
 
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ImageCodec;
-import org.mobylet.core.image.ImageDimension;
+import org.mobylet.core.image.ImageRectangle;
 import org.mobylet.core.image.ImageScaler;
+import org.mobylet.core.image.ScaleType;
+import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.InputStreamUtils;
 
 public class MobyletImageScaler implements ImageScaler {
 
 	@Override
-	public void scale(InputStream imgStream, OutputStream outImage, ImageCodec type, int newWidth) {
+	public void scale(InputStream imgStream, OutputStream outImage,
+			ImageCodec imageCodec, int newWidth, ScaleType scaleType) {
 		try {
+			//CalcRectangle
 			BufferedImage img = ImageIO.read(imgStream);
-			ImageDimension newSize = getNewSize(img.getWidth(), img.getHeight(), newWidth);
-			int width = newSize.getWidth();
-			int height = newSize.getHeight();
+			ImageRectangle rectangle =
+				getNewRectangle(img.getWidth(), img.getHeight(), newWidth, scaleType);
+			int scaledWidth = rectangle.getWidth();
+			int scaledHeight = rectangle.getHeight();
+			int drawWidth = scaledWidth;
+			int drawHeight = scaledHeight;
+			if (scaleType == ScaleType.CLIPSQUARE) {
+				drawWidth = newWidth;
+				drawWidth = newWidth;
+			}
 			BufferedImage outImg = null;
 			//NewScaledImage
 			if(img.getColorModel() instanceof IndexColorModel ) {
 				outImg =
 					new BufferedImage(
-							width, height, img.getType(),
+							scaledWidth, scaledHeight, img.getType(),
 							(IndexColorModel)img.getColorModel());
 			} else {
 				if(img.getType() == 0) {
 					outImg =
 						new BufferedImage(
-								width, height, BufferedImage.TYPE_4BYTE_ABGR_PRE);
+								scaledWidth, scaledHeight, BufferedImage.TYPE_4BYTE_ABGR_PRE);
 				} else {
 					outImg =
 						new BufferedImage(
-								width, height, img.getType());
+								scaledWidth, scaledHeight, img.getType());
 				}
 			}
 			//Alpha-Setting
@@ -55,10 +66,11 @@ public class MobyletImageScaler implements ImageScaler {
 			}
 			//Draw
 			outImg.getGraphics().drawImage(
-					img.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING),
-					0, 0, width, height, null);
+					img.getScaledInstance(
+							scaledWidth, scaledHeight, Image.SCALE_AREA_AVERAGING),
+							rectangle.getX(), rectangle.getY(), drawWidth, drawHeight, null);
 			boolean result =
-				ImageIO.write(outImg, type.name(), outImage);
+				ImageIO.write(outImg, imageCodec.name(), outImage);
 			if (!result) {
 				throw new MobyletRuntimeException("画像の書き出しに失敗", null);
 			}
@@ -70,10 +82,9 @@ public class MobyletImageScaler implements ImageScaler {
 	}
 
 	@Override
-	public ImageDimension getNewSize(int width, int height, int newWidth) {
-		return new ImageDimension(
-				newWidth,
-				(int)(height * (double)newWidth/(double)width));
+	public ImageRectangle getNewRectangle(
+			int width, int height, int newWidth, ScaleType scaleType) {
+		return ImageUtils.getNewRectangle(width, height, newWidth, scaleType);
 	}
 
 }

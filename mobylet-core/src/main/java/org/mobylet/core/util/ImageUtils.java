@@ -7,6 +7,8 @@ import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.image.ImageConfig;
+import org.mobylet.core.image.ImageRectangle;
+import org.mobylet.core.image.ScaleType;
 
 public class ImageUtils {
 
@@ -75,6 +77,58 @@ public class ImageUtils {
 		return null;
 	}
 
+	public static ScaleType getScaleType() {
+		return getScaleType(
+				RequestUtils.get().getParameter(ImageConfig.PKEY_SCALETYPE));
+	}
+
+	public static ScaleType getScaleType(String scaleTypeStr) {
+		ImageConfig config = SingletonUtils.get(ImageConfig.class);
+		ScaleType scaleType = config.getDefaultScaleType();
+		if (StringUtils.isNotEmpty(scaleTypeStr)) {
+			scaleType = ScaleType.valueOf(scaleTypeStr);
+			if (scaleType == null) {
+				scaleType = config.getDefaultScaleType();
+			}
+		} else {
+			scaleType = config.getDefaultScaleType();
+		}
+		return config.getDefaultScaleType();
+	}
+
+	public static ImageRectangle getNewRectangle(
+			int width, int height, int newWidth, ScaleType scaleType) {
+		if (scaleType == null) {
+			new ImageRectangle(0, 0, width, height);
+		}
+		switch (scaleType) {
+		case CLIPSQUARE:
+			if (width > height) {
+				int w = (int)(width * (double)newWidth/(double)height);
+				return new ImageRectangle(
+						-((w - newWidth) / 2), 0, w, newWidth);
+			} else {
+				int h = (int)(height * (double)newWidth/(double)width);
+				return new ImageRectangle(
+						0, -((h - newWidth) / 2), newWidth, h);
+			}
+		case INSQUARE:
+			if (width > height) {
+				return getNewRectangle(width, height, newWidth, ScaleType.FITWIDTH);
+			} else {
+				return new ImageRectangle(
+						0, 0,
+						(int)(width * (double)newWidth/(double)height),
+						newWidth);
+			}
+		case FITWIDTH:
+			return new ImageRectangle(
+					0, 0, newWidth,
+					(int)(height * (double)newWidth/(double)width));
+		}
+		return null;
+	}
+
 	public static int getScaledWidth() {
 		Mobylet m = MobyletFactory.getInstance();
 		DeviceDisplay dp = m.getDisplay();
@@ -99,8 +153,7 @@ public class ImageUtils {
 			HttpServletRequest request = RequestUtils.get();
 			if (ImageConfig.PVAL_AUTOSCALE.equalsIgnoreCase(
 					request.getParameter(ImageConfig.PKEY_AUTOSCALE)) &&
-					(StringUtils.isNotEmpty(request.getParameter(ImageConfig.PKEY_HEIGHT)) ||
-							StringUtils.isNotEmpty(request.getParameter(ImageConfig.PKEY_WIDTH)))) {
+					StringUtils.isNotEmpty(request.getParameter(ImageConfig.PKEY_WIDTH))) {
 				return true;
 			}
 		}

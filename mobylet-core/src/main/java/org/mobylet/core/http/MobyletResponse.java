@@ -107,7 +107,8 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 							.getWrittenBytesInputStream(),
 						outStream,
 						ImageUtils.getImageCodec(),
-						ImageUtils.getScaledWidth());
+						ImageUtils.getScaledWidth(),
+						ImageUtils.getScaleType());
 				setContentLength(outStream.getLength());
 			}
 			outputStream.flush();

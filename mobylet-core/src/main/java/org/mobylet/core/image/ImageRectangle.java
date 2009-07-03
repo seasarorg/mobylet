@@ -1,18 +1,40 @@
 package org.mobylet.core.image;
 
-public class ImageDimension {
+public class ImageRectangle {
+
+	protected int x;
+
+	protected int y;
 
 	protected int width;
 
 	protected int height;
 
-	public ImageDimension() {
+	public ImageRectangle() {
 		//NOP
 	}
 
-	public ImageDimension(int w, int h) {
+	public ImageRectangle(int x, int y, int w, int h) {
+		this.x = x;
+		this.y = y;
 		width = w;
 		height = h;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	public int getWidth() {

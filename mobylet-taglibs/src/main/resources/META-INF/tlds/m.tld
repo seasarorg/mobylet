@@ -207,12 +207,12 @@
 		<attribute>
 			<description>
 			<![CDATA[
-			ブラウザ縦幅比拡大率（1.0でブラウザ縦幅一杯）
+			変換方式（SQUARECLIP, INSQUARE, FITWIDTH）
 			]]>
 			</description>
-			<name>magniHeight</name>
+			<name>scaleType</name>
 			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
+			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
 

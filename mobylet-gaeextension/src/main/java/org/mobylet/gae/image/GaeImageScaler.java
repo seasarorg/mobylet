@@ -36,7 +36,7 @@ public class GaeImageScaler extends MobyletImageScaler {
 			Transform transformer = ImagesServiceFactory.makeResize(width, height);
 			image = imagesService.applyTransform(transformer, image);
 			//Crop
-			if (scaleType == ScaleType.SQUARE_THUMBNAIL) {
+			if (scaleType == ScaleType.CLIPSQUARE) {
 				transformer = ImagesServiceFactory.makeCrop(
 						rectangle.getX(), rectangle.getY(),
 						rectangle.getX() + newWidth,

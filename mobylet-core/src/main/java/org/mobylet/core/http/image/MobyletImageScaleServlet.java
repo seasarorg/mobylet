@@ -95,7 +95,8 @@ public class MobyletImageScaleServlet extends HttpServlet {
 				imageConnectionStream.getInputStream(),
 				outStream,
 				codec,
-				ImageUtils.getScaledWidth());
+				ImageUtils.getScaledWidth(),
+				ImageUtils.getScaleType());
 		//closeConnection
 		if (imageConnectionStream.getConnection() != null) {
 			imageConnectionStream.getConnection().disconnect();
