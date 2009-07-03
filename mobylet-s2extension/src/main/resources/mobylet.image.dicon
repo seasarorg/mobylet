@@ -9,9 +9,21 @@
 			   instance="singleton" >
 	</component>
 
-	<!-- ImageScaleHelper -->
-	<component name="imageScaleHelper"
-			   class="org.mobylet.core.image.impl.MobyletImageScaleHelper"
+	<!-- ImageReader -->
+	<component name="imageReader"
+			   class="org.mobylet.core.image.impl.MobyletImageReader"
+			   instance="singleton" >
+	</component>
+
+	<!-- ImageConfig -->
+	<component name="imageConfig"
+			   class="org.mobylet.core.image.ImageConfig"
+			   instance="singleton" >
+	</component>
+
+	<!-- ImageCacheHelper -->
+	<component name="imageCacheHelper"
+			   class="org.mobylet.core.image.impl.MobyletImageCacheHelper"
 			   instance="singleton" >
 	</component>
 
