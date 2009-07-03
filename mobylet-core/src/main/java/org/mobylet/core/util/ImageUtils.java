@@ -84,7 +84,7 @@ public class ImageUtils {
 
 	public static ScaleType getScaleType(String scaleTypeStr) {
 		ImageConfig config = SingletonUtils.get(ImageConfig.class);
-		ScaleType scaleType = config.getDefaultScaleType();
+		ScaleType scaleType = null;
 		if (StringUtils.isNotEmpty(scaleTypeStr)) {
 			scaleType = ScaleType.valueOf(scaleTypeStr);
 			if (scaleType == null) {
@@ -93,7 +93,7 @@ public class ImageUtils {
 		} else {
 			scaleType = config.getDefaultScaleType();
 		}
-		return config.getDefaultScaleType();
+		return scaleType;
 	}
 
 	public static ImageRectangle getNewRectangle(
