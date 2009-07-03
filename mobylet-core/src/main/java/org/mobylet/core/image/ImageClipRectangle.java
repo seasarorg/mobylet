@@ -1,6 +1,6 @@
 package org.mobylet.core.image;
 
-public class ImageRectangle {
+public class ImageClipRectangle {
 
 	protected int x;
 
@@ -10,11 +10,11 @@ public class ImageRectangle {
 
 	protected int height;
 
-	public ImageRectangle() {
+	public ImageClipRectangle() {
 		//NOP
 	}
 
-	public ImageRectangle(int x, int y, int w, int h) {
+	public ImageClipRectangle(int x, int y, int w, int h) {
 		this.x = x;
 		this.y = y;
 		width = w;

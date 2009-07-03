@@ -4,8 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.image.ImageClipRectangle;
 import org.mobylet.core.image.ImageCodec;
-import org.mobylet.core.image.ImageRectangle;
 import org.mobylet.core.image.ScaleType;
 import org.mobylet.core.image.impl.MobyletImageScaler;
 import org.mobylet.core.util.InputStreamUtils;
@@ -26,7 +26,7 @@ public class GaeImageScaler extends MobyletImageScaler {
 			Image image = ImagesServiceFactory.makeImage(
 					InputStreamUtils.getAllBytes(imgStream));
 			//CalcNewSize
-			ImageRectangle rectangle = getNewRectangle(
+			ImageClipRectangle rectangle = getClipRectangle(
 					image.getWidth(), image.getHeight(), newWidth, scaleType);
 			int width = rectangle.getWidth();
 			int height = rectangle.getHeight();
@@ -38,9 +38,10 @@ public class GaeImageScaler extends MobyletImageScaler {
 			//Crop
 			if (scaleType == ScaleType.CLIPSQUARE) {
 				transformer = ImagesServiceFactory.makeCrop(
-						rectangle.getX(), rectangle.getY(),
-						rectangle.getX() + newWidth,
-						rectangle.getY() + newWidth);
+						(double)rectangle.getX()/(double)width,
+						(double)rectangle.getY()/(double)height,
+						(double)(rectangle.getX() + newWidth)/(double)width,
+						(double)(rectangle.getY() + newWidth)/(double)height);
 				image = imagesService.applyTransform(transformer, image);
 			}
 			//Output

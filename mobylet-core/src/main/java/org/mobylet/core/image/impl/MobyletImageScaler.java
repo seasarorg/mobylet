@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ImageCodec;
-import org.mobylet.core.image.ImageRectangle;
+import org.mobylet.core.image.ImageClipRectangle;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.image.ScaleType;
 import org.mobylet.core.util.ImageUtils;
@@ -25,8 +25,8 @@ public class MobyletImageScaler implements ImageScaler {
 		try {
 			//CalcRectangle
 			BufferedImage img = ImageIO.read(imgStream);
-			ImageRectangle rectangle =
-				getNewRectangle(img.getWidth(), img.getHeight(), newWidth, scaleType);
+			ImageClipRectangle rectangle =
+				getClipRectangle(img.getWidth(), img.getHeight(), newWidth, scaleType);
 			int scaledWidth = rectangle.getWidth();
 			int scaledHeight = rectangle.getHeight();
 			int drawWidth = scaledWidth;
@@ -82,9 +82,9 @@ public class MobyletImageScaler implements ImageScaler {
 	}
 
 	@Override
-	public ImageRectangle getNewRectangle(
+	public ImageClipRectangle getClipRectangle(
 			int width, int height, int newWidth, ScaleType scaleType) {
-		return ImageUtils.getNewRectangle(width, height, newWidth, scaleType);
+		return ImageUtils.getClipRectangle(width, height, newWidth, scaleType);
 	}
 
 }

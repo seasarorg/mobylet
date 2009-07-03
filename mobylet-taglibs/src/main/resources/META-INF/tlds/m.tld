@@ -201,7 +201,7 @@
 			]]>
 			</description>
 			<name>magniWidth</name>
-			<required>false</required>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
@@ -212,7 +212,7 @@
 			</description>
 			<name>scaleType</name>
 			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 
