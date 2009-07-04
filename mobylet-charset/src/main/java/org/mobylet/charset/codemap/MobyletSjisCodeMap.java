@@ -45,7 +45,7 @@ public class MobyletSjisCodeMap {
 	}
 
 	public static char toChar(int b) {
-		if (0x8149 <= b && b <= 0x9FFC) {
+		if (0x8140 <= b && b <= 0x9FFC) {
 			return MobyletSjisDecodeSc1DB.toChar(b);
 		} else if (0xE040 <= b && b <= 0xFC4B) {
 			return MobyletSjisDecodeSc2DB.toChar(b);

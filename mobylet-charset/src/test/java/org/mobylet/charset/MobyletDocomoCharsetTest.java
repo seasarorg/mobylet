@@ -26,8 +26,8 @@ public class MobyletDocomoCharsetTest extends TestCase {
 	public void test_encodeMatchWindows31J() {
 		//## ARRANGE ##
 		Charset charset = new MobyletDocomoCharset();
-		ByteBuffer encodeM = charset.encode("あいう");
-		ByteBuffer encodeW = Charset.forName("windows-31j").encode("あいう");
+		ByteBuffer encodeM = charset.encode("あいう。、");
+		ByteBuffer encodeW = Charset.forName("windows-31j").encode("あいう。、");
 
 		//## ACT ##
 		byte[] bEncodeM = encodeM.array();
@@ -57,9 +57,9 @@ public class MobyletDocomoCharsetTest extends TestCase {
 		//## ARRANGE ##
 		Charset charset = new MobyletDocomoCharset();
 		CharBuffer decodeM = charset.decode(
-				ByteBuffer.wrap("あいうえお".getBytes(new MobyletDocomoCharset())));
+				ByteBuffer.wrap("あいうえお。、".getBytes(new MobyletDocomoCharset())));
 		CharBuffer decodeW = charset.decode(
-				ByteBuffer.wrap("あいうえお".getBytes(Charset.forName("windows-31j"))));
+				ByteBuffer.wrap("あいうえお。、".getBytes(Charset.forName("windows-31j"))));
 
 		//## ACT ##
 		String sDecodeM = new String(decodeM.array());
