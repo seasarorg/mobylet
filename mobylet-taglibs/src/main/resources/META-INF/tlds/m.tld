@@ -214,6 +214,9 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<dynamic-attributes>
+			true
+		</dynamic-attributes>
 	</tag>
 
 	<!-- <m:googlemap /> -->
