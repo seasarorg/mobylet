@@ -14,7 +14,7 @@ import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
-import org.mobylet.core.util.URLUtils;
+import org.mobylet.core.util.UrlUtils;
 
 public class MobyletImageReader implements ImageReader {
 
@@ -80,7 +80,7 @@ public class MobyletImageReader implements ImageReader {
 		}
 		File imageBase;
 		if ((imageBase = getImageBase()) == null) {
-			String currentUrl = URLUtils.getCurrentUrl();
+			String currentUrl = UrlUtils.getCurrentUrl();
 			int index = -1;
 			if ((index = currentUrl.lastIndexOf('/')) > 0) {
 				currentUrl = currentUrl.substring(0, index+1);
