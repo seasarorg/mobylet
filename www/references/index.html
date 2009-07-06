@@ -44,35 +44,94 @@ mobyletは携帯Webアプリケーション構築用のフレームワークで�
 				</p>
 
 				<h3 id="career" class="green">キャリアの識別</h3>
-				<p>アクセス端末のキャリアをMobyletインスタンスから取得します。</p>
-<pre class="code">
+				<p>mobyletでは、アクセス端末のキャリア情報を取得する機能を提供しています。</p>
+				<pre class="code">
 Mobylet mobylet = MobyletFactory.getInstance();
-Carrier carrier = mobylet.getCarrier();
-</pre>
+Carrier carrier = mobylet.getCarrier();</pre>
 
 				<h3 id="deviceDisplay" class="green">画面表示サイズの取得</h3>
-				<p>端末の画面表示サイズを取得します。</p>
-<pre class="code">
+				<p>
+mobyletでは、アクセス端末の画面表示サイズを取得する機能を提供しています。<br/>
+<br/>
+画面表示サイズを取得するには、次のように記述します。
+				</p>
+				<pre class="code">
 Mobylet mobylet = MobyletFactory.getInstance();
 Device device = mobylet.getDevice();
 DeviceDisplay deviceDisplay = device.getDeviceDisplay();
-</pre>
-				<p>幅を取得します。</p>
-<pre class="code">
-deviceDisplay.getWidth();
-</pre>
-				<p>高さを取得します。</p>
-<pre class="code">
-deviceDisplay.getHeight()
-</pre>
+deviceDisplay.getWidth(); //幅取得
+deviceDisplay.getHeight(); //高さ取得</pre>
 
 				<h3 id="gps" class="green">GPS対応機種の識別</h3>
-				<p>GPS対応機種の識別を識別します</p>
+				<p>mobyletでは、GPS対応機種を識別する機能を提供しています。</p>
 <pre class="code">
 Mobylet mobylet = MobyletFactory.getInstance();
 Device device = mobylet.getDevice();
 device.hasGps();
 </pre>
+
+				<h3 id="gpsinfo" class="green">GPS情報の取得</h3>
+				<p>
+mobyletでGPS情報取得用アンカーを生成するには、次のように記述します。
+				</p>
+				<pre class="code">
+&lt;m:gps kickBackUrl="http://localhost:8080/mobylet-example/gps.jsp"&gt;
+	位置情報(GPS)
+&lt;/m:gps&gt;</pre>
+				<p>
+kickBackUrlにキャリアからリダイレクトを受け付けるURLを記述します。<br/>
+<br/>
+リダイレクトを受け付けたページでGPS情報を取得する場合、次のように記述します。
+				</p>
+				<pre class="code">
+Gps gps = MobyletFactory.getInstance().getGps();
+gps.getLat(); //緯度情報
+gps.getLon(); //経度情報</pre>
+				<p>
+座標の測地系を変換する場合、次のように記述します。
+				</p>
+				<pre class="code">
+GeoConverter converter = SingletonUtils.get(GeoConverter.class);
+converter.toTokyo(gps); //日本測地系に変換
+converter.toWgs84(gps); //世界測地系に変換</pre>
+
+				<h3 id="gpsmove" class="green">座標移動Gps情報の取得</h3>
+				<p>
+mobyletでは、緯度・経度に距離を加減して移動後の座標情報を取得する機能を提供しています。<br/>
+<br/>
+移動後の座標情報を取得するには、次のように記述します。
+				</p>
+				<pre class="code">
+Gps gps = MobyletFactory.getInstance().getGps();
+Gps gpsTop = GpsUtils.getMovedGps(gps, 0.0, 2000.0);//2000m北に移動
+Gps gpsBottom = GpsUtils.getMovedGps(gps, 0.0, -2000.0);//2000m南に移動
+Gps gpsRight = GpsUtils.getMovedGps(gps, 2000.0, 0.0);//2000m東に移動
+Gps gpsLeft = GpsUtils.getMovedGps(gps, -2000.0, 0.0);//2000m西に移動</pre>
+
+				<h3 id="googlemap" class="green">GoogleMapの表示</h3>
+				<p>
+mobyletでは、GoogleMapを簡単に利用する機能を提供しています。<br/>
+<br/>
+GoogleAPIのキーを<a href="http://code.google.com/intl/ja/apis/maps/signup.html">GoogleMapsAPI</a>のサイトから取得して、<br/>
+キャリアからのリダイレクトを受け付けるページに次のように記述するだけで、<br/>
+現在地を表示するGoogleMapが表示されます。
+				</p>
+				<pre class="code">
+&lt;m:googlemap key="ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469 (改行なし)
+IRSmYo0djw2uXw79MXwwZacmUqYReQ"&gt;
+&lt;/m:googlemap></pre>
+				<p>
+※keyの値は取得したGoogleAPIキーに変更してください<br/>
+<br/>
+GoogleMapsAPIで指定可能なパラメーターは全て属性として記述できます。<br/>
+マーカーを複数指定する場合は、次のようにmarkerタグをgooglemapタグの中に記述してください。
+</p>
+				<pre class="code">
+&lt;m:googlemap key="ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469 (改行なし)
+IRSmYo0djw2uXw79MXwwZacmUqYReQ"&gt;
+	&lt;m:marker lat="36.6223" lon="138.5972"/&gt;
+	&lt;m:marker lat="36.6258" lon="138.5823"/&gt;
+&lt;/m:googlemap></pre>
 
 				<h3 id="emoji" class="green">絵文字の表示</h3>
 				<p>
@@ -82,7 +141,7 @@ mobyletでは、どのキャリアのどの絵文字を基点とするかを指�
 次の例ではDocomoの「晴れ」の絵文字を基点に指定しています。
 				</p>
 <pre class="code">
-&lt;m:emoji name="晴れ" /&gt;
+&lt;m:emoji name="晴れ" carrier="DOCOMO"/&gt;
 </pre>
 				<p>実際の表示は、アクセス端末のキャリアにより次のようになります。</p>
 				<div class="container">
@@ -99,6 +158,97 @@ mobyletでは、どのキャリアのどの絵文字を基点とするかを指�
 						<p class="sf">Softbank</p>
 					</div>
 				</div>
+
+				<h3 id="resize" class="green">画像のリサイズ</h3>
+				<p>
+mobyletでは、ブラウザの横幅に合わせて画像をリサイズすることができます。<br/>
+<br/>
+デフォルトでアプリケーション内の画像に対してはリサイズ機能が有効になりますが、<br/>
+外部サイトなど任意の位置の画像を使用する場合は、<a href="../settings/resize.html">「画像リサイズの設定」</a>の内容に沿って設定してください。<br/>
+<br/>
+リサイズは以下の3種類のタイプを指定できます。
+<ul class="lm">
+<li>FITWIDTH　・・・　縦横比率を保ち画像を縮小します。</li>
+<li>CLIPSQUARE　・・・　幅・高さの大きい方に合わせて正方形に画像を縮小します。画像は中抜き画像となります。</li>
+<li>INSQUARE　・・・　幅・高さの大きい方に合わせて正方形に画像を縮小します。</li>
+</ul>
+<br/>
+次の例では横長の画像をリサイズ指定しています。
+				</p>
+				<pre class="code">
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2"/&gt;
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2" scaleType="CLIPSQUARE"/&gt;
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2" scaleType="INSQUARE"/&gt;</pre>
+				<p>実際の表示は、次のようになります。</p>
+				<div class="container">
+					<div class="fl pad5 center">
+						<img src="../img/contents/references/resize_w_f.gif" alt="リサイズ横 FITWIDTH"/>
+						<p class="sf">FITWIDTH</p>
+					</div>
+					<div class="fl pad5 center">
+						<img src="../img/contents/references/resize_w_c.gif" alt="リサイズ横 CLIPSQUARE"/>
+						<p class="sf">CLIPSQUARE</p>
+					</div>
+					<div class="fl pad5 center">
+						<img src="../img/contents/references/resize_w_i.gif" alt="リサイズ横 INSQUARE"/>
+						<p class="sf">INSQUARE</p>
+					</div>
+				</div>
+				<p>縦長の画像をリサイズ指定した場合は次のようになります。</p>
+				<pre class="code">
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2"/&gt;
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2" scaleType="CLIPSQUARE"/&gt;
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2" scaleType="INSQUARE"/&gt;</pre>
+				<div class="container">
+					<div class="fl pad5 center">
+						<img src="../img/contents/references/resize_h_f.gif" alt="リサイズ縦 FITWIDTH"/>
+						<p class="sf">FITWIDTH</p>
+					</div>
+					<div class="fl pad5 center">
+						<img src="../img/contents/references/resize_h_c.gif" alt="リサイズ縦 CLIPSQUARE"/>
+						<p class="sf">CLIPSQUARE</p>
+					</div>
+					<div class="fl pad5 center">
+						<img src="../img/contents/references/resize_h_i.gif" alt="リサイズ縦 INSQUARE"/>
+						<p class="sf">INSQUARE</p>
+					</div>
+				</div>
+				<p class="ts">
+<span class="fgRed">※Seasar2連携時、HotDeploy環境下では同ホスト同アプリケーションへのhttp経由での画像パス指定はできません。</span><br/>
+HotDeploy環境下での同ホスト同アプリケーション内への画像のパスは<br/>
+<pre class="code">
+&lt;m:img src="http://localhost:8080/mobylet-example/img/image.gif" magniWidth="0.9"/&gt;
+</pre>
+<p>
+のようにhttpから記述するのではなく、<br/>
+mobylet.image.propertiesでimage.local.base.dirに設定したディレクトリ以降のパスを
+</p>
+<pre class="code">
+&lt;m:img src="image.gif" magniWidth="0.9"/&gt;
+</pre>
+<p>
+のように記述してください。
+</p>
+				</p>
+
+				<h3 id="han" class="green">半角変換</h3>
+				<p>
+mobyletでは、全角文字を半角文字に変換する機能を提供しています。<br/>
+<br/>
+変換対象となるのは次の文字種です。
+<ul class="lm">
+	<li>大文字・小文字のアルファベット</li>
+	<li>数字</li>
+	<li>カタカナ</li>
+	<li>「／」「－」「ー」「‐」「゛」「゜」「・」</li>
+</ul>
+上記の文字を半角変換する場合、次のように記述します。
+				</p>
+				<pre class="code">
+&lt;m:han value="Ａｌｐｈａｂｅｔと１とカタカナと「／」「－」「ー」「‐」「゛」「゜」「・」を変換します。"/&gt;</pre>
+				<p>
+実際の表示は「Alphabetと1とｶﾀｶﾅと「/」「-」「-」「-」「ﾞ」「ﾟ」「･」を変換します。」のように、対象文字が半角変換されて表示されます。
+				</p>
 			</div>
 			<div id="undercontents">
 			</div>
@@ -110,7 +260,12 @@ mobyletでは、どのキャリアのどの絵文字を基点とするかを指�
 					<li><a href="#career">キャリアの識別</a></li>
 					<li><a href="#deviceDisplay">画面表示サイズの取得</a></li>
 					<li><a href="#gps">GPS対応機種の識別</a></li>
+					<li><a href="#gpsinfo">GPS情報の取得</a></li>
+					<li><a href="#gpsmove">座標移動Gps情報の取得</a></li>
+					<li><a href="#googlemap">GoogleMapの表示</a></li>
 					<li><a href="#emoji">絵文字の表示</a></li>
+					<li><a href="#resize">画像のリサイズ</a></li>
+					<li><a href="#han">半角変換</a></li>
 				</ul>
 			</div>
 		</div>
