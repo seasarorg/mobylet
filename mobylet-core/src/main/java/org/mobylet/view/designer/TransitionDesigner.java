@@ -8,17 +8,41 @@ import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.TransitionConfig;
 
 public abstract class TransitionDesigner {
 
 	protected static TransitionConfig config = new TransitionConfig();
 
-	protected static String getSessionId() {
+
+	protected String constructUrl(String url) {
+		return constructUrl(url, config);
+	}
+
+	protected String constructUrl(String url, TransitionConfig config) {
+		if (url == null) {
+			url = "";
+		}
+		//Session
+		String sessionId = getSessionId(config);
+		if (StringUtils.isNotEmpty(sessionId)) {
+			url = UrlUtils.addSession(url, sessionId);
+		}
+		//Query
+		Entry optionalEntry = getOptionalEntry(url, config);
+		if (optionalEntry != null) {
+			url = UrlUtils.addParameter(
+					url, optionalEntry.getKey(), optionalEntry.getValue());
+		}
+		return url;
+	}
+
+	protected String getSessionId() {
 		return getSessionId(config);
 	}
 
-	protected static String getSessionId(TransitionConfig config) {
+	protected String getSessionId(TransitionConfig config) {
 		Mobylet m = MobyletFactory.getInstance();
 		HttpServletRequest request = RequestUtils.get();
 		//Session
@@ -32,11 +56,11 @@ public abstract class TransitionDesigner {
 		return null;
 	}
 
-	protected static Entry getOptionalEntry(String url) {
+	protected Entry getOptionalEntry(String url) {
 		return getOptionalEntry(url, config);
 	}
 
-	protected static Entry getOptionalEntry(String url, TransitionConfig config) {
+	protected Entry getOptionalEntry(String url, TransitionConfig config) {
 		Mobylet m = MobyletFactory.getInstance();
 		HttpServletRequest request = RequestUtils.get();
 		//SecureQuery
