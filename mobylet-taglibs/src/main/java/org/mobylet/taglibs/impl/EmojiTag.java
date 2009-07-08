@@ -6,9 +6,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mobylet.core.Carrier;
-import org.mobylet.core.emoji.EmojiPoolFamily;
-import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.taglibs.utils.JspWriterUtils;
+import org.mobylet.view.designer.EmojiDesigner;
 
 public class EmojiTag extends SimpleTagSupport {
 
@@ -19,13 +18,10 @@ public class EmojiTag extends SimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
+		EmojiDesigner designer = EmojiDesigner.getDesigner();
 		JspWriterUtils.write(
 				getJspContext().getOut(),
-				new String(
-						SingletonUtils.get(EmojiPoolFamily.class)
-						.getEmojiPool(carrier)
-						.get(name)
-						.getCodes())
+				designer.get(name, carrier)
 				);
 	}
 

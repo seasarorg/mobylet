@@ -5,7 +5,8 @@ import java.io.IOException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.mobylet.taglibs.impl.GoogleMapTag.Marker;
+import org.mobylet.core.gps.Geo;
+import org.mobylet.core.gps.Gps;
 
 public class GoogleMapMarkerTag extends SimpleTagSupport {
 
@@ -18,9 +19,10 @@ public class GoogleMapMarkerTag extends SimpleTagSupport {
 	public void doTag() throws JspException, IOException {
 		GoogleMapTag googleMapTag =
 			(GoogleMapTag)findAncestorWithClass(this, GoogleMapTag.class);
-		Marker marker = new Marker();
-		marker.setLat(lat);
-		marker.setLon(lon);
+		Gps marker = new Gps(
+				Double.parseDouble(lat),
+				Double.parseDouble(lon),
+				Geo.WGS84);
 		googleMapTag.addMarker(marker);
 	}
 

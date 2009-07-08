@@ -10,7 +10,7 @@ import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletDynamicSimpleTagSupport;
 import org.mobylet.taglibs.utils.JspWriterUtils;
-import org.mobylet.taglibs.utils.UrlUtils;
+import org.mobylet.view.designer.ImageDesigner;
 
 public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
@@ -28,51 +28,12 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
-		if(config.useScaleServlet()) {
-			useServlet();
-		} else {
-			useFilter();
-		}
-	}
-
-	protected void useFilter() {
-		String imgSrc = src;
-		if (StringUtils.isNotEmpty(imgSrc)) {
-			imgSrc = UrlUtils.addParameter(
-					imgSrc,
-					ImageConfig.PKEY_AUTOSCALE,
-					ImageConfig.PVAL_AUTOSCALE);
-			imgSrc = UrlUtils.addParameter(
-					imgSrc,
-					ImageConfig.PKEY_WIDTH,
-					magniWidth);
-			imgSrc = UrlUtils.addParameter(
-					imgSrc,
-					ImageConfig.PKEY_SCALETYPE,
-					ImageUtils.getScaleType(getScaleType()).name());
-		}
-		addAttribute("src", imgSrc);
-		JspWriterUtils.write(
-				getJspContext().getOut(),
-				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
-	}
-
-	protected void useServlet() {
-		String imgSrc = config.getScaleServletPath();
-		if (StringUtils.isNotEmpty(imgSrc)) {
-			imgSrc = UrlUtils.addParameter(
-					imgSrc,
-					ImageConfig.PKEY_IMGPATH,
-					src);
-			imgSrc = UrlUtils.addParameter(
-					imgSrc,
-					ImageConfig.PKEY_WIDTH,
-					magniWidth);
-			imgSrc = UrlUtils.addParameter(
-					imgSrc,
-					ImageConfig.PKEY_SCALETYPE,
-					ImageUtils.getScaleType(getScaleType()).name());
-		}
+		ImageDesigner designer = ImageDesigner.getDesigner();
+		String imgSrc = designer.getSrc(
+				src,
+				StringUtils.isEmpty(magniWidth) ?
+						null : Double.parseDouble(magniWidth),
+				ImageUtils.getScaleType(scaleType));
 		addAttribute("src", imgSrc);
 		JspWriterUtils.write(
 				getJspContext().getOut(),

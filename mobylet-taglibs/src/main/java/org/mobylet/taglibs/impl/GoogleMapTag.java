@@ -6,16 +6,12 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.mobylet.core.Mobylet;
-import org.mobylet.core.MobyletFactory;
-import org.mobylet.core.device.DeviceDisplay;
-import org.mobylet.core.gps.GeoConverter;
+import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.Gps;
-import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletTag;
 import org.mobylet.taglibs.utils.JspWriterUtils;
-import org.mobylet.taglibs.utils.UrlUtils;
+import org.mobylet.view.designer.GoogleMapDesigner;
 
 public class GoogleMapTag extends TagSupport implements MobyletTag {
 
@@ -40,7 +36,7 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 	protected Boolean sensor = false;
 
 
-	protected List<Marker> markers;
+	protected List<Gps> markers;
 
 
 	@Override
@@ -51,49 +47,37 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 
 	@Override
 	public int doEndTag() throws JspException {
-		Mobylet m = MobyletFactory.getInstance();
-		//現在地
-		if (StringUtils.isEmpty(lat) &&
-				StringUtils.isEmpty(lon)) {
-			Gps gps = m.getGps();
-			if (gps != null) {
-				gps = SingletonUtils.get(GeoConverter.class).toWgs84(gps);
-				setLat(String.valueOf(gps.getLat()));
-				setLon(String.valueOf(gps.getLon()));
-			} else {
-				recycle();
-				return EVAL_PAGE;
+		if (StringUtils.isEmpty(key)) {
+			return EVAL_PAGE;
+		}
+		GoogleMapDesigner designer = GoogleMapDesigner.getDesigner(key);
+		if (StringUtils.isNotEmpty(lat) &&
+				StringUtils.isNotEmpty(lon)) {
+			designer.setCenter(
+					new Gps(
+							Double.parseDouble(lat),
+							Double.parseDouble(lon),
+							Geo.WGS84));
+		}
+		if (width != null && height != null) {
+			designer.setWidth(width);
+			designer.setHeight(height);
+		}
+		if (zoom != null) {
+			designer.setZoom(zoom);
+		}
+		if (sensor != null) {
+			designer.setSensor(sensor);
+		}
+		if (markers != null && markers.size() > 0) {
+			for (Gps marker : markers) {
+				designer.addMarker(marker);
 			}
-		}
-		if(markers == null) {
-			Marker marker = new Marker();
-			marker.setLat(getLat());
-			marker.setLon(getLon());
-			addMarker(marker);
-		}
-		//画面全面
-		if (width == null &&
-				height == null) {
-			DeviceDisplay dp = m.getDisplay();
-			setWidth(dp.getWidth());
-			setHeight(dp.getHeight());
-		}
-		//URL構築
-		String url = URL;
-		url = UrlUtils.addParameter(url, "maptype", "mobile");
-		url = UrlUtils.addParameter(url, "key", getKey());
-		url = UrlUtils.addParameter(url, "center", getLat() + "," + getLon(), false);
-		url = UrlUtils.addParameter(url, "zoom", "" + getZoom());
-		url = UrlUtils.addParameter(url, "size", "" + getWidth() + "x" + getHeight());
-		url = UrlUtils.addParameter(url, "sensor", "" + getSensor());
-		for (Marker marker : markers) {
-			url = UrlUtils.addParameter(
-					url, "markers", marker.getLat() + "," + marker.getLon(), false);
 		}
 		//Write
 		JspWriterUtils.write(
 				pageContext.getOut(),
-				STAG + TAG + " src=\"" + url + "\"" + ETAG);
+				STAG + TAG + " src=\"" + designer.getSrc() + "\"" + ETAG);
 		//EvalPage
 		recycle();
 		return EVAL_PAGE;
@@ -110,9 +94,9 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 		sensor = false;
 	}
 
-	public void addMarker(Marker marker) {
+	public void addMarker(Gps marker) {
 		if (markers == null) {
-			markers = new ArrayList<Marker>();
+			markers = new ArrayList<Gps>();
 		}
 		markers.add(marker);
 	}
@@ -171,35 +155,6 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 
 	public void setSensor(Boolean sensor) {
 		this.sensor = sensor;
-	}
-
-	/**
-	 * マーカクラス
-	 *
-	 * @author stakeuchi
-	 */
-	public static class Marker {
-
-		protected String lat;
-
-		protected String lon;
-
-		public String getLat() {
-			return lat;
-		}
-
-		public void setLat(String lat) {
-			this.lat = lat;
-		}
-
-		public String getLon() {
-			return lon;
-		}
-
-		public void setLon(String lon) {
-			this.lon = lon;
-		}
-
 	}
 
 }

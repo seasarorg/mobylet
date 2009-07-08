@@ -2,11 +2,11 @@ package org.mobylet.taglibs.impl;
 
 import javax.servlet.jsp.JspException;
 
-import org.mobylet.core.util.StringUtils;
+import org.mobylet.taglibs.MobyletDynamicBodyTagSupport;
 import org.mobylet.taglibs.utils.JspWriterUtils;
-import org.mobylet.taglibs.utils.UrlUtils;
+import org.mobylet.view.designer.AnchorDesigner;
 
-public class ATag extends TransitionTag {
+public class ATag extends MobyletDynamicBodyTagSupport {
 
 	private static final long serialVersionUID = 6951351713553308618L;
 
@@ -18,31 +18,15 @@ public class ATag extends TransitionTag {
 
 	@Override
 	public int doStartTag() throws JspException {
+		//Designer
+		AnchorDesigner designer = AnchorDesigner.getDesigner();
 		//URL
-		addAttribute("href", constructUrl(href));
+		addAttribute("href", designer.getHref(href));
 		JspWriterUtils.write(
 				pageContext.getOut(),
 				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
 		//BodyBuffered
 		return EVAL_BODY_BUFFERED;
-	}
-
-	protected String constructUrl(String url) {
-		if (url == null) {
-			url = "";
-		}
-		//Session
-		String sessionId = getSessionId();
-		if (StringUtils.isNotEmpty(sessionId)) {
-			url = UrlUtils.addSession(url, sessionId);
-		}
-		//Query
-		Entry paramEntry = getAppendParameter(url);
-		if (paramEntry != null) {
-			url = UrlUtils.addParameter(
-					url, paramEntry.getKey(), paramEntry.getValue());
-		}
-		return url;
 	}
 
 	@Override

@@ -132,15 +132,6 @@
 			<![CDATA[
 			]]>
 			</description>
-			<name>useEasySurveying</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>
-			<![CDATA[
-			]]>
-			</description>
 			<name>isUidQueryRequired</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -282,11 +273,11 @@
 		</attribute>
 	</tag>
 
-	<!-- <m:han /> -->
+	<!-- <m:out /> -->
 	<tag>
-		<name>han</name>
+		<name>out</name>
 		<tag-class>
-			org.mobylet.taglibs.impl.HanTag
+			org.mobylet.taglibs.impl.OutTag
 		</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
