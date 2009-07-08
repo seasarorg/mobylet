@@ -15,9 +15,11 @@ public class S2MobyletFilter extends MobyletFilter {
 		}
 	}
 
+	/*
 	@Override
 	protected void initInitializer(FilterConfig filterConfig) {
 		//NOP
 	}
+	*/
 
 }
