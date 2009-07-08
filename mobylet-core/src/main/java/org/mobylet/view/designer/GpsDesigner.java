@@ -1,8 +1,13 @@
 package org.mobylet.view.designer;
 
+import org.mobylet.core.Carrier;
+import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
+import org.mobylet.view.design.GpsDesign;
+import org.mobylet.view.design.TagAttribute;
 
 public class GpsDesigner extends TransitionDesigner {
 
@@ -19,6 +24,29 @@ public class GpsDesigner extends TransitionDesigner {
 			return getDesigner();
 		}
 		return designer;
+	}
+
+
+	public GpsDesign getGpsDesign(String kickBackUrl) {
+		Mobylet m = MobyletFactory.getInstance();
+		if (m.getCarrier() == Carrier.OTHER) {
+			return null;
+		}
+		GpsDesign gpsDesign = null;
+		//GPS情報取得URL
+		if (StringUtils.isNotEmpty(kickBackUrl) &&
+				m.getDevice() != null &&
+				m.getDevice().hasGps()) {
+			gpsDesign = new GpsDesign(getGpsUrl(kickBackUrl));
+			if (m.getCarrier() == Carrier.DOCOMO) {
+				gpsDesign.setTagAttribute(new TagAttribute("lcs", "lcs"));
+			}
+		}
+		//簡易位置取得URL
+		else if (StringUtils.isNotEmpty(kickBackUrl)) {
+			gpsDesign = new GpsDesign(getEasyGpsUrl(kickBackUrl));
+		}
+		return gpsDesign;
 	}
 
 

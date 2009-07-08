@@ -15,6 +15,7 @@ public class OutDesigner {
 
 	public static final String DQUOT = "&quot;";
 
+	public static final String BR = "<br />";
 
 
 	public static OutDesigner getDesigner() {
@@ -32,7 +33,17 @@ public class OutDesigner {
 	}
 
 	public String get(String value, boolean escapeXml, boolean breakToBr) {
-		return null;
+		if (StringUtils.isEmpty(value)) {
+			return value;
+		}
+		String retStr = StringUtils.toHan(value);
+		if (escapeXml) {
+			retStr = doEscapeXml(retStr);
+		}
+		if (breakToBr) {
+			retStr = doBreakToBr(retStr);
+		}
+		return retStr;
 	}
 
 
@@ -45,15 +56,20 @@ public class OutDesigner {
 		for (char c : charArray) {
 			switch (c) {
 			case '&':
-				buf.append("&amp;");
+				buf.append(AMP);
+				break;
 			case '<':
-				buf.append("&lt;");
+				buf.append(LT);
+				break;
 			case '>':
-				buf.append("&gt;");
+				buf.append(GT);
+				break;
 			case '\'':
-				buf.append("&#39;");
+				buf.append(SQUOT);
+				break;
 			case '"':
-				buf.append("&quot;");
+				buf.append(DQUOT);
+				break;
 			default:
 				buf.append(c);
 				break;
@@ -62,5 +78,25 @@ public class OutDesigner {
 		return buf.toString();
 	}
 
+	protected String doBreakToBr(String value) {
+		if (StringUtils.isEmpty(value)) {
+			return value;
+		}
+		char[] charArray = value.toCharArray();
+		StringBuilder buf = new StringBuilder();
+		for (char c : charArray) {
+			switch (c) {
+			case '\r':
+				break;
+			case '\n':
+				buf.append(BR);
+				break;
+			default:
+				buf.append(c);
+				break;
+			}
+		}
+		return buf.toString();
+	}
 
 }
