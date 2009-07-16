@@ -1,0 +1,32 @@
+<configuration debug="true">
+	<include resource="transaction-filters.xml" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+		</layout>
+	</appender>
+	<appender name="commons.transaction" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %marker - %msg%n</Pattern>
+		</layout>
+	</appender>
+
+	<logger name="org.t2framework">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="org.t2framework.commons.transaction" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="commons.transaction" />
+	</logger>
+
+	<logger name="org.t2framework.samples">
+		<level value="DEBUG" />
+	</logger>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
