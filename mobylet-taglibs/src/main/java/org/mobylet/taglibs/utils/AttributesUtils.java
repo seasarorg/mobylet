@@ -12,9 +12,7 @@ public class AttributesUtils {
 			Set<Attribute> dynAttributes, String name, Object value) {
 		if (StringUtils.isNotEmpty(name)) {
 			String strValue = null;
-			if (value == null) {
-				strValue = "";
-			} else {
+			if (value != null) {
 				strValue = value.toString();
 			}
 			dynAttributes.add(new Attribute(name, strValue));
