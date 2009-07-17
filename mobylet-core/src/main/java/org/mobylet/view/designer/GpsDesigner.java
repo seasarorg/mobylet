@@ -69,7 +69,7 @@ public class GpsDesigner extends TransitionDesigner {
 		switch (MobyletFactory.getInstance().getCarrier()) {
 		case DOCOMO:
 			return "http://w1m.docomo.ne.jp/cp/iarea?" +
-				"ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=1" +
+				"ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=0" +
 				"&nl=" + UrlUtils.encodeUrl(url.replace('?', '&'));
 		case AU:
 			return "device:location?url=" + url.replace('?', '&');
