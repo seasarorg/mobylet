@@ -70,7 +70,7 @@ public class GpsDesigner extends TransitionDesigner {
 		case DOCOMO:
 			return "http://w1m.docomo.ne.jp/cp/iarea?" +
 				"ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=1" +
-				"&nl=" + url.replace('?', '&').replaceAll("[=]", "%3d");
+				"&nl=" + UrlUtils.encodeUrl(url.replace('?', '&'));
 		case AU:
 			return "device:location?url=" + url.replace('?', '&');
 		case SOFTBANK:
