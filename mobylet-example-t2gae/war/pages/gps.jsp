@@ -10,7 +10,7 @@
 <a href="hello.jsp">Hello World</a><br/>
 <a href="profile.jsp">端末情報</a><br/>
 <a href="resize.jsp">画像リサイズ</a><br/>
-<m:gps kickBackUrl="http://localhost:8080/pages/done.jsp">位置情報(GPS)</m:gps><br />
+<m:gps kickBackUrl="http://mobylet-example-t2gae.appspot.com/pages/done.jsp">位置情報(GPS)</m:gps><br />
 
 </div>
 </body>
