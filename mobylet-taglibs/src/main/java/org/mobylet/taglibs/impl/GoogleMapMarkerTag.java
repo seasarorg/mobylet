@@ -17,13 +17,17 @@ public class GoogleMapMarkerTag extends SimpleTagSupport {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
-		GoogleMapTag googleMapTag =
-			(GoogleMapTag)findAncestorWithClass(this, GoogleMapTag.class);
-		Gps marker = new Gps(
-				Double.parseDouble(lat),
-				Double.parseDouble(lon),
-				Geo.WGS84);
-		googleMapTag.addMarker(marker);
+		try {
+			GoogleMapTag googleMapTag =
+				(GoogleMapTag)findAncestorWithClass(this, GoogleMapTag.class);
+			Gps marker = new Gps(
+					Double.parseDouble(lat),
+					Double.parseDouble(lon),
+					Geo.WGS84);
+			googleMapTag.addMarker(marker);
+		} catch (Exception e) {
+			throw new JspException(e);
+		}
 	}
 
 	public String getLat() {

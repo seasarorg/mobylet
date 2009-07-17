@@ -16,16 +16,20 @@ public class HiddenUidTag extends MobyletDynamicSimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
-		Mobylet m = MobyletFactory.getInstance();
-		if (m.getCarrier() == Carrier.DOCOMO) {
-			addAttribute("name", "uid");
-			addAttribute("value", m.getUid());
-			JspWriterUtils.write(
-					getJspContext().getOut(),
-					STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG
-					);
+		try {
+			Mobylet m = MobyletFactory.getInstance();
+			if (m.getCarrier() == Carrier.DOCOMO) {
+				addAttribute("name", "uid");
+				addAttribute("value", m.getUid());
+				JspWriterUtils.write(
+						getJspContext().getOut(),
+						STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG
+						);
+			}
+			recycle();
+		} catch (Exception e) {
+			throw new JspException(e);
 		}
-		recycle();
 	}
 
 }

@@ -18,11 +18,15 @@ public class EmojiTag extends SimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
-		EmojiDesigner designer = EmojiDesigner.getDesigner();
-		JspWriterUtils.write(
-				getJspContext().getOut(),
-				designer.get(name, carrier)
-				);
+		try {
+			EmojiDesigner designer = EmojiDesigner.getDesigner();
+			JspWriterUtils.write(
+					getJspContext().getOut(),
+					designer.get(name, carrier)
+					);
+		} catch (Exception e) {
+			throw new JspException(e);
+		}
 	}
 
 	public String getName() {

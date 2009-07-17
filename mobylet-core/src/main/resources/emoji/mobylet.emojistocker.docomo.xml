@@ -296,8 +296,8 @@
        <relation carrier="OTHER">〓</relation>
    </emoji>
    <emoji name="遊園地" code="0xE679">
-       <relation carrier="AU">〓</relation>
-       <relation carrier="SOFTBANK">〓</relation>
+       <relation carrier="AU">0xE9DF</relation>
+       <relation carrier="SOFTBANK">0xE124</relation>
        <relation carrier="OTHER">〓</relation>
    </emoji>
    <emoji name="音楽" code="0xE67A">

@@ -20,13 +20,17 @@ public class OutTag extends SimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
-		if (StringUtils.isEmpty(value)) {
-			return;
+		try {
+			if (StringUtils.isEmpty(value)) {
+				return;
+			}
+			OutDesigner designer = OutDesigner.getDesigner();
+			String outString = designer.get(value, escapeXml, breakToBr);
+			JspWriterUtils.write(
+					getJspContext().getOut(), outString);
+		} catch (Exception e) {
+			throw new JspException(e);
 		}
-		OutDesigner designer = OutDesigner.getDesigner();
-		String outString = designer.get(value, escapeXml, breakToBr);
-		JspWriterUtils.write(
-				getJspContext().getOut(), outString);
 	}
 
 

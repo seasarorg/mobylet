@@ -19,27 +19,35 @@ public class GpsTag extends ATag {
 
 	@Override
 	public int doStartTag() throws JspException {
-		GpsDesigner designer = GpsDesigner.getDesigner();
-		GpsDesign gpsDesign = designer.getGpsDesign(kickBackUrl);
-		if (gpsDesign == null ||
-				StringUtils.isEmpty(gpsDesign.getUrl())) {
+		try {
+			GpsDesigner designer = GpsDesigner.getDesigner();
+			GpsDesign gpsDesign = designer.getGpsDesign(kickBackUrl);
+			if (gpsDesign == null ||
+					StringUtils.isEmpty(gpsDesign.getUrl())) {
+				return EVAL_BODY_BUFFERED;
+			}
+			addAttribute("href", gpsDesign.getUrl());
+			TagAttribute attribute = gpsDesign.getTagAttribute();
+			if (attribute != null) {
+				addAttribute(attribute.getName(), attribute.getValue());
+			}
+			JspWriterUtils.write(
+					pageContext.getOut(),
+					STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
 			return EVAL_BODY_BUFFERED;
+		} catch (Exception e) {
+			throw new JspException(e);
 		}
-		addAttribute("href", gpsDesign.getUrl());
-		TagAttribute attribute = gpsDesign.getTagAttribute();
-		if (attribute != null) {
-			addAttribute(attribute.getName(), attribute.getValue());
-		}
-		JspWriterUtils.write(
-				pageContext.getOut(),
-				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
-		return EVAL_BODY_BUFFERED;
 	}
 
 	@Override
 	public int doEndTag() throws JspException {
-		recycle();
-		return super.doEndTag();
+		try {
+			recycle();
+			return super.doEndTag();
+		} catch (Exception e) {
+			throw new JspException(e);
+		}
 	}
 
 	public String getKickBackUrl() {

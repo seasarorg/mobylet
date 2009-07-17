@@ -28,16 +28,20 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException, IOException {
-		ImageDesigner designer = ImageDesigner.getDesigner();
-		String imgSrc = designer.getSrc(
-				src,
-				StringUtils.isEmpty(magniWidth) ?
-						null : Double.parseDouble(magniWidth),
-				ImageUtils.getScaleType(scaleType));
-		addAttribute("src", imgSrc);
-		JspWriterUtils.write(
-				getJspContext().getOut(),
-				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
+		try {
+			ImageDesigner designer = ImageDesigner.getDesigner();
+			String imgSrc = designer.getSrc(
+					src,
+					StringUtils.isEmpty(magniWidth) ?
+							null : Double.parseDouble(magniWidth),
+					ImageUtils.getScaleType(scaleType));
+			addAttribute("src", imgSrc);
+			JspWriterUtils.write(
+					getJspContext().getOut(),
+					STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
+		} catch (Exception e) {
+			throw new JspException(e);
+		}
 	}
 
 	public String getSrc() {

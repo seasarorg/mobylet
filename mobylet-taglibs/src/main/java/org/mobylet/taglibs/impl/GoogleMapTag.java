@@ -47,40 +47,44 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 
 	@Override
 	public int doEndTag() throws JspException {
-		if (StringUtils.isEmpty(key)) {
-			return EVAL_PAGE;
-		}
-		GoogleMapDesigner designer = GoogleMapDesigner.getDesigner(key);
-		if (StringUtils.isNotEmpty(lat) &&
-				StringUtils.isNotEmpty(lon)) {
-			designer.setCenter(
-					new Gps(
-							Double.parseDouble(lat),
-							Double.parseDouble(lon),
-							Geo.WGS84));
-		}
-		if (width != null && height != null) {
-			designer.setWidth(width);
-			designer.setHeight(height);
-		}
-		if (zoom != null) {
-			designer.setZoom(zoom);
-		}
-		if (sensor != null) {
-			designer.setSensor(sensor);
-		}
-		if (markers != null && markers.size() > 0) {
-			for (Gps marker : markers) {
-				designer.addMarker(marker);
+		try {
+			if (StringUtils.isEmpty(key)) {
+				return EVAL_PAGE;
 			}
+			GoogleMapDesigner designer = GoogleMapDesigner.getDesigner(key);
+			if (StringUtils.isNotEmpty(lat) &&
+					StringUtils.isNotEmpty(lon)) {
+				designer.setCenter(
+						new Gps(
+								Double.parseDouble(lat),
+								Double.parseDouble(lon),
+								Geo.WGS84));
+			}
+			if (width != null && height != null) {
+				designer.setWidth(width);
+				designer.setHeight(height);
+			}
+			if (zoom != null) {
+				designer.setZoom(zoom);
+			}
+			if (sensor != null) {
+				designer.setSensor(sensor);
+			}
+			if (markers != null && markers.size() > 0) {
+				for (Gps marker : markers) {
+					designer.addMarker(marker);
+				}
+			}
+			//Write
+			JspWriterUtils.write(
+					pageContext.getOut(),
+					STAG + TAG + " src=\"" + designer.getSrc() + "\"" + ETAG);
+			//EvalPage
+			recycle();
+			return EVAL_PAGE;
+		} catch (Exception e) {
+			throw new JspException(e);
 		}
-		//Write
-		JspWriterUtils.write(
-				pageContext.getOut(),
-				STAG + TAG + " src=\"" + designer.getSrc() + "\"" + ETAG);
-		//EvalPage
-		recycle();
-		return EVAL_PAGE;
 	}
 
 	protected void recycle() {

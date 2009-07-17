@@ -18,24 +18,32 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 
 	@Override
 	public int doStartTag() throws JspException {
-		//Designer
-		AnchorDesigner designer = AnchorDesigner.getDesigner();
-		//URL
-		addAttribute("href", designer.getHref(href));
-		JspWriterUtils.write(
-				pageContext.getOut(),
-				STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
-		//BodyBuffered
-		return EVAL_BODY_BUFFERED;
+		try {
+			//Designer
+			AnchorDesigner designer = AnchorDesigner.getDesigner();
+			//URL
+			addAttribute("href", designer.getHref(href));
+			JspWriterUtils.write(
+					pageContext.getOut(),
+					STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);
+			//BodyBuffered
+			return EVAL_BODY_BUFFERED;
+		} catch (Exception e) {
+			throw new JspException(e);
+		}
 	}
 
 	@Override
 	public int doEndTag() throws JspException {
-		JspWriterUtils.write(
-				pageContext.getOut(),
-				getBodyContent().getString() + STAG + SL + TAG + ETAG);
-		recycle();
-		return EVAL_PAGE;
+		try {
+			JspWriterUtils.write(
+					pageContext.getOut(),
+					getBodyContent().getString() + STAG + SL + TAG + ETAG);
+			recycle();
+			return EVAL_PAGE;
+		} catch (Exception e) {
+			throw new JspException(e);
+		}
 	}
 
 	public String getHref() {
