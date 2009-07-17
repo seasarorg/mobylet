@@ -59,7 +59,8 @@ public class GoogleMapDesigner {
 				return "";
 			}
 		}
-		if(markers == null) {
+		if(markers == null ||
+				markers.size() == 0) {
 			Gps marker = new Gps(center);
 			addMarker(marker);
 		}
