@@ -102,11 +102,10 @@ public class MobyletDocomoDialect extends AbstractDialect {
 		String lat = request.getParameter("lat");
 		String lon = request.getParameter("lon");
 		String geoString = request.getParameter("geo");
-		String accString = request.getParameter("x-acc");
+		String accString = request.getParameter("xacc");
 		if (StringUtils.isEmpty(lat) ||
 				StringUtils.isEmpty(lon) ||
-				StringUtils.isEmpty(geoString) ||
-				StringUtils.isEmpty(accString)) {
+				StringUtils.isEmpty(geoString)) {
 			return null;
 		}
 		//Geo
@@ -115,8 +114,10 @@ public class MobyletDocomoDialect extends AbstractDialect {
 		//Gps
 		Gps g = new Gps(lat, lon, geo);
 		//Accuracy
-		Accuracy acc = Accuracy.getAccuracy(Integer.parseInt(accString));
-		g.setAccuracy(acc);
+		if (StringUtils.isNotEmpty(accString)) {
+			Accuracy acc = Accuracy.getAccuracy(Integer.parseInt(accString));
+			g.setAccuracy(acc);
+		}
 		return g;
 	}
 
