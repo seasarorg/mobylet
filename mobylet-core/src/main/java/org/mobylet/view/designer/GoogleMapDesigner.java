@@ -48,7 +48,7 @@ public class GoogleMapDesigner {
 	public String getSrc() {
 		Mobylet m = MobyletFactory.getInstance();
 		//現在地
-		if (center != null &&
+		if (center == null &&
 				StringUtils.isEmpty(center.getStrLat()) &&
 				StringUtils.isEmpty(center.getStrLon())) {
 			Gps gps = m.getGps();
