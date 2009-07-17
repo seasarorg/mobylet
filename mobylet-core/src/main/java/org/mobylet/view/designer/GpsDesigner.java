@@ -39,7 +39,7 @@ public class GpsDesigner extends TransitionDesigner {
 				m.getDevice().hasGps()) {
 			gpsDesign = new GpsDesign(getGpsUrl(kickBackUrl));
 			if (m.getCarrier() == Carrier.DOCOMO) {
-				gpsDesign.setTagAttribute(new TagAttribute("lcs", "lcs"));
+				gpsDesign.setTagAttribute(new TagAttribute("lcs", null));
 			}
 		}
 		//簡易位置取得URL
