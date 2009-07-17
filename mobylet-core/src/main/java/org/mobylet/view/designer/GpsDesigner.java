@@ -54,7 +54,7 @@ public class GpsDesigner extends TransitionDesigner {
 		url = constructUrl(url);
 		switch (MobyletFactory.getInstance().getCarrier()) {
 		case DOCOMO:
-			return constructUrl(url);
+			return url;
 		case AU:
 			url = url + UrlUtils.AMP + "ver=1&datum=0&unit=0&acry=0&number=0";
 			return "device:gpsone?url=" + url.replace('?', '&');
