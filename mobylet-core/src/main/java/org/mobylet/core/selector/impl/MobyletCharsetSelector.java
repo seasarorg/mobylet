@@ -3,6 +3,8 @@ package org.mobylet.core.selector.impl;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefCharset;
@@ -51,6 +53,8 @@ public class MobyletCharsetSelector implements CharsetSelector {
 					Charset.forName(DefCharset.UTF8));
 			isCharsetInstalled = true;
 		} catch (Throwable t) {
+			Logger logger = Logger.getLogger(this.getClass().getName());
+			logger.log(Level.WARNING, "CHARSET IS NOT INSTALLED", t);
 			isCharsetInstalled = false;
 		}
 	}
