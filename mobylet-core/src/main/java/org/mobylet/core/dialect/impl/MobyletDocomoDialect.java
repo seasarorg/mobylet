@@ -100,9 +100,21 @@ public class MobyletDocomoDialect extends AbstractDialect {
 	public Gps getGps() {
 		HttpServletRequest request = RequestUtils.get();
 		String lat = request.getParameter("lat");
-		String lon = request.getParameter("lon");
-		String geoString = request.getParameter("geo");
-		String accString = request.getParameter("xacc");
+		String lon = null;
+		String geoString = null;
+		String accString = null;
+		if (StringUtils.isEmpty(lat)) {
+			lat = request.getParameter("LAT");
+			if (StringUtils.isNotEmpty(lat)) {
+				lon = request.getParameter("LON");
+				geoString = request.getParameter("GEO");
+				accString = request.getParameter("XACC");
+			}
+		} else {
+			lon = request.getParameter("lon");
+			geoString = request.getParameter("geo");
+			accString = request.getParameter("xacc");
+		}
 		if (StringUtils.isEmpty(lat) ||
 				StringUtils.isEmpty(lon) ||
 				StringUtils.isEmpty(geoString)) {
