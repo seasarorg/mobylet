@@ -1,12 +1,10 @@
 package org.mobylet.core.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.MobyletFactory;
-import org.mobylet.core.MobyletRuntimeException;
 
 public class UrlUtils {
 
@@ -47,17 +45,10 @@ public class UrlUtils {
 	}
 
 	public static String encodeUrl(String url) {
-		String charsetName =
-			MobyletFactory.getInstance().getDialect().getCharsetName();
+		Charset charset =
+			MobyletFactory.getInstance().getDialect().getCharset();
 		String encodedUrl = null;
-		try {
-			encodedUrl = (url == null ? "" : URLEncoder.encode(url, charsetName));
-		} catch (UnsupportedEncodingException e) {
-			throw new MobyletRuntimeException(
-					"URLエンコード中に例外発生 " +
-					"charset=[" + charsetName + "] " +
-					"string=[" + url + "]", e);
-		}
+		encodedUrl = (url == null ? "" : UrlEncoder.encode(url, charset));
 		return encodedUrl;
 	}
 
