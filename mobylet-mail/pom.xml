@@ -185,8 +185,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.seasar.mobylet</groupId>
+			<artifactId>mobylet-charset</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seasar.mobylet</groupId>
 			<artifactId>mobylet-core</artifactId>
-			<version>0.7.0</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

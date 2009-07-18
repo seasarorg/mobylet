@@ -1,5 +1,7 @@
 package org.mobylet.mail.message;
 
+import java.nio.charset.Charset;
+
 import javax.mail.Address;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -23,7 +25,7 @@ public class MobyletMessage extends MimeMessage implements MailConstants {
 
 	protected Carrier carrier;
 
-	protected String encodingCharset;
+	protected Charset encodingCharset;
 
 	protected String notifyCharset;
 
@@ -163,7 +165,7 @@ public class MobyletMessage extends MimeMessage implements MailConstants {
 		return carrier;
 	}
 
-	public String getEncodingCharset() {
+	public Charset getEncodingCharset() {
 		return encodingCharset;
 	}
 

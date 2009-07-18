@@ -1,26 +1,29 @@
 package org.mobylet.mail.selector.impl;
 
+import java.nio.charset.Charset;
+
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefCharset;
+import org.mobylet.mail.MailCharset;
 import org.mobylet.mail.MailConstants;
 import org.mobylet.mail.selector.MailCharsetSelector;
 
 public class MobyletMailCharsetSelector implements MailCharsetSelector {
 
 	@Override
-	public String getEncodingCharset(Carrier carrier) {
+	public Charset getEncodingCharset(Carrier carrier) {
 		if (carrier == null) {
 			return null;
 		}
 		switch (carrier) {
 		case DOCOMO:
-			return DefCharset.DOCOMO;
+			return MailCharset.DOCOMO;
 		case AU:
-			return MailConstants.CHARSET_AU_MAIL_SJIS;
+			return MailCharset.AU;
 		case SOFTBANK:
-			return DefCharset.UTF8;
+			return MailCharset.SOFTBANK;
 		default:
-			return MailConstants.CHARSET_ISO_2022_1;
+			return MailCharset.OTHER;
 		}
 	}
 

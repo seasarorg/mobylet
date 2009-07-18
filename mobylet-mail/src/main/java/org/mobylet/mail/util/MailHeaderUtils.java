@@ -44,16 +44,11 @@ public class MailHeaderUtils implements MailConstants {
 		//Get-Charset
 		MailCharsetSelector charsetSelector =
 			SingletonUtils.get(MailCharsetSelector.class);
-		String encodingCharset = charsetSelector.getEncodingCharset(carrier);
+		Charset encodingCharset = charsetSelector.getEncodingCharset(carrier);
 		String notifyCharset = charsetSelector.getNotifyCharset(carrier);
 		byte[] encodedBytes = null;
-		try {
-			encodedBytes = MailEmojiUtils.convert(
-					carrier, srcString).getBytes(encodingCharset);
-		} catch (UnsupportedEncodingException e) {
-			throw new MobyletRuntimeException(
-					"Unsupported Charset = " + encodingCharset, e);
-		}
+		encodedBytes = MailEmojiUtils.convert(
+				carrier, srcString).getBytes(encodingCharset);
 		String base64String = Base64Utils.encode(encodedBytes);
 		String base64EncodedString = "=?" + notifyCharset + "?B?" + base64String + "?=";
 		base64EncodedString = base64EncodedString.replaceAll("[\\r\\n]", "");
