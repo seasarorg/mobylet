@@ -18,7 +18,6 @@ package org.mobylet.core.http;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +66,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		if (printWriter == null) {
 			printWriter = new MobyletPrintWriter(
 					new OutputStreamWriter(getOutputStream(),
-							Charset.forName(dialect.getCharsetName())),
+							dialect.getCharset()),
 						dialect.getCarrier());
 			response.setContentType(dialect.getContentTypeString());
 		}

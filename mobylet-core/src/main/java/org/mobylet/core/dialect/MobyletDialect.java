@@ -15,6 +15,7 @@
  */
 package org.mobylet.core.dialect;
 
+import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.Carrier;
@@ -25,6 +26,8 @@ import org.mobylet.core.gps.Gps;
 public interface MobyletDialect {
 
 	public Carrier getCarrier();
+
+	public Charset getCharset();
 
 	public String getCharsetName();
 

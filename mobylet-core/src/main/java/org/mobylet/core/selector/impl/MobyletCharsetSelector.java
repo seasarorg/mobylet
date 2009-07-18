@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.mobylet.charset.MobyletCharsetPool;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.selector.CharsetSelector;
@@ -46,9 +47,9 @@ public class MobyletCharsetSelector implements CharsetSelector {
 				Charset.forName(DefCharset.DEFAULT));
 		try {
 			charsetMap.put(Carrier.DOCOMO,
-					Charset.forName(DefCharset.DOCOMO));
+					MobyletCharsetPool.getInstance().charsetForName(DefCharset.DOCOMO));
 			charsetMap.put(Carrier.AU,
-					Charset.forName(DefCharset.AU));
+					MobyletCharsetPool.getInstance().charsetForName(DefCharset.AU));
 			charsetMap.put(Carrier.SOFTBANK,
 					Charset.forName(DefCharset.UTF8));
 			isCharsetInstalled = true;
