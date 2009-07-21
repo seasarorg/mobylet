@@ -23,15 +23,25 @@ public class UrlDecoder {
 			case '%':
 				try {
 					if (bytes == null)
-						bytes = new byte[(numChars-i)/3];
+						bytes = new byte[(numChars-i)/2];
 					int pos = 0;
 					while (((i+2) < numChars) &&
 							(c=='%')) {
-						bytes[pos++] =
+						bytes[pos] =
 							(byte)Integer.parseInt(s.substring(i+1,i+3),16);
+						pos++;
 						i+= 3;
-						if (i < numChars)
+						if (i < numChars) {
 							c = s.charAt(i);
+							if (c!='%') {
+								bytes[pos] = (byte)c;
+								pos++;
+								i++;
+								if (i < numChars) {
+									c = s.charAt(i);
+								}
+							}
+						}
 					}
 					if ((i < numChars) && (c=='%')) {
 						throw new IllegalArgumentException(

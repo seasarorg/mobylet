@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -100,11 +102,14 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	}
 
 	protected void parseParameters() {
-		synchronized (parametersMap) {
+		if (parametersMap == null) {
 			parametersMap = new HashMap<String, Object>();
+		}
+		synchronized (parametersMap) {
 			String queryString = getQueryString();
 			if (StringUtils.isNotEmpty(queryString)) {
 				mergeParametersString(queryString);
+				Logger.getLogger("REQUEST").log(Level.INFO, queryString);
 			}
 			if (POST.equalsIgnoreCase(getMethod()) &&
 					getContentLength() > 0) {
