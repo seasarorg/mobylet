@@ -2,6 +2,7 @@ package org.mobylet.core.http;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +32,8 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	protected HttpServletRequest request;
 
-	protected Map<String, Object> parametersMap;
+	protected Map<String, Object> parametersMap =
+		Collections.synchronizedMap(new HashMap<String, Object>());
 
 	protected boolean isParsedParameters = false;
 
@@ -102,9 +104,6 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	}
 
 	protected void parseParameters() {
-		if (parametersMap == null) {
-			parametersMap = new HashMap<String, Object>();
-		}
 		synchronized (parametersMap) {
 			String queryString = getQueryString();
 			if (StringUtils.isNotEmpty(queryString)) {
