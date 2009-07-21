@@ -69,9 +69,13 @@ public class MobyletFilter implements Filter {
 		//Dialect
 		MobyletDialect dialect =
 			SingletonUtils.get(DialectSelector.class).getDialect(carrier);
-		//Charset
-		String charsetName = dialect.getCharsetName();
-		request.setCharacterEncoding(charsetName);
+		//IF-OTHER
+		if (carrier == Carrier.OTHER) {
+			String charsetName = dialect.getCharsetName();
+			request.setCharacterEncoding(charsetName);
+		} else {
+			request = new MobyletRequest(request);
+		}
 		//doChain
 		MobyletResponse mResponse = new MobyletResponse(response, dialect);
 		chain.doFilter(request, mResponse);
