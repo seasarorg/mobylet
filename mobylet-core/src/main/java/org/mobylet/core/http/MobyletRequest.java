@@ -3,10 +3,12 @@ package org.mobylet.core.http;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -99,6 +101,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	protected void parseParameters() {
 		synchronized (parametersMap) {
+			parametersMap = new HashMap<String, Object>();
 			String queryString = getQueryString();
 			if (StringUtils.isNotEmpty(queryString)) {
 				mergeParametersString(queryString);
@@ -125,6 +128,15 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 					} catch (IOException e) {
 						//NOP
 					}
+				}
+			}
+			Set<Entry<String, Object>> entrySet = parametersMap.entrySet();
+			for (Entry<String, Object> entry : entrySet) {
+				Object value = entry.getValue();
+				if (value instanceof Set) {
+					Set<?> set = Set.class.cast(value);
+					String[] array = set.toArray(new String[set.size()]);
+					parametersMap.put(entry.getKey(), array);
 				}
 			}
 			isParsedParameters = true;
