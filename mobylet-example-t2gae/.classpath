@@ -14,5 +14,10 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guiceadapter-0.5.2-ga.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-servlet-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JDK6.0"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mobylet-charset-0.8.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mobylet-core-0.8.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mobylet-gaeextension-0.8.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mobylet-mail-0.8.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mobylet-taglibs-0.8.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -345,7 +345,7 @@
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-s2extension</artifactId>
-            <version>0.7.0</version>
+            <version>0.8.0</version>
         </dependency>
     </dependencies>
 </project>
