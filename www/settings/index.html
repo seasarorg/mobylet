@@ -40,12 +40,11 @@
 
 <h2 class="green">mobyletの設定</h2>
 <p>
-mobyletフレームワークを適用するための設定は、わずか5ステップ。
+mobyletフレームワークを適用するための設定は、わずか3ステップ。
 </p>
 <ol class="ts bs lm">
 	<li>ライブラリをWebアプリケーションのビルドパスに含める</li>
 	<li>MobyletFilterを適用する（web.xmlの編集）</li>
-	<li>文字コードの設定</li>
 	<li>最新の端末情報を取得する（バリューエンジン社提供）</li>
 	<li>taglibの利用設定（任意）</li>
 </ol>
@@ -67,18 +66,23 @@ Maven2をご利用の方は、適用したいプロジェクトのpom.xmlファ�
 <pre class="code">
 &lt;dependency&gt;
     &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
+    &lt;artifactId&gt;mobylet-charset&lt;/artifactId&gt;
+    &lt;version&gt;0.8.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
     &lt;artifactId&gt;mobylet-core&lt;/artifactId&gt;
-    &lt;version&gt;0.7.0&lt;/version&gt;
+    &lt;version&gt;0.8.0&lt;/version&gt;
 &lt;/dependency&gt;
 &lt;dependency&gt;
     &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
     &lt;artifactId&gt;mobylet-taglibs&lt;/artifactId&gt;
-    &lt;version&gt;0.7.0&lt;/version&gt;
+    &lt;version&gt;0.8.0&lt;/version&gt;
 &lt;/dependency&gt;
 &lt;dependency&gt;
     &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
     &lt;artifactId&gt;mobylet-mail&lt;/artifactId&gt;
-    &lt;version&gt;0.7.0&lt;/version&gt;
+    &lt;version&gt;0.8.0&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
 <p>
@@ -115,7 +119,7 @@ web.xmlに以下の設定を行います。
 他のフレームワークを併用する場合、既にエンコード用のFilterなどが存在する場合がありますが<br />
 その場合はエンコード用のFilterを外して、MobyletFilterを代わりに使用して下さい。
 </p>
-
+<!--
 <h3 class="green">文字コードの設定</h3>
 <p>
 まずは以下のページから最新の文字コードライブラリ（mobylet-charset.jar）を取得します。
@@ -161,7 +165,7 @@ CATALINA_OPTS=-Djava.ext.dirs=${mobylet-charset-xxx.jarを配置したディレ�
 <br />
 <a href="../guides/">「初めての方へ」</a>の内容に沿って、GUI上で設定してください。
 </p>
-
+-->
 <h3 class="green">最新の端末情報を取得する（バリューエンジン社提供）</h3>
 <p>
 mobyletは<a href="http://valueengine.jp/" target="_blank">バリューエンジン社</a>が無償提供している<br />
