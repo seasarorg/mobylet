@@ -10,21 +10,32 @@ import java.io.OutputStream;
 import javax.imageio.ImageIO;
 
 import org.mobylet.core.MobyletRuntimeException;
-import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.image.ImageClipRectangle;
+import org.mobylet.core.image.ImageCodec;
+import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.image.ScaleType;
 import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.InputStreamUtils;
+import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletImageScaler implements ImageScaler {
 
 	@Override
 	public void scale(InputStream imgStream, OutputStream outImage,
-			ImageCodec imageCodec, int newWidth, ScaleType scaleType) {
+			ImageCodec imageCodec, Integer newWidth, ScaleType scaleType) {
 		try {
 			//CalcRectangle
 			BufferedImage img = ImageIO.read(imgStream);
+			if (newWidth == null) {
+				ImageConfig config = SingletonUtils.get(ImageConfig.class);
+				String defWidth = null;
+				if ((defWidth = config.getDefaultScaleImageWidth()) != null) {
+					newWidth = Integer.parseInt(defWidth);
+				} else {
+					newWidth = img.getWidth();
+				}
+			}
 			ImageClipRectangle rectangle =
 				getClipRectangle(img.getWidth(), img.getHeight(), newWidth, scaleType);
 			int scaledWidth = rectangle.getWidth();
@@ -91,7 +102,7 @@ public class MobyletImageScaler implements ImageScaler {
 
 	@Override
 	public ImageClipRectangle getClipRectangle(
-			int width, int height, int newWidth, ScaleType scaleType) {
+			Integer width, Integer height, Integer newWidth, ScaleType scaleType) {
 		return ImageUtils.getClipRectangle(width, height, newWidth, scaleType);
 	}
 

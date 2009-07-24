@@ -6,9 +6,11 @@ import java.io.OutputStream;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ImageClipRectangle;
 import org.mobylet.core.image.ImageCodec;
+import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ScaleType;
 import org.mobylet.core.image.impl.MobyletImageScaler;
 import org.mobylet.core.util.InputStreamUtils;
+import org.mobylet.core.util.SingletonUtils;
 
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
@@ -20,11 +22,20 @@ public class GaeImageScaler extends MobyletImageScaler {
 
 	@Override
 	public void scale(InputStream imgStream, OutputStream outImage,
-			ImageCodec type, int newWidth, ScaleType scaleType) {
+			ImageCodec type, Integer newWidth, ScaleType scaleType) {
 		try {
 			//CreateImage
 			Image image = ImagesServiceFactory.makeImage(
 					InputStreamUtils.getAllBytes(imgStream));
+			if (newWidth == null) {
+				ImageConfig config = SingletonUtils.get(ImageConfig.class);
+				String defWidth = null;
+				if ((defWidth = config.getDefaultScaleImageWidth()) != null) {
+					newWidth = Integer.parseInt(defWidth);
+				} else {
+					newWidth = image.getWidth();
+				}
+			}
 			//CalcNewSize
 			ImageClipRectangle rectangle = getClipRectangle(
 					image.getWidth(), image.getHeight(), newWidth, scaleType);

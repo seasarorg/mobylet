@@ -25,6 +25,8 @@ public class ImageConfig extends MobyletInjectionConfig {
 
 	public static final String CONFIG_KEY_DEFAULT_SCALETYPE = "image.default.scaletype";
 
+	public static final String CONFIG_KEY_DEFAULT_SCALE_IMAGE_WIDTH = "image.default.scale.image.width";
+
 
 	protected ScaleType defScaleType;
 
@@ -59,6 +61,10 @@ public class ImageConfig extends MobyletInjectionConfig {
 			}
 		}
 		return defScaleType;
+	}
+
+	public String getDefaultScaleImageWidth() {
+		return getConfig().getProperty(CONFIG_KEY_DEFAULT_SCALE_IMAGE_WIDTH);
 	}
 
 	@Override
