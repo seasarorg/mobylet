@@ -1,6 +1,5 @@
 package org.mobylet.core.http;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -107,8 +106,9 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 			if (StringUtils.isNotEmpty(queryString)) {
 				mergeParametersString(queryString);
 			}
+			int contentLength = getContentLength();
 			if (POST.equalsIgnoreCase(getMethod()) &&
-					getContentLength() > 0) {
+					contentLength > 0) {
 				String contentType = getContentType();
 				if (StringUtils.isEmpty(contentType)) {
 					return;
@@ -123,10 +123,11 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 					try {
 						mergeParametersString(
 								new String(
-										InputStreamUtils.getAllBytes(getInputStream())
-										)
+										InputStreamUtils.getBytes(
+												getInputStream(),
+												contentLength))
 								);
-					} catch (IOException e) {
+					} catch (Exception e) {
 						//NOP
 					}
 				}
