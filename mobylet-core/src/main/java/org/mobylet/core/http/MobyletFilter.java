@@ -94,12 +94,13 @@ public class MobyletFilter implements Filter {
 		if (!SingletonUtils.isInitialized()) {
 			SingletonUtils.initialize(null);
 		}
+		if (filterConfig != null) {
+			SingletonUtils.put(filterConfig);
+			SingletonUtils.put(filterConfig.getServletContext());
+		}
 	}
 
 	protected void initInitializer(FilterConfig filterConfig) {
-		if (filterConfig != null) {
-			SingletonUtils.put(filterConfig.getServletContext());
-		}
 		String configDir = "";
 		if (filterConfig != null) {
 			configDir = filterConfig.getInitParameter("mobylet.config.dir");

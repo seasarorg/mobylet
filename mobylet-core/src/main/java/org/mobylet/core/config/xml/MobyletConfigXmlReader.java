@@ -9,6 +9,7 @@ import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
+import org.mobylet.core.util.ConfigUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.XmlUtils;
@@ -66,6 +67,10 @@ public class MobyletConfigXmlReader
 	public void endElement(String uri, String localName, String name)
 			throws SAXException {
 		tagStack.pop();
+		//ParseValue
+		if (StringUtils.isNotEmpty(value)) {
+			value = ConfigUtils.parseValue(value);
+		}
 		//BaseDir
 		if (name.equals(TAG_BASEDIR)) {
 			String parent = tagStack.size() > 0 ? tagStack.peek() : null;

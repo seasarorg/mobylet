@@ -2,7 +2,6 @@ package org.mobylet.core.config;
 
 import java.util.Properties;
 
-import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -14,7 +13,7 @@ public abstract class MobyletInjectionConfig {
 		if (injectionConfig != null) {
 			return injectionConfig;
 		} else {
-			injectionConfig = new Properties();
+			injectionConfig = new MobyletProperties();
 			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 			String path = getConfigName();
 			try {
