@@ -5,6 +5,7 @@ import java.net.Proxy;
 import java.net.SocketAddress;
 import java.util.Stack;
 
+import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.initializer.MobyletInitializer;
@@ -118,6 +119,24 @@ public class MobyletConfigXmlReader
 				}
 			}
 		}
+		//ThroughCarrier
+		else if (name.equals(TAG_CARRIER)) {
+			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
+			if (parent == null) {
+				value = null;
+				return;
+			}
+			if (parent.equals(TAG_THROUGH) &&
+					StringUtils.isNotEmpty(value)) {
+				Carrier carrier = null;
+				if (StringUtils.isEmpty(value) ||
+						(carrier = Carrier.valueOf(value)) == null) {
+					throw new MobyletRuntimeException(
+							"指定したCarrierが見つかりません = " + value, null);
+				}
+				config.addThroughCarrier(carrier);
+			}
+		}
 		//ProxyHost/Port
 		else if (name.equals(TAG_HOST) ||
 				name.equals(TAG_PORT)) {
@@ -159,6 +178,7 @@ public class MobyletConfigXmlReader
 		if (tag.equals(TAG_CHAIN) ||
 				tag.equals(TAG_BASEDIR) ||
 				tag.equals(TAG_HOST) ||
+				tag.equals(TAG_CARRIER) ||
 				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {
 				value = new String(ch, start, length);

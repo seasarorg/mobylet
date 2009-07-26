@@ -5,6 +5,7 @@ import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mobylet.core.Carrier;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.util.StringUtils;
 
@@ -17,6 +18,8 @@ public class MobyletConfig {
 	protected String configDir;
 
 	protected List<MobyletInitializer> initializers;
+
+	protected List<Carrier> throughCarrierList;
 
 	protected String deviceDir;
 
@@ -38,6 +41,7 @@ public class MobyletConfig {
 			}
 		}
 		initializers = new ArrayList<MobyletInitializer>();
+		throughCarrierList = new ArrayList<Carrier>();
 	}
 
 	public String getDeviceDir() {
@@ -78,6 +82,22 @@ public class MobyletConfig {
 
 	public List<MobyletInitializer> getInitializers() {
 		return initializers;
+	}
+
+	public void addThroughCarrier(Carrier carrier) {
+		throughCarrierList.add(carrier);
+	}
+
+	public boolean removeThroughCarrier(Carrier carrier) {
+		return throughCarrierList.remove(carrier);
+	}
+
+	public List<Carrier> getThroughCarrierList() {
+		return throughCarrierList;
+	}
+
+	public boolean containsThroughCarrier(Carrier carrier) {
+		return throughCarrierList.contains(carrier);
 	}
 
 	public Proxy getHttpProxy() {

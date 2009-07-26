@@ -63,6 +63,8 @@ public class MobyletFilter implements Filter {
 	protected void processFilter(FilterChain chain,
 			HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException, ServletException {
+		//Config
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		//Carrier
 		Carrier carrier =
 			SingletonUtils.get(CarrierDetector.class).getCarrier(request);
@@ -76,10 +78,16 @@ public class MobyletFilter implements Filter {
 		} else {
 			request = new MobyletRequest(request);
 		}
-		//doChain
-		MobyletResponse mResponse = new MobyletResponse(response, dialect);
-		chain.doFilter(request, mResponse);
-		mResponse.flush();
+		//ThroughCarrier
+		if (config.containsThroughCarrier(carrier)) {
+			//doChain
+			chain.doFilter(request, response);
+		} else {
+			//doChain
+			MobyletResponse mResponse = new MobyletResponse(response, dialect);
+			chain.doFilter(request, mResponse);
+			mResponse.flush();
+		}
 	}
 
 

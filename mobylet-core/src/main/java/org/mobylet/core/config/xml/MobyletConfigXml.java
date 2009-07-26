@@ -9,6 +9,10 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_CHAIN = "chain";
 
+	public static final String TAG_THROUGH = "through";
+
+	public static final String TAG_CARRIER = "carrier";
+
 	public static final String TAG_DEVICE = "device";
 
 	public static final String TAG_EMOJI = "emoji";

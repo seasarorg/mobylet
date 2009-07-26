@@ -4,6 +4,14 @@
 		<chain>org.mobylet.core.initializer.impl.MobyletInitializerImpl</chain>
 		<chain>org.mobylet.mail.initializer.MobyletMailInitializer</chain>
 	</initializers>
+	<through>
+		<carrier>OTHER</carrier>
+		<!--
+		<carrier>DOCOMO</carrier>
+		<carrier>AU</carrier>
+		<carrier>SOFTBANK</carrier>
+		-->
+	</through>
 	<device>
 		<basedir>device/</basedir>
 	</device>
