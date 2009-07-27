@@ -11,6 +11,7 @@ import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletDynamicSimpleTagSupport;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.view.designer.ImageDesigner;
+import org.mobylet.view.designer.SingletonDesigner;
 
 public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
@@ -29,7 +30,8 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 	@Override
 	public void doTag() throws JspException, IOException {
 		try {
-			ImageDesigner designer = ImageDesigner.getDesigner();
+			ImageDesigner designer =
+				SingletonDesigner.getDesigner(ImageDesigner.class);
 			String imgSrc = designer.getSrc(
 					src,
 					StringUtils.isEmpty(magniWidth) ?

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mobylet.example</groupId>
 	<artifactId>mobylet-example</artifactId>
-	<version>0.7.0</version>
+	<version>0.8.0</version>
 	<packaging>war</packaging>
 	<name>mobylet-example</name>
 	<url>http://mobylet.sandbox.seasar.org/</url>
@@ -182,7 +182,7 @@
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-taglibs</artifactId>
-            <version>0.8.0</version>
+            <version>0.8.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.seasar.mobylet</groupId>

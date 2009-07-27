@@ -7,6 +7,7 @@ import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.view.design.GpsDesign;
 import org.mobylet.view.design.TagAttribute;
 import org.mobylet.view.designer.GpsDesigner;
+import org.mobylet.view.designer.SingletonDesigner;
 
 public class GpsTag extends ATag {
 
@@ -20,7 +21,8 @@ public class GpsTag extends ATag {
 	@Override
 	public int doStartTag() throws JspException {
 		try {
-			GpsDesigner designer = GpsDesigner.getDesigner();
+			GpsDesigner designer =
+				SingletonDesigner.getDesigner(GpsDesigner.class);
 			GpsDesign gpsDesign = designer.getGpsDesign(kickBackUrl);
 			if (gpsDesign == null ||
 					StringUtils.isEmpty(gpsDesign.getUrl())) {

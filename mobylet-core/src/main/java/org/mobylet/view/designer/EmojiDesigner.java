@@ -4,21 +4,7 @@ import org.mobylet.core.Carrier;
 import org.mobylet.core.emoji.EmojiPoolFamily;
 import org.mobylet.core.util.SingletonUtils;
 
-public class EmojiDesigner {
-
-	public static EmojiDesigner getDesigner() {
-		EmojiDesigner designer = null;
-		try {
-			designer = SingletonUtils.get(EmojiDesigner.class);
-		} catch (Exception e) {
-			//NOP
-		}
-		if (designer == null) {
-			SingletonUtils.put(new EmojiDesigner());
-			return getDesigner();
-		}
-		return designer;
-	}
+public class EmojiDesigner extends SingletonDesigner {
 
 	public String get(String name) {
 		return get(name, Carrier.DOCOMO);

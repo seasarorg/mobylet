@@ -3,29 +3,12 @@ package org.mobylet.view.designer;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
-import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.design.GpsDesign;
 import org.mobylet.view.design.TagAttribute;
 
 public class GpsDesigner extends TransitionDesigner {
-
-
-	public static GpsDesigner getDesigner() {
-		GpsDesigner designer = null;
-		try {
-			designer = SingletonUtils.get(GpsDesigner.class);
-		} catch (Exception e) {
-			//NOP
-		}
-		if (designer == null) {
-			SingletonUtils.put(new GpsDesigner());
-			return getDesigner();
-		}
-		return designer;
-	}
-
 
 	public GpsDesign getGpsDesign(String kickBackUrl) {
 		Mobylet m = MobyletFactory.getInstance();

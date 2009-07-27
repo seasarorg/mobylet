@@ -51,7 +51,7 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 			if (StringUtils.isEmpty(key)) {
 				return EVAL_PAGE;
 			}
-			GoogleMapDesigner designer = GoogleMapDesigner.getDesigner(key);
+			GoogleMapDesigner designer = new GoogleMapDesigner(key);
 			if (StringUtils.isNotEmpty(lat) &&
 					StringUtils.isNotEmpty(lon)) {
 				designer.setCenter(

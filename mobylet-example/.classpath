@@ -16,9 +16,5 @@
       <attribute value="jar:file:/C:/Documents%20and%20Settings/takeuchishin/.m2/repository/org/seasar/mobylet/mobylet-mail/0.8.0/mobylet-mail-0.8.0-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.8.0/mobylet-taglibs-0.8.0.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.8.0/mobylet-taglibs-0.8.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/C:/Documents%20and%20Settings/takeuchishin/.m2/repository/org/seasar/mobylet/mobylet-taglibs/0.8.0/mobylet-taglibs-0.8.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.8.1-SNAPSHOT/mobylet-taglibs-0.8.1-SNAPSHOT.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-taglibs/0.8.1-SNAPSHOT/mobylet-taglibs-0.8.1-SNAPSHOT-sources.jar"/>
 </classpath>

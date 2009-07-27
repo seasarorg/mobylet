@@ -8,6 +8,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.mobylet.core.Carrier;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.view.designer.EmojiDesigner;
+import org.mobylet.view.designer.SingletonDesigner;
 
 public class EmojiTag extends SimpleTagSupport {
 
@@ -19,7 +20,8 @@ public class EmojiTag extends SimpleTagSupport {
 	@Override
 	public void doTag() throws JspException, IOException {
 		try {
-			EmojiDesigner designer = EmojiDesigner.getDesigner();
+			EmojiDesigner designer =
+				SingletonDesigner.getDesigner(EmojiDesigner.class);
 			JspWriterUtils.write(
 					getJspContext().getOut(),
 					designer.get(name, carrier)

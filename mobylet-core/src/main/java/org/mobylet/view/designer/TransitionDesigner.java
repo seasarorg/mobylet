@@ -11,7 +11,7 @@ import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.TransitionConfig;
 
-public abstract class TransitionDesigner {
+public abstract class TransitionDesigner extends SingletonDesigner {
 
 	protected static TransitionConfig config = new TransitionConfig();
 

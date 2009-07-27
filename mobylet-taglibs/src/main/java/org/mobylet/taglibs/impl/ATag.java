@@ -5,6 +5,7 @@ import javax.servlet.jsp.JspException;
 import org.mobylet.taglibs.MobyletDynamicBodyTagSupport;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.view.designer.AnchorDesigner;
+import org.mobylet.view.designer.SingletonDesigner;
 
 public class ATag extends MobyletDynamicBodyTagSupport {
 
@@ -20,7 +21,8 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 	public int doStartTag() throws JspException {
 		try {
 			//Designer
-			AnchorDesigner designer = AnchorDesigner.getDesigner();
+			AnchorDesigner designer =
+				SingletonDesigner.getDesigner(AnchorDesigner.class);
 			//URL
 			addAttribute("href", designer.getHref(href));
 			JspWriterUtils.write(

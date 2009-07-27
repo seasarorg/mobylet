@@ -8,6 +8,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.view.designer.OutDesigner;
+import org.mobylet.view.designer.SingletonDesigner;
 
 public class OutTag extends SimpleTagSupport {
 
@@ -24,7 +25,8 @@ public class OutTag extends SimpleTagSupport {
 			if (StringUtils.isEmpty(value)) {
 				return;
 			}
-			OutDesigner designer = OutDesigner.getDesigner();
+			OutDesigner designer =
+				SingletonDesigner.getDesigner(OutDesigner.class);
 			String outString = designer.get(value, escapeXml, breakToBr);
 			JspWriterUtils.write(
 					getJspContext().getOut(), outString);

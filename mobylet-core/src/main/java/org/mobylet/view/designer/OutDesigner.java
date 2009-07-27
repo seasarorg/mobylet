@@ -1,9 +1,8 @@
 package org.mobylet.view.designer;
 
-import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
-public class OutDesigner {
+public class OutDesigner extends SingletonDesigner {
 
 	public static final String AMP = "&amp;";
 
@@ -17,20 +16,6 @@ public class OutDesigner {
 
 	public static final String BR = "<br />";
 
-
-	public static OutDesigner getDesigner() {
-		OutDesigner designer = null;
-		try {
-			designer = SingletonUtils.get(OutDesigner.class);
-		} catch (Exception e) {
-			//NOP
-		}
-		if (designer == null) {
-			SingletonUtils.put(new OutDesigner());
-			return getDesigner();
-		}
-		return designer;
-	}
 
 	public String get(String value, boolean escapeXml, boolean breakToBr) {
 		if (StringUtils.isEmpty(value)) {

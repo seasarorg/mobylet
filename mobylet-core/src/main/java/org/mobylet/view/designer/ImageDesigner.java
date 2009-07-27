@@ -6,24 +6,9 @@ import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
 
-public class ImageDesigner {
+public class ImageDesigner extends SingletonDesigner {
 
 	public static ImageConfig config = SingletonUtils.get(ImageConfig.class);
-
-
-	public static ImageDesigner getDesigner() {
-		ImageDesigner designer = null;
-		try {
-			designer = SingletonUtils.get(ImageDesigner.class);
-		} catch (Exception e) {
-			//NOP
-		}
-		if (designer == null) {
-			SingletonUtils.put(new ImageDesigner());
-			return getDesigner();
-		}
-		return designer;
-	}
 
 
 	public String getSrc(String src, double magniWidth, ScaleType scaleType) {

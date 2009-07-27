@@ -3,27 +3,12 @@ package org.mobylet.view.designer;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
-import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.view.config.TransitionConfig;
 import org.mobylet.view.design.AccesskeyAnchorDesign;
 import org.mobylet.view.design.TagAttribute;
 
 public class AccesskeyAnchorDesigner extends TransitionDesigner {
 
-
-	public static AccesskeyAnchorDesigner getDesigner() {
-		AccesskeyAnchorDesigner designer = null;
-		try {
-			designer = SingletonUtils.get(AccesskeyAnchorDesigner.class);
-		} catch (Exception e) {
-			//NOP
-		}
-		if (designer == null) {
-			SingletonUtils.put(new AccesskeyAnchorDesigner());
-			return getDesigner();
-		}
-		return designer;
-	}
 
 	public AccesskeyAnchorDesign getAccesskeyAnchorDesign(
 			String url, Integer accesskey) {
@@ -47,7 +32,8 @@ public class AccesskeyAnchorDesigner extends TransitionDesigner {
 		if (accesskey < 10) {
 			if (m.getCarrier() != Carrier.SOFTBANK) {
 				design.setEmojiString(
-						EmojiDesigner.getDesigner().get(accesskeyString));
+						SingletonDesigner.getDesigner(EmojiDesigner.class)
+						.get(accesskeyString));
 			}
 		} else {
 			design.setEmojiString("["+accesskeyString+"]");
