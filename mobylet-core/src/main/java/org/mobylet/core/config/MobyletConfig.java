@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.initializer.MobyletInitializer;
+import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.StringUtils;
 
 public class MobyletConfig {
@@ -20,6 +21,8 @@ public class MobyletConfig {
 	protected List<MobyletInitializer> initializers;
 
 	protected List<Carrier> throughCarrierList;
+
+	protected ContentType contentType;
 
 	protected String deviceDir;
 
@@ -60,6 +63,14 @@ public class MobyletConfig {
 		}
 	}
 
+	public ContentType getContentType() {
+		if (contentType == null) {
+			return ContentType.HTML;
+		} else {
+			return contentType;
+		}
+	}
+
 	public String getConfigDir() {
 		return this.configDir;
 	}
@@ -70,6 +81,10 @@ public class MobyletConfig {
 
 	public void setEmojiDir(String emojiDir) {
 		this.emojiDir = emojiDir;
+	}
+
+	public void setContentType(ContentType contentType) {
+		this.contentType = contentType;
 	}
 
 	public void addInitializer(MobyletInitializer initializer) {

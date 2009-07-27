@@ -10,6 +10,7 @@ import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
+import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.ConfigUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
@@ -168,6 +169,19 @@ public class MobyletConfigXmlReader
 			tmpProxyHost = null;
 			tmpProxyPort = null;
 		}
+		//ContentType
+		else if (name.equals(TAG_CONTENT_TYPE)) {
+			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
+			if (parent == null) {
+				value = null;
+				return;
+			}
+			if (parent.equals(TAG_DEFAULT) &&
+					StringUtils.isNotEmpty(value)) {
+				ContentType contentType = ContentType.valueOf(value);
+				config.setContentType(contentType);
+			}
+		}
 		value = null;
 	}
 
@@ -177,8 +191,9 @@ public class MobyletConfigXmlReader
 		String tag = tagStack.peek();
 		if (tag.equals(TAG_CHAIN) ||
 				tag.equals(TAG_BASEDIR) ||
-				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_CARRIER) ||
+				tag.equals(TAG_CONTENT_TYPE) ||
+				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {
 				value = new String(ch, start, length);

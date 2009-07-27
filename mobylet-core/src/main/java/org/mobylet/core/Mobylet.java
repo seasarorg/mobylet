@@ -15,6 +15,7 @@
  */
 package org.mobylet.core;
 
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DeviceDisplay;
@@ -23,6 +24,7 @@ import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.gps.Gps;
 import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.selector.DialectSelector;
+import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -59,6 +61,11 @@ public class Mobylet {
 	 * アクセス端末の端末固有情報
 	 */
 	protected Device device;
+
+	/**
+	 * レスポンスのContentType
+	 */
+	protected ContentType contentType;
 
 	/**
 	 * 端末固有情報のキャッシュフラグ
@@ -224,6 +231,26 @@ public class Mobylet {
 			dp = dialect.getDeviceDisplayByRequestHeader();
 		}
 		return dp;
+	}
+
+	/**
+	 * <p>ContentTypeを設定する.</p>
+	 * <p>
+	 * レスポンスのビューのContentTypeを設定する
+	 * </p>
+	 *
+	 * @param contentType	Content-Type
+	 */
+	public void setContentType(ContentType contentType) {
+		this.contentType = contentType;
+	}
+
+	public ContentType getContentType() {
+		if (contentType == null) {
+			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+			contentType = config.getContentType();
+		}
+		return contentType;
 	}
 
 	/**

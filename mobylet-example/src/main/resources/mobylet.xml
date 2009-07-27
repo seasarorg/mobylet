@@ -12,6 +12,9 @@
 		<carrier>SOFTBANK</carrier>
 		-->
 	</through>
+	<default>
+		<contentType>XHTML</contentType>
+	</default>
 	<device>
 		<basedir>device/</basedir>
 	</device>

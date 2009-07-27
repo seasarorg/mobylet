@@ -24,8 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.Mobylet;
+import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.image.ImageScaler;
+import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -68,7 +71,13 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 					new OutputStreamWriter(getOutputStream(),
 							dialect.getCharset()),
 						dialect.getCarrier());
-			response.setContentType(dialect.getContentTypeString());
+			Mobylet m = MobyletFactory.getInstance();
+			if (m != null &&
+					m.getContentType() == ContentType.XHTML) {
+				response.setContentType(dialect.getXContentTypeString());
+			} else {
+				response.setContentType(dialect.getContentTypeString());
+			}
 		}
 		return printWriter;
 	}
