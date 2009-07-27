@@ -5,7 +5,7 @@
 <body>
 <div>Hello World!</div>
 <form action="hello.jsp" method="get">
-input-&gt;<input type="text" name="txt" size="10" /><br />
+input-&gt;<m:wrap istyle="4"><input type="text" name="txt" size="10" /></m:wrap><br />
 <input type="submit" name="go" value="GO!" /><br />
 </form>
 output-&gt;<%= request.getParameter("txt") %>

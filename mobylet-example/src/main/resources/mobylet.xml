@@ -13,7 +13,7 @@
 		-->
 	</through>
 	<default>
-		<contentType>XHTML</contentType>
+		<contentType>HTML</contentType>
 	</default>
 	<device>
 		<basedir>device/</basedir>

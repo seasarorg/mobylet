@@ -273,6 +273,20 @@
 		</attribute>
 	</tag>
 
+	<!-- <m:wrap /> -->
+	<tag>
+		<name>wrap</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.WrapTag
+		</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>istyle</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 	<!-- <m:out /> -->
 	<tag>
 		<name>out</name>
