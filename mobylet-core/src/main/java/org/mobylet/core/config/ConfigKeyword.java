@@ -1,6 +1,6 @@
 package org.mobylet.core.config;
 
-public enum MobyletReservedKeyword {
+public enum ConfigKeyword {
 
 
 	CONTEXT_PATH("contextPath");
@@ -8,7 +8,7 @@ public enum MobyletReservedKeyword {
 
 	private String keyword;
 
-	private MobyletReservedKeyword(String keyword) {
+	private ConfigKeyword(String keyword) {
 		this.keyword = keyword;
 	}
 

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
-import org.mobylet.core.config.MobyletReservedKeyword;
+import org.mobylet.core.config.ConfigKeyword;
 
 public class ConfigUtils {
 
@@ -59,7 +59,7 @@ public class ConfigUtils {
 
 	protected static String getKeywordValue(
 			String value, ServletContext servletContext) {
-		for (MobyletReservedKeyword keyword : MobyletReservedKeyword.values()) {
+		for (ConfigKeyword keyword : ConfigKeyword.values()) {
 			if (value.equals(keyword.getKeyword())) {
 				switch (keyword) {
 				case CONTEXT_PATH:
