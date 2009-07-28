@@ -102,14 +102,14 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	protected void parseParameters() {
 		synchronized (parametersMap) {
-			String queryString = getQueryString();
+			String queryString = super.getQueryString();
 			if (StringUtils.isNotEmpty(queryString)) {
 				mergeParametersString(queryString);
 			}
-			int contentLength = getContentLength();
+			int contentLength = super.getContentLength();
 			if (POST.equalsIgnoreCase(getMethod()) &&
 					contentLength > 0) {
-				String contentType = getContentType();
+				String contentType = super.getContentType();
 				if (StringUtils.isEmpty(contentType)) {
 					return;
 				}
