@@ -165,6 +165,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 					if (valueSet instanceof Set) {
 						((Set<String>)valueSet).add(val);
 					}
+					parametersMap.put(key, valueSet);
 				} else {
 					Set<String> valSet = new HashSet<String>();
 					valSet.add(val);
