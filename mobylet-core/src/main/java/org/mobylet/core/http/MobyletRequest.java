@@ -36,8 +36,13 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 
 
+	@SuppressWarnings("unchecked")
 	public MobyletRequest(HttpServletRequest request) {
 		super(request);
+		this.request = request;
+		if (request instanceof MobyletRequest) {
+			parametersMap.putAll(request.getParameterMap());
+		}
 	}
 
 	@Override
@@ -102,14 +107,14 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	protected void parseParameters() {
 		synchronized (parametersMap) {
-			String queryString = super.getQueryString();
+			String queryString = getQueryString();
 			if (StringUtils.isNotEmpty(queryString)) {
 				mergeParametersString(queryString);
 			}
-			int contentLength = super.getContentLength();
+			int contentLength = getContentLength();
 			if (POST.equalsIgnoreCase(getMethod()) &&
 					contentLength > 0) {
-				String contentType = super.getContentType();
+				String contentType = getContentType();
 				if (StringUtils.isEmpty(contentType)) {
 					return;
 				}
@@ -164,6 +169,14 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 					Object valueSet = parametersMap.get(key);
 					if (valueSet instanceof Set) {
 						((Set<String>)valueSet).add(val);
+					} else if (valueSet instanceof String[]) {
+						String[] varList = (String[])valueSet;
+						Set<String> tmpSet = new HashSet<String>();
+						for (String var : varList) {
+							tmpSet.add(var);
+						}
+						tmpSet.add(val);
+						valueSet = tmpSet;
 					}
 					parametersMap.put(key, valueSet);
 				} else {
