@@ -27,11 +27,12 @@ public abstract class AbstractDialect implements MobyletDialect {
 
 	@Override
 	public String getNativeCharsetName() {
-		if (DefCharset.UTF8.equals(getCharsetName())) {
-			return DefCharset.UTF8;
-		} else {
-			return DefCharset.DEFAULT;
+		String charset = getCharsetName();
+		if (DefCharset.DOCOMO.equalsIgnoreCase(charset) ||
+				DefCharset.AU.equalsIgnoreCase(charset)) {
+			return DefCharset.WIN31J;
 		}
+		return charset;
 	}
 
 

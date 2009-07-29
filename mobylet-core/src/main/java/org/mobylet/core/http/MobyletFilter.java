@@ -17,6 +17,7 @@ package org.mobylet.core.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.config.xml.MobyletConfigXmlReader;
+import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
@@ -96,6 +98,7 @@ public class MobyletFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 		initSingletonContainer(filterConfig);
 		initInitializer(filterConfig);
+		initDefaultCharset(filterConfig);
 	}
 
 
@@ -127,4 +130,18 @@ public class MobyletFilter implements Filter {
 		}
 	}
 
+	protected void initDefaultCharset(FilterConfig filterConfig) {
+		String defCharsetName = null;
+		if (filterConfig != null &&
+				(defCharsetName =
+					filterConfig.getInitParameter("encoding")) != null) {
+			Charset defCharset = Charset.forName(defCharsetName);
+			if (defCharset != null) {
+				SingletonUtils.put(defCharset);
+			}
+		}
+		if (SingletonUtils.get(Charset.class) == null) {
+			SingletonUtils.put(Charset.forName(DefCharset.WIN31J));
+		}
+	}
 }

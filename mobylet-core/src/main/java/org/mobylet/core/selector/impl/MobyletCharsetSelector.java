@@ -10,6 +10,7 @@ import org.mobylet.charset.MobyletCharsetPool;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.selector.CharsetSelector;
+import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletCharsetSelector implements CharsetSelector {
 
@@ -43,8 +44,11 @@ public class MobyletCharsetSelector implements CharsetSelector {
 
 	protected void initialize() {
 		charsetMap = new HashMap<Carrier, Charset>();
-		charsetMap.put(Carrier.OTHER,
-				Charset.forName(DefCharset.DEFAULT));
+		Charset defCharset = SingletonUtils.get(Charset.class);
+		if (defCharset == null) {
+			defCharset = Charset.forName(DefCharset.WIN31J);
+		}
+		charsetMap.put(Carrier.OTHER, defCharset);
 		try {
 			charsetMap.put(Carrier.DOCOMO,
 					MobyletCharsetPool.getInstance().charsetForName(DefCharset.DOCOMO));

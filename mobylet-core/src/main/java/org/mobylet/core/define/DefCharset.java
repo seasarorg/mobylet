@@ -42,6 +42,6 @@ public interface DefCharset {
 	/**
 	 * Default-Charset
 	 */
-	public static final String DEFAULT = "windows-31j";
+	public static final String WIN31J = "windows-31j";
 
 }
