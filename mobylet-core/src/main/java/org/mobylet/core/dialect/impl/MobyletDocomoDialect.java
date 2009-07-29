@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Accuracy;
 import org.mobylet.core.gps.Geo;
@@ -57,29 +58,12 @@ public class MobyletDocomoDialect extends AbstractDialect {
 	}
 
 	@Override
-	public String getContentTypeString() {
-		if (StringUtils.isEmpty(contentTypeString)) {
-			if (charsetSelector.isCharsetInstalled()) {
-				contentTypeString = "text/html; charset=shift_jis";
-			} else {
-				contentTypeString = "text/html; charset=" +
-					charsetSelector.getCharsetName(getCarrier());
-			}
+	public String getContentCharsetName() {
+		if (charsetSelector.isCharsetInstalled()) {
+			return DefCharset.SJIS;
+		} else {
+			return getCharsetName();
 		}
-		return contentTypeString;
-	}
-
-	@Override
-	public String getXContentTypeString() {
-		if (StringUtils.isEmpty(xContentTypeString)) {
-			if (charsetSelector.isCharsetInstalled()) {
-				xContentTypeString = "application/xhtml+xml; charset=shift_jis";
-			} else {
-				xContentTypeString = "application/xhtml+xml; charset=" +
-					charsetSelector.getCharsetName(getCarrier());
-			}
-		}
-		return xContentTypeString;
 	}
 
 	@Override

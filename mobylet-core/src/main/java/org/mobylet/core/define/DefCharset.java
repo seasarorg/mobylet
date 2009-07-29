@@ -40,7 +40,12 @@ public interface DefCharset {
 	public static final String UTF8 = "utf-8";
 
 	/**
-	 * Default-Charset
+	 * SJIS
+	 */
+	public static final String SJIS = "shift_jis";
+
+	/**
+	 * Win31j-Charset
 	 */
 	public static final String WIN31J = "windows-31j";
 

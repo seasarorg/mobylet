@@ -60,32 +60,6 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 	}
 
 	@Override
-	public String getContentTypeString() {
-		if (StringUtils.isEmpty(contentTypeString)) {
-			if (charsetSelector.isCharsetInstalled()) {
-				contentTypeString = "text/html; charset=utf-8";
-			} else {
-				contentTypeString = "text/html; charset=" +
-					charsetSelector.getCharsetName(getCarrier());
-			}
-		}
-		return contentTypeString;
-	}
-
-	@Override
-	public String getXContentTypeString() {
-		if (StringUtils.isEmpty(xContentTypeString)) {
-			if (charsetSelector.isCharsetInstalled()) {
-				xContentTypeString = "application/xhtml+xml; charset=utf-8";
-			} else {
-				xContentTypeString = "application/xhtml+xml; charset=" +
-					charsetSelector.getCharsetName(getCarrier());
-			}
-		}
-		return xContentTypeString;
-	}
-
-	@Override
 	public String getUid() {
 		return RequestUtils.get().getHeader("x-jphone-uid");
 	}

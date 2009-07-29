@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Gps;
-import org.mobylet.core.util.StringUtils;
 
 
 public class DefaultDialect extends AbstractDialect {
@@ -30,8 +29,6 @@ public class DefaultDialect extends AbstractDialect {
 
 	private static final Pattern REGEX_DEVICE_MATCH =
 		Pattern.compile(".+");
-
-	protected String contentTypeString = null;
 
 
 	@Override
@@ -47,15 +44,6 @@ public class DefaultDialect extends AbstractDialect {
 	@Override
 	public Pattern getDeviceMatchRegex() {
 		return REGEX_DEVICE_MATCH;
-	}
-
-	@Override
-	public String getContentTypeString() {
-		if (StringUtils.isEmpty(contentTypeString)) {
-			contentTypeString = "text/html; charset=" +
-				charsetSelector.getCharsetName(getCarrier());
-		}
-		return contentTypeString;
 	}
 
 	@Override
