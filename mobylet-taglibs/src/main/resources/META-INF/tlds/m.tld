@@ -326,4 +326,18 @@
 		</attribute>
 	</tag>
 
+	<!-- <m:charset /> -->
+	<tag>
+		<name>charset</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.CharsetTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 </taglib>
