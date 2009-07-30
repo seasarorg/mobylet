@@ -4,7 +4,7 @@
 </head>
 <body>
 <div>Hello World!</div>
-<s:form action="/hello/" method="post">
+<s:form action="/hello/" method="get">
 input-&gt;<input type="text" name="txt" size="10" /><br />
 <input type="submit" name="go" value="GO!" /><br />
 </s:form>

@@ -27,7 +27,7 @@ version="2.4">
     </context-param>
 
     <filter>
-        <filter-name>encodingfilter</filter-name>
+        <filter-name>mobyletFilter</filter-name>
         <filter-class>org.seasar.mobylet.http.S2MobyletFilter</filter-class>
     </filter>
 
@@ -56,8 +56,10 @@ version="2.4">
     </filter>
 
     <filter-mapping>
-        <filter-name>encodingfilter</filter-name>
+        <filter-name>mobyletFilter</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
     <filter-mapping>
