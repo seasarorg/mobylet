@@ -14,9 +14,10 @@ public class SessionUtils {
 		return session.get(clazz);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T get(String key) {
 		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		return session.get(key);
+		return (T)session.get(key);
 	}
 
 	public static void invalidate() {
@@ -29,9 +30,10 @@ public class SessionUtils {
 		return session.remove(clazz);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T remove(String key) {
 		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		return session.remove(key);
+		return (T)session.remove(key);
 	}
 
 	public static <T> void set(T obj) {

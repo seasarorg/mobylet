@@ -31,14 +31,16 @@ public class MobyletSessionImpl implements MobyletSession {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T get(Class<T> clazz) {
 		if (clazz != null) {
-			return get(clazz.getName());
+			return (T)get(clazz.getName());
 		}
 		return null;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T get(String key) {
 		HttpServletRequest request = RequestUtils.get();
 		HttpSession session = request.getSession(false);
@@ -46,7 +48,7 @@ public class MobyletSessionImpl implements MobyletSession {
 			Object holder = session.getAttribute(KEY_HOLDER);
 			if (holder != null &&
 					holder instanceof SessionHolder) {
-				return SessionHolder.class.cast(holder).get(key);
+				return (T)SessionHolder.class.cast(holder).get(key);
 			}
 		}
 		return null;
@@ -62,14 +64,16 @@ public class MobyletSessionImpl implements MobyletSession {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T remove(Class<T> clazz) {
 		if (clazz != null) {
-			return remove(clazz.getName());
+			return (T)remove(clazz.getName());
 		}
 		return null;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T remove(String key) {
 		HttpServletRequest request = RequestUtils.get();
 		HttpSession session = request.getSession(false);
@@ -77,7 +81,7 @@ public class MobyletSessionImpl implements MobyletSession {
 			Object holder = session.getAttribute(KEY_HOLDER);
 			if (holder != null &&
 					holder instanceof SessionHolder) {
-				return SessionHolder.class.cast(holder).remove(key);
+				return (T)SessionHolder.class.cast(holder).remove(key);
 			}
 		}
 		return null;
