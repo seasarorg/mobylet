@@ -54,6 +54,10 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 
 	@Override
 	public void setContentType(String type) {
+		//NOP
+	}
+
+	public void setMobyletContentType(String type) {
 		super.setContentType(type);
 		if (!hasContentType()) {
 			hasContentType = true;
@@ -74,9 +78,9 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			Mobylet m = MobyletFactory.getInstance();
 			if (m != null &&
 					m.getContentType() == ContentType.XHTML) {
-				response.setContentType(dialect.getXContentTypeString());
+				setMobyletContentType(dialect.getXContentTypeString());
 			} else {
-				response.setContentType(dialect.getContentTypeString());
+				setMobyletContentType(dialect.getContentTypeString());
 			}
 		}
 		return printWriter;
@@ -90,7 +94,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 					!hasContentType() &&
 					(imgContentType =
 						ImageUtils.getContentTypeStringByRequestURI()) != null) {
-				setContentType(imgContentType);
+				setMobyletContentType(imgContentType);
 				if (ImageUtils.isAutoScale()) {
 					outputStream = new ProxyImageOutputStream();
 				} else {
