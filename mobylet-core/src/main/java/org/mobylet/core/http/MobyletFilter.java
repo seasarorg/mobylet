@@ -37,6 +37,7 @@ import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SessionUtils;
 import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletFilter implements Filter {
@@ -53,6 +54,8 @@ public class MobyletFilter implements Filter {
 		HttpServletResponse httpResponse = HttpServletResponse.class.cast(response);
 		//requestScope
 		RequestUtils.set(httpRequest);
+		//SessionSubstitute
+		SessionUtils.substitute();
 		try {
 			processFilter(chain, httpRequest, httpResponse);
 		} catch (Exception e) {

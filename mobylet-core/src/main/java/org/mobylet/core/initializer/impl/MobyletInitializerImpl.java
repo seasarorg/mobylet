@@ -34,6 +34,7 @@ import org.mobylet.core.image.impl.MobyletImageReader;
 import org.mobylet.core.image.impl.MobyletImageScaler;
 import org.mobylet.core.selector.impl.MobyletCharsetSelector;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
+import org.mobylet.core.session.impl.MobyletSessionImpl;
 import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletInitializerImpl
@@ -43,6 +44,8 @@ public class MobyletInitializerImpl
 	public void initialize() {
 		//RequestHolder
 		SingletonUtils.put(new MobyletRequestHolder());
+		//Session
+		SingletonUtils.put(new MobyletSessionImpl());
 		//CharsetSelector
 		SingletonUtils.put(new MobyletCharsetSelector());
 		//Dialect
