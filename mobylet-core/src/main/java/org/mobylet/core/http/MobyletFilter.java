@@ -100,8 +100,8 @@ public class MobyletFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		initSingletonContainer(filterConfig);
-		initInitializer(filterConfig);
 		initDefaultCharset(filterConfig);
+		initInitializer(filterConfig);
 	}
 
 
