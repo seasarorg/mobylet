@@ -1,5 +1,6 @@
 package org.mobylet.core.http;
 
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlDecoder;
@@ -22,6 +24,8 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 
 	public static final String POST = "POST";
+
+	public static final String KEY = MobyletRequest.class.getName();
 
 	public static final String CONTENT_TYPE_URLENCODED =
 		"application/x-www-form-urlencoded";
@@ -40,9 +44,11 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	public MobyletRequest(HttpServletRequest request) {
 		super(request);
 		this.request = request;
-		if (request instanceof MobyletRequest) {
+		if (request != null &&
+				request.getAttribute(KEY) != null) {
 			parametersMap.putAll(request.getParameterMap());
 		}
+		setAttribute(KEY, new Object().hashCode());
 	}
 
 	@Override
@@ -126,14 +132,17 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 				}
 				if (contentType.equals(CONTENT_TYPE_URLENCODED)) {
 					try {
-						mergeParametersString(
-								new String(
-										InputStreamUtils.getBytes(
-												getInputStream(),
-												contentLength))
-								);
+						InputStream inputStream = getInputStream();
+						if (inputStream != null) {
+							mergeParametersString(
+									new String(
+											InputStreamUtils.getBytesUnClose(
+													inputStream,
+													contentLength))
+									);
+						}
 					} catch (Exception e) {
-						//NOP
+						throw new MobyletRuntimeException("パラメータマージ処理時に例外発生", e);
 					}
 				}
 			}

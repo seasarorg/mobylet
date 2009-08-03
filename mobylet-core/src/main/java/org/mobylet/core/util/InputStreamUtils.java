@@ -18,6 +18,30 @@ public class InputStreamUtils {
 		}
 	}
 
+	public static byte[] getBytesUnClose(InputStream inputStream, int length) {
+		if (inputStream == null) {
+			return new byte[0];
+		}
+		byte[] data = null;
+		try {
+			if (length != 0) {
+				data = new byte[length];
+			} else {
+				data = new byte[inputStream.available()];
+			}
+			inputStream.read(data);
+		} catch (Exception e) {
+			throw new MobyletRuntimeException("入力ストリームからの読み込みエラー", e);
+		} finally {
+			try {
+				inputStream.reset();
+			} catch (IOException e) {
+				throw new MobyletRuntimeException("入力ストリームリセットエラー", e);
+			}
+		}
+		return data;
+	}
+
 	public static byte[] getBytes(InputStream inputStream, int length) {
 		if (inputStream == null) {
 			return new byte[0];
