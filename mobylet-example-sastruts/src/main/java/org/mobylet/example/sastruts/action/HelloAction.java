@@ -15,9 +15,18 @@
  */
 package org.mobylet.example.sastruts.action;
 
+import javax.annotation.Resource;
+
+import org.mobylet.example.sastruts.form.HelloForm;
+import org.seasar.struts.annotation.ActionForm;
 import org.seasar.struts.annotation.Execute;
 
 public class HelloAction {
+
+	@Resource
+	@ActionForm
+	protected HelloForm helloForm;
+
 
     @Execute(validator = false)
 	public String index() {

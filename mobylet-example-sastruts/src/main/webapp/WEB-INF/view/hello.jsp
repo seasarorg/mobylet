@@ -4,10 +4,11 @@
 </head>
 <body>
 <div>Hello World!</div>
-<s:form action="/hello/" method="get">
+<s:form action="/hello/" method="post">
 input-&gt;<input type="text" name="txt" size="10" /><br />
+<input type="hidden" name="tmp" value="TEMP" />
 <input type="submit" name="go" value="GO!" /><br />
 </s:form>
-output-&gt;<%= request.getParameter("txt") %>
+output-&gt;${txt}
 </body>
 </html>

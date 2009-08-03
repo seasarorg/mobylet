@@ -30,9 +30,11 @@ import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.ImageUtils;
+import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletResponse extends HttpServletResponseWrapper {
+
 
 	protected HttpServletResponse response;
 
@@ -42,30 +44,28 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 
 	protected ServletOutputStream outputStream;
 
-	protected boolean hasContentType;
+	protected String contentType;
+
+	protected boolean hasContentType = false;
 
 
 	public MobyletResponse(HttpServletResponse response, MobyletDialect dialect) {
 		super(response);
 		this.dialect = dialect;
 		this.response = response;
-		this.hasContentType = false;
 	}
 
 	@Override
 	public void setContentType(String type) {
-		//NOP
-	}
-
-	public void setMobyletContentType(String type) {
-		super.setContentType(type);
-		if (!hasContentType()) {
-			hasContentType = true;
+		if (!hasContentType) {
+			contentType = (type == null ? contentType : type);
+			if (RequestUtils.getMobyletContext().get(Ready.class) != null) {
+				super.setContentType(contentType);
+				hasContentType = true;
+			}
+		} else {
+			super.setContentType(type);
 		}
-	}
-
-	public boolean hasContentType() {
-		return hasContentType;
 	}
 
 	@Override
@@ -76,11 +76,12 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 							dialect.getCharset()),
 						dialect.getCarrier());
 			Mobylet m = MobyletFactory.getInstance();
+			RequestUtils.getMobyletContext().set(new Ready());
 			if (m != null &&
 					m.getContentType() == ContentType.XHTML) {
-				setMobyletContentType(dialect.getXContentTypeString());
+				setContentType(dialect.getXContentTypeString());
 			} else {
-				setMobyletContentType(dialect.getContentTypeString());
+				setContentType(dialect.getContentTypeString());
 			}
 		}
 		return printWriter;
@@ -91,10 +92,11 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		if (outputStream == null) {
 			String imgContentType = null;
 			if (dialect.getCarrier() != Carrier.OTHER &&
-					!hasContentType() &&
+					contentType == null &&
 					(imgContentType =
 						ImageUtils.getContentTypeStringByRequestURI()) != null) {
-				setMobyletContentType(imgContentType);
+				RequestUtils.getMobyletContext().set(new Ready());
+				setContentType(imgContentType);
 				if (ImageUtils.isAutoScale()) {
 					outputStream = new ProxyImageOutputStream();
 				} else {
@@ -125,5 +127,9 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			}
 			outputStream.flush();
 		}
+	}
+
+	public class Ready {
+		//NOP
 	}
 }

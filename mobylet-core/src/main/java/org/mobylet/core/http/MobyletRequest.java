@@ -47,8 +47,9 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 		if (request != null &&
 				request.getAttribute(KEY) != null) {
 			parametersMap.putAll(request.getParameterMap());
+		} else {
+			setAttribute(KEY, new Object().hashCode());
 		}
-		setAttribute(KEY, new Object().hashCode());
 	}
 
 	@Override

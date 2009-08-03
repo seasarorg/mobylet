@@ -32,12 +32,6 @@ public class InputStreamUtils {
 			inputStream.read(data);
 		} catch (Exception e) {
 			throw new MobyletRuntimeException("入力ストリームからの読み込みエラー", e);
-		} finally {
-			try {
-				inputStream.reset();
-			} catch (IOException e) {
-				throw new MobyletRuntimeException("入力ストリームリセットエラー", e);
-			}
 		}
 		return data;
 	}
