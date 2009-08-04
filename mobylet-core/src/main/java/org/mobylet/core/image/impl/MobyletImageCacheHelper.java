@@ -218,7 +218,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 			if (StringUtils.isNotEmpty(path)) {
 				int from = path.lastIndexOf(File.separator);
 				int until = path.lastIndexOf(CONJUNCTION_DATE);
-				if (until > 0) {
+				if (from < until && until > 0) {
 					prefixPath = path.substring(from+1, until+1);
 				}
 			}
