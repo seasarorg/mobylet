@@ -2,12 +2,11 @@ package org.mobylet.taglibs.impl;
 
 import javax.servlet.jsp.JspException;
 
-import org.mobylet.taglibs.MobyletDynamicBodyTagSupport;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.view.designer.AnchorDesigner;
 import org.mobylet.view.designer.SingletonDesigner;
 
-public class ATag extends MobyletDynamicBodyTagSupport {
+public class ATag extends TransitionTag {
 
 	private static final long serialVersionUID = 6951351713553308618L;
 
@@ -24,7 +23,7 @@ public class ATag extends MobyletDynamicBodyTagSupport {
 			AnchorDesigner designer =
 				SingletonDesigner.getDesigner(AnchorDesigner.class);
 			//URL
-			addAttribute("href", designer.getHref(href));
+			addAttribute("href", designer.getHref(href, getConfig()));
 			JspWriterUtils.write(
 					pageContext.getOut(),
 					STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG);

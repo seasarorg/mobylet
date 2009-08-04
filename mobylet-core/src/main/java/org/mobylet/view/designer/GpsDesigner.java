@@ -5,12 +5,18 @@ import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
+import org.mobylet.view.config.TransitionConfig;
 import org.mobylet.view.design.GpsDesign;
 import org.mobylet.view.design.TagAttribute;
 
 public class GpsDesigner extends TransitionDesigner {
 
+
 	public GpsDesign getGpsDesign(String kickBackUrl) {
+		return getGpsDesign(kickBackUrl, null);
+	}
+
+	public GpsDesign getGpsDesign(String kickBackUrl, TransitionConfig config) {
 		Mobylet m = MobyletFactory.getInstance();
 		if (m.getCarrier() == Carrier.OTHER) {
 			return null;
@@ -20,7 +26,7 @@ public class GpsDesigner extends TransitionDesigner {
 		if (StringUtils.isNotEmpty(kickBackUrl) &&
 				m.getDevice() != null &&
 				m.getDevice().hasGps()) {
-			gpsDesign = new GpsDesign(getGpsUrl(kickBackUrl));
+			gpsDesign = new GpsDesign(getGpsUrl(kickBackUrl, config));
 			if (m.getCarrier() == Carrier.DOCOMO) {
 				gpsDesign.setTagAttribute(new TagAttribute("lcs", null));
 			}
@@ -33,8 +39,10 @@ public class GpsDesigner extends TransitionDesigner {
 	}
 
 
-	protected String getGpsUrl(String url) {
-		url = constructUrl(url);
+	protected String getGpsUrl(String url, TransitionConfig config) {
+		url = config != null ?
+				constructUrl(url, config) :
+					constructUrl(url);
 		switch (MobyletFactory.getInstance().getCarrier()) {
 		case DOCOMO:
 			return url;

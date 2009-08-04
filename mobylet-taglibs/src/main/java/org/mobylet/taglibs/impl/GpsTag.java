@@ -15,15 +15,13 @@ public class GpsTag extends ATag {
 
 	protected String kickBackUrl;
 
-	protected boolean useEasySurveying = true;
-
 
 	@Override
 	public int doStartTag() throws JspException {
 		try {
 			GpsDesigner designer =
 				SingletonDesigner.getDesigner(GpsDesigner.class);
-			GpsDesign gpsDesign = designer.getGpsDesign(kickBackUrl);
+			GpsDesign gpsDesign = designer.getGpsDesign(kickBackUrl, getConfig());
 			if (gpsDesign == null ||
 					StringUtils.isEmpty(gpsDesign.getUrl())) {
 				return EVAL_BODY_BUFFERED;

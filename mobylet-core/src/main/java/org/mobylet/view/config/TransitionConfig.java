@@ -73,4 +73,25 @@ public class TransitionConfig extends MobyletInjectionConfig {
 	public boolean isUidOrGuidQueryRequiredInSecure() {
 		return isUidOrGuidQueryRequiredInSecure;
 	}
+
+
+	public void setUidQueryRequired(boolean isUidQueryRequired) {
+		this.isUidQueryRequired = isUidQueryRequired;
+	}
+
+
+	public void setGuidQueryRequired(boolean isGuidQueryRequired) {
+		this.isGuidQueryRequired = isGuidQueryRequired;
+	}
+
+
+	public void setSessionCookiePriority(boolean isSessionCookiePriority) {
+		this.isSessionCookiePriority = isSessionCookiePriority;
+	}
+
+
+	public void setUidOrGuidQueryRequiredInSecure(
+			boolean isUidOrGuidQueryRequiredInSecure) {
+		this.isUidOrGuidQueryRequiredInSecure = isUidOrGuidQueryRequiredInSecure;
+	}
 }

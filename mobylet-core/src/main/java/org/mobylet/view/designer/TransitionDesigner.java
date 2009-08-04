@@ -13,7 +13,7 @@ import org.mobylet.view.config.TransitionConfig;
 
 public abstract class TransitionDesigner extends SingletonDesigner {
 
-	protected static TransitionConfig config = new TransitionConfig();
+	public static TransitionConfig config = new TransitionConfig();
 
 
 	protected String constructUrl(String url) {
