@@ -3,6 +3,7 @@ package org.mobylet.view.designer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
@@ -68,12 +69,16 @@ public class GoogleMapDesigner {
 		if (width == null &&
 				height == null) {
 			DeviceDisplay dp = m.getDisplay();
-			setWidth(dp.getWidth());
-			setHeight(dp.getHeight());
+			if(dp != null){
+				setWidth(dp.getWidth());
+				setHeight(dp.getHeight());
+			}
 		}
 		//URL構築
 		String url = URL;
-		url = UrlUtils.addParameter(url, "maptype", "mobile");
+		if(m.getCarrier() != Carrier.OTHER){
+			url = UrlUtils.addParameter(url, "maptype", "mobile");
+		}
 		url = UrlUtils.addParameter(url, "key", getKey());
 		url = UrlUtils.addParameter(url, "center", center.getLat() + "," + center.getLon(), false);
 		url = UrlUtils.addParameter(url, "zoom", "" + getZoom());
