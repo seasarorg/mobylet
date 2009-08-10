@@ -19,6 +19,14 @@ public class GoogleMapDesigner {
 
 	public static final String URL = "http://maps.google.com/staticmap";
 
+	public static final Integer DEFAULT_WIDTH = 240;
+
+	public static final Integer DEFAULT_HEIGHT = 240;
+
+	public static final Integer MAX_WIDTH = 640;
+
+	public static final Integer MAX_HEIGHT = 640;
+
 	protected String key;
 
 	protected Gps center;
@@ -69,9 +77,17 @@ public class GoogleMapDesigner {
 		if (width == null &&
 				height == null) {
 			DeviceDisplay dp = m.getDisplay();
-			if(dp != null){
+			if(dp != null) {
 				setWidth(dp.getWidth());
 				setHeight(dp.getHeight());
+			}else {
+				if(Carrier.OTHER == m.getCarrier()) {
+					setWidth(MAX_WIDTH);
+					setHeight(MAX_HEIGHT);
+				}else {
+					setWidth(DEFAULT_WIDTH);
+					setHeight(DEFAULT_HEIGHT);
+				}
 			}
 		}
 		//URL構築
