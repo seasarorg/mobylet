@@ -103,6 +103,8 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 					outputStream = super.getOutputStream();
 				}
 			} else {
+				RequestUtils.getMobyletContext().set(new Ready());
+				setContentType(contentType);
 				outputStream = super.getOutputStream();
 			}
 		}
