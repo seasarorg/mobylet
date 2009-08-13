@@ -38,6 +38,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	protected boolean isParsedParameters = false;
 
+	protected String queryString;
 
 
 	@SuppressWarnings("unchecked")
@@ -54,7 +55,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	@Override
 	public String getParameter(String name) {
-		if (!isParsedParameters) {
+		if (isParsable()) {
 			parseParameters();
 		}
 		synchronized (parametersMap) {
@@ -74,7 +75,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map getParameterMap() {
-		if (!isParsedParameters) {
+		if (isParsable()) {
 			parseParameters();
 		}
 		return parametersMap;
@@ -83,7 +84,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Enumeration getParameterNames() {
-		if (!isParsedParameters) {
+		if (isParsable()) {
 			parseParameters();
 		}
 		return new Enumerator(parametersMap.keySet());
@@ -91,7 +92,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	@Override
 	public String[] getParameterValues(String name) {
-		if (!isParsedParameters) {
+		if (isParsable()) {
 			parseParameters();
 		}
 		synchronized (parametersMap) {
@@ -196,6 +197,16 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 				}
 			}
 		}
+	}
+
+	protected boolean isParsable() {
+		String nowQuery = getQueryString();
+		if (StringUtils.isNotEmpty(nowQuery) &&
+				!nowQuery.equals(queryString)) {
+			queryString = nowQuery;
+			return true;
+		}
+		return !isParsedParameters;
 	}
 
 	public static class Enumerator<E> implements Enumeration<E> {
