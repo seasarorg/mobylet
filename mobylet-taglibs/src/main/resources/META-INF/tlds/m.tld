@@ -340,4 +340,23 @@
 		</attribute>
 	</tag>
 
+	<!-- <m:xmlheader /> -->
+	<tag>
+		<name>xmlheader</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.XmlHeaderTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+			<![CDATA[
+			i-mode版XHTMLバージョン
+			]]>
+			</description>
+			<name>iversion</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 </taglib>
