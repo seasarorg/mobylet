@@ -65,17 +65,11 @@ public class MobyletFilter implements Filter {
 		}
 		//SessionSubstitute
 		SessionUtils.substitute();
-		HttpServletRequest returnRequest = null;
 		try {
-			returnRequest = processFilter(chain, httpRequest, httpResponse);
+			processFilter(chain, httpRequest, httpResponse);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		} finally {
-			if (returnRequest != null &&
-					RequestUtils.isIncludeScope() &&
-					returnRequest instanceof MobyletRequest) {
-				MobyletRequest.class.cast(returnRequest);
-			}
 			RequestUtils.remove();
 			if (parentRequest != null) {
 				RequestUtils.set(parentRequest);
@@ -86,7 +80,7 @@ public class MobyletFilter implements Filter {
 		}
 	}
 
-	protected HttpServletRequest processFilter(FilterChain chain,
+	protected void processFilter(FilterChain chain,
 			HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException, ServletException {
 		//Config
@@ -118,7 +112,6 @@ public class MobyletFilter implements Filter {
 			chain.doFilter(request, mResponse);
 			mResponse.flush();
 		}
-		return request;
 	}
 
 
