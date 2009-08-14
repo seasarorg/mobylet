@@ -37,12 +37,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	protected Map<String, Object> parametersMap =
 		Collections.synchronizedMap(new HashMap<String, Object>());
 
-	protected Map<String, Object> includeParametersMap =
-		Collections.synchronizedMap(new HashMap<String, Object>());
-
 	protected boolean isParsedParameters = false;
-
-	protected boolean isIncludeParsed = false;
 
 	protected String queryString;
 
@@ -83,14 +78,11 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 			parseParameters();
 		}
 		if (RequestUtils.isIncludeScope()) {
-			if (isIncludeParsed) {
-				return includeParametersMap;
-			} else {
-				isIncludeParsed = true;
-				includeParametersMap.putAll(super.getParameterMap());
-				includeParametersMap.putAll(parametersMap);
-				return includeParametersMap;
-			}
+			Map<String, Object> includeParametersMap =
+				new HashMap<String, Object>();
+			includeParametersMap.putAll(super.getParameterMap());
+			includeParametersMap.putAll(parametersMap);
+			return includeParametersMap;
 		}
 		return parametersMap;
 	}

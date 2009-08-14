@@ -56,26 +56,37 @@ public class MobyletFilter implements Filter {
 		//requestScope
 		HttpServletRequest parentRequest = RequestUtils.get();
 		RequestUtils.set(httpRequest);
-		if (parentRequest != null) {
+		boolean isRootInclude = false;
+		if (parentRequest != null &&
+				RequestUtils.getMobyletContext().get(DispatchType.class) == null) {
 			RequestUtils.getMobyletContext().set(
 					DispatchType.INCLUDE_OR_FORWARD);
+			isRootInclude = true;
 		}
 		//SessionSubstitute
 		SessionUtils.substitute();
+		HttpServletRequest returnRequest = null;
 		try {
-			processFilter(chain, httpRequest, httpResponse);
+			returnRequest = processFilter(chain, httpRequest, httpResponse);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		} finally {
+			if (returnRequest != null &&
+					RequestUtils.isIncludeScope() &&
+					returnRequest instanceof MobyletRequest) {
+				MobyletRequest.class.cast(returnRequest);
+			}
 			RequestUtils.remove();
 			if (parentRequest != null) {
 				RequestUtils.set(parentRequest);
-				RequestUtils.getMobyletContext().remove(DispatchType.class);
+				if (isRootInclude) {
+					RequestUtils.getMobyletContext().remove(DispatchType.class);
+				}
 			}
 		}
 	}
 
-	protected void processFilter(FilterChain chain,
+	protected HttpServletRequest processFilter(FilterChain chain,
 			HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException, ServletException {
 		//Config
@@ -107,6 +118,7 @@ public class MobyletFilter implements Filter {
 			chain.doFilter(request, mResponse);
 			mResponse.flush();
 		}
+		return request;
 	}
 
 
