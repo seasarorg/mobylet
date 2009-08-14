@@ -71,17 +71,22 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	@Override
 	public PrintWriter getWriter() throws IOException {
 		if (printWriter == null) {
-			printWriter = new MobyletPrintWriter(
-					new OutputStreamWriter(getOutputStream(),
-							dialect.getCharset()),
-						dialect.getCarrier());
-			Mobylet m = MobyletFactory.getInstance();
-			RequestUtils.getMobyletContext().set(new Ready());
-			if (m != null &&
-					m.getContentType() == ContentType.XHTML) {
-				setContentType(dialect.getXContentTypeString());
+			if (RequestUtils.isIncludeScope() &&
+					!isRootResponse()) {
+				printWriter = super.getWriter();
 			} else {
-				setContentType(dialect.getContentTypeString());
+				printWriter = new MobyletPrintWriter(
+						new OutputStreamWriter(getOutputStream(),
+								dialect.getCharset()),
+							dialect.getCarrier());
+				Mobylet m = MobyletFactory.getInstance();
+				RequestUtils.getMobyletContext().set(new Ready());
+				if (m != null &&
+						m.getContentType() == ContentType.XHTML) {
+					setContentType(dialect.getXContentTypeString());
+				} else {
+					setContentType(dialect.getContentTypeString());
+				}
 			}
 		}
 		return printWriter;
@@ -129,6 +134,11 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			}
 			outputStream.flush();
 		}
+	}
+
+	protected boolean isRootResponse() {
+		return this.equals(
+				RequestUtils.getMobyletContext().get(MobyletResponse.class));
 	}
 
 	public class Ready {

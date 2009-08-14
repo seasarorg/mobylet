@@ -4,6 +4,7 @@
   <classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar" sourcepath="M2_REPO/javax/servlet/jstl/1.1.2/jstl-1.1.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar" sourcepath="M2_REPO/javax/mail/mail/1.4/mail-1.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/seasar/mobylet/mobylet-charset/0.8.3/mobylet-charset-0.8.3.jar" sourcepath="M2_REPO/org/seasar/mobylet/mobylet-charset/0.8.3/mobylet-charset-0.8.3-sources.jar">
     <attributes>
@@ -25,4 +26,5 @@
       <attribute value="jar:file:/C:/Documents%20and%20Settings/takeuchishin/.m2/repository/org/seasar/mobylet/mobylet-taglibs/0.8.3/mobylet-taglibs-0.8.3-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/taglibs/standard/1.1.2/standard-1.1.2.jar" sourcepath="M2_REPO/taglibs/standard/1.1.2/standard-1.1.2-sources.jar"/>
 </classpath>

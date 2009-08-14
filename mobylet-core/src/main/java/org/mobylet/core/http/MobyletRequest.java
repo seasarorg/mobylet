@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.util.InputStreamUtils;
+import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlDecoder;
 
@@ -36,7 +37,12 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	protected Map<String, Object> parametersMap =
 		Collections.synchronizedMap(new HashMap<String, Object>());
 
+	protected Map<String, Object> includeParametersMap =
+		Collections.synchronizedMap(new HashMap<String, Object>());
+
 	protected boolean isParsedParameters = false;
+
+	protected boolean isIncludeParsed = false;
 
 	protected String queryString;
 
@@ -58,17 +64,15 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 		if (isParsable()) {
 			parseParameters();
 		}
-		synchronized (parametersMap) {
-			Object value = parametersMap.get(name);
-			if (value == null) {
-				return null;
-			} else if (value instanceof String[]) {
-				return ((String[])value)[0];
-			} else if (value instanceof String){
-				return (String)value;
-			} else {
-				return value.toString();
-			}
+		Object value = getParameterMap().get(name);
+		if (value == null) {
+			return null;
+		} else if (value instanceof String[]) {
+			return ((String[])value)[0];
+		} else if (value instanceof String){
+			return (String)value;
+		} else {
+			return value.toString();
 		}
 	}
 
@@ -77,6 +81,16 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	public Map getParameterMap() {
 		if (isParsable()) {
 			parseParameters();
+		}
+		if (RequestUtils.isIncludeScope()) {
+			if (isIncludeParsed) {
+				return includeParametersMap;
+			} else {
+				isIncludeParsed = true;
+				includeParametersMap.putAll(super.getParameterMap());
+				includeParametersMap.putAll(parametersMap);
+				return includeParametersMap;
+			}
 		}
 		return parametersMap;
 	}
@@ -87,7 +101,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 		if (isParsable()) {
 			parseParameters();
 		}
-		return new Enumerator(parametersMap.keySet());
+		return new Enumerator(getParameterMap().keySet());
 	}
 
 	@Override
@@ -95,24 +109,23 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 		if (isParsable()) {
 			parseParameters();
 		}
-		synchronized (parametersMap) {
-			Object value = parametersMap.get(name);
-			if (value == null) {
-				return null;
-			} else if (value instanceof String[]) {
-				return ((String[])value);
-			} else if (value instanceof String){
-				String[] values = new String[1];
-				values[0] = (String)value;
-				return values;
-			} else {
-				String[] values = new String[1];
-				values[0] = value.toString();
-				return values;
-			}
+		Object value = getParameterMap().get(name);
+		if (value == null) {
+			return null;
+		} else if (value instanceof String[]) {
+			return ((String[])value);
+		} else if (value instanceof String){
+			String[] values = new String[1];
+			values[0] = (String)value;
+			return values;
+		} else {
+			String[] values = new String[1];
+			values[0] = value.toString();
+			return values;
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void parseParameters() {
 		synchronized (parametersMap) {
 			String queryString = getQueryString();
@@ -163,6 +176,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 
 	@SuppressWarnings("unchecked")
 	protected void mergeParametersString(String q) {
+		Map<String, Object> mergeMap = new HashMap<String, Object>();
 		if (StringUtils.isEmpty(q)) {
 			return;
 		}
@@ -176,8 +190,8 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 						keyValue.substring(0, index), orgCharset);
 				String val = UrlDecoder.decode(
 						keyValue.substring(index + 1), orgCharset);
-				if (parametersMap.containsKey(key)) {
-					Object valueSet = parametersMap.get(key);
+				if (mergeMap.containsKey(key)) {
+					Object valueSet = mergeMap.get(key);
 					if (valueSet instanceof Set) {
 						((Set<String>)valueSet).add(val);
 					} else if (valueSet instanceof String[]) {
@@ -189,23 +203,18 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 						tmpSet.add(val);
 						valueSet = tmpSet;
 					}
-					parametersMap.put(key, valueSet);
+					mergeMap.put(key, valueSet);
 				} else {
 					Set<String> valSet = new HashSet<String>();
 					valSet.add(val);
-					parametersMap.put(key, valSet);
+					mergeMap.put(key, valSet);
 				}
 			}
 		}
+		parametersMap.putAll(mergeMap);
 	}
 
 	protected boolean isParsable() {
-		String nowQuery = getQueryString();
-		if (StringUtils.isNotEmpty(nowQuery) &&
-				!nowQuery.equals(queryString)) {
-			queryString = nowQuery;
-			return true;
-		}
 		return !isParsedParameters;
 	}
 

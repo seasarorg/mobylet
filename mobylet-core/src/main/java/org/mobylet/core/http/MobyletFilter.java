@@ -36,6 +36,7 @@ import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.selector.DialectSelector;
+import org.mobylet.core.type.DispatchType;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SessionUtils;
 import org.mobylet.core.util.SingletonUtils;
@@ -53,7 +54,12 @@ public class MobyletFilter implements Filter {
 		HttpServletRequest httpRequest = HttpServletRequest.class.cast(request);
 		HttpServletResponse httpResponse = HttpServletResponse.class.cast(response);
 		//requestScope
+		HttpServletRequest parentRequest = RequestUtils.get();
 		RequestUtils.set(httpRequest);
+		if (parentRequest != null) {
+			RequestUtils.getMobyletContext().set(
+					DispatchType.INCLUDE_OR_FORWARD);
+		}
 		//SessionSubstitute
 		SessionUtils.substitute();
 		try {
@@ -62,6 +68,10 @@ public class MobyletFilter implements Filter {
 			throw new ServletException(e);
 		} finally {
 			RequestUtils.remove();
+			if (parentRequest != null) {
+				RequestUtils.set(parentRequest);
+				RequestUtils.getMobyletContext().remove(DispatchType.class);
+			}
 		}
 	}
 
@@ -91,6 +101,9 @@ public class MobyletFilter implements Filter {
 		} else {
 			//doChain
 			MobyletResponse mResponse = new MobyletResponse(response, dialect);
+			if (RequestUtils.getMobyletContext().get(MobyletResponse.class) == null) {
+				RequestUtils.getMobyletContext().set(mResponse);
+			}
 			chain.doFilter(request, mResponse);
 			mResponse.flush();
 		}

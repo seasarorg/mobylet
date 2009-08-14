@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.holder.RequestHolder;
 import org.mobylet.core.http.MobyletContext;
+import org.mobylet.core.type.DispatchType;
 
 public class RequestUtils {
 
@@ -52,6 +53,11 @@ public class RequestUtils {
 
 	public static String getUserAgent(HttpServletRequest request) {
 		return request.getHeader("User-Agent");
+	}
+
+	public static boolean isIncludeScope() {
+		return RequestUtils.getMobyletContext().get(DispatchType.class) ==
+			DispatchType.INCLUDE_OR_FORWARD;
 	}
 
 }

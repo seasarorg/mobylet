@@ -5,8 +5,8 @@
 		<chain>org.mobylet.mail.initializer.MobyletMailInitializer</chain>
 	</initializers>
 	<through>
-		<carrier>OTHER</carrier>
 		<!--
+		<carrier>OTHER</carrier>
 		<carrier>DOCOMO</carrier>
 		<carrier>AU</carrier>
 		<carrier>SOFTBANK</carrier>
