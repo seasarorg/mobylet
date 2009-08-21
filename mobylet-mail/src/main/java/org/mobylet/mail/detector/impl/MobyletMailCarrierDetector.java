@@ -16,7 +16,7 @@ public class MobyletMailCarrierDetector implements MailCarrierDetector {
 
 	public static final Pattern PTN_SOFTBANK =
 		Pattern.compile("^.+@(disney|softbank|" +
-				"[dhtkrsnq][.]vodafone[.]ne[.]jp|jp-[dhtkrsnq])[.]ne[.]jp$");
+				"[dhtkrsnq][.]vodafone|jp-[dhtkrsnq])[.]ne[.]jp$");
 
 
 	@Override
