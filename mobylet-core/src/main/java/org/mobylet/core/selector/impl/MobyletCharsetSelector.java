@@ -16,6 +16,8 @@ public class MobyletCharsetSelector implements CharsetSelector {
 
 	protected boolean isCharsetInstalled = false;
 
+	protected boolean isCharsetNativeInstalled = false;
+
 	protected Map<Carrier, Charset> charsetMap;
 
 
@@ -29,6 +31,21 @@ public class MobyletCharsetSelector implements CharsetSelector {
 			return charsetMap.get(carrier);
 		} else {
 			return charsetMap.get(Carrier.OTHER);
+		}
+	}
+
+	@Override
+	public String getCharacterEncodingCharsetName(Carrier carrier) {
+		if (isCharsetNativeInstalled) {
+			return getCharsetName(carrier);
+		} else {
+			switch(carrier) {
+			case DOCOMO:
+			case AU:
+				return DefCharset.WIN31J;
+			default:
+				return getCharsetName(carrier);
+			}
 		}
 	}
 
@@ -62,5 +79,16 @@ public class MobyletCharsetSelector implements CharsetSelector {
 			logger.log(Level.WARNING, "CHARSET IS NOT INSTALLED", t);
 			isCharsetInstalled = false;
 		}
+		//NativeInstallCheck
+		try {
+			Charset.forName(DefCharset.DOCOMO);
+			Charset.forName(DefCharset.AU);
+			Logger logger = Logger.getLogger(this.getClass().getName());
+			logger.log(Level.INFO, "CHARSET IS NATIVE INSTALLED");
+			isCharsetNativeInstalled = true;
+		} catch (Throwable t) {
+			isCharsetNativeInstalled = false;
+		}
 	}
+
 }

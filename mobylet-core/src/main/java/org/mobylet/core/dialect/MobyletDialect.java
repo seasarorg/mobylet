@@ -31,7 +31,7 @@ public interface MobyletDialect {
 
 	public String getCharsetName();
 
-	public String getNativeCharsetName();
+	public String getCharacterEncodingCharsetName();
 
 	public String getContentCharsetName();
 

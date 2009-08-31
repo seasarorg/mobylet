@@ -25,6 +25,8 @@ public interface CharsetSelector {
 
 	public String getCharsetName(Carrier carrier);
 
+	public String getCharacterEncodingCharsetName(Carrier carrier);
+
 	public boolean isCharsetInstalled();
 
 }

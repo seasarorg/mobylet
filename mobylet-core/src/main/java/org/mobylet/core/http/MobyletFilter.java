@@ -38,7 +38,6 @@ import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.type.DispatchType;
 import org.mobylet.core.util.RequestUtils;
-import org.mobylet.core.util.SessionUtils;
 import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletFilter implements Filter {
@@ -63,8 +62,6 @@ public class MobyletFilter implements Filter {
 					DispatchType.INCLUDE_OR_FORWARD);
 			isRootInclude = true;
 		}
-		//SessionSubstitute
-		SessionUtils.substitute();
 		try {
 			processFilter(chain, httpRequest, httpResponse);
 		} catch (Exception e) {
@@ -92,7 +89,7 @@ public class MobyletFilter implements Filter {
 		MobyletDialect dialect =
 			SingletonUtils.get(DialectSelector.class).getDialect(carrier);
 		//DummyCharset
-		String charsetName = dialect.getNativeCharsetName();
+		String charsetName = dialect.getCharacterEncodingCharsetName();
 		request.setCharacterEncoding(charsetName);
 		//WrapRequest&parseRequest
 		if (carrier != Carrier.OTHER) {
