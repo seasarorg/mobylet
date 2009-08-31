@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mobylet.example</groupId>
 	<artifactId>mobylet-example</artifactId>
-	<version>0.8.3</version>
+	<version>0.9.0</version>
 	<packaging>war</packaging>
 	<name>mobylet-example</name>
 	<url>http://mobylet.sandbox.seasar.org/</url>
@@ -171,23 +171,13 @@
 	<dependencies>
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
-            <artifactId>mobylet-charset</artifactId>
-            <version>0.8.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seasar.mobylet</groupId>
-            <artifactId>mobylet-core</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-taglibs</artifactId>
-            <version>0.8.3</version>
+            <version>0.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-mail</artifactId>
-            <version>0.8.3</version>
+            <version>0.9.0</version>
         </dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
