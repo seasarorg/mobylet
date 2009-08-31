@@ -20,7 +20,7 @@ public class CharsetTag extends SimpleTagSupport {
 			Mobylet m = MobyletFactory.getInstance();
 			String charsetName = m.getDialect().getContentCharsetName();
 			if ("native".equalsIgnoreCase(type)) {
-				charsetName = m.getDialect().getNativeCharsetName();
+				charsetName = m.getDialect().getCharacterEncodingCharsetName();
 			} else if ("real".equalsIgnoreCase(type)) {
 				charsetName = m.getDialect().getCharsetName();
 			}
