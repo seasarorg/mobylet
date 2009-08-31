@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
-import org.mobylet.core.config.ConfigKeyword;
+import org.mobylet.core.config.enums.ConfigKeyword;
 
 public class ConfigUtils {
 

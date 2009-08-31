@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.config.enums.JSession;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.StringUtils;
@@ -30,6 +31,7 @@ public class MobyletConfig {
 
 	protected Proxy httpProxy;
 
+	protected JSession jSession;
 
 
 	public MobyletConfig(String configDir) {
@@ -73,6 +75,14 @@ public class MobyletConfig {
 
 	public String getConfigDir() {
 		return this.configDir;
+	}
+
+	public JSession getJSession() {
+		if (jSession == null) {
+			return JSession.DEFAULT;
+		} else {
+			return jSession;
+		}
 	}
 
 	public void setDeviceDir(String deviceDir) {
@@ -121,6 +131,10 @@ public class MobyletConfig {
 
 	public void setHttpProxy(Proxy httpProxy) {
 		this.httpProxy = httpProxy;
+	}
+
+	public void setJSession(JSession jSession) {
+		this.jSession = jSession;
 	}
 
 }

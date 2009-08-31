@@ -1,4 +1,4 @@
-package org.mobylet.core.config;
+package org.mobylet.core.config.enums;
 
 public enum ConfigKeyword {
 

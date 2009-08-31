@@ -8,6 +8,7 @@ import java.util.Stack;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.MobyletConfig;
+import org.mobylet.core.config.enums.JSession;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
 import org.mobylet.core.type.ContentType;
@@ -182,6 +183,13 @@ public class MobyletConfigXmlReader
 				config.setContentType(contentType);
 			}
 		}
+		//JSession
+		else if (name.equals(TAG_JSESSION)) {
+			JSession jSession = JSession.valueOf(value);
+			if (jSession != null) {
+				config.setJSession(jSession);
+			}
+		}
 		value = null;
 	}
 
@@ -193,6 +201,7 @@ public class MobyletConfigXmlReader
 				tag.equals(TAG_BASEDIR) ||
 				tag.equals(TAG_CARRIER) ||
 				tag.equals(TAG_CONTENT_TYPE) ||
+				tag.equals(TAG_JSESSION) ||
 				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {

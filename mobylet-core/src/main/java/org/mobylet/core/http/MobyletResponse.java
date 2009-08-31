@@ -18,6 +18,7 @@ package org.mobylet.core.http;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -26,15 +27,19 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
 
 public class MobyletResponse extends HttpServletResponseWrapper {
 
+	public static final Pattern REG_JSESSIONID =
+		Pattern.compile(";jsessionid=[^?]+");
 
 	protected HttpServletResponse response;
 
@@ -114,6 +119,42 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			}
 		}
 		return outputStream;
+	}
+
+	@Override
+	public String encodeURL(String url) {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		switch (config.getJSession()) {
+		case DEFAULT:
+		case USE_QUERY:
+			return super.encodeURL(url);
+		default:
+			String encodeURL = super.encodeURL(url);
+			if (encodeURL.indexOf(';') >= 0) {
+				return REG_JSESSIONID.matcher(encodeURL).replaceFirst("");
+			} else {
+				return encodeURL;
+			}
+		}
+	}
+
+	@Override
+	public void addHeader(String name, String value) {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		switch (config.getJSession()) {
+		case DEFAULT:
+		case USE_COOKIE:
+			super.addHeader(name, value);
+			return;
+		default:
+			if (StringUtils.isNotEmpty(name) &&
+					name.equalsIgnoreCase("Set-Cookie")) {
+				//NOP
+			} else {
+				super.addHeader(name, value);
+			}
+			return;
+		}
 	}
 
 	public void flush() throws IOException {

@@ -29,4 +29,6 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_PORT = "port";
 
+	public static final String TAG_JSESSION = "jsession";
+
 }
