@@ -34,6 +34,9 @@ public class UrlDecoder {
 						if (i < numChars) {
 							c = s.charAt(i);
 							if (c!='%') {
+								if (c=='+') {
+									c = ' ';
+								}
 								bytes[pos] = (byte)c;
 								pos++;
 								i++;
