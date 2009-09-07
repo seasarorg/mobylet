@@ -2,7 +2,6 @@
 <mobylet>
 	<initializers>
 		<chain>org.mobylet.core.initializer.impl.MobyletInitializerImpl</chain>
-		<chain>org.mobylet.mail.initializer.MobyletMailInitializer</chain>
 		<chain>org.mobylet.gae.initializer.GaeMobyletInitializer</chain>
 	</initializers>
 	<device>
