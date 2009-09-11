@@ -20,11 +20,14 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 import org.mobylet.core.Carrier;
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.emoji.Emoji;
 import org.mobylet.core.emoji.EmojiPoolFamily;
 import org.mobylet.core.selector.CharsetSelector;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.view.designer.EmojiDesigner;
+import org.mobylet.view.designer.SingletonDesigner;
 
 public class MobyletPrintWriter extends PrintWriter {
 
@@ -34,12 +37,15 @@ public class MobyletPrintWriter extends PrintWriter {
 
 	protected CharsetSelector charSelector;
 
+	protected boolean useImageEmoji;
+
 
 	public MobyletPrintWriter(Writer out, Carrier outCarrier) {
 		super(out);
 		this.outCarrier = outCarrier;
 		family = SingletonUtils.get(EmojiPoolFamily.class);
 		charSelector = SingletonUtils.get(CharsetSelector.class);
+		useImageEmoji = useImageEmoji();
 	}
 
 	/**
@@ -53,6 +59,10 @@ public class MobyletPrintWriter extends PrintWriter {
 			Emoji e = family.getEmoji(ch);
 			if (e == null) {
 				super.write(c);
+			} else if (useImageEmoji) {
+				EmojiDesigner designer =
+					SingletonDesigner.getDesigner(EmojiDesigner.class);
+				super.write(designer.getImageEmoji(e));
 			} else {
 				Emoji related = e.getRelated(outCarrier);
 				if (related == null) {
@@ -83,6 +93,10 @@ public class MobyletPrintWriter extends PrintWriter {
 				Emoji e = family.getEmoji(buf[i]);
 				if (e == null) {
 					caw.append(buf[i]);
+				} else if (useImageEmoji) {
+					EmojiDesigner designer =
+						SingletonDesigner.getDesigner(EmojiDesigner.class);
+					caw.append(designer.getImageEmoji(e));
 				} else {
 					Emoji related = e.getRelated(outCarrier);
 					if (related == null) {
@@ -115,4 +129,14 @@ public class MobyletPrintWriter extends PrintWriter {
 		}
 	}
 
+
+	protected boolean useImageEmoji() {
+		if (outCarrier == Carrier.OTHER) {
+			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+			if (StringUtils.isNotEmpty(config.getEmojiImagePath())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

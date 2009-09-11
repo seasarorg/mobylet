@@ -90,6 +90,18 @@ public class MobyletConfigXmlReader
 				config.setEmojiDir(value);
 			}
 		}
+		//ImagePath
+		if (name.equals(TAG_IMAGE_PATH)) {
+			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
+			if (parent == null) {
+				value = null;
+				return;
+			}
+			if (parent.equals(TAG_EMOJI) &&
+					StringUtils.isNotEmpty(value)) {
+				config.setEmojiImagePath(value);
+			}
+		}
 		//Initializer
 		else if (name.equals(TAG_CHAIN)) {
 			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
@@ -199,6 +211,7 @@ public class MobyletConfigXmlReader
 		String tag = tagStack.peek();
 		if (tag.equals(TAG_CHAIN) ||
 				tag.equals(TAG_BASEDIR) ||
+				tag.equals(TAG_IMAGE_PATH) ||
 				tag.equals(TAG_CARRIER) ||
 				tag.equals(TAG_CONTENT_TYPE) ||
 				tag.equals(TAG_JSESSION) ||

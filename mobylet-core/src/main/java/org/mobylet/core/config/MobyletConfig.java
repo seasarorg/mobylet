@@ -29,6 +29,8 @@ public class MobyletConfig {
 
 	protected String emojiDir;
 
+	protected String emojiImagePath;
+
 	protected Proxy httpProxy;
 
 	protected JSession jSession;
@@ -65,6 +67,10 @@ public class MobyletConfig {
 		}
 	}
 
+	public String getEmojiImagePath() {
+		return emojiImagePath;
+	}
+
 	public ContentType getContentType() {
 		if (contentType == null) {
 			return ContentType.HTML;
@@ -91,6 +97,10 @@ public class MobyletConfig {
 
 	public void setEmojiDir(String emojiDir) {
 		this.emojiDir = emojiDir;
+	}
+
+	public void setEmojiImagePath(String emojiImagePath) {
+		this.emojiImagePath = emojiImagePath;
 	}
 
 	public void setContentType(ContentType contentType) {
