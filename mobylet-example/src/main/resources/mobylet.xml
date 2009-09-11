@@ -20,6 +20,9 @@
 	</device>
 	<emoji>
 		<basedir>emoji/</basedir>
+		<!--
+		<imagePath>/mobylet/ei/</imagePath>
+		-->
 	</emoji>
 	<!--
 	<proxy>
