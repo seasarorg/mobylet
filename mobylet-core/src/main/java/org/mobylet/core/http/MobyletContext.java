@@ -16,7 +16,9 @@
 package org.mobylet.core.http;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 public class MobyletContext {
@@ -37,12 +39,45 @@ public class MobyletContext {
 
 	public void set(Object obj) {
 		if (obj != null) {
+			Set<Class<?>> interfaces = getInterfaces(obj.getClass());
+			if (interfaces != null && interfaces.size() > 0) {
+				for (Class<?> clazz : interfaces) {
+					context.put(clazz, obj);
+				}
+			}
 			context.put(obj.getClass(), obj);
 		}
 	}
 
 	public void remove(Class<?> clazz) {
+		if (clazz != null) {
+			Set<Class<?>> interfaces = getInterfaces(clazz);
+			if (interfaces != null && interfaces.size() > 0) {
+				for (Class<?> pClazz : interfaces) {
+					context.remove(pClazz);
+				}
+			}
+		}
 		context.remove(clazz);
+	}
+
+	private static Set<Class<?>> getInterfaces(Class<?> clazz) {
+		Set<Class<?>> classSet = new HashSet<Class<?>>();
+		Class<?>[] interfaces = clazz.getInterfaces();
+		if (interfaces != null) {
+			for (Class<?> i : interfaces) {
+				classSet.add(i);
+			}
+		}
+		Class<?> superClass = null;
+		if ((superClass = clazz.getSuperclass()) != null) {
+			Set<Class<?>> tmpSet = getInterfaces(superClass);
+			classSet.addAll(tmpSet);
+			if (!Object.class.equals(superClass)) {
+				classSet.add(superClass);
+			}
+		}
+		return classSet;
 	}
 
 }

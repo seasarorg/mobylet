@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
+import org.mobylet.core.image.ImageClipRectangle;
 import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.image.ImageConfig;
-import org.mobylet.core.image.ImageClipRectangle;
 import org.mobylet.core.image.ScaleType;
 
 public class ImageUtils {
