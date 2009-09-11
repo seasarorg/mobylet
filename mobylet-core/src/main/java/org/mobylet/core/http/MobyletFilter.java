@@ -91,16 +91,14 @@ public class MobyletFilter implements Filter {
 		//DummyCharset
 		String charsetName = dialect.getCharacterEncodingCharsetName();
 		request.setCharacterEncoding(charsetName);
-		//WrapRequest&parseRequest
-		if (carrier != Carrier.OTHER) {
-			request = new MobyletRequest(request);
-			MobyletRequest.class.cast(request).parseParameters();
-		}
 		//ThroughCarrier
 		if (config.containsThroughCarrier(carrier)) {
 			//doChain
 			chain.doFilter(request, response);
 		} else {
+			//WrapRequest&parseRequest
+			request = new MobyletRequest(request);
+			MobyletRequest.class.cast(request).parseParameters();
 			//doChain
 			MobyletResponse mResponse = new MobyletResponse(response, dialect);
 			if (RequestUtils.getMobyletContext().get(MobyletResponse.class) == null) {

@@ -16,6 +16,7 @@
 package org.mobylet.core;
 
 import org.mobylet.core.http.MobyletContext;
+import org.mobylet.core.impl.MobyletImpl;
 import org.mobylet.core.util.RequestUtils;
 
 /**
@@ -49,7 +50,7 @@ public class MobyletFactory {
 		if ((m = context.get(Mobylet.class)) != null) {
 			return m;
 		} else {
-			context.set(new Mobylet());
+			context.set(new MobyletImpl());
 			return getInstance();
 		}
 	}
