@@ -35,85 +35,107 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>機能リファレンス</h2>
+			<h2>端末の情報を取得する</h2>
 
 			<!-- start main -->
 			<div id="main">
 
-				<!-- start descWrap -->
-				<div id ="descWrap" class="marT20">
-					<div id="descInner">
-						<p class="padT10 lh18p padB20">
-						mobyletは携帯Webアプリケーションを構築する際に便利な機能が沢山あります。<br />
-						ここではmobyletの便利な機能をいくつか紹介します。
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="device">デバイス情報を取得する</h3>
+					<div class="cstInner">
+					
+						<h4 id="emoji">MobyletインスタンスからDeviceインスタンスを取得する</h4>
+
+						<p class="marT20 lh18p">
+						端末の情報もMobyletインスタンスから取得可能です。<br />
+						一般的には次のように端末情報へアクセスします。
 						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
+Device device = mobylet.getDevice();</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						DeviceインスタンスからはgetDeviceProfile()メソッドを利用することで<br />
+						バリューエンジン社の「ProfileData」情報へアクセスすることが可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">DeviceProfile deviceProfile = device.getDeviceProfile();
+String value = deviceProfile.get("発売日");
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						上記の場合、セットアップした「ProfileData.csv」内で定義されている「発売日」列の情報が取得できます。<br />
+						アクセス端末がプロファイル情報に存在しない場合は、値に「null」が返って来ます。
+						</p>
+						
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
+					<!-- end cstInner -->
 				</div>
-				<!-- end descWrap -->
+				<!-- end cstWrap -->
+
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3>便利な機能一覧</h3>
+					<h3 id="display">画面サイズを取得する</h3>
 					<div class="cstInner">
 					
-						<h4>キャリアを判定する</h4>
-						<ul class="marT20 lh18p">
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./carrier.html">
-								キャリアを判定する
-								</a>
-								</div>
-								<div class="fl">アクセスしてきた端末のキャリアを判定します</div>
-							</li>
-						</ul>
+						<h4 id="emoji">MobyletインスタンスからDeviceDisplayインスタンスを取得する</h4>
 
-						<h4>端末の情報を取得する</h4>
-						<ul class="marT20 lh18p">
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#device">
-								デバイス情報を取得する
-								</a>
-								</div>
-								<div class="fl">アクセス端末と端末に紐付く情報の取得方法</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#display">
-								画面サイズを取得する
-								</a>
-								</div>
-								<div class="fl">アクセス端末のディスプレイサイズを取得する</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#uid">
-								UIDを取得する
-								</a>
-								</div>
-								<div class="fl">公式サイトの場合のUIDの取得方法</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#guid">
-								GUIDを取得する
-								</a>
-								</div>
-								<div class="fl">非公式サイト（勝手サイト）の場合のGUIDの取得方法</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#gps">
-								GPS搭載状況を取得する
-								</a>
-								</div>
-								<div class="fl">その端末にGPSが搭載されているかどうかを判定する</div>
-							</li>
-						</ul>
+						<p class="marT20 lh18p">
+						端末の画面サイズを取得する方法はいくつかありますが、<br />
+						一般的には以下の方法で画面サイズ（ブラウザサイズ）を取得することが可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
+DeviceDisplay display = mobylet.getDeviceDisplay();
+Integer w = display.getWidth();  //ブラウザ幅
+Integer h = display.getHeight(); //ブラウザ高さ
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
 
+						<p class="marT20 lh18p">
+						この方法で画面サイズを取得した場合、<br />
+						まず、バリューエンジン社の「DisplayInfo.csv」のデータを参照し、マッチすればその情報を返します。<br />
+						マッチしなかった場合でかつ、AUまたはSOFTBANKの場合はRequestHeaderから取得可能な<br />
+						ブラウザサイズを利用して、DeviceDisplayインスタンスを構築し、返却します。
+						</p>
+						<p class="marT10 lh18p">
+						もしもブラウザサイズ以外の画面サイズを取得したい場合（でかつ、DisplayInfoに情報が存在するデータ）は<br />
+						以下のように取得することも可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">DeviceDisplay display = mobylet.getDeviceDisplay();
+DeviceDisplay anotherDisplay = display.getAnotherDisplay("待受壁紙画像サイズ");
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						getAnotherDisplay()メソッドの引数に渡せる値は、バリューエンジン社提供の「DisplayInfo」データ内、<br />
+						「表示タイプ」列に定義されている各値が対象です。<br />
+						マッチしない値を指定した場合は「null」が返却されます。
+						</p>
+						
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-
 					</div>
 					<!-- end cstInner -->
 				</div>

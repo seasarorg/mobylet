@@ -1,0 +1,520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>mobylet（モビレット） | 機能リファレンス | 携帯Webアプリケーションを開発するためのJavaオープンソースフレームワーク</title>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="description" content="「mobylet」はJavaで作られたオープンソースのモバイルWebアプリケーションフレームワークで、様々なWebフレームワークと共に利用することが可能です。" />
+<meta name="keywords" content="携帯,モバイル,Web,Java,OSS,絵文字,mobylet" />
+<script src="../js/rollover.js" type="text/javascript"></script>
+<link href="../css/mobylet.css" rel="stylesheet" type="text/css" />
+<link href="../css/colorFT.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="pageTop">
+<div id="wrapper">
+	<!-- start header -->
+	<div id="header" class="cFix">
+		<h1 id="logo" class="fl"><a href="../index.html" title="mobylet"><img src="../img/logo.gif" alt="mobylet" title="mobylet" /></a></h1>
+		<ul id="gNav" class="fr cFix">
+			<li><a href="../index.html"><img src="../img/globalnavi/tp.gif" alt="TOP" title="TOP" class="imgover" /></a></li>
+			<li><a href="../guides/"><img src="../img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover" /></a></li>
+			<li><a href="../settings/"><img src="../img/globalnavi/st.gif" alt="mobyletの設定" title="mobyletの設定" class="imgover" /></a></li>
+			<li><img src="../img/globalnavi/ft_o.gif" alt="機能リファレンス" title="機能リファレンス" /></li>
+			<li><a href="../downloads/"><img src="../img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover" /></a></li>
+			<li><a href="../informations/"><img src="../img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover" /></a></li>
+			<li><a href="../questions/"><img src="../img/globalnavi/qa.gif" alt="Q&A" title="Q&A" class="imgover" /></a></li>
+		</ul>
+	</div>
+	<!-- end header -->
+
+
+	<!-- start container -->
+	<div class="container cFix">
+
+		<!-- start mainWrap -->
+		<div id="mainWrap">
+			<h2>機能リファレンス</h2>
+
+			<!-- start main -->
+			<div id="main">
+
+				<!-- start descWrap -->
+				<div id ="descWrap" class="marT20">
+					<div id="descInner">
+						<p class="padT10 lh18p padB20">
+mobyletは携帯Webアプリケーション構築用のフレームワークです。<br/>
+携帯でWebアプリケーションを構築する際に課題となるキャリア・機種毎の差異を吸収し、<br />
+効率的な携帯Webアプリケーションの構築を支援します。
+						</p>
+					</div>
+				</div>
+				<!-- end descWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="career">キャリアの識別</h3>
+					<div class="cstInner">
+
+						<h5 class="marT10">mobyletでは、アクセス端末のキャリア情報を取得する機能を提供しています。</h5>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
+Carrier carrier = mobylet.getCarrier();</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="deviceDisplay">画面表示サイズの取得</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、アクセス端末の画面表示サイズを取得する機能を提供しています。</h5>
+						<p class="marT10 lh18p">画面表示サイズを取得するには、次のように記述します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">obylet mobylet = MobyletFactory.getInstance();
+Device device = mobylet.getDevice();
+DeviceDisplay deviceDisplay = device.getDeviceDisplay();
+deviceDisplay.getWidth(); //幅取得
+deviceDisplay.getHeight(); //高さ取得</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="gps">GPS対応機種の識別</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、GPS対応機種を識別する機能を提供しています。</h5>
+						<p class="marT10 lh18p">GPS対応機種を識別するには、次のように記述します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
+Device device = mobylet.getDevice();
+device.hasGps();</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="gpsinfo">GPS情報の取得</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、キャリア毎のGPS情報取得用アンカーを自動生成する機能を提供しています。</h5>
+						<p class="marT10 lh18p">GPS情報取得用アンカーを生成するには、次のように記述します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:gps kickBackUrl="http://localhost:8080/mobylet-example/gps.jsp"&gt;
+	位置情報(GPS)
+&lt;/m:gps&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT10 lh18p">kickBackUrlにキャリアからリダイレクトを受け付けるURLを記述します。
+						</p>
+						<p class="marT20 lh18p">リダイレクトを受け付けたページでGPS情報を取得する場合、次のように記述します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">Gps gps = MobyletFactory.getInstance().getGps();
+gps.getLat(); //緯度情報
+gps.getLon(); //経度情報</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">座標の測地系を変換する場合、次のように記述します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">GeoConverter converter = SingletonUtils.get(GeoConverter.class);
+converter.toTokyo(gps); //日本測地系に変換
+converter.toWgs84(gps); //世界測地系に変換</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="gpsmove">座標移動Gps情報の取得</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、緯度・経度に距離を加減して移動後の座標情報を取得する機能を提供しています。
+						</h5>
+						<p class="marT10 lh18p">移動後の座標情報を取得するには、次のように記述します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">Gps gps = MobyletFactory.getInstance().getGps();
+Gps gpsTop = GpsUtils.getMovedGps(gps, 0.0, 2000.0);//2000m北に移動
+Gps gpsBottom = GpsUtils.getMovedGps(gps, 0.0, -2000.0);//2000m南に移動
+Gps gpsRight = GpsUtils.getMovedGps(gps, 2000.0, 0.0);//2000m東に移動
+Gps gpsLeft = GpsUtils.getMovedGps(gps, -2000.0, 0.0);//2000m西に移動</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="googlemap">GoogleMapの表示</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、GoogleMapを簡単に利用する機能を提供しています。
+						</h5>
+						<p class="marT10 lh18p">GoogleAPIのキーを<a href="http://code.google.com/intl/ja/apis/maps/signup.html">GoogleMapsAPI</a>のサイトから取得して、<br/>
+キャリアからのリダイレクトを受け付けるページに次のように記述するだけで、<br/>
+現在地を表示するGoogleMapが表示されます。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:googlemap key="ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469 (改行なし)
+IRSmYo0djw2uXw79MXwwZacmUqYReQ"&gt;
+&lt;/m:googlemap></pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT10 lh18p">※keyの値は取得したGoogleAPIキーに変更してください
+						</p>
+						<p class="marT20 lh18p">GoogleMapsAPIで指定可能なパラメーターは全て属性として記述できます。<br/>
+マーカーを複数指定する場合は、次のようにmarkerタグをgooglemapタグの中に記述してください。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:googlemap key="ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469 (改行なし)
+IRSmYo0djw2uXw79MXwwZacmUqYReQ"&gt;
+	&lt;m:marker lat="36.6223" lon="138.5972"/&gt;
+	&lt;m:marker lat="36.6258" lon="138.5823"/&gt;
+&lt;/m:googlemap></pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="emoji">絵文字の表示</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、キャリア毎の絵文字を自動で変換して表示する機能を提供しています。</h5>
+						<p class="marT10 lh18p">絵文字を記述する場合、どのキャリアのどの絵文字を基点とするかを指定しておくと、<br/>
+実際にアクセスされたキャリアを自動的に識別して対応する絵文字を表示します。
+						</p>
+						<p class="marT20 lh18p">次の例ではDocomoの「晴れ」の絵文字を基点に指定しています。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:emoji name="晴れ" carrier="DOCOMO"/&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">実際の表示は、アクセス端末のキャリアにより次のようになります。
+						</p>
+						<div class="marT10 cFix">
+							<dl class="fl w50">
+								<dt class="tCenter">
+									<img src="../img/emoji_shine_docomo.gif" alt="晴れ Docomo"/>
+								</dt>
+								<dd class="tCenter">Docomo</dd>
+							</dl>
+							<dl class="fl w50">
+								<dt class="tCenter">
+									<img src="../img/emoji_shine_au.gif" alt="晴れ Au"/>
+								</dt>
+								<dd class="tCenter">Au</dd>
+							</dl>
+							<dl class="fl w50">
+								<dt class="tCenter">
+									<img src="../img/emoji_shine_softbank.gif" alt="晴れ Softbank"/>
+								</dt>
+								<dd class="tCenter">Softbank</dd>
+							</dl>
+						</div>
+
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="resize">画像のリサイズ</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、ブラウザの横幅に合わせて画像をリサイズする機能を提供しています。
+						</h5>
+						<p class="marT10 lh18p">デフォルトでアプリケーション内の画像に対してはリサイズ機能が有効になりますが、<br/>
+外部サイトなど任意の位置の画像を使用する場合は、<a href="../settings/resize.html">「画像リサイズの設定」</a>の内容に沿って設定してください。
+						</p>
+						<p class="lh18p">リサイズは以下の3種類のタイプを指定できます。
+						</p>
+						<ul class="marT20 check">
+							<li>FITWIDTH　・・・　縦横比率を保ち画像を縮小します。</li>
+							<li class="marT5">CLIPSQUARE　・・・　横幅を基準とした正方形に縮小し、はみ出る部分をくり抜いた画像に変換します。</li>
+							<li class="marT5">INSQUARE　・・・　横幅を基準とした正方形に収まるサイズに画像全体を縮小します。</li>
+						</ul>
+						<p class="marT10 lh18p">サイズの指定は、magniWidthで横幅をブラウザ幅との比率で指定するのが基本となります。
+						</p>
+						<p class="marT20 lh18p">次の例では横長の画像を、ブラウザ幅の20%にリサイズ指定しています。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:img src="./images/resize.jpg" magniWidth="0.2"/&gt;
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2" scaleType="CLIPSQUARE"/&gt;
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2" scaleType="INSQUARE"/&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">実際の表示は、次のようになります。
+						</p>
+						<div class="marT10 cFix">
+							<dl class="fl w120">
+								<dt class="tCenter">
+									<img src="../img/contents/references/resize_w_f.gif" alt="リサイズ横 FITWIDTH"/>
+								</dt>
+								<dd class="marT10 tCenter">FITWIDTH</dd>
+							</dl>
+							<dl class="fl w120">
+								<dt class="tCenter">
+									<img src="../img/contents/references/resize_w_c.gif" alt="リサイズ横 CLIPSQUARE"/>
+								</dt>
+								<dd class="marT10 tCenter">CLIPSQUARE</dd>
+							</dl>
+							<dl class="fl w120">
+								<dt class="tCenter">
+									<img src="../img/contents/references/resize_w_i.gif" alt="リサイズ横 INSQUARE"/>
+								</dt>
+								<dd class="marT10 tCenter">INSQUARE</dd>
+							</dl>
+						</div>
+						<p class="marT30 lh18p">縦長の画像をリサイズ指定した場合は次のようになります。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2"/&gt;
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2" scaleType="CLIPSQUARE"/&gt;
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2" scaleType="INSQUARE"/&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<div class="marT10 cFix">
+							<dl class="fl w120">
+								<dt class="tCenter">
+									<img src="../img/contents/references/resize_h_f.gif" alt="リサイズ縦 FITWIDTH"/>
+								</dt>
+								<dd class="marT10 tCenter">FITWIDTH</dd>
+							</dl>
+							<dl class="fl w120">
+								<dt class="tCenter">
+									<img src="../img/contents/references/resize_h_c.gif" alt="リサイズ縦 CLIPSQUARE"/>
+								<dd class="marT10 tCenter">CLIPSQUARE</dd>
+							</dl>
+							<dl class="fl w120">
+								<dt class="tCenter">
+									<img src="../img/contents/references/resize_h_i.gif" alt="リサイズ縦 INSQUARE"/>
+								</dt>
+								<dd class="marT10 tCenter">INSQUARE</dd>
+							</dl>
+						</div>
+						<p class="marT20 lh18p"><span class="fgRed">※Seasar2連携時、HotDeploy環境下では同ホスト同アプリケーションへのhttp経由での画像パス指定はできません。</span><br/>
+HotDeploy環境下での同ホスト同アプリケーション内への画像のパスは
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:img src="http://localhost:8080/mobylet-example/img/image.gif" magniWidth="0.9"/&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT10 lh18p">のようにhttpから記述するのではなく、<br/>
+mobylet.image.propertiesでimage.local.base.dirに設定したディレクトリ以降のパスを
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:img src="image.gif" magniWidth="0.9"/&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT10 lh18p">のように記述してください。
+						</p>
+
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="han">半角変換</h3>
+					<div class="cstInner">
+						<h5 class="marT10">mobyletでは、全角文字を半角文字に変換する機能を提供しています。
+						</h5>
+						<p class="marT10 lh18p">変換対象となるのは次の文字種です。
+						</p>
+						<ul class="marT20 check">
+							<li>大文字・小文字のアルファベット</li>
+							<li class="marT5">数字</li>
+							<li class="marT5">カタカナ</li>
+							<li class="marT5">「／」「－」「ー」「‐」「゛」「゜」「・」</li>
+						</ul>
+						<p class="marT20 lh18p">上記の文字を半角変換する場合、次のように記述します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;m:out value="Ａｌｐｈａｂｅｔと１とカタカナと「／」「－」「ー」「‐」「゛」「゜」「・」を変換します。"/&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">実際の表示は<br />
+<br />
+<span class="fgAct">「Alphabetと1とｶﾀｶﾅと「/」「-」「-」「-」「ﾞ」「ﾟ」「･」を変換します。」</span><br />
+<br />
+のように、対象文字が半角変換されて表示されます。
+						</p>
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+
+			</div>
+			<!-- end main -->
+		</div>
+		<!-- end mainWrap -->
+
+
+		<!-- start sideArea -->
+		<div id="sideArea">
+			<dl class="sideCst">
+				<dt><span class="fs12p">機能リファレンス</span></dt>
+				<dd>
+					<ul>
+					<li><a href="#career">キャリアの識別</a></li>
+					<li><a href="#deviceDisplay">画面表示サイズの取得</a></li>
+					<li><a href="#gps">GPS対応機種の識別</a></li>
+					<li><a href="#gpsinfo">GPS情報の取得</a></li>
+					<li><a href="#gpsmove">座標移動Gps情報の取得</a></li>
+					<li><a href="#googlemap">GoogleMapの表示</a></li>
+					<li><a href="#emoji">絵文字の表示</a></li>
+					<li><a href="#resize">画像のリサイズ</a></li>
+					<li class="last"><a href="#han">半角変換</a></li>
+					</ul>
+				</dd>
+			</dl>
+			<ul class="banner cFix marT20">
+						<li><a href="http://d.hatena.ne.jp/mobylet/" target="_blank"><img src="../img/bnr_blog.gif" alt="ブログ" title="ブログ" class="imgover" /></a></li>
+						<li><a href="https://www.seasar.org/issues/browse/MOBYLET" target="_blank"><img src="../img/bnr_jira.gif" alt="JIRA" title="JIRA" class="imgover" /></a></li>
+			</ul>
+		</div>
+		<!-- end sideArea -->
+
+
+	</div>
+	<!-- end container -->
+
+
+	<!-- start footer -->
+	<div class="container marT30">
+		<div class="tRight"><a href="#pageTop"><img src="../img/bg_gotop_foot.gif" alt="ページのTOPへ戻る" title="ページのTOPへ戻る" class="imgover" /></a></div>
+	</div>
+	<div id="footer">
+		<div class="container">
+			<ul class="footLink cFix">
+				<li><a href="../index.html">TOP</a></li>
+				<li><a href="../guides/">初めての方へ</a></li>
+				<li><a href="../settings/">mobyletの設定</a></li>
+				<li><a href="../references/">リファレンス</a></li>
+				<li><a href="../downloads/">ダウンロード</a></li>
+				<li><a href="../informations/">インフォメーション</a></li>
+				<li class="last"><a href="../questions/">Q&A</a></li>
+			</ul>
+			<div class="marT40">
+				constructed by <a href="http://www.leihauoli.com/" title="株式会社レイハウオリ">株式会社Lei Hau'oli</a><br/>
+				supported by <a href="http://valueengine.jp/" title="株式会社バリューエンジン">株式会社バリューエンジン</a><br/>
+				&copy; Copyright Lei Hau'oli Co.,Ltd. and The Seasar Foundation and the others 2006, all rights reserved.
+			</div>
+		</div>
+		<!-- end container -->
+	</div>
+	<!-- end footer -->
+
+
+</div>
+<!-- end wrapper -->
+
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-9308763-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
