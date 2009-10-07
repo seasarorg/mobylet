@@ -117,7 +117,6 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void parseParameters() {
 		synchronized (parametersMap) {
 			String queryString = getQueryString();
