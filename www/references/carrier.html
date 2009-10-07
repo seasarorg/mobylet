@@ -35,85 +35,94 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>機能リファレンス</h2>
+			<h2>キャリアを判定する</h2>
 
 			<!-- start main -->
 			<div id="main">
 
-				<!-- start descWrap -->
-				<div id ="descWrap" class="marT20">
-					<div id="descInner">
-						<p class="padT10 lh18p padB20">
-						mobyletは携帯Webアプリケーションを構築する際に便利な機能が沢山あります。<br />
-						ここではmobyletの便利な機能をいくつか紹介します。
-						</p>
-					</div>
-				</div>
-				<!-- end descWrap -->
-
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3>便利な機能一覧</h3>
+					<h3>キャリアを判定する</h3>
 					<div class="cstInner">
 					
-						<h4>キャリアを判定する</h4>
-						<ul class="marT20 lh18p">
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./carrier.html">
-								キャリアを判定する
-								</a>
-								</div>
-								<div class="fl">アクセスしてきた端末のキャリアを判定します</div>
-							</li>
-						</ul>
+						<h4 id="emoji">Mobyletインスタンスを取得する</h4>
 
-						<h4>端末の情報を取得する</h4>
-						<ul class="marT20 lh18p">
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#device">
-								デバイス情報を取得する
-								</a>
-								</div>
-								<div class="fl">アクセス端末と端末に紐付く情報の取得方法</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#display">
-								画面サイズを取得する
-								</a>
-								</div>
-								<div class="fl">アクセス端末のディスプレイサイズを取得する</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#uid">
-								UIDを取得する
-								</a>
-								</div>
-								<div class="fl">公式サイトの場合のUIDの取得方法</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#guid">
-								GUIDを取得する
-								</a>
-								</div>
-								<div class="fl">非公式サイト（勝手サイト）の場合のGUIDの取得方法</div>
-							</li>
-							<li class="cl">
-								<div class="fl w150">
-								<a href="./mobylet.html#gps">
-								GPS搭載状況を取得する
-								</a>
-								</div>
-								<div class="fl">その端末にGPSが搭載されているかどうかを判定する</div>
-							</li>
-						</ul>
+						<p class="marT20 lh18p">
+						アクセス端末に関する各種情報は、Mobyletインスタンスからアクセス可能です。<br />
+						一般的には以下コードでMobyletインスタンスを取得可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						Seasar2などのDIコンテナを利用する場合は、MobyletインスタンスをDIすることも可能です。<br />
+						Seasar2の場合は、「mobylet-s2extension.jar」に同梱されている「mobylet.dicon」を、<br />
+						Webアプリケーション側の「app.dicon」からインクルードすることで、以下のようにDIすることが可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">@Resrouce
+protected Mobylet mobylet;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						MobyletインスタンスはMobyletImplクラスのデフォルトコンストラクタにより生成も可能ですが、<br />
+						ひとつのリクエストスコープ内で、複数回Mobyletインスタンスを生成することは不要な処理となるため、<br />
+						MobyletFactoryから取得する、若しくはrequestスコープコンポーネントとしてご利用ください。<br />
+						</p>
+
+						<h4 id="emoji">Carrierを取得する</h4>
+
+						<p class="marT20 lh18p">
+						Mobyletインスタンスが取得できたら、次のメソッドでキャリア情報を取得することが可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Carrier carrier = mobylet.getCarrier();</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						この「carrier」インスタンスは「mobylet-core」で定義されたenum型となっており、<br />
+						以下のように分岐処理させることも出来ます。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">switch (carrier) {
+    case DOCOMO:
+        //ドコモ端末の場合の処理
+        break;
+    case AU:
+        //au端末の場合の処理
+        break;
+    case SOFTBANK:
+        //ソフトバンク3G端末の場合の処理
+        break;
+    case OTHER:
+        //PC若しくは上記以外の端末の場合の処理
+        break;
+}</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						mobyletでは2010年3月にソフトバンクの非3G端末のサービスが終了することに伴い、<br />
+						ソフトバンクの非3G端末をキャリア判定しません（「OTHER」となります）のでご注意ください。
+						</p>
 
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-
 					</div>
 					<!-- end cstInner -->
 				</div>
