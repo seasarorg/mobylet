@@ -18,21 +18,41 @@ public class Gps {
 	public static final char W = 'W';
 
 
+	/**
+	 * 緯度（度分秒形式）
+	 */
 	protected String strLat;
 
+	/**
+	 * 緯度（浮動小数点形式）
+	 */
 	protected Double lat;
 
 
+	/**
+	 * 経度（度分秒形式）
+	 */
 	protected String strLon;
 
+	/**
+	 * 経度（浮動小数点形式）
+	 */
 	protected Double lon;
 
 
+	/**
+	 * 高度
+	 */
 	protected Double height = 0.0;
 
-
+	/**
+	 * 測地系
+	 */
 	protected Geo geo;
 
+	/**
+	 * 精度
+	 */
 	protected Accuracy accuracy;
 
 
