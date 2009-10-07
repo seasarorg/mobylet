@@ -15,7 +15,6 @@ public class GoogleMapMarkerTag extends SimpleTagSupport {
 	protected String lon;
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
 		try {
 			GoogleMapTag googleMapTag =
