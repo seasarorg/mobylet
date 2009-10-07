@@ -35,48 +35,34 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>端末の情報を取得する</h2>
+			<h2>GPSと地図を利用する</h2>
 
 			<!-- start main -->
 			<div id="main">
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="device">デバイス情報を取得する</h3>
+					<h3 id="link">位置情報取得リンクを使う</h3>
 					<div class="cstInner">
 
-						<h4>MobyletインスタンスからDeviceインスタンスを取得する</h4>
+						<h4>&lt;m:gps&gt;タグを利用する</h4>
 
 						<p class="marT20 lh18p">
-						端末の情報もMobyletインスタンスから取得可能です。<br />
-						一般的には次のように端末情報へアクセスします。
+						位置情報の取得方法はキャリア毎に異なり、またGPS利用時と簡易位置情報取得時でも異なります。<br />
+						&lt;m:gps&gt;タグを利用することで、この差異を気にすることなく、<br />
+						どのアクセス端末からでも位置情報を取得するリンクを生成可能です。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
-Device device = mobylet.getDevice();</pre>
+								<pre class="code">&lt;m:gps kickBackUrl="/gps.jsp"&gt;位置情報を取得する&lt;/gps&gt;</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
 
 						<p class="marT20 lh18p">
-						DeviceインスタンスからはgetDeviceProfile()メソッドを利用することで<br />
-						バリューエンジン社の「ProfileData」情報へアクセスすることが可能です。
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">DeviceProfile deviceProfile = device.getDeviceProfile();
-String value = deviceProfile.get("発売日");
-</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-
-						<p class="marT20 lh18p">
-						上記の場合、セットアップした「ProfileData.csv」内で定義されている「発売日」列の情報が取得できます。<br />
-						アクセス端末がプロファイル情報に存在しない場合は、値に「null」が返って来ます。
+						※簡易位置情報とは、基地局の位置情報（1～3局程度）を元にアクセス位置を割り出した位置情報。<br />
+						&nbsp;&nbsp;一般的にはGPSを利用するよりも精度が粗くなる。<br />
 						</p>
 
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
@@ -88,162 +74,107 @@ String value = deviceProfile.get("発売日");
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="display">画面サイズを取得する</h3>
+					<h3 id="gps">GPS情報を取得する</h3>
 					<div class="cstInner">
 
-						<h4>MobyletインスタンスからDeviceDisplayインスタンスを取得する</h4>
+						<h4>MobyletインスタンスからGPS情報を取得する</h4>
 
 						<p class="marT20 lh18p">
-						端末の画面サイズを取得する方法はいくつかありますが、<br />
-						一般的には以下の方法で画面サイズ（ブラウザサイズ）を取得することが可能です。
+						端末が位置情報送信を行った際、MobyletインスタンスからGPS情報を取得することが可能です。<br />
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
 								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
-DeviceDisplay display = mobylet.getDeviceDisplay();
-Integer w = display.getWidth();  //ブラウザ幅
-Integer h = display.getHeight(); //ブラウザ高さ
+Gps location = mobylet.getGps();
 </pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
 
 						<p class="marT20 lh18p">
-						この方法で画面サイズを取得した場合、<br />
-						まず、バリューエンジン社の「DisplayInfo.csv」のデータを参照し、マッチすればその情報を返します。<br />
-						マッチしなかった場合でかつ、AUまたはSOFTBANKの場合はRequestHeaderから取得可能な<br />
-						ブラウザサイズを利用して、DeviceDisplayインスタンスを構築し、返却します。
+						取得時には世界測地系（WGS84）の緯度経度情報となっていますが、<br />
+						GeoConverterインスタンスを利用して、日本測地系（TOKYO）にコンバートすることも可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">GeoConverter converter = SingletonUtils.get(GeoConverter.class);
+gps = converter.toTokyo(gps);
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="googlemap">Google Mapを表示する</h3>
+					<div class="cstInner">
+
+						<h4 id="emoji">Google Mapを利用して地図を表示する</h4>
+
+						<p class="marT20 lh18p">
+						まずはGoogle Mapを利用するための利用登録を行います。<br />
+						こちらから → <a href="http://code.google.com/intl/ja/apis/maps/signup.html" target="_blank">http://code.google.com/intl/ja/apis/maps/signup.html</a>
 						</p>
 						<p class="marT10 lh18p">
-						もしもブラウザサイズ以外の画面サイズを取得したい場合（でかつ、DisplayInfoに情報が存在するデータ）は<br />
-						以下のように取得することも可能です。
+						利用登録を行うと発行されるAPIキーと&lt;m:googlemap&gt;タグを使って地図を表示します。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">DeviceDisplay display = mobylet.getDeviceDisplay();
-DeviceDisplay anotherDisplay = display.getAnotherDisplay("待受壁紙画像サイズ");
+								<pre class="code">&lt;m:googlemap key="発行されたAPIキー文字列" /&gt;
 </pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
 
 						<p class="marT20 lh18p">
-						getAnotherDisplay()メソッドの引数に渡せる値は、バリューエンジン社提供の「DisplayInfo」データ内、<br />
-						「表示タイプ」列に定義されている各値が対象です。<br />
-						マッチしない値を指定した場合は「null」が返却されます。
-						</p>
-
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
-
-
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="uid">UIDを取得する</h3>
-					<div class="cstInner">
-
-						<h4>MobyletインスタンスからUID情報を取得する</h4>
-
-						<p class="marT20 lh18p">
-						UIDは以下の方法で取得可能です。
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
-String uid = mobylet.getUid();
-</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-
-						<p class="marT20 lh18p">
-						docomoのみ、公式サイトでなければUIDが取得できないため、<br />
-						勝手サイトの場合、又は公式申請していない段階でのテストでは、このメソッドはnullを返します。<br />
-						※リクエストパラメータに「uid=NULLGWDOCOMO」が付与されていなかった場合もnullを返します。
+						何も指定しない場合はMobyletインスタンスのgetGps()メソッドで取得した位置情報を<br />
+						地図の中心に置き、縦横ブラウザサイズと同程度のサイズの地図を表示します。
 						</p>
 						<p class="marT10 lh18p">
-						また、docomoのuidは12桁以外のuidに改竄が可能なため、12桁以外のuidでリクエストを受け付けた場合、<br />
-						MobyletインスタンスのgetUid()はnullを返します。
+						他にランドマークを指定したい場合は&lt;m:marker&gt;タグを利用して表示します。
 						</p>
 
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
-
-
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="guid">GUIDを取得する</h3>
-					<div class="cstInner">
-
-						<h4>MobyletインスタンスからGUID情報を取得する</h4>
-
-						<p class="marT20 lh18p">
-						GUIDは以下の方法で取得可能です。
-						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
-String guid = mobylet.getGuid();
+								<pre class="code">&lt;m:googlemap key="発行されたAPIキー文字列" &gt;
+    &lt;m:marker lat="${lat1}" lon="${lon1}" /&gt;
+    &lt;m:marker lat="${lat2}" lon="${lon2}" /&gt;
+    &lt;m:marker lat="${lat3}" lon="${lon3}" /&gt;
+&lt;/m:googlemap&gt;
 </pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
 
 						<p class="marT20 lh18p">
-						getGuid()メソッドはAU、SOFTBANKにおいてはgetUid()と同値を返却します。<br />
-						docomoの場合のみ「iモードID」を返却します。<br />
-						※リクエストパラメータに「guid=ON」が付与されていなかった場合（iモードIDが取得不可）はnullを返します。
+						中心位置や地図サイズ、縮尺も変更することが出来ます。
 						</p>
 
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
-
-
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="gps">GPS搭載端末か判別する</h3>
-					<div class="cstInner">
-
-						<h4>DeviceインスタンスからGPS搭載端末かどうか判別する</h4>
-
-						<p class="marT20 lh18p">
-						GPS搭載端末の判定メソッドは、直接プロファイル情報を確認しても判定可能ですが<br />
-						以下のメソッドで確認することも出来ます。
-						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
-Device device = mobylet.getDevice();
-boolean hasGps = device.hasGps();
+								<pre class="code">&lt;m:googlemap key="KEY" lat="${centerLat}" lon="${centerLon}" width="100" height="100" zoom="10"/&gt;
 </pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
 
-						<p class="marT20 lh18p">
-						※場合によってはDeviceインスタンスがnullの場合もあるので注意して下さい。
-						</p>
-
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
-
 
 			</div>
 			<!-- end main -->
