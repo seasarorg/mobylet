@@ -1,0 +1,94 @@
+@charset "utf-8";
+
+/**********************************/
+/* 初期化                         */
+/**********************************/
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+ol, dl, dd {
+	margin: 0;
+	padding: 0;
+}
+	
+
+li {
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+}
+
+table, td ,th {
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+}
+
+th {
+	text-align:left;
+}
+
+hr {
+	margin: 0;
+	padding: 0;
+}
+
+pre {
+	margin: 0;
+	padding: 0;
+}
+
+
+/* コンテナ定型 */
+.cFix {
+	overflow: hidden;
+}
+
+.cFix:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 1px;
+    overflow: hidden;
+}
+
+/*\*/
+* html .cFix {
+    height: 1em;
+    overflow: visible;
+}
+/**/

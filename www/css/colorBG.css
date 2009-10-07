@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+
+/**********************************/
+/* ヘッダー領域                   */
+/**********************************/
+
+/*ヘッドライン色分け*/
+
+#wrapper {
+	border-top: 10px solid #9ED03D;
+}
+
+
+/**********************************/
+/* メイン領域                     */
+/**********************************/
+
+/*h2色分け*/
+h2 {
+	background: url(../img/bg_h2/h2_bg.gif) 0 0 no-repeat;
+}
+
+
+/*メインカセットhead色分け*/
+h3 {
+	background: url(../img/cst/bg_cst_bg.gif) 0 0 no-repeat;
+	color: #9ED03D;
+}
+
+
+/*h5タイトル色分け*/
+h5 {
+	background: url(../img/bg_h5/h5_bg.gif) 0 0 no-repeat;
+}
+
+
+/**********************************/
+/* サイドエリア領域               */
+/**********************************/
+
+/*サイドカセットbtm色分け*/
+.sideCst {
+	background: #9ED03D url(../img/side/bg_side_bg.gif) 0 100% no-repeat;
+}
+
+/*サイドカセットhead色分け*/
+.sideCst dt {
+	background: url(../img/side/bg_side_bg.gif) 0 0 no-repeat;
+}
+
+
+/*サイドカセットinner色分け*/
+.sideCst ul {
+	background: #9ED03D;
+}
+
+
+/**********************************/
+/* フッターエリア領域             */
+/**********************************/
+
+#footer {
+	border-top: 10px solid #9ED03D;
+}
+

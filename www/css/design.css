@@ -1,0 +1,118 @@
+@charset "utf-8";
+
+/************************************************************/
+/* スタイル設定                                             */
+/************************************************************/
+
+body,
+input,
+select {
+	font-family: 'メイリオ',Meiryo, "ＭＳ Ｐゴシック","ヒラギノ角ゴ ProW3" , 'Hiragino Kaku Gothic Pro' , Osaka,Arial , sans-serif;
+	font-size: 12px;
+}
+
+
+/****************************/
+
+body {
+	background: #666666;
+	color: #666666;
+}
+
+
+/**********************************/
+/* 見出し指定                     */
+/**********************************/
+
+h1 {
+}
+
+h2 {
+	height: 25px;
+	padding: 5px 10px 5px 60px; 
+	font-size: 22px;
+	color: #FFFFFF;
+}
+
+h3 {
+	height: 29px;
+	padding: 20px 10px 0 75px; 
+	font-size: 16px;
+}
+
+h4 {
+	padding: 20px 0 6px 0; 
+	background: url(../img/h4.gif) 0 100% no-repeat;
+	font-size: 14px;
+}
+
+h5 {
+	padding-left: 25px; 
+	font-size: 12px;
+	line-height: 18px;
+	color: #FFFFFF;
+}
+
+/**********************************/
+/* アンカー設定                   */
+/**********************************/
+
+a {
+	color:#FFFFFF;
+	text-decoration: none;
+}
+
+a:visited {
+	color:#FFFFFF;
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+#main a {
+	color:#1470CC;
+	text-decoration: none;
+}
+
+#main a:visited {
+	color:#1470CC;
+	text-decoration: none;
+}
+
+#main a:active {
+	text-decoration: underline;
+}
+
+#main a:hover {
+	text-decoration: underline;
+}
+
+
+hr {
+	display: block;
+	height: 1px;
+	border: none;
+	border-top: 1px dotted #CCCCCC;
+}
+
+
+input {
+	vertical-align: middle;
+}
+
+pre {
+	font-family: courier new;
+	color: #FFFFFF;
+	white-space: -moz-pre-wrap;/*FireFox*/
+	word-wrap: break-word;/*IE用*/
+}
+
+p {
+	word-break:break-all;
+}

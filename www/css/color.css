@@ -1,0 +1,362 @@
+@charset "utf-8";
+
+
+/**********************************/
+/* ヘッダー領域                   */
+/**********************************/
+
+/*ヘッドライン色分け*/
+
+#wrapperTP {
+	background: #FFFFFF;
+	border-top: 10px solid #FF6A9E;
+}
+
+#wrapperBG {
+	background: #FFFFFF;
+	border-top: 10px solid #9ED03D;
+}
+#wrapperST {
+	background: #FFFFFF;
+	border-top: 10px solid #ffa938;
+}
+
+#wrapperFT {
+	background: #FFFFFF;
+	border-top: 10px solid #5BD1DD;
+}
+
+#wrapperDL {
+	background: #FFFFFF;
+	border-top: 10px solid #FFD823;
+}
+
+#wrapperIF {
+	background: #FFFFFF;
+	border-top: 10px solid #EE4C63;
+}
+
+#wrapperQA {
+	background: #FFFFFF;
+	border-top: 10px solid #007AC6;
+}
+
+
+/**********************************/
+/* メイン領域                     */
+/**********************************/
+
+/*h2色分け*/
+h2.TP {
+	background: url(../img/bg_h2/h2_tp.gif) 0 0 no-repeat;
+}
+
+h2.BG {
+	background: url(../img/bg_h2/h2_bg.gif) 0 0 no-repeat;
+}
+
+h2.ST {
+	background: url(../img/bg_h2/h2_st.gif) 0 0 no-repeat;
+}
+
+h2.FT {
+	background: url(../img/bg_h2/h2_ft.gif) 0 0 no-repeat;
+}
+
+h2.DL {
+	background: url(../img/bg_h2/h2_dl.gif) 0 0 no-repeat;
+}
+
+h2.IF {
+	background: url(../img/bg_h2/h2_if.gif) 0 0 no-repeat;
+}
+
+h2.QA {
+	background: url(../img/bg_h2/h2_qa.gif) 0 0 no-repeat;
+}
+
+
+/*** 本文カセット ***/
+
+/*メインカセットhead色分け*/
+h3.TP {
+	background: url(../img/cst/bg_cst_tp.gif) 0 0 no-repeat;
+	color: #FF6C9E;
+}
+
+h3.BG {
+	background: url(../img/cst/bg_cst_bg.gif) 0 0 no-repeat;
+	color: #9ED03D;
+}
+
+h3.ST {
+	background: url(../img/cst/bg_cst_st.gif) 0 0 no-repeat;
+	color: #FFA938;
+}
+
+h3.FT {
+	background: url(../img/cst/bg_cst_ft.gif) 0 0 no-repeat;
+	color: #5BD0E4;
+}
+
+h3.DL {
+	background: url(../img/cst/bg_cst_dl.gif) 0 0 no-repeat;
+	color: #FFD823;
+}
+
+h3.IF {
+	background: url(../img/cst/bg_cst_if.gif) 0 0 no-repeat;
+	color: #EE4C63;
+}
+
+h3.QA {
+	background: url(../img/cst/bg_cst_qa.gif) 0 0 no-repeat;
+	color: #0079C2;
+}
+
+/*h5タイトル色分け*/
+h5.TP {
+	background: url(../img/bg_h5/h5_tp.gif) 0 0 no-repeat;
+}
+
+h5.BG {
+	background: url(../img/bg_h5/h5_bg.gif) 0 0 no-repeat;
+}
+
+h5.ST {
+	background: url(../img/bg_h5/h5_st.gif) 0 0 no-repeat;
+}
+
+h5.FT {
+	background: url(../img/bg_h5/h5_ft.gif) 0 0 no-repeat;
+}
+
+h5.DL {
+	background: url(../img/bg_h5/h5_dl.gif) 0 0 no-repeat;
+}
+
+h5.IF {
+	background: url(../img/bg_h5/h5_if.gif) 0 0 no-repeat;
+}
+
+h5.QA {
+	background: url(../img/bg_h5/h5_qa.gif) 0 0 no-repeat;
+}
+
+
+/**********************************/
+/* サイドエリア領域               */
+/**********************************/
+
+/*サイドカセットbtm色分け*/
+.sideCstTP {
+	padding-bottom: 6px;
+	background: #FFA938 url(../img/side/bg_side_tp.gif) 0 100% no-repeat;
+}
+
+.sideCstBG {
+	padding-bottom: 6px;
+	background: #FFA938 url(../img/side/bg_side_bg.gif) 0 100% no-repeat;
+}
+
+.sideCstST {
+	padding-bottom: 6px;
+	background: #FFA938 url(../img/side/bg_side_st.gif) 0 100% no-repeat;
+}
+
+.sideCstFT {
+	padding-bottom: 6px;
+	background: #FFA938 url(../img/side/bg_side_ft.gif) 0 100% no-repeat;
+}
+
+.sideCstDL {
+	padding-bottom: 6px;
+	background: #FFA938 url(../img/side/bg_side_dl.gif) 0 100% no-repeat;
+}
+.sideCstIF {
+	padding-bottom: 6px;
+	background: #FFA938 url(../img/side/bg_side_if.gif) 0 100% no-repeat;
+}
+
+.sideCstQA {
+	padding-bottom: 6px;
+	background: #FFA938 url(../img/side/bg_side_qa.gif) 0 100% no-repeat;
+}
+
+/*サイドカセットhead色分け*/
+.sideCstTP dt {
+	height: 24px;
+	padding: 5px 10px 0 22px;
+	background: url(../img/side/bg_side_tp.gif) 0 0 no-repeat;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.sideCstBG dt {
+	height: 24px;
+	padding: 5px 10px 0 22px;
+	background: url(../img/side/bg_side_bg.gif) 0 0 no-repeat;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.sideCstST dt {
+	height: 24px;
+	padding: 5px 10px 0 22px;
+	background: url(../img/side/bg_side_st.gif) 0 0 no-repeat;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.sideCstFT dt {
+	height: 24px;
+	padding: 5px 10px 0 22px;
+	background: url(../img/side/bg_side_ft.gif) 0 0 no-repeat;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.sideCstDL dt {
+	height: 24px;
+	padding: 5px 10px 0 22px;
+	background: url(../img/side/bg_side_dl.gif) 0 0 no-repeat;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.sideCstIF dt {
+	height: 24px;
+	padding: 5px 10px 0 22px;
+	background: url(../img/side/bg_side_if.gif) 0 0 no-repeat;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.sideCstQA dt {
+	height: 24px;
+	padding: 5px 10px 0 22px;
+	background: url(../img/side/bg_side_qa.gif) 0 0 no-repeat;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+/*サイドカセットinner色分け*/
+.sideCstTP ul {
+	padding-left: 10px;
+	background: #FF6C9E;
+}
+
+.sideCstBG ul {
+	padding-left: 10px;
+	background: #9ED03D;
+}
+
+.sideCstST ul {
+	padding-left: 10px;
+	background: #FFA938;
+}
+
+.sideCstFT ul {
+	padding-left: 10px;
+	background: #5BD0E4;
+}
+
+.sideCstDL ul {
+	padding-left: 10px;
+	background: #FFD823;
+}
+
+.sideCstIF ul {
+	padding-left: 10px;
+	background: #EE4C63;
+}
+
+.sideCstQA ul {
+	padding-left: 10px;
+	background: #0079C2;
+}
+
+/*サイドカセットリスト*/
+.sideCstTP li,
+.sideCstBG li,
+.sideCstST li,
+.sideCstFT li,
+.sideCstDL li,
+.sideCstIF li,
+.sideCstQA li {
+	height: 27px;
+	padding-left: 15px;
+	background: url(../img/icon_list_w.gif) 0 50% no-repeat;
+	border-bottom: 1px dotted #FFFFFF;
+	line-height: 27px;
+}
+
+.sideCstTP li.last,
+.sideCstBG li.last,
+.sideCstST li.last,
+.sideCstFT li.last,
+.sideCstDL li.last,
+.sideCstIF li.last,
+.sideCstQA li.last {
+	border-bottom: none;
+}
+
+/**********************************/
+/* フッターエリア領域             */
+/**********************************/
+
+#footerTP {
+	padding: 10px 0;
+	background: #666666;
+	border-top: 10px solid #FF6C9E;
+	color: #FFFFFF;
+}
+
+#footerBG {
+	padding: 10px 0;
+	background: #666666;
+	border-top: 10px solid #9ED03D;
+	color: #FFFFFF;
+}
+
+#footerST {
+	padding: 10px 0;
+	background: #666666;
+	border-top: 10px solid #FFA938;
+	color: #FFFFFF;
+}
+
+#footerFT {
+	padding: 10px 0;
+	background: #666666;
+	border-top: 10px solid #5BD0E4;
+	color: #FFFFFF;
+}
+
+#footerDL {
+	padding: 10px 0;
+	background: #666666;
+	border-top: 10px solid #FFD823;
+	color: #FFFFFF;
+}
+
+#footerIF {
+	padding: 10px 0;
+	background: #666666;
+	border-top: 10px solid #EE4C63;
+	color: #FFFFFF;
+}
+
+#footerQA {
+	padding: 10px 0;
+	background: #666666;
+	border-top: 10px solid #0079C2;
+	color: #FFFFFF;
+}
+
