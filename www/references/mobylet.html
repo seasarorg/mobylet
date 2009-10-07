@@ -141,6 +141,77 @@ DeviceDisplay anotherDisplay = display.getAnotherDisplay("待受壁紙画像サ�
 				</div>
 				<!-- end cstWrap -->
 
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="uid">UIDを取得する</h3>
+					<div class="cstInner">
+					
+						<h4 id="emoji">MobyletインスタンスからUID情報を取得する</h4>
+
+						<p class="marT20 lh18p">
+						UIDは以下の方法で取得可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
+String uid = mobylet.getUid();
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						docomoのみ、公式サイトでなければUIDが取得できないため、<br />
+						勝手サイトの場合、又は公式申請していない段階でのテストでは、このメソッドはnullを返します。<br />
+						※リクエストパラメータに「uid=NULLGWDOCOMO」が付与されていなかった場合もnullを返します。
+						</p>
+						<p class="marT10 lh18p">
+						また、docomoのuidは12桁以外のuidに改竄が可能なため、12桁以外のuidでリクエストを受け付けた場合、<br />
+						MobyletインスタンスのgetUid()はnullを返します。
+						</p>
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="guid">GUIDを取得する</h3>
+					<div class="cstInner">
+					
+						<h4 id="emoji">MobyletインスタンスからGUID情報を取得する</h4>
+
+						<p class="marT20 lh18p">
+						GUIDは以下の方法で取得可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
+String guid = mobylet.getGuid();
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						getGuid()メソッドはAU、SOFTBANKにおいてはgetUid()と同値を返却します。<br />
+						docomoの場合のみ「iモードID」を返却します。<br />
+						※リクエストパラメータに「guid=ON」が付与されていなかった場合（iモードIDが取得不可）はnullを返します。
+						</p>
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+
 			</div>
 			<!-- end main -->
 		</div>
