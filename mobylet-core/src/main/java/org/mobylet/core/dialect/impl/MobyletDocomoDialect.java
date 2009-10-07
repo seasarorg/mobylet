@@ -68,7 +68,13 @@ public class MobyletDocomoDialect extends AbstractDialect {
 
 	@Override
 	public String getUid() {
-		return RequestUtils.get().getParameter("uid");
+		String uid = RequestUtils.get().getParameter("uid");
+		if (StringUtils.isNotEmpty(uid) &&
+				uid.length() == 12) {
+			return uid;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
