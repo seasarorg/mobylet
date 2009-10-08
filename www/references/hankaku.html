@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>mobylet（モビレット） | 機能リファレンス | 携帯Webアプリケーションを開発するためのJavaオープンソースフレームワーク</title>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="description" content="「mobylet」はJavaで作られたオープンソースのモバイルWebアプリケーションフレームワークで、様々なWebフレームワークと共に利用することが可能です。" />
+<meta name="keywords" content="携帯,モバイル,Web,Java,OSS,絵文字,mobylet" />
+<script src="../js/rollover.js" type="text/javascript"></script>
+<link href="../css/mobylet.css" rel="stylesheet" type="text/css" />
+<link href="../css/colorFT.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="pageTop">
+<div id="wrapper">
+	<!-- start header -->
+	<div id="header" class="cFix">
+		<h1 id="logo" class="fl"><a href="../index.html" title="mobylet"><img src="../img/logo.gif" alt="mobylet" title="mobylet" /></a></h1>
+		<ul id="gNav" class="fr cFix">
+			<li><a href="../index.html"><img src="../img/globalnavi/tp.gif" alt="TOP" title="TOP" class="imgover" /></a></li>
+			<li><a href="../guides/"><img src="../img/globalnavi/bg.gif" alt="初めての方へ" title="初めての方へ" class="imgover" /></a></li>
+			<li><a href="../settings/"><img src="../img/globalnavi/st.gif" alt="mobyletの設定" title="mobyletの設定" class="imgover" /></a></li>
+			<li><img src="../img/globalnavi/ft_o.gif" alt="機能リファレンス" title="機能リファレンス" /></li>
+			<li><a href="../downloads/"><img src="../img/globalnavi/dl.gif" alt="ダウンロード" title="ダウンロード" class="imgover" /></a></li>
+			<li><a href="../informations/"><img src="../img/globalnavi/if.gif" alt="インフォメーション" title="インフォメーション" class="imgover" /></a></li>
+			<li><a href="../questions/"><img src="../img/globalnavi/qa.gif" alt="Q&A" title="Q&A" class="imgover" /></a></li>
+		</ul>
+	</div>
+	<!-- end header -->
+
+
+	<!-- start container -->
+	<div class="container cFix">
+
+		<!-- start mainWrap -->
+		<div id="mainWrap">
+			<h2>半角に変換する</h2>
+
+			<!-- start main -->
+			<div id="main">
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="logic">StringUtilsを使う</h3>
+					<div class="cstInner">
+						<h4>ロジック内部で変換処理を行う</h4>
+						<p class="marT20 lh18p">
+						一般的に、携帯向けのWebサイトでは、狭いブラウザ幅を有効に活用するために、カタカナや記号は半角で表示します。<br />
+						しかしPCサイトと同じデータを表示する場合など、あらかじめ半角でデータを用意しておくことが困難な場合があります。<br />
+						<br />
+						その場合は、以下のようにMobyletのStringUtilsクラスを使用することで、全角文字を半角文字に変換することが可能です。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">String replaced = StringUtils.toHan("Ａｌｐｈａｂｅｔと１とカタカナと／－ー‐゛゜・を変換します。");</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">
+						replacedには、「Alphabetと1とｶﾀｶﾅと/---ﾞﾟ･を変換します。」のように、対象文字が半角変換された文字列を取得できます。<br />
+						<br />
+						半角変換対象となるのは次の文字種です。
+						</p>
+						<ul class="disc marL20">
+							<li>大文字・小文字のアルファベット</li>
+							<li>数字</li>
+							<li>カタカナ</li>
+							<li>「／」「－」「ー」「‐」「゛」「゜」「・」</li>
+						</ul>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="rendering">&lt;m:out&gt;タグを使う</h3>
+					<!-- start cstInner -->
+					<div class="cstInner">
+						<h4>レンダリング領域で変換処理を行う</h4>
+						<p class="marT20 lh18p">
+						データベースなどに保存されているデータをそのまま表示させたい場合など、<br />
+						ロジック内部で変換処理を行なうのが煩わしい場合には、Mobyletのカスタムタグを使用して変換することが可能です。<br />
+						<br />
+						まず、カスタムタグを使用するために、<a href="../settings/index.html#taglib">taglibの利用設定</a>を参照して、JSPにpageディレクティブを記述してください。<br />
+						JSPでは、以下のようにカスタムタグを使用します。
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">&lt;m:out value="Ａｌｐｈａｂｅｔと１とカタカナと／－ー‐゛゜・を変換します。"/&gt;</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						&lt;m:out&gt;タグは内部的にStringUtilsクラスを使用しているため、出力結果はStringUtilsクラスを使用した場合と同じになります。
+						</p>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+			</div>
+			<!-- end main -->
+		</div>
+		<!-- end mainWrap -->
+
+
+		<!-- start sideArea -->
+		<div id="sideArea">
+			<dl class="sideCst">
+				<dt><span class="fs12p">機能リファレンス</span></dt>
+				<dd>
+					<ul>
+					<li><a href="./">機能リファレンストップ</a></li>
+					<li><a href="./carrier.html">キャリアを判定する</a></li>
+					<li><a href="./mobylet.html">端末の情報を取得する</a></li>
+					<li><a href="./gps.html">GPSと地図を利用する</a></li>
+					<li><a href="./emoji.html">絵文字を扱う</a></li>
+					<li><a href="./image.html">画像をリサイズする</a></li>
+					<li><a href="./hankaku.html">半角に変換する</a></li>
+					<li><a href="./mail.html">メールを送る</a></li>
+					<li><a href="./xhtml.html">XHTMLのビューを利用する</a></li>
+					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
+					<li><a href="./taglibs.html">便利なタグライブラリを利用する</a></li>
+					<li><a href="./notjsp.html">JSP以外のビューを利用する</a></li>
+					<li class="last"><a href="./mania.html">マニアックに利用する</a></li>
+					</ul>
+				</dd>
+			</dl>
+			<ul class="banner cFix marT20">
+						<li><a href="http://d.hatena.ne.jp/mobylet/" target="_blank"><img src="../img/bnr_blog.gif" alt="ブログ" title="ブログ" class="imgover" /></a></li>
+						<li><a href="https://www.seasar.org/issues/browse/MOBYLET" target="_blank"><img src="../img/bnr_jira.gif" alt="JIRA" title="JIRA" class="imgover" /></a></li>
+			</ul>
+		</div>
+		<!-- end sideArea -->
+
+
+	</div>
+	<!-- end container -->
+
+
+	<!-- start footer -->
+	<div class="container marT30">
+		<div class="tRight"><a href="#pageTop"><img src="../img/bg_gotop_foot.gif" alt="ページのTOPへ戻る" title="ページのTOPへ戻る" class="imgover" /></a></div>
+	</div>
+	<div id="footer">
+		<div class="container">
+			<ul class="footLink cFix">
+				<li><a href="../index.html">TOP</a></li>
+				<li><a href="../guides/">初めての方へ</a></li>
+				<li><a href="../settings/">mobyletの設定</a></li>
+				<li><a href="../references/">リファレンス</a></li>
+				<li><a href="../downloads/">ダウンロード</a></li>
+				<li><a href="../informations/">インフォメーション</a></li>
+				<li class="last"><a href="../questions/">Q&A</a></li>
+			</ul>
+			<div class="marT40">
+				constructed by <a href="http://www.leihauoli.com/" title="株式会社レイハウオリ">株式会社Lei Hau'oli</a><br/>
+				supported by <a href="http://valueengine.jp/" title="株式会社バリューエンジン">株式会社バリューエンジン</a><br/>
+				&copy; Copyright Lei Hau'oli Co.,Ltd. and The Seasar Foundation and the others 2006, all rights reserved.
+			</div>
+		</div>
+		<!-- end container -->
+	</div>
+	<!-- end footer -->
+
+
+</div>
+<!-- end wrapper -->
+
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-9308763-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
