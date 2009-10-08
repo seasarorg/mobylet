@@ -35,72 +35,45 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>mobyletの設定</h2>
+			<h2>Seasar2を利用する</h2>
 
 			<!-- start main -->
 			<div id="main">
-
 				<!-- start descWrap -->
 				<div id ="descWrap" class="marT20">
 					<div id="descInner">
-						<p class="fs16p bld fgAct padT10">mobyletフレームワークを適用するための設定は、わずか3ステップ</p>
+						<p class="padT10 lh18p">
+						Mobyletでは、Seasar2と連携するための拡張ライブラリを用意しています。<br />
+						Seasar2と連携するには、<a href="./">mobyletの設定</a>の後に2ステップを追加します。
+						</p>
 						<ol class="lspIn lh18p padT10 padB20">
 							<li>ライブラリをWebアプリケーションのビルドパスに含める</li>
-							<li>MobyletFilterを適用する（web.xmlの編集）</li>
-							<li>最新の端末情報を取得する（バリューエンジン社提供）</li>
-							<li>taglibの利用設定（任意）</li>
+							<li>mobylet.diconをincludeする</li>
 						</ol>
 					</div>
 				</div>
 				<!-- end descWrap -->
-
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
 					<h3>ライブラリをWebアプリケーションのビルドパスに含める</h3>
 					<div class="cstInner">
 						<h4>Maven2をご利用の方</h4>
-						<p class="marT20 lh18p">Maven2をご利用の方は、適用したいプロジェクトのpom.xmlファイルに<br />以下のrepository/dependencyを加えることでライブラリをダウンロードできます。
+						<p class="marT20 lh18p">Maven2をご利用の方は、適用したいプロジェクトのpom.xmlファイルに<br />以下のdependencyを加えることでライブラリをダウンロードできます。
 						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">&lt;repository&gt;
-    &lt;id&gt;maven.seasar.org&lt;/id&gt;
-    &lt;name&gt;The Seasar Foundation Maven2 Repository&lt;/name&gt;
-    &lt;url&gt;http://maven.seasar.org/maven2&lt;/url&gt;
-&lt;/repository&gt;</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
 						<!-- start codeWrap -->
 						<div class="codeWrap marT10">
 							<div class="codeInner">
 								<pre class="code">&lt;dependency&gt;
     &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-charset&lt;/artifactId&gt;
-    &lt;version&gt;0.8.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-core&lt;/artifactId&gt;
-    &lt;version&gt;0.8.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-taglibs&lt;/artifactId&gt;
-    &lt;version&gt;0.8.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-mail&lt;/artifactId&gt;
-    &lt;version&gt;0.8.0&lt;/version&gt;
+    &lt;artifactId&gt;mobylet-s2extension&lt;/artifactId&gt;
+    &lt;version&gt;0.9.1&lt;/version&gt;
 &lt;/dependency&gt;</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
 
 						<h4>その他の方</h4>
-						<p class="marT20 lh18p">以下のページから最新バージョンのライブラリを取得し<br />プロジェクトに展開、及び適用（WEB-INF/libディレクトリなどに配置）してください。
+						<p class="marT20 lh18p">以下のページから最新バージョンのmobylet-s2extension.jarを取得し<br />プロジェクトに展開、及び適用（WEB-INF/libディレクトリなどに配置）してください。
 						</p>
 						<ul class="marT10 check">
 							<li><a href="../downloads/">mobyletライブラリダウンロードページ</a></li>
@@ -116,31 +89,21 @@
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3>MobyletFilterを適用する</h3>
+					<h3>mobylet.diconをincludeする</h3>
 					<div class="cstInner">
 
-						<p>web.xmlに以下の設定を行います。</p>
+						<p>
+						クラスパス配下のapp.diconから、mobylet.diconをincludeします。
+						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT10">
 							<div class="codeInner">
-								<pre class="code">&lt;filter&gt;
-    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
-    &lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;
-&lt;/filter&gt;
-
-&lt;filter-mapping&gt;
-    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
-    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-    &lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
-    &lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;
-    &lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;
-&lt;/filter-mapping&gt;</pre>
+								<pre class="code">&lt;include path="mobylet.dicon"/&gt;</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
-						<p class="marT20 lh18p">このMobyletFilterはパラメータやレスポンスのエンコード/デコード処理などを行っているため、<br />必ずFilterChainの最初に適用するようにしてください。<br />（※filter-mappingの最初に記述されていれば問題ありません）<br />
-<br />
-他のフレームワークを併用する場合、既にエンコード用のFilterなどが存在する場合がありますが<br />その場合はエンコード用のFilterを外して、MobyletFilterを代わりに使用して下さい。
+						<p class="marT20 lh18p">
+						mobylet.diconはmobylet-core.jarに同梱されています。
 						</p>
 
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
@@ -150,78 +113,6 @@
 
 				</div>
 				<!-- end cstWrap -->
-
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="valueengine">最新の端末情報を取得する（バリューエンジン社提供）</h3>
-					<div class="cstInner">
-
-						<p class="lh18p">mobyletは<a href="http://valueengine.jp/" target="_blank">バリューエンジン社</a>が無償提供している端末プロファイル情報をデフォルトでサポートしています。<br />
-（バリューエンジン社の許諾も頂いております）
-						</p>
-						<p class="marT20 lh18p"><a href="http://valueengine.jp/" target="_blank">バリューエンジン社</a>のホームページから最新版のプロファイル情報（CSVデータ）をダウンロードし、<br />
-以下のようにリネームしてください。
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">ProfileData_YYYY-MM-DD.csv → ProfileData.csv
-UserAgent_YYYY-MM-DD.csv → UserAgent.csv
-DisplayInfo_YYYY-MM-DD.csv → DisplayInfo.csv</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-						<p class="marT20 lh18p">リネームした3種類のファイルをクラスパス上のdeviceディレクトリ（作成する）配下に配置してください。
-						</p>
-						<p class="marT20 lh18p">例） Maven2を利用したプロジェクトの場合
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">{projectディレクトリ}/src/main/resources/device/</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-						<p class="marT10 lh18p">例） 通常のWebアプリケーションプロジェクトの場合
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">{webappルート}/WEB-INF/classes/device/</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-						<p class="marT20 lh18p">端末プロファイル情報を配置するディレクトリは、mobylet.xmlファイルに記述することで変更することも可能です。
-						</p>
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
-
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="taglib">taglibの利用設定（任意）</h3>
-					<div class="cstInner">
-
-						<p class="lh18p">ViewにJSPを利用される場合は、便利なtaglibライブラリがあります。<br />既にダウンロードしたライブラリの中に「mobylet-taglibs-xxx.jar」が入っていると思いますので<br />JSPの上部に以下のpageディレクティブを記述することで、mobyletが提供するtaglibをご利用いただけます。
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">&lt;%@ taglib prefix="m" uri="http://taglibs.mobylet.org/" %&gt;</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-
-					</div>
-					<!-- end cstInner -->
-
-				</div>
-				<!-- end cstWrap -->
-
 			</div>
 			<!-- end main -->
 		</div>
