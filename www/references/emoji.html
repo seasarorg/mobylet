@@ -246,6 +246,48 @@
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="image">絵文字を画像で表示する</h3>
+					<!-- start cstInner -->
+					<div class="cstInner">
+						<h4>Otherキャリアの場合でも絵文字を表示する</h4>
+						<p class="marT20 lh18p">
+						絵文字は携帯端末自体にインストールされているため、<br />
+						PCからのアクセスなど、Otherキャリアの場合には絵文字を表示することができません。<br />
+						しかし、MobyletではOtherキャリアと判定された場合に、絵文字を画像として表示することが可能です。
+						</p>
+						<h4>絵文字画像の配置</h4>
+						<p class="marT20 lh18p">
+						<a href="../resources/mobylet-emoji.zip">絵文字画像一式</a>をダウンロードし、解凍した「mobylet-image」フォルダを任意の場所に配置します。
+						</p>
+						<h4>mobylet.xmlに画像パスを設定する</h4>
+						<p class="marT20 lh18p">
+						クラスパス配下のmobylet.xmlに対して、「imagePath」の設定を追加します。<br />
+						「imagePath」には、「mobylet-image」にアクセスするためのパスを記述します。<br />
+						以下の例は、プロジェクトのWebアプリケーションルートに「mobylet-image」フォルダを配置した場合の記述になります。
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+・・・その他の設定・・・
+&lt;emoji&gt;
+	&lt;basedir&gt;emoji/&lt;/basedir&gt;
+	&lt;imagePath&gt;mobylet-image&lt;/imagePath&gt;
+&lt;/emoji&gt;
+・・・その他の設定・・・</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						「mobylet-image」フォルダはWebサーバー上の任意の場所に配置することも可能です。
+						</p>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
 			</div>
 			<!-- end main -->
 		</div>

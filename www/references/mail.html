@@ -106,7 +106,21 @@ mobylet.smtp.port=メールサーバーのポート番号</pre>
 					<div class="cstInner">
 						<h4>絵文字を使用したテキストメールを携帯メールアドレスへ送信する</h4>
 						<p class="marT20 lh18p">
+						テキストメールとして送信する場合に、本文に絵文字が含まれている場合でも特に意識することはありません。<br />
+						通常の文字列と同じように扱うことが可能です。
 						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+MobyletMessage message = MobyletMailer.createMessage("送信先メールアドレス");
+MessageBody body = new MessageBody();
+body.setText("絵文字を含むテキストパートの内容");
+message.from("送信元メールアドレス")
+       .subject("件名")
+       .setBody(body);
+MobyletMailer.send(message);</pre>
+							</div>
+						</div>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
