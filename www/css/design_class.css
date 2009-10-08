@@ -26,6 +26,7 @@
 .marT30		{ margin-top: 30px; }
 .marT40		{ margin-top: 40px; }
 
+.marL20		{ margin-left: 20px; }
 
 /**********************************/
 /* パディング指定               */
@@ -71,6 +72,11 @@ white-space: nowrap;
 .bdPhoto		{ border: 1px solid #316AC5; }
 
 /**********************************/
+/* リスト指定                       */
+/**********************************/
+.disc	{ list-style-type: disc; }
+
+/**********************************/
 /* 背景指定                       */
 /**********************************/
 
@@ -96,7 +102,7 @@ white-space: nowrap;
 .imgTop img		{ vertical-align: top; }
 .imgMiddle img	{ vertical-align: middle; }
 .imgBottom img	{ vertical-align: bottom; }
-			
+
 
 .lspIn	{ list-style-position: inside ; }
 
