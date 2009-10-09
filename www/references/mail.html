@@ -85,11 +85,11 @@ mobylet.smtp.port=メールサーバーのポート番号</pre>
 								<pre class="code">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;mobylet&gt;
-	&lt;initializers&gt;
-		&lt;chain&gt;org.mobylet.core.initializer.impl.MobyletInitializerImpl&lt;/chain&gt;
-		&lt;chain&gt;org.mobylet.mail.initializer.MobyletMailInitializer&lt;/chain&gt;　←追加
-	&lt;/initializers&gt;
-	・・・その他の記述・・・
+    &lt;initializers&gt;
+        &lt;chain&gt;org.mobylet.core.initializer.impl.MobyletInitializerImpl&lt;/chain&gt;
+        &lt;chain&gt;org.mobylet.mail.initializer.MobyletMailInitializer&lt;/chain&gt;　←追加
+    &lt;/initializers&gt;
+    ・・・その他の設定・・・
 &lt;/mobylet&gt;</pre>
 							</div>
 						</div>
@@ -175,9 +175,10 @@ MobyletMailer.send(message);</pre>
 					<li><a href="./hankaku.html">半角に変換する</a></li>
 					<li><a href="./mail.html">メールを送る</a></li>
 					<li><a href="./xhtml.html">XHTMLのビューを利用する</a></li>
-					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
 					<li><a href="./taglibs.html">便利なタグライブラリを利用する</a></li>
-					<li><a href="./notjsp.html">JSP以外のビューを利用する</a></li>
+					<!--
+					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
+					-->
 					<li class="last"><a href="./mania.html">マニアックに利用する</a></li>
 					</ul>
 				</dd>

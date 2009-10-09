@@ -66,6 +66,65 @@
 						</div>
 						<!-- end codeWrap -->
 						<p class="marT20 lh18p">
+						リサイズ方式は<br />
+						「FITWIDTH」<br />
+						「INSQUARE」<br />
+						「CLIPSQUARE」<br />
+						の3つが用意されており、リサイズ方式を指定しない場合のデフォルトは「FITWIDTH」になります。<br />
+						「INSQUARE」「CLIPSQUARE」についての詳細は<a href="#other">その他のリサイズ方式</a>をご覧ください。<br />
+						<br />
+						それぞれのリサイズ形式で横長の画像をリサイズした場合、以下のように表示されます。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2"&gt;
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2" scaleType="INSQUARE"&gt;
+&lt;m:img src="./images/resize.jpg" magniWidth="0.2" scaleType="CLIPSQUARE"&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<div class="marT10 cFix">
+							<div class="fl pad5 tCenter">
+								<img alt="リサイズ横 FITWIDTH" src="../img/contents/references/resize_w_f.gif"/>
+								<p class="fs10p">FITWIDTH</p>
+							</div>
+							<div class="fl pad5 tCenter">
+								<img alt="リサイズ横 INSQUARE" src="../img/contents/references/resize_w_i.gif"/>
+								<p class="fs10p">INSQUARE</p>
+							</div>
+							<div class="fl pad5 tCenter">
+								<img alt="リサイズ横 CLIPSQUARE" src="../img/contents/references/resize_w_c.gif"/>
+								<p class="fs10p">CLIPSQUARE</p>
+							</div>
+						</div>
+						<p class="marT20 lh18p">縦長の画像をリサイズした場合、以下のように表示されます。</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2"&gt;
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2" scaleType="INSQUARE"&gt;
+&lt;m:img src="./images/resizeV.jpg" magniWidth="0.2" scaleType="CLIPSQUARE"&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<div class="marT10 cFix">
+							<div class="fl pad5 tCenter">
+								<img alt="リサイズ縦 FITWIDTH" src="../img/contents/references/resize_h_f.gif"/>
+								<p class="fs10p">FITWIDTH</p>
+							</div>
+							<div class="fl pad5 tCenter">
+								<img alt="リサイズ縦 INSQUARE" src="../img/contents/references/resize_h_i.gif"/>
+								<p class="fs10p">INSQUARE</p>
+							</div>
+							<div class="fl pad5 tCenter">
+								<img alt="リサイズ縦 CLIPSQUARE" src="../img/contents/references/resize_h_c.gif"/>
+								<p class="fs10p">CLIPSQUARE</p>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
 						※端末のブラウザサイズが取得できない場合には、元画像がそのまま表示されます。<br />
 						　その場合は、<a href="../settings/index.html#valueengine">最新の端末情報を取得する</a>を参照して、最新の端末情報を取得しているかを確認してください。
 						</p>
@@ -82,7 +141,11 @@
 					<div class="cstInner">
 						<h4>領域を指定してリサイズする</h4>
 						<p class="marT20 lh18p">
-						領域を指定して画像をリサイズする場合は、以下のように記述します。
+						領域を指定して画像をリサイズする場合は、以下のように記述します。<br />
+						「INSQUARE」を指定すると、横幅を基準とした正方形に収まるサイズに画像全体を縮小します。<br />
+						<br />
+						このリサイズ方式は、縦長の画像と横長の画像が混在するケースで、<br />
+						画像全体を綺麗に並べて表示したい場合などに有効です。
 						</p>
 						<div class="codeWrap marT20">
 							<div class="codeInner">
@@ -92,7 +155,11 @@
 
 						<h4>クリッピングしてリサイズする</h4>
 						<p class="marT20 lh18p">
-						画像をクリッピングして中抜き画像を表示する場合は、以下のように記述します。
+						画像をクリッピングして中抜き画像を表示する場合は、以下のように記述します。<br />
+						「CLIPSQUARE」を指定すると、横幅を基準とした正方形に縮小し、はみ出る部分をくり抜いた画像に変換します。<br />
+						<br />
+						このリサイズ方式は、縦長の画像と横長の画像が混在するケースで、<br />
+						全ての画像を同じサイズで並べて表示したい場合などに有効です。
 						</p>
 						<div class="codeWrap marT20">
 							<div class="codeInner">
@@ -116,7 +183,8 @@
 						毎回画面の表示時間に時間がかかり、サーバーの負荷も高くなります。<br />
 						<br />
 						一度リサイズした画像をキャッシュしておくことで、上述の問題を回避することが可能です。<br />
-						キャッシュ機能を有効にするには、クラスパス配下の「mobylet.image.properties」に以下を記述します。
+						キャッシュ機能を有効にするには、クラスパス配下の「mobylet.image.properties」に以下を記述します。<br />
+						キャッシュファイルはファイル名、ファイル更新日時、横幅割合、端末のブラウザの横幅、リサイズ方法により一意になります。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
@@ -126,7 +194,7 @@
 						</div>
 						<!-- end codeWrap -->
 						<p class="marT20 lh18p">
-						キャッシュファイルはファイル名、横幅割合、端末のブラウザの横幅、リサイズ方法により一意になります。
+						※GAEを使用する場合は、上記の設定を行なわなくても、デフォルトでmemcachedを使用したキャッシュが有効になります。
 						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
@@ -154,9 +222,10 @@
 					<li><a href="./hankaku.html">半角に変換する</a></li>
 					<li><a href="./mail.html">メールを送る</a></li>
 					<li><a href="./xhtml.html">XHTMLのビューを利用する</a></li>
-					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
 					<li><a href="./taglibs.html">便利なタグライブラリを利用する</a></li>
-					<li><a href="./notjsp.html">JSP以外のビューを利用する</a></li>
+					<!--
+					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
+					-->
 					<li class="last"><a href="./mania.html">マニアックに利用する</a></li>
 					</ul>
 				</dd>

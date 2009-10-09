@@ -65,8 +65,13 @@
 						<p class="marT20 lh18p">
 						上記の記述では、Docomoの「晴れ」の絵文字を基本として、<br />
 						Au端末やSoftbank端末からのアクセスの場合には各キャリアに対応した絵文字に変換されます。<br />
+						<br />
 						「name」に指定する値は、mobylet-core.jarに同梱されている<br />
-						「mobylet.emojistocker.docomo.xml」「mobylet.emojistocker.au.xml」「mobylet.emojistocker.softbank.xml」を参照してください。<br />
+						「mobylet.emojistocker.docomo.xml」<br />
+						「mobylet.emojistocker.au.xml」<br />
+						「mobylet.emojistocker.softbank.xml」<br />
+						を参照してください。<br />
+						<br />
 						以下のようなXMLが記述されていますので、「emoji」要素の「name」の値を使用可能です。
 						</p>
 						<!-- start codeWrap -->
@@ -75,12 +80,12 @@
 								<pre class="code">
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;emojipool carrier="DOCOMO"&gt;
-   &lt;emoji name="晴れ" code="0xE63E"&gt;
-       &lt;relation carrier="AU"&gt;0xE92C&lt;/relation&gt;
-       &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
-       &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
-   &lt;/emoji>
-   ・・・
+    &lt;emoji name="晴れ" code="0xE63E"&gt;
+        &lt;relation carrier="AU"&gt;0xE92C&lt;/relation&gt;
+        &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
+        &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
+    &lt;/emoji>
+    ・・・その他の設定・・・
 &lt;/emojipool&gt;</pre>
 							</div>
 						</div>
@@ -183,9 +188,9 @@
 							<div class="codeInner">
 								<pre class="code">
 &lt;emoji name="晴れ" code="0xE63E"&gt;
-   &lt;relation carrier="AU"&gt;0xE92C&lt;/relation&gt;
-   &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
-   &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
+    &lt;relation carrier="AU"&gt;0xE92C&lt;/relation&gt;
+    &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
+    &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
 &lt;/emoji></pre>
 							</div>
 						</div>
@@ -198,9 +203,9 @@
 							<div class="codeInner">
 								<pre class="code">
 &lt;emoji name="太陽" code="0xE92C"&gt;
-   &lt;relation carrier="DOCOMO"&gt;0xE63E&lt;/relation&gt;
-   &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
-   &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
+    &lt;relation carrier="DOCOMO"&gt;0xE63E&lt;/relation&gt;
+    &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
+    &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
 &lt;/emoji></pre>
 							</div>
 						</div>
@@ -216,9 +221,9 @@
 							<div class="codeInner">
 								<pre class="code">
 &lt;emoji name="ハート" code="0xE933"&gt;
-   &lt;relation carrier="DOCOMO"&gt;0xE6EC&lt;/relation&gt;
-   &lt;relation carrier="SOFTBANK"&gt;0xE022&lt;/relation&gt;
-   &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
+    &lt;relation carrier="DOCOMO"&gt;0xE6EC&lt;/relation&gt;
+    &lt;relation carrier="SOFTBANK"&gt;0xE022&lt;/relation&gt;
+    &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
 &lt;/emoji></pre>
 							</div>
 						</div>
@@ -231,9 +236,9 @@
 							<div class="codeInner">
 								<pre class="code">
 &lt;emoji name="晴れ" code="0xE63E"&gt;
-   &lt;relation carrier="AU"&gt;0xE933&lt;/relation&gt;　←この部分を編集
-   &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
-   &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
+    &lt;relation carrier="AU"&gt;0xE933&lt;/relation&gt;　←この部分を編集
+    &lt;relation carrier="SOFTBANK"&gt;0xE04A&lt;/relation&gt;
+    &lt;relation carrier="OTHER"&gt;〓&lt;/relation&gt;
 &lt;/emoji></pre>
 							</div>
 						</div>
@@ -271,12 +276,10 @@
 						<div class="codeWrap marT20">
 							<div class="codeInner">
 								<pre class="code">
-・・・その他の設定・・・
 &lt;emoji&gt;
-	&lt;basedir&gt;emoji/&lt;/basedir&gt;
-	&lt;imagePath&gt;mobylet-image&lt;/imagePath&gt;
-&lt;/emoji&gt;
-・・・その他の設定・・・</pre>
+    &lt;basedir&gt;emoji/&lt;/basedir&gt;
+    &lt;imagePath&gt;mobylet-image&lt;/imagePath&gt;
+&lt;/emoji&gt;</pre>
 							</div>
 						</div>
 						<p class="marT20 lh18p">
@@ -309,9 +312,10 @@
 					<li><a href="./hankaku.html">半角に変換する</a></li>
 					<li><a href="./mail.html">メールを送る</a></li>
 					<li><a href="./xhtml.html">XHTMLのビューを利用する</a></li>
-					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
 					<li><a href="./taglibs.html">便利なタグライブラリを利用する</a></li>
-					<li><a href="./notjsp.html">JSP以外のビューを利用する</a></li>
+					<!--
+					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
+					-->
 					<li class="last"><a href="./mania.html">マニアックに利用する</a></li>
 					</ul>
 				</dd>

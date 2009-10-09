@@ -44,7 +44,7 @@
 				<div id ="descWrap" class="marT20">
 					<div id="descInner">
 						<p class="padT10 padB20 lh18p">アプリケーション内に配置された画像に対するリサイズ機能はデフォルトでご利用いただけます。<br/>
-使用方法は<a href="../references/index.html#resize">「画像のリサイズ」</a>をご参照ください。<br />
+使用方法は、機能リファレンスの「<a href="../references/image.html">画像をリサイズする</a>」をご参照ください。<br />
 <br />
 任意のWebサーバ上に配置された画像に対するリサイズ機能を<br/>
 利用する場合には、本ページの内容に沿ってServletの設定してください。</p>
@@ -57,7 +57,7 @@
 					<h3>web.xmlの設定</h3>
 					<div class="cstInner">
 
-						<p class="lh18p">web.xmlに以下のServlet記述を追加します。 
+						<p class="lh18p">web.xmlに以下のServlet記述を追加します。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT10">
@@ -102,8 +102,9 @@ image.scale.servlet.path=/mobylet-example/imageScaler
 						<!-- end codeWrap -->
 						<p class="marT20 lh18p">※mobylet-exampleの箇所はアプリケーションのコンテキスト名に変更してください。<br />※image.local.base.dir、image.cache.base.dirは環境に合わせて変更してください。
 						</p>
-						<p class="marT20 lh18p">以上で設定は終了です。<br />
-<a href="../references/index.html#resize">「画像のリサイズ」</a>をご参照の上、mobyletの便利な画像リサイズ機能を体感してください。
+						<p class="marT20 lh18p">
+						以上で設定は終了です。<br />
+						機能リファレンスの「<a href="../references/image.html">画像をリサイズする</a>」をご参照の上、mobyletの便利な画像リサイズ機能を体感してください。
 						</p>
 
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
@@ -127,13 +128,18 @@ image.scale.servlet.path=/mobylet-example/imageScaler
 				<dt>Settings</dt>
 				<dd>
 					<ul>
-						<li><a href="index.html">mobyletの設定</a></li>
-						<li>mobylet.xml</li>
-						<li><a href="resize.html">画像リサイズ設定</a></li>
-						<li class="last">メール設定</li>
+						<li><a href="./">mobyletの設定</a></li>
+						<li><a href="./seasar2.html">Seasar2を利用する</a></li>
+						<!--
+						<li><a href="./spring.html">Springを利用する</a></li>
+						<li><a href="./t2.html">T2を利用する</a></li>
+						-->
+						<li><a href="./mobyletxml.html">mobylet.xmlについて</a></li>
+						<li class="last"><a href="./resize.html">画像リサイズ設定</a></li>
 					</ul>
 				</dd>
 			</dl>
+			<!--
 			<dl class="sideCst marT20">
 				<dt>Tutorials</dt>
 				<dd>
@@ -144,6 +150,7 @@ image.scale.servlet.path=/mobylet-example/imageScaler
 					</ul>
 				</dd>
 			</dl>
+			-->
 			<ul class="banner cFix marT20">
 						<li><a href="http://d.hatena.ne.jp/mobylet/" target="_blank"><img src="../img/bnr_blog.gif" alt="ブログ" title="ブログ" class="imgover" /></a></li>
 						<li><a href="https://www.seasar.org/issues/browse/MOBYLET" target="_blank"><img src="../img/bnr_jira.gif" alt="JIRA" title="JIRA" class="imgover" /></a></li>
