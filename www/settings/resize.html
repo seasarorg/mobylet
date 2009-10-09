@@ -94,6 +94,8 @@
 						<div class="codeWrap marT10">
 							<div class="codeInner">
 								<pre class="code">#画像ファイルへアクセスするためのルートパス
+#指定した場合の画像パスは、指定したパスからの相対パスとしてローカルアクセスされ、
+#指定しない場合はHTTP経由の相対パスとして画像ファイルへアクセスされます
 image.local.base.dir=/var/app/mobylet-example/images
 
 #リサイズした画像をキャッシュしておくディレクトリ
