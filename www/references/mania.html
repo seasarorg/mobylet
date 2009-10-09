@@ -63,58 +63,41 @@
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="configinjection">Config Injection </h3>
+					<h3 id="configinjection">Config Injection</h3>
 					<!-- start cstInner -->
 					<div class="cstInner">
 						<h4>プロパティファイルを配置してDesignerをカスタマイズする</h4>
 						<p class="marT20 lh18p">
-						Designerクラスを独自にカスタマイズする場合、環境依存の値などを<br />
-						設定するために、プロパティファイルを使用したいケースが存在します。<br />
+						Mobyletでは、Designerクラスのデフォルトの動作をカスタマイズ可能な仕組みが用意されています。<br />
+						この仕組みは、MobyletInjectionConfigクラスを継承したConfigクラスと、<br />
+						対応するプロパティファイルを使用したConfig Injectionにより実現しています。<br />
 						<br />
-						Mobyletでは、そのようなケースを簡単に実装する方法を用意しています。
-						</p>
-
-						<h4>MobyletInjectionConfigクラスを継承したConfigクラスを作成する</h4>
-						<p class="marT20 lh18p">
-						例として、MobyletConfigというクラスをMobyletInjectionConfigクラスを継承して作成します。<br />
-						デフォルトではMobyletConfigに対応するプロパティファイルは<br />
-						クラスパス配下の「フルパッケージ名 + .MobyletConfig.properties」となりますが、<br />
-						getConfigNameメソッドを拡張することで、任意の名称を使用することが可能です。<br />
+						例として、以下では&lt;m:a&gt;タグのデフォルトの動作を変更しています。<br />
 						<br />
-						プロパティファイル名を「mobylet.properties」とする場合は、以下のように記述します。
+						&lt;m:a&gt;タグの生成に使用するTransitionDesignerクラスは、内部でTransitionConfigクラスを保持しています。<br />
+						TransitionConfigクラスはMobyletInjectionConfigクラスを継承しているため、<br />
+						プロパティファイルで設定をカスタマイズすることが可能です。<br />
+						TransitionConfigクラスのパッケージは「org.mobylet.view.config」のため、<br />
+						クラスパス配下に「org.mobylet.view.config.TransitionConfig.properties」という名前のプロパティファイルを配置します。
 						</p>
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">
-public class MobyletConfig extends MobyletInjectionConfig {
-	@Override
-	public String getConfigName() {
-		return "mobylet.properties";
-	}
-}</pre>
-							</div>
-						</div>
-
-						<h4>プロパティファイルの値を読み込む</h4>
+						<h4>JSESSIONIDの出力をデフォルトでOFFにする</h4>
 						<p class="marT20 lh18p">
-						クラスパス配下に「mobylet.properties」というファイルを作成し、キーと値を記述します。
+						&lt;m:a&gt;タグでは、デフォルトでURLにJSESSIONIDが付与される仕様になっています。<br />
+						これを変更する場合、作成したプロパティファイルに以下の記述を追加します。
 						</p>
 						<div class="codeWrap marT20">
 							<div class="codeInner">
 								<pre class="code">
-base.dir=/mobylet</pre>
+transition.isSessionCookiePriority=false</pre>
 							</div>
 						</div>
 						<p class="marT20 lh18p">
-						ロジック内でプロパティファイルの値を読み込むには、以下のように記述します。
+						この他、「UID」「GUID」などのデフォルトの設定も変更可能です。<br />
+						設定可能な値はTransitionConfigクラスをご覧ください。<br />
+						<br />
+						このように、MobyletInjectionConfigクラスを継承したConfigクラスを使用することで、<br />
+						Mobyletの動作に独自のカスタマイズを行なうことが可能です。
 						</p>
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">
-MobyletConfig config = new MobyletConfig();
-String baseDir = config.getConfig().getProperty("base.dir");</pre>
-							</div>
-						</div>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
@@ -141,9 +124,10 @@ String baseDir = config.getConfig().getProperty("base.dir");</pre>
 					<li><a href="./hankaku.html">半角に変換する</a></li>
 					<li><a href="./mail.html">メールを送る</a></li>
 					<li><a href="./xhtml.html">XHTMLのビューを利用する</a></li>
-					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
 					<li><a href="./taglibs.html">便利なタグライブラリを利用する</a></li>
-					<li><a href="./notjsp.html">JSP以外のビューを利用する</a></li>
+					<!--
+					<li><a href="./analytics.html">Google Analyticsを利用する</a></li>
+					-->
 					<li class="last"><a href="./mania.html">マニアックに利用する</a></li>
 					</ul>
 				</dd>
