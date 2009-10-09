@@ -84,7 +84,7 @@
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3>web.xmlへの記述追加</h3>
+					<h3>プロパティファイルへの記述追加</h3>
 					<div class="cstInner">
 						<h4>mobylet.image.propertiesの設定</h4>
 
@@ -93,8 +93,13 @@
 						<!-- start codeWrap -->
 						<div class="codeWrap marT10">
 							<div class="codeInner">
-								<pre class="code">image.local.base.dir=/var/app/mobylet-example/images
+								<pre class="code">#画像ファイルへアクセスするためのルートパス
+image.local.base.dir=/var/app/mobylet-example/images
+
+#リサイズした画像をキャッシュしておくディレクトリ
 image.cache.base.dir=/var/work/mobylet-example/cachedirs
+
+#ImageScaleServletへのパス
 image.scale.servlet.path=/mobylet-example/imageScaler
 </pre>
 							</div>
