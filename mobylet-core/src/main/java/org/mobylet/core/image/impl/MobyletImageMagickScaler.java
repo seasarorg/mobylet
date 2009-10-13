@@ -1,5 +1,6 @@
 package org.mobylet.core.image.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,9 +42,11 @@ public class MobyletImageMagickScaler implements ImageScaler {
 		FileInputStream workFIS = null;
 		String workSrcFilePath = workDir + UUID.randomUUID().toString();
 		String workDstFilePath = workDir + UUID.randomUUID().toString();
+		File workSrcFile = new File(workSrcFilePath);
+		File workDstFile = new File(workDstFilePath);
 		try {
 			//Write SrcWorkFile
-			workFOS = new FileOutputStream(workDir + workSrcFilePath);
+			workFOS = new FileOutputStream(workSrcFile);
 			InputToOutputStreamUtils.writeAll(imgStream, workFOS);
 			//Witch ScaleType
 			switch (scaleType) {
@@ -71,7 +74,7 @@ public class MobyletImageMagickScaler implements ImageScaler {
 						"画像変換中に例外発生 [" + errorInfo + "]", null);
 			}
 			//Write OutputStream
-			workFIS = new FileInputStream(workDstFilePath);
+			workFIS = new FileInputStream(workDstFile);
 			InputToOutputStreamUtils.writeAll(workFIS, outImage);
 		} catch (IOException e) {
 			throw new MobyletRuntimeException(
@@ -80,8 +83,12 @@ public class MobyletImageMagickScaler implements ImageScaler {
 			throw new MobyletRuntimeException(
 					"画像変換中に割り込み例外発生", e);
 		} finally {
+			//Close Stream
 			OutputStreamUtils.closeQuietly(workFOS);
 			InputStreamUtils.closeQuietly(workFIS);
+			//Remove File
+			workSrcFile.delete();
+			workDstFile.delete();
 		}
 	}
 
