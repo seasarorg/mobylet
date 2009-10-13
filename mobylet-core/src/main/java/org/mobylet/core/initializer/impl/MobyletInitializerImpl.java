@@ -30,6 +30,7 @@ import org.mobylet.core.gps.impl.MobyletGeoConverter;
 import org.mobylet.core.holder.impl.MobyletRequestHolder;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.impl.MobyletImageCacheHelper;
+import org.mobylet.core.image.impl.MobyletImageMagickScaler;
 import org.mobylet.core.image.impl.MobyletImageReader;
 import org.mobylet.core.image.impl.MobyletImageScaler;
 import org.mobylet.core.selector.impl.MobyletCharsetSelector;
@@ -66,8 +67,13 @@ public class MobyletInitializerImpl
 		//Gps
 		SingletonUtils.put(new MobyletGeoConverter());
 		//Image
-		SingletonUtils.put(new ImageConfig());
-		SingletonUtils.put(new MobyletImageScaler());
+		ImageConfig imageConfig = new ImageConfig();
+		SingletonUtils.put(imageConfig);
+		if (imageConfig.useImageMagick()) {
+			SingletonUtils.put(new MobyletImageMagickScaler());
+		} else {
+			SingletonUtils.put(new MobyletImageScaler());
+		}
 		SingletonUtils.put(new MobyletImageReader());
 		SingletonUtils.put(new MobyletImageCacheHelper());
 		//initialized

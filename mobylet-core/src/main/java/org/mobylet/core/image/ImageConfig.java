@@ -1,5 +1,7 @@
 package org.mobylet.core.image;
 
+import java.io.File;
+
 import org.mobylet.core.config.MobyletInjectionConfig;
 import org.mobylet.core.util.StringUtils;
 
@@ -28,7 +30,18 @@ public class ImageConfig extends MobyletInjectionConfig {
 	public static final String CONFIG_KEY_DEFAULT_SCALE_IMAGE_WIDTH = "image.default.scale.image.width";
 
 
+	public static final String CONFIG_KEY_USE_IMAGEMAGICK = "imagemagick.use";
+
+	public static final String CONFIG_KEY_IMAGEMAGICK_PATH = "imagemagick.path";
+
+	public static final String CONFIG_KEY_IMAGEMAGICK_WORKDIR = "imagemagick.workdir";
+
+
 	protected ScaleType defScaleType;
+
+	protected String imageMagickPath;
+
+	protected String imageMagickWorkDir;
 
 
 	public String getLocalBaseDirPath() {
@@ -65,6 +78,36 @@ public class ImageConfig extends MobyletInjectionConfig {
 
 	public String getDefaultScaleImageWidth() {
 		return getConfig().getProperty(CONFIG_KEY_DEFAULT_SCALE_IMAGE_WIDTH);
+	}
+
+	public boolean useImageMagick() {
+		String useImageMagick = getConfig().getProperty(CONFIG_KEY_USE_IMAGEMAGICK);
+		return "true".equalsIgnoreCase(useImageMagick);
+	}
+
+	public String getImageMagickPath() {
+		if (imageMagickPath == null) {
+			imageMagickPath = getConfig().getProperty(CONFIG_KEY_IMAGEMAGICK_PATH);
+			if (StringUtils.isEmpty(imageMagickPath)) {
+				imageMagickPath = "";
+			} else if (!imageMagickPath.endsWith(File.separator)) {
+				imageMagickPath = imageMagickPath + File.separator;
+			}
+		}
+		return imageMagickPath;
+	}
+	
+	public String getImageMagickWorkDir() {
+		if (imageMagickWorkDir == null) {
+			imageMagickWorkDir = getConfig().getProperty(CONFIG_KEY_IMAGEMAGICK_WORKDIR);
+			if (StringUtils.isEmpty(imageMagickWorkDir)) {
+				imageMagickWorkDir = "/tmp/mobylet/work/imagemagick/";
+				new File(imageMagickWorkDir).mkdirs();
+			} else if (!imageMagickWorkDir.endsWith(File.separator)) {
+				imageMagickWorkDir = imageMagickWorkDir + File.separator;
+			}
+		}
+		return imageMagickWorkDir;
 	}
 
 	@Override
