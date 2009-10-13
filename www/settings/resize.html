@@ -123,6 +123,61 @@ image.scale.servlet.path=/mobylet-example/imageScaler
 				<!-- end cstWrap -->
 
 
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3>画像変換エンジンにImageMagickを利用する（Ver 1.0.0以降）</h3>
+					<div class="cstInner">
+						<h4>画像変換エンジンについて</h4>
+
+						<p class="marT20 lh18p">
+						mobyletでは基本的に画像変換エンジンとしてAWTを採用していますが、画質が低い等の理由で<br />
+						実際のサービスに利用できないケースが想定されます。<br />
+						このためmobyletでは標準カスタマイズ構成として、ImageMagickを利用することが可能で、<br />
+						ここでは画像変換エンジンをImageMagickに変更する手順を記載します。
+						</p>
+
+						<h4>ImageMagickのインストールとWorkディレクトリの用意</h4>
+
+						<p class="marT20 lh18p">
+						ImageMagickはOSSの画像変換エンジンです。 → <a href="http://www.imagemagick.org/" target="_blank">ImageMagickのサイト</a><br />
+						ImageMagickのインストール方法はWEB上に多くの情報が存在しますので割愛しますが、<br />
+						まずはImageMagickのインストールを行ってください。
+						</p>
+						<p class="marT10 lh18p">
+						インストールが完了したら、workディレクトリを作成します。<br />
+						mobyletではImageMagickを利用した場合に一時的に画像ファイルを出力します。<br />
+						このため、一時ファイルを書きだすディレクトリを指定する必要があります。<br />
+						※このディレクトリにはWebアプリケーション起動ユーザがRead/Write出来る権限を付与して下さい<br />
+						</p>
+
+						<h4>mobylet.image.propertiesの設定</h4>
+
+						<p class="marT20 lh18p">通常の設定に加え、以下の設定が必要になります。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">#画像変換エンジンとしてImageMagickを有効にします
+imagemagick.use=true
+
+#ImageMagick「convert」のインストールディレクトリ
+#Pathが通っている場合は省略可能です
+imagemagick.path=/usr/local/bin/
+
+#作業用一時ディレクトリの指定
+#省略した場合は「/tmp/mobylet/work/imagemagick/」を利用します
+image.scale.servlet.path=/tmp/work/
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
 
 			</div>
 			<!-- end main -->
