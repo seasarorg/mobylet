@@ -1,10 +1,13 @@
 package org.mobylet.core.util;
 
+import java.net.HttpURLConnection;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
+import org.mobylet.core.image.ConnectionStream;
 import org.mobylet.core.image.ImageClipRectangle;
 import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.image.ImageConfig;
@@ -13,6 +16,8 @@ import org.mobylet.core.image.ScaleType;
 public class ImageUtils {
 
 	public static final String CONTENTTYPE_JPEG = "image/jpeg";
+
+	public static final String CONTENTTYPE_JPG_NOUSE = "image/jpg";
 
 	public static final String CONTENTTYPE_GIF = "image/gif";
 
@@ -44,7 +49,7 @@ public class ImageUtils {
 		case PNG:
 			return CONTENTTYPE_PNG;
 		default:
-			return null;
+			return "";
 		}
 	}
 
@@ -71,6 +76,42 @@ public class ImageUtils {
 				return ImageCodec.GIF;
 			} else if (suffix.startsWith("png") ||
 					suffix.startsWith("PNG")) {
+				return ImageCodec.PNG;
+			}
+		}
+		return null;
+	}
+
+	public static ImageCodec getImageCodec(ConnectionStream connectionStream) {
+		if (connectionStream != null &&
+				connectionStream.getConnection() != null) {
+			HttpURLConnection connection = connectionStream.getConnection();
+			String contentType = connection.getHeaderField("Content-Type");
+			if (StringUtils.isNotEmpty(contentType)) {
+				contentType = contentType.toLowerCase();
+				if (contentType.contains(CONTENTTYPE_JPEG) ||
+						contentType.contains(CONTENTTYPE_JPG_NOUSE)) {
+					return ImageCodec.JPG;
+				} else if (contentType.contains(CONTENTTYPE_GIF)) {
+					return ImageCodec.GIF;
+				} else if (contentType.contains(CONTENTTYPE_PNG)) {
+					return ImageCodec.PNG;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static ImageCodec getImageCodec(byte[] imgBytes) {
+		if (imgBytes != null &&
+				imgBytes.length >= 2) {
+			int b1 = imgBytes[0] & 0xFF;
+			int b2 = imgBytes[1] & 0xFF;
+			if (b1 == 0xFF && b2 == 0xD8) {
+				return ImageCodec.JPG;
+			} else if (b1 == 0x47 && b2 == 0x49) {
+				return ImageCodec.GIF;
+			} else if (b1 == 0x89 && b2 == 0x50) {
 				return ImageCodec.PNG;
 			}
 		}
