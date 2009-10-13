@@ -37,9 +37,6 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		}
 		//GetImageCodec
 		ImageCodec codec = ImageUtils.getImageCodec(path);
-		if (codec == null) {
-			return;
-		}
 		//Helpers
 		ImageReader imageReader = SingletonUtils.get(ImageReader.class);
 		ImageScaler imageScaler = SingletonUtils.get(ImageScaler.class);
@@ -67,6 +64,8 @@ public class MobyletImageScaleServlet extends HttpServlet {
 				byte[] imageBytes =
 					InputStreamUtils.getAllBytes(
 							imageConnectionStream.getInputStream());
+				//ReCompute Codec
+				codec = ImageUtils.getImageCodec(imageBytes);
 				resp.setContentType(ImageUtils.getContentTypeString(codec));
 				resp.setContentLength(imageBytes.length);
 				resp.getOutputStream().write(imageBytes);
@@ -83,6 +82,12 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		else {
 			imageConnectionStream = imageReader.getStream(path);
 			outStream = new MobyletServletOutputStream(resp.getOutputStream());
+		}
+		//---------------------------------------------------------------------
+		// ReCompute-Codec
+		//---------------------------------------------------------------------
+		if (codec == null) {
+			codec = ImageUtils.getImageCodec(imageConnectionStream);
 		}
 		//---------------------------------------------------------------------
 		// Set-ContentType
