@@ -267,6 +267,42 @@
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3>JSESSIONIDの使用設定</h3>
+					<div class="cstInner">
+						<h4>JSESSIONIDの利用制限をする</h4>
+						<p class="marT20 lh18p">
+						mobyletではデフォルトでJSESSIONIDを利用する設定になっており、URLクエリとして出現します。<br />
+						場合によって、JSESSIONIDを使いたくない場合や、Cookieを利用したい場合には<br />
+						予めmobylet.xmlに設定しておくことで、<br />
+						mobyletフレームワーク全体でJSESSIONIDを使用しない動作にすることも出来ます
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">
+&lt;jsession&gt;NONE&lt;/jsession&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT10 lh18p">
+						利用可能な設定は以下の通りです。
+						</p>
+						<ol class="lspIn lh18p padT10">
+							<li>DEFAULT : デフォルト設定、URLクエリとCookieにJSESSIONID情報を付与する</li>
+							<li>NONE : URLクエリにもCookieにもJSESSIONIDを付与しない</li>
+							<li>USE_QUERY : URLクエリにJSESSIONID情報を付与し、Cookieには付与しない</li>
+							<li>USE_COOKIE : CookieにJSESSIONID情報を付与し、URLクエリには付与しない</li>
+						</ol>
+						
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
 			</div>
 			<!-- end main -->
 		</div>
