@@ -88,6 +88,10 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		//---------------------------------------------------------------------
 		if (codec == null) {
 			codec = ImageUtils.getImageCodec(imageConnectionStream);
+			//Force Setting. #Deprecated Process
+			if (codec == null) {
+				codec = ImageCodec.JPG;
+			}
 		}
 		//---------------------------------------------------------------------
 		// Set-ContentType
