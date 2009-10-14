@@ -1,6 +1,6 @@
 package org.mobylet.core.analytics;
 
-public enum AnalyticsUUKey {
+public enum UniqueUserKey {
 
 	UID,
 

@@ -1,28 +1,29 @@
 package org.mobylet.core.analytics.impl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.mobylet.core.MobyletFactory;
-import org.mobylet.core.analytics.AnalyticsConfig;
-import org.mobylet.core.analytics.AnalyticsUUKey;
+import org.mobylet.core.analytics.AnalyticsHelper;
+import org.mobylet.core.analytics.UniqueUserKey;
 import org.mobylet.core.util.RequestUtils;
 
-public class GoogleAnalyticsConfig implements AnalyticsConfig {
+public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 
 	public static final String HTTP_URL = "http://www.google-analytics.com/__utm.gif";
 
+	public static final Pattern RGX_DOMAIN = Pattern.compile(".+//.+/");
 
-	protected AnalyticsUUKey key = AnalyticsUUKey.GUID;
 
-	protected String id;
-
-	protected String domain;
+	protected UniqueUserKey key = UniqueUserKey.GUID;
 
 
 	@Override
-	public String getURL() {
+	public String getURL(String id) {
 		String cookie = null;
 		if (key == null) {
-			key = AnalyticsUUKey.GUID;
+			key = UniqueUserKey.GUID;
 		}
 		switch (key) {
 		case UID:
@@ -37,6 +38,12 @@ public class GoogleAnalyticsConfig implements AnalyticsConfig {
 		case NONE:
 			cookie = "" + System.currentTimeMillis() + System.nanoTime();
 			break;
+		}
+		String domain = "";
+		String url = RequestUtils.get().getRequestURL().toString();
+		Matcher domainMatcher = RGX_DOMAIN.matcher(url);
+		if (domainMatcher.find()) {
+			domain = domainMatcher.group();
 		}
 		String utmac = id;
 		String utmhn = domain;
@@ -67,6 +74,7 @@ public class GoogleAnalyticsConfig implements AnalyticsConfig {
 			.append(today + ".2.2.utmccn%3D(direct)%7Cutmcsr%3D(direct)%7Cutmcmd%3D(none)%3B%2B__utmv%3D")
 			.append(cookie + "." + uservar + "%3B");
 
+		System.out.println("[ANALYTICS-URL] = " + buf.toString());
 		return buf.toString();
 	}
 
