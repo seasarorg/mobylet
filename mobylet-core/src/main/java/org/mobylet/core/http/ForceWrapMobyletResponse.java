@@ -35,7 +35,8 @@ public class ForceWrapMobyletResponse extends MobyletResponse {
 	public ServletOutputStream getOutputStream() throws IOException {
 		if (outputStream == null) {
 			if (ForceWrapUtils.isForceWrapRequest()) {
-				outputStream = new ForceWrapServletOutputStream(this);
+				ServletOutputStream wrapStream = new ForceWrapServletOutputStream(this);
+				outputStream = wrapStream;
 			} else {
 				super.getOutputStream();
 			}
