@@ -19,9 +19,13 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 
 	@Override
 	public void execute(String id) {
-		AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
-		helper.prepare();
-		pool.execute(new GoogleAnalyticsProcess(id));
+		try {
+			AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
+			helper.prepare();
+			pool.execute(new GoogleAnalyticsProcess(id));
+		} catch (Throwable t) {
+			//NOP
+		}
 	}
 
 }

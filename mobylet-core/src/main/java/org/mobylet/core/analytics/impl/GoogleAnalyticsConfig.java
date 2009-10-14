@@ -13,12 +13,16 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	public static final String KEY_UUKEY = "analytics.uniqueuser.key";
 
+	public static final String KEY_HEADER_REQUESTURL = "analytics.header.requesturl";
+
 
 	protected Integer maxThread;
 
 	protected Integer connectionTimeout;
 
 	protected UniqueUserKey uniqueUserKey;
+
+	protected String requestUrlHeader;
 
 
 	public GoogleAnalyticsConfig() {
@@ -36,6 +40,10 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	public UniqueUserKey getUniqueUserKey() {
 		return uniqueUserKey;
+	}
+
+	public String getRequestUrlHeader() {
+		return requestUrlHeader;
 	}
 
 	protected void init() {
@@ -69,6 +77,12 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		}
 		if (uniqueUserKey == null) {
 			uniqueUserKey = UniqueUserKey.GUID;
+		}
+		//UrlNotifyHeadername
+		try {
+			requestUrlHeader = config.getProperty(KEY_HEADER_REQUESTURL);
+		} catch (Exception e) {
+			//NOP
 		}
 	}
 
