@@ -16,12 +16,16 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 	public static final Pattern RGX_DOMAIN = Pattern.compile(".+//.+/");
 
+	private String cookie = "";
+	private String domain = "";
+	private String referer = "";
+	private String uri = "";
 
 	@Override
-	public String getURL(String id) {
-		String cookie = null;
+	public void prepare(){
 		GoogleAnalyticsConfig config =
 			SingletonUtils.get(GoogleAnalyticsConfig.class);
+		//cookie
 		UniqueUserKey key = config.getUniqueUserKey();
 		switch (key) {
 		case UID:
@@ -37,19 +41,25 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 			cookie = "" + System.currentTimeMillis() + System.nanoTime();
 			break;
 		}
-		String domain = "";
+		//domain
 		String url = RequestUtils.get().getRequestURL().toString();
 		Matcher domainMatcher = RGX_DOMAIN.matcher(url);
 		if (domainMatcher.find()) {
 			domain = domainMatcher.group();
 		}
+		//referer
+		referer = RequestUtils.get().getHeader("Referer");
+		//uri
+		uri = RequestUtils.get().getRequestURI();
+	}
+
+	@Override
+	public String getURL(String id) {
 		String utmac = id;
 		String utmhn = domain;
 		String utmn = "" + (long)(1000000000L + (Math.random() * 8999999999L));
 		String random = "" + (long)(1000000000L + (Math.random() * 1147483647L));
 		String today = "" + (System.currentTimeMillis() / 1000);
-		String referer = RequestUtils.get().getHeader("Referer");
-		String uri = RequestUtils.get().getRequestURI();
 		String uservar = id;
 
 		StringBuilder buf = new StringBuilder();
@@ -75,5 +85,4 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 		System.out.println("[ANALYTICS-URL] = " + buf.toString());
 		return buf.toString();
 	}
-
 }
