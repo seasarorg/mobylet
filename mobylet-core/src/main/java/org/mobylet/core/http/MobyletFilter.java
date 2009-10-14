@@ -100,7 +100,7 @@ public class MobyletFilter implements Filter {
 			request = new MobyletRequest(request);
 			MobyletRequest.class.cast(request).parseParameters();
 			//doChain
-			MobyletResponse mResponse = new MobyletResponse(response, dialect);
+			MobyletResponse mResponse = wrapResponse(response, dialect);
 			if (RequestUtils.getMobyletContext().get(MobyletResponse.class) == null) {
 				RequestUtils.getMobyletContext().set(mResponse);
 			}
@@ -160,4 +160,10 @@ public class MobyletFilter implements Filter {
 			SingletonUtils.put(Charset.forName(DefCharset.WIN31J));
 		}
 	}
+	
+	protected MobyletResponse wrapResponse(
+			HttpServletResponse response, MobyletDialect dialect) {
+		return new MobyletResponse(response, dialect);
+	}
+
 }

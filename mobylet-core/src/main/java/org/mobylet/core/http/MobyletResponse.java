@@ -182,7 +182,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 				RequestUtils.getMobyletContext().get(MobyletResponse.class));
 	}
 
-	public class Ready {
+	public static class Ready {
 		//NOP
 	}
 }
