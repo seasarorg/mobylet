@@ -7,6 +7,7 @@ import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.UniqueUserKey;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SingletonUtils;
 
 public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
@@ -16,15 +17,12 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 	public static final Pattern RGX_DOMAIN = Pattern.compile(".+//.+/");
 
 
-	protected UniqueUserKey key = UniqueUserKey.GUID;
-
-
 	@Override
 	public String getURL(String id) {
 		String cookie = null;
-		if (key == null) {
-			key = UniqueUserKey.GUID;
-		}
+		GoogleAnalyticsConfig config =
+			SingletonUtils.get(GoogleAnalyticsConfig.class);
+		UniqueUserKey key = config.getUniqueUserKey();
 		switch (key) {
 		case UID:
 			cookie = MobyletFactory.getInstance().getUid();

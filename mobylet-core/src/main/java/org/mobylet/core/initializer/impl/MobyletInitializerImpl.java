@@ -15,6 +15,7 @@
  */
 package org.mobylet.core.initializer.impl;
 
+import org.mobylet.core.analytics.impl.GoogleAnalyticsConfig;
 import org.mobylet.core.analytics.impl.GoogleAnalyticsExecutor;
 import org.mobylet.core.analytics.impl.GoogleAnalyticsHelper;
 import org.mobylet.core.define.DefProperties;
@@ -79,6 +80,7 @@ public class MobyletInitializerImpl
 		SingletonUtils.put(new MobyletImageReader());
 		SingletonUtils.put(new MobyletImageCacheHelper());
 		//Analytics
+		SingletonUtils.put(new GoogleAnalyticsConfig());
 		SingletonUtils.put(new GoogleAnalyticsHelper());
 		SingletonUtils.put(new GoogleAnalyticsExecutor());
 		//initialized

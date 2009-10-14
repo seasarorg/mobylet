@@ -4,13 +4,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.mobylet.core.analytics.AnalyticsExecutor;
+import org.mobylet.core.util.SingletonUtils;
 
 public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 
 	protected ExecutorService pool;
 	
 	public GoogleAnalyticsExecutor() {
-		pool = Executors.newFixedThreadPool(30);
+		GoogleAnalyticsConfig config =
+			SingletonUtils.get(GoogleAnalyticsConfig.class);
+		pool = Executors.newFixedThreadPool(config.getMaxThread());
 	}
 	
 	@Override

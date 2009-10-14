@@ -19,10 +19,12 @@ public class GoogleAnalyticsProcess implements Runnable {
 	
 	@Override
 	public void run() {
+		GoogleAnalyticsConfig config =
+			SingletonUtils.get(GoogleAnalyticsConfig.class);
 		AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
 		String url = helper.getURL(id);
 		HttpURLConnection connection = HttpUtils.getHttpUrlConnection(url);
-		connection.setConnectTimeout(15000);
+		connection.setConnectTimeout(config.getConnectionTimeout());
 		try {
 			connection.connect();
 			InputStream inputStream = connection.getInputStream();
