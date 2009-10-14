@@ -28,6 +28,7 @@ public class MobyletImageMagickScaler implements ImageScaler {
 		if (newWidth == null) {
 			try {
 				InputToOutputStreamUtils.writeAll(imgStream, outImage);
+				return;
 			} finally {
 				InputStreamUtils.closeQuietly(imgStream);
 			}
