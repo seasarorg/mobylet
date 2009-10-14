@@ -25,6 +25,10 @@ import org.mobylet.core.http.util.ForceWrapUtils;
 
 public class ForceWrapMobyletResponse extends MobyletResponse {
 
+	protected ServletOutputStream outputStream;
+	
+	protected boolean isForceStreamCreated = false;
+	
 	public ForceWrapMobyletResponse(
 			HttpServletResponse response, MobyletDialect dialect) {
 		super(response, dialect);
@@ -32,11 +36,19 @@ public class ForceWrapMobyletResponse extends MobyletResponse {
 
 	@Override
 	public ServletOutputStream getOutputStream() throws IOException {
-		if (ForceWrapUtils.isForceWrapRequest()) {
-			return new ForceWrapServletOutputStream(this);
-		} else {
-			return super.getOutputStream();
+		if (outputStream == null) {
+			if (ForceWrapUtils.isForceWrapRequest()) {
+				outputStream = new ForceWrapServletOutputStream(this);
+			} else {
+				outputStream = super.getOutputStream();
+			}
 		}
+		return outputStream;
 	}
 
+	@Override
+	protected ServletOutputStream getMobyletOutputStream() throws IOException {
+		return super.getOutputStream();
+	}
+	
 }

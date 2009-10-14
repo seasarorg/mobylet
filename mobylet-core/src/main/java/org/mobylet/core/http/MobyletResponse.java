@@ -81,7 +81,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 				printWriter = super.getWriter();
 			} else {
 				printWriter = new MobyletPrintWriter(
-						new OutputStreamWriter(getOutputStream(),
+						new OutputStreamWriter(getMobyletOutputStream(),
 								dialect.getCharset()),
 							dialect.getCarrier());
 				Mobylet m = MobyletFactory.getInstance();
@@ -182,6 +182,10 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 				RequestUtils.getMobyletContext().get(MobyletResponse.class));
 	}
 
+	protected ServletOutputStream getMobyletOutputStream() throws IOException {
+		return getOutputStream();
+	}
+	
 	public static class Ready {
 		//NOP
 	}
