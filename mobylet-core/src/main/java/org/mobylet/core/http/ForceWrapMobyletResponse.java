@@ -48,5 +48,5 @@ public class ForceWrapMobyletResponse extends MobyletResponse {
 	protected ServletOutputStream getMobyletOutputStream() throws IOException {
 		return super.getOutputStream();
 	}
-	
+
 }
