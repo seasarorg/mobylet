@@ -17,6 +17,25 @@
 	<short-name>m</short-name>
 	<uri>http://taglibs.mobylet.org/</uri>
 
+	<!-- <m:analytics /> -->
+	<tag>
+		<name>analytics</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.AnalyticsTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+			<![CDATA[
+			Google Analytics用のUAIDを設定する
+			]]>
+			</description>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 	<!-- <m:emoji /> -->
 	<tag>
 		<name>emoji</name>
