@@ -38,7 +38,7 @@ public class ForceWrapMobyletResponse extends MobyletResponse {
 				ServletOutputStream wrapStream = new ForceWrapServletOutputStream(this);
 				outputStream = wrapStream;
 			} else {
-				super.getOutputStream();
+				return super.getOutputStream();
 			}
 		}
 		return outputStream;
