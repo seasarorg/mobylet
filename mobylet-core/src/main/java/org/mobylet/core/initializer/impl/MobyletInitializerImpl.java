@@ -15,6 +15,8 @@
  */
 package org.mobylet.core.initializer.impl;
 
+import org.mobylet.core.analytics.impl.GoogleAnalyticsExecutor;
+import org.mobylet.core.analytics.impl.GoogleAnalyticsHelper;
 import org.mobylet.core.define.DefProperties;
 import org.mobylet.core.detector.impl.MobyletCarrierDetector;
 import org.mobylet.core.device.impl.MobyletDevicePool;
@@ -76,6 +78,9 @@ public class MobyletInitializerImpl
 		}
 		SingletonUtils.put(new MobyletImageReader());
 		SingletonUtils.put(new MobyletImageCacheHelper());
+		//Analytics
+		SingletonUtils.put(new GoogleAnalyticsHelper());
+		SingletonUtils.put(new GoogleAnalyticsExecutor());
 		//initialized
 		super.initialize();
 	}
