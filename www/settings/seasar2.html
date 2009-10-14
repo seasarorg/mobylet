@@ -44,7 +44,7 @@
 				<div id ="descWrap" class="marT20">
 					<div id="descInner">
 						<p class="padT10 lh18p">
-						Mobyletでは、Seasar2と連携するための拡張ライブラリを用意しています。<br />
+					mobyletでは、Seasar2と連携するための拡張ライブラリを用意しています。<br />
 						Seasar2と連携するには、<a href="./">mobyletの設定</a>の後に2ステップを追加します。
 						</p>
 						<ol class="lspIn lh18p padT10 padB20">
@@ -114,6 +114,27 @@
 
 				</div>
 				<!-- end cstWrap -->
+
+				<!-- start descWrap -->
+				<div id ="descWrap" class="marT20">
+					<div id="descInner">
+						<p class="fs16p bld fgAct padT10">なぜmobylet-s2extensionライブラリが必要なの？</p>
+						<p class="padT10 lh18p">
+						mobylet-s2extensionライブラリは次のことを可能にしてくれます。
+						</p>
+						<ol class="lspIn lh18p padT10">
+							<li>mobylet内部からSingletonS2Containerを利用できる（コンテナの統合）</li>
+							<li>mobylet内部で利用するコンポーネントをdiconから差し込むことが出来る</li>
+							<li>mobylet内部にも独自拡張したHttpServletRequestの処理を伝搬出来る</li>
+						</ol>
+						<p class="padT10 lh18p padB20">
+						mobyletとS2で持っているそれぞれのコンテナを、mobylet-s2extensionライブラリで統合することによって<br />
+						S2で定義したコンポーネントを、mobylet内部にまで伝搬させることが一番のメリットです。<br />
+						</p>
+					</div>
+				</div>
+				<!-- end descWrap -->
+				
 			</div>
 			<!-- end main -->
 		</div>
