@@ -6,15 +6,18 @@ import java.util.regex.Pattern;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.UniqueUserKey;
+import org.mobylet.core.http.MobyletFilter.NativeUrl;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
+import org.mobylet.core.util.UrlEncoder;
 
 public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 
 	public static final String HTTP_URL = "http://www.google-analytics.com/__utm.gif";
 
-	public static final Pattern RGX_DOMAIN = Pattern.compile(".+//.+/");
+	public static final Pattern RGX_URL = Pattern.compile(".+//([^/]+)(/.*)");
 
 	private String cookie = "";
 	private String domain = "";
@@ -25,7 +28,6 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 	public void prepare(){
 		GoogleAnalyticsConfig config =
 			SingletonUtils.get(GoogleAnalyticsConfig.class);
-		//cookie
 		UniqueUserKey key = config.getUniqueUserKey();
 		switch (key) {
 		case UID:
@@ -41,16 +43,23 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 			cookie = "" + System.currentTimeMillis() + System.nanoTime();
 			break;
 		}
-		//domain
-		String url = RequestUtils.get().getRequestURL().toString();
-		Matcher domainMatcher = RGX_DOMAIN.matcher(url);
-		if (domainMatcher.find()) {
-			domain = domainMatcher.group();
+		String url = null;
+		if(StringUtils.isNotEmpty(config.getRequestUrlHeader())) {
+			url = RequestUtils.get().getHeader(config.getRequestUrlHeader());
 		}
-		//referer
+		if(url == null) {
+			url = RequestUtils.getMobyletContext().get(NativeUrl.class).toString();
+			String queryString = RequestUtils.get().getQueryString();
+			if(queryString != null) {
+				url = url + UrlEncoder.encode("?" + queryString, MobyletFactory.getInstance().getDialect().getCharset());
+			}
+		}
+		Matcher urlMatcher = RGX_URL.matcher(url);
+		if (urlMatcher.find()) {
+			domain = urlMatcher.group(1);
+			uri = urlMatcher.group(2);
+		}
 		referer = RequestUtils.get().getHeader("Referer");
-		//uri
-		uri = RequestUtils.get().getRequestURI();
 	}
 
 	@Override
