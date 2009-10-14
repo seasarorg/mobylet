@@ -40,7 +40,7 @@ public class ForceWrapMobyletFilter extends MobyletFilter {
 		super.init(filterConfig);
 		if (filterConfig != null) {
 			isAllForceWrap =
-				"true".equalsIgnoreCase(filterConfig.getInitParameter("encoding"));
+				"true".equalsIgnoreCase(filterConfig.getInitParameter("isAllForceWrap"));
 		}
 	}
 }
