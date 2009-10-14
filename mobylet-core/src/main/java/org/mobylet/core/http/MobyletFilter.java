@@ -91,6 +91,11 @@ public class MobyletFilter implements Filter {
 		//DummyCharset
 		String charsetName = dialect.getCharacterEncodingCharsetName();
 		request.setCharacterEncoding(charsetName);
+		//SetNativeUrl
+		if (RequestUtils.getMobyletContext().get(NativeUrl.class) == null) {
+			RequestUtils.getMobyletContext().set(
+					new NativeUrl(request.getRequestURL().toString()));
+		}
 		//ThroughCarrier
 		if (config.containsThroughCarrier(carrier)) {
 			//doChain
@@ -160,10 +165,24 @@ public class MobyletFilter implements Filter {
 			SingletonUtils.put(Charset.forName(DefCharset.WIN31J));
 		}
 	}
-	
+
 	protected MobyletResponse wrapResponse(
 			HttpServletResponse response, MobyletDialect dialect) {
 		return new MobyletResponse(response, dialect);
 	}
 
+
+	public static class NativeUrl {
+
+		protected String url;
+
+		public NativeUrl(String url) {
+			this.url = url;
+		}
+
+		@Override
+		public String toString() {
+			return url;
+		}
+	}
 }
