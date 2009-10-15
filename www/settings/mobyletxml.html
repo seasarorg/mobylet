@@ -296,13 +296,39 @@
 							<li>USE_QUERY : URLクエリにJSESSIONID情報を付与し、Cookieには付与しない</li>
 							<li>USE_COOKIE : CookieにJSESSIONID情報を付与し、URLクエリには付与しない</li>
 						</ol>
-						
+
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
 
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3>Mobylet実装クラスの変更</h3>
+					<div class="cstInner">
+						<h4>Mobylet実装クラスを独自拡張する</h4>
+						<p class="marT20 lh18p">
+						mobyletではデフォルトでMobylet実装クラスにMobyletImplクラスを使用しています。<br />
+						このクラスを独自拡張したい場合、mobylet.xmlに拡張クラス名を記載することで拡張出来ます。<br />
+						※mobylet-s2extensionライブラリを利用している場合はdiconで変更することも出来ます。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">
+&lt;implements&gt;
+    &lt;mobylet-class&gt;com.hoge.mobylet.CustomMobyletImpl&lt;/mobylet-class&gt;
+&lt;/implements&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
 			</div>
 			<!-- end main -->
 		</div>
