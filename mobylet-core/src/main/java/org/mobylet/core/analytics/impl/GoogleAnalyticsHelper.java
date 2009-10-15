@@ -36,6 +36,50 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 
 	@Override
+	public String getURL(AnalyticsParameters p) {
+
+		AnalyticsSessionManager manager = SingletonUtils.get(AnalyticsSessionManager.class);
+		AnalyticsSession session = manager.get(p.getVisitorNo());
+
+		StringBuilder buf = new StringBuilder();
+		buf.append(HTTP_URL)
+			.append("?utmwv=" + "1")
+			.append("&utmn="  + p.getUtmn())			//Random Number
+			.append("&utmsr=" + p.getDisplaySize())		//Display Size
+			.append("&utmsc=" + p.getProcessor())		//Processor
+			.append("&utmcs=" + DefCharset.UTF8)		//Character Encoding
+			.append("&utmul=" + p.getUseLanguage())		//Use Language(Locale)
+			.append("&utmje=" + "0")					//Java Applet Enable
+			.append("&utmfl=" + "-")					//Flash Version
+			.append("&utmdt=" + "-")					//Page Title
+			.append("&utmhn=" + p.getDomain())			//Domain Name
+			.append("&utmr="  + UrlEncoder.encode(p.getReferer(), UTF8))	//Referer
+			.append("&utmp="  + UrlEncoder.encode(p.getUri(), UTF8))		//URI
+			.append("&utmac=" + p.getUrchinId())		//Urchin ID
+			.append("&utmcc=" + UrlEncoder.encode(
+					"__utma="   + p.getDomainHash()             + "."
+								+ p.getVisitorNo()              + "."
+								+ session.getFirstTmString()    + "."
+								+ session.getPreviousTmString() + "."
+								+ p.getToday()                  + "."
+								+ session.getVisitCount()       + ";+" +
+					"__utmb="   + p.getDomainHash()             + ";+" +
+					"__utmc="   + p.getDomainHash()             + ";+" +
+					"__utmz="   + p.getDomainHash()             + "."
+								+ session.getFirstTmString()    + "."
+								+ session.getVisitCount()       + "."
+								+ "1"                           + "."
+								+ "utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr="
+								+ UrlEncoder.encode(getSearchWord(p.getReferer(), p.getRequestCharset()), UTF8) + ";" +
+					"__utmv="   + p.getDomainHash() + "."
+								+ p.getVisitorNo()  + ";"
+					, UTF8));
+
+		System.out.println("[ANALYTICS-URL] = " + buf.toString());
+		return buf.toString();
+	}
+
+	@Override
 	public AnalyticsParameters getParameters(String id) {
 		AnalyticsParameters parameters = new AnalyticsParameters(id);
 		GoogleAnalyticsConfig config =
@@ -80,50 +124,6 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 		}
 		parameters.setReferer(getCleanUrl(referer));
 		return parameters;
-	}
-
-	@Override
-	public String getURL(AnalyticsParameters p) {
-
-		AnalyticsSessionManager manager = SingletonUtils.get(AnalyticsSessionManager.class);
-		AnalyticsSession session = manager.get(p.getVisitorNo());
-
-		StringBuilder buf = new StringBuilder();
-		buf.append(HTTP_URL)
-			.append("?utmwv=" + "1")
-			.append("&utmn="  + p.getUtmn())			//Random Number
-			.append("&utmsr=" + p.getDisplaySize())		//Display Size
-			.append("&utmsc=" + p.getProcessor())		//Processor
-			.append("&utmcs=" + DefCharset.UTF8)		//Character Encoding
-			.append("&utmul=" + p.getUseLanguage())		//Use Language(Locale)
-			.append("&utmje=" + "0")					//Java Applet Enable
-			.append("&utmfl=" + "-")					//Flash Version
-			.append("&utmdt=" + "-")					//Page Title
-			.append("&utmhn=" + p.getDomain())			//Domain Name
-			.append("&utmr="  + UrlEncoder.encode(p.getReferer(), UTF8))	//Referer
-			.append("&utmp="  + UrlEncoder.encode(p.getUri(), UTF8))		//URI
-			.append("&utmac=" + p.getUrchinId())		//Urchin ID
-			.append("&utmcc=" + UrlEncoder.encode(
-					"__utma="   + p.getDomainHash()             + "."
-								+ p.getVisitorNo()              + "."
-								+ session.getFirstTmString()    + "."
-								+ session.getPreviousTmString() + "."
-								+ p.getToday()                  + "."
-								+ session.getVisitCount()       + ";+" +
-					"__utmb="   + p.getDomainHash()             + ";+" +
-					"__utmc="   + p.getDomainHash()             + ";+" +
-					"__utmz="   + p.getDomainHash()             + "."
-								+ session.getFirstTmString()    + "."
-								+ session.getVisitCount()       + "."
-								+ "1"                           + "."
-								+ "utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr="
-								+ UrlEncoder.encode(getSearchWord(p.getReferer(), p.getRequestCharset()), UTF8) + ";" +
-					"__utmv="   + p.getDomainHash() + "."
-								+ p.getVisitorNo()  + ";"
-					, UTF8));
-
-		System.out.println("[ANALYTICS-URL] = " + buf.toString());
-		return buf.toString();
 	}
 
 	protected String getSearchWord(String referer, Charset charset) {
