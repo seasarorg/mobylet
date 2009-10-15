@@ -89,6 +89,7 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 			.append("&utmn="  + p.getUtmn())			//Random Number
 			.append("&utmsr=" + p.getDisplaySize())		//Display Size
 			.append("&utmsc=" + p.getProcessor())		//Processor
+			.append("&utmcs=" + DefCharset.UTF8)		//Character Encoding
 			.append("&utmul=" + p.getUseLanguage())		//Use Language(Locale)
 			.append("&utmje=" + "0")					//Java Applet Enable
 			.append("&utmfl=" + "-")					//Flash Version
@@ -111,7 +112,7 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 								+ "2"               + "."
 								+ "2"               + "."
 								+ "utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr="
-								+ UrlEncoder.encode(getSearchWord(p.getReferer()), UTF8) + ";" +
+								+ UrlEncoder.encode(getSearchWord(p.getReferer(), p.getRequestCharset()), UTF8) + ";" +
 					"__utmv="   + p.getDomainHash() + "."
 								+ p.getVisitorNo()  + ";"
 					, UTF8));
@@ -120,11 +121,10 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 		return buf.toString();
 	}
 
-	protected String getSearchWord(String referer) {
+	protected String getSearchWord(String referer, Charset charset) {
 		if (StringUtils.isEmpty(referer)) {
 			return "(direct)";
 		}
-		Charset charset = MobyletFactory.getInstance().getDialect().getCharset();
 		if (referer.contains("ezsch.ezweb.ne.jp")) {
 			Matcher matcher = RGX_SEARCH_EZWEB.matcher(referer);
 			if (matcher.find()) {
