@@ -1,5 +1,6 @@
 package org.mobylet.core.analytics.impl;
 
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,10 +8,12 @@ import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
 import org.mobylet.core.analytics.UniqueUserKey;
+import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.http.MobyletFilter.NativeUrl;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.core.util.UrlDecoder;
 import org.mobylet.core.util.UrlEncoder;
 
 public class GoogleAnalyticsHelper implements AnalyticsHelper {
@@ -20,87 +23,144 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 	public static final Pattern RGX_URL = Pattern.compile(".+//([^/]+)(/.*)");
 
+	public static final Charset UTF8 = Charset.forName(DefCharset.UTF8);
+
+
+	public static final Pattern RGX_SEARCH_EZWEB = Pattern.compile("query=[^&]+");
+
+	public static final Pattern RGX_SEARCH_YAHOO = Pattern.compile("p=[^&]+");
+
+	public static final Pattern RGX_SEARCH_GOOGLE = Pattern.compile("q=[^&]+");
+
+
 	@Override
-	public AnalyticsParameters prepare(String id) {
+	public AnalyticsParameters getParameters(String id) {
 		AnalyticsParameters parameters = new AnalyticsParameters(id);
 		GoogleAnalyticsConfig config =
 			SingletonUtils.get(GoogleAnalyticsConfig.class);
-		String cookie = null;
+		//VisitorId
+		String visitorId = null;
 		UniqueUserKey key = config.getUniqueUserKey();
 		switch (key) {
 		case UID:
-			cookie = MobyletFactory.getInstance().getUid();
+			visitorId = MobyletFactory.getInstance().getUid();
 			break;
 		case GUID:
-			cookie = MobyletFactory.getInstance().getGuid();
+			visitorId = MobyletFactory.getInstance().getGuid();
 			break;
 		case JSESSIONID:
-			cookie = RequestUtils.get().getSession(true).getId();
-			break;
-		case NONE:
-			cookie = "" + System.currentTimeMillis() + System.nanoTime();
+			visitorId = RequestUtils.get().getSession(true).getId();
 			break;
 		}
-		parameters.setCookie(cookie);
+		if (visitorId == null) {
+			visitorId = "" + System.currentTimeMillis() + System.nanoTime();
+		}
+		parameters.setVisitorId(visitorId);
+		//UserAgent
 		parameters.setUserAgent(RequestUtils.getUserAgent());
-
+		//URL
 		String url = null;
 		if(StringUtils.isNotEmpty(config.getRequestUrlHeader())) {
 			url = RequestUtils.get().getHeader(config.getRequestUrlHeader());
 		}
 		if(url == null) {
 			url = RequestUtils.getMobyletContext().get(NativeUrl.class).toString();
-//			String queryString = RequestUtils.get().getQueryString();
-//			if(queryString != null) {
-//				url = url + "?" + queryString;
-//			}
 		}
 		Matcher urlMatcher = RGX_URL.matcher(url);
 		if (urlMatcher.find()) {
 			parameters.setDomain(urlMatcher.group(1));
-			parameters.setUri(UrlEncoder.encode(urlMatcher.group(2), MobyletFactory.getInstance().getDialect().getCharset()));
+			parameters.setUri(getCleanUrl(urlMatcher.group(2)));
 		}
-
+		//Referer
 		String referer = RequestUtils.get().getHeader("Referer");
 		if(referer == null) {
 			referer = "-";
-		} else {
-			referer = UrlEncoder.encode(referer, MobyletFactory.getInstance().getDialect().getCharset());
 		}
-		parameters.setReferer(referer);
+		parameters.setReferer(getCleanUrl(referer));
 		return parameters;
 	}
 
 	@Override
-	public String getURL(AnalyticsParameters parameters) {
-		String utmac = parameters.getId();
-		String utmhn = parameters.getDomain();
-		String utmn = "" + (long)(1000000000L + (Math.random() * 8999999999L));
-		String random = "" + (long)(1000000000L + (Math.random() * 1147483647L));
-		String today = "" + (System.currentTimeMillis() / 1000);
-		String uservar = parameters.getId();
+	public String getURL(AnalyticsParameters p) {
 
 		StringBuilder buf = new StringBuilder();
 		buf.append(HTTP_URL)
-			.append("?utmwv=1")
-			.append("&utmn=" + utmn)
-			.append("&utmsr=-")
-			.append("&utmsc=-")
-			.append("&utmul=-")
-			.append("&utmje=0")
-			.append("&utmfl=-")
-			.append("&utmdt=-")
-			.append("&utmhn=" + utmhn)
-			.append("&utmr=" + parameters.getReferer())
-			.append("&utmp=" + parameters.getUri())
-			.append("&utmac=" + utmac)
-			.append("&utmcc=__utma%3D" + parameters.getCookie() + ".")
-			.append(random + "." + today + "." + today + "." + today + ".2%3B%2B__utmb%3D")
-			.append(parameters.getCookie() + "%3B%2B__utmc%3D" + parameters.getCookie() + "%3B%2B__utmz%3D" + parameters.getCookie() + ".")
-			.append(today + ".2.2.utmccn%3D(direct)%7Cutmcsr%3D(direct)%7Cutmcmd%3D(none)%3B%2B__utmv%3D")
-			.append(parameters.getCookie() + "." + uservar + "%3B");
+			.append("?utmwv=" + "1")
+			.append("&utmn="  + p.getUtmn())			//Random Number
+			.append("&utmsr=" + p.getDisplaySize())		//Display Size
+			.append("&utmsc=" + p.getProcessor())		//Processor
+			.append("&utmul=" + p.getUseLanguage())		//Use Language(Locale)
+			.append("&utmje=" + "0")					//Java Applet Enable
+			.append("&utmfl=" + "-")					//Flash Version
+			.append("&utmdt=" + "-")					//Page Title
+			.append("&utmhn=" + p.getDomain())			//Domain Name
+			.append("&utmr="  + UrlEncoder.encode(p.getReferer(), UTF8))	//Referer
+			.append("&utmp="  + UrlEncoder.encode(p.getUri(), UTF8))		//URI
+			.append("&utmac=" + p.getUrchinId())		//Urchin ID
+			.append("&utmcc=" + UrlEncoder.encode(
+					"__utma="   + p.getDomainHash() + "."
+								+ p.getVisitorNo()  + "."
+								+ p.getToday()      + "."
+								+ p.getToday()      + "."
+								+ p.getToday()      + "."
+								+ "2"               + ";+" +
+					"__utmb="   + p.getDomainHash() + ";+" +
+					"__utmc="   + p.getDomainHash() + ";+" +
+					"__utmz="   + p.getDomainHash() + "."
+								+ p.getToday()      + "."
+								+ "2"               + "."
+								+ "2"               + "."
+								+ "utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr="
+								+ UrlEncoder.encode(getSearchWord(p.getReferer()), UTF8) + ";" +
+					"__utmv="   + p.getDomainHash() + "."
+								+ p.getVisitorNo()  + ";"
+					, UTF8));
 
 		System.out.println("[ANALYTICS-URL] = " + buf.toString());
 		return buf.toString();
+	}
+
+	protected String getSearchWord(String referer) {
+		if (StringUtils.isEmpty(referer)) {
+			return "(direct)";
+		}
+		Charset charset = MobyletFactory.getInstance().getDialect().getCharset();
+		if (referer.contains("ezsch.ezweb.ne.jp")) {
+			Matcher matcher = RGX_SEARCH_EZWEB.matcher(referer);
+			if (matcher.find()) {
+				String words = matcher.group();
+				return UrlEncoder.encode(
+						UrlDecoder.decode(
+								words.substring(6), charset), UTF8);
+			}
+		}
+		else if (referer.contains("search.mobile.yahoo.co.jp")) {
+			Matcher matcher = RGX_SEARCH_YAHOO.matcher(referer);
+			if (matcher.find()) {
+				String words = matcher.group();
+				return UrlEncoder.encode(
+						UrlDecoder.decode(
+								words.substring(2), charset), UTF8);
+			}
+		}
+		else if (referer.contains("www.google.co.jp/m/")) {
+			Matcher matcher = RGX_SEARCH_YAHOO.matcher(referer);
+			if (matcher.find()) {
+				String words = matcher.group();
+				return UrlEncoder.encode(
+						UrlDecoder.decode(
+								words.substring(2), charset), UTF8);
+			}
+		}
+		return "(direct)";
+	}
+
+	protected String getCleanUrl(String url) {
+		if (StringUtils.isEmpty(url)) {
+			return "";
+		}
+		return url.replaceAll(";jsessionid=[a-zA-Z0-9.]+", "")
+					.replaceAll("(guid|GUID)=(on|ON)", "")
+					.replaceAll("(uid|UID)=[a-zA-Z0-9]{12}", "");
 	}
 }
