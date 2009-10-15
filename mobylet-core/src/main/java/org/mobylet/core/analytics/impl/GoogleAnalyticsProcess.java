@@ -1,13 +1,11 @@
 package org.mobylet.core.analytics.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
 import org.mobylet.core.util.HttpUtils;
-import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.SingletonUtils;
 
 public class GoogleAnalyticsProcess implements Runnable {
@@ -26,14 +24,12 @@ public class GoogleAnalyticsProcess implements Runnable {
 		String url = helper.getURL(parameters);
 		HttpURLConnection connection = HttpUtils.getHttpUrlConnection(url);
 		connection.setRequestProperty(
-				"User-Agent", parameters.getUserAgent());
+				"User-Agent", parameters.getCarrier());
 		connection.setRequestProperty(
 				"Accept-Language", parameters.getUseLanguage());
 		connection.setConnectTimeout(config.getConnectionTimeout());
 		try {
 			connection.connect();
-			InputStream inputStream = connection.getInputStream();
-			System.out.println("[ANALYTICS-RES] = " + new String(InputStreamUtils.getAllBytes(inputStream), "UTF-8"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

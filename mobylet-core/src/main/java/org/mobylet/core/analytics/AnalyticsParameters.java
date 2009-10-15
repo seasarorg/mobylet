@@ -2,6 +2,7 @@ package org.mobylet.core.analytics;
 
 import java.nio.charset.Charset;
 
+import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
@@ -15,6 +16,8 @@ public class AnalyticsParameters {
 	protected String visitorId;
 
 	protected String userAgent;
+
+	protected Carrier carrier;
 
 	protected String domain;
 
@@ -50,6 +53,7 @@ public class AnalyticsParameters {
 			displaySize = "1280x960";
 		}
 		requestCharset = m.getDialect().getCharset();
+		carrier = m.getCarrier();
 	}
 
 	public String getUtmn() {
@@ -106,6 +110,10 @@ public class AnalyticsParameters {
 
 	public void setUserAgent(String userAgent) {
 		this.userAgent = userAgent;
+	}
+
+	public String getCarrier() {
+		return carrier.name();
 	}
 
 	public String getDomain() {

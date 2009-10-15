@@ -12,12 +12,18 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 	protected ExecutorService pool;
 
 	public GoogleAnalyticsExecutor() {
-		GoogleAnalyticsConfig config = SingletonUtils.get(GoogleAnalyticsConfig.class);
-		pool = Executors.newFixedThreadPool(config.getMaxThread());
 	}
 
 	@Override
 	public void execute(String urchinId) {
+		if (pool == null) {
+			synchronized(this) {
+				if (pool == null) {
+					GoogleAnalyticsConfig config = SingletonUtils.get(GoogleAnalyticsConfig.class);
+					pool = Executors.newFixedThreadPool(config.getMaxThread());
+				}
+			}
+		}
 		try {
 			AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
 			pool.execute(
