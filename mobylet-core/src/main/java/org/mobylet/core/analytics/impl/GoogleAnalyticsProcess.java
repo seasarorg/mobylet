@@ -25,7 +25,10 @@ public class GoogleAnalyticsProcess implements Runnable {
 		AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
 		String url = helper.getURL(parameters);
 		HttpURLConnection connection = HttpUtils.getHttpUrlConnection(url);
-		connection.setRequestProperty("User-Agent", parameters.getUserAgent());
+		connection.setRequestProperty(
+				"User-Agent", parameters.getUserAgent());
+		connection.setRequestProperty(
+				"Accept-Language", parameters.getUseLanguage());
 		connection.setConnectTimeout(config.getConnectionTimeout());
 		try {
 			connection.connect();

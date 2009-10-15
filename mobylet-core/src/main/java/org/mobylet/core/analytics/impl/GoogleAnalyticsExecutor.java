@@ -17,10 +17,12 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 	}
 
 	@Override
-	public void execute(String id) {
+	public void execute(String urchinId) {
 		try {
 			AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
-			pool.execute(new GoogleAnalyticsProcess(helper.prepare(id)));
+			pool.execute(
+					new GoogleAnalyticsProcess(
+							helper.getParameters(urchinId)));
 		} catch (Throwable t) {
 			//NOP
 		}
