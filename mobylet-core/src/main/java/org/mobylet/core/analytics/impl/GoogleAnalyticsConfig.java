@@ -56,7 +56,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 			//NOP
 		}
 		if (maxThread == null) {
-			maxThread = 30;
+			maxThread = 0;
 		}
 		//ConnectionTimeout
 		try {
