@@ -1,10 +1,14 @@
 package org.mobylet.core.analytics;
 
+import java.nio.charset.Charset;
+
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
 
 public class AnalyticsParameters {
+
+	protected Charset requestCharset;
 
 	protected String urchinId;
 
@@ -34,6 +38,7 @@ public class AnalyticsParameters {
 	public AnalyticsParameters(String urchinId) {
 		this.urchinId = urchinId;
 		processor = "32-bit";
+		useLanguage = "ja";
 		utmn = "" + (long)(1000000000L + (Math.random() * 8999999999L));
 		random = "" + (long)(1000000000L + (Math.random() * 1147483647L));
 		today = "" + (System.currentTimeMillis() / 1000);
@@ -44,6 +49,7 @@ public class AnalyticsParameters {
 		} else {
 			displaySize = "1280x960";
 		}
+		requestCharset = m.getDialect().getCharset();
 	}
 
 	public String getUtmn() {
@@ -126,4 +132,7 @@ public class AnalyticsParameters {
 		this.uri = uri;
 	}
 
+	public Charset getRequestCharset() {
+		return requestCharset;
+	}
 }
