@@ -31,6 +31,7 @@ import org.mobylet.core.emoji.EmojiPoolFamily;
 import org.mobylet.core.emoji.impl.MobyletEmojiPoolFamily;
 import org.mobylet.core.emoji.impl.MobyletEmojiPoolReader;
 import org.mobylet.core.gps.impl.MobyletGeoConverter;
+import org.mobylet.core.holder.impl.MobyletHolderImpl;
 import org.mobylet.core.holder.impl.MobyletRequestHolder;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.impl.MobyletImageCacheHelper;
@@ -49,6 +50,7 @@ public class MobyletInitializerImpl
 	public void initialize() {
 		//RequestHolder
 		SingletonUtils.put(new MobyletRequestHolder());
+		SingletonUtils.put(new MobyletHolderImpl());
 		//Session
 		SingletonUtils.put(new MobyletSessionImpl());
 		//CharsetSelector
