@@ -27,7 +27,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	public GoogleAnalyticsConfig() {
 		super();
-		init();
+		initialize();
 	}
 
 	public Integer getMaxThread() {
@@ -46,7 +46,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		return requestUrlHeader;
 	}
 
-	protected void init() {
+	protected void initialize() {
 		Properties config = getConfig();
 		//MaxThread
 		try {
@@ -86,4 +86,8 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		}
 	}
 
+	@Override
+	public String getConfigName() {
+		return "mobylet.analytics.properties";
+	}
 }
