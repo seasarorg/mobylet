@@ -51,15 +51,20 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 			url = RequestUtils.getMobyletContext().get(NativeUrl.class).toString();
 			String queryString = RequestUtils.get().getQueryString();
 			if(queryString != null) {
-				url = url + UrlEncoder.encode("?" + queryString, MobyletFactory.getInstance().getDialect().getCharset());
+				url = url + "?" + queryString;
 			}
 		}
 		Matcher urlMatcher = RGX_URL.matcher(url);
 		if (urlMatcher.find()) {
 			domain = urlMatcher.group(1);
-			uri = urlMatcher.group(2);
+			uri = UrlEncoder.encode(urlMatcher.group(2), MobyletFactory.getInstance().getDialect().getCharset());
 		}
 		referer = RequestUtils.get().getHeader("Referer");
+		if(referer == null) {
+			referer = "-";
+		} else {
+			referer = UrlEncoder.encode(referer, MobyletFactory.getInstance().getDialect().getCharset());
+		}
 	}
 
 	@Override
