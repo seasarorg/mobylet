@@ -9,4 +9,10 @@
 			   instance="singleton" >
 	</component>
 
+	<!-- MobyletHolder -->
+	<component name="mobyletHolder"
+			   class="org.seasar.mobylet.holder.S2MobyletHolderImpl"
+			   instance="singleton" >
+	</component>
+
 </components>
