@@ -15,22 +15,13 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 
 
 	public GoogleAnalyticsExecutor() {
+		//GAE対応
+		// : コンストラクタでThreadPoolを生成しない
 	}
 
 	@Override
 	public void execute(String urchinId) {
-		if (!isInitialized) {
-			synchronized(this) {
-				if (!isInitialized) {
-					GoogleAnalyticsConfig config = SingletonUtils.get(GoogleAnalyticsConfig.class);
-					Integer maxThread = config.getMaxThread();
-					if (maxThread > 0) {
-						pool = Executors.newFixedThreadPool(config.getMaxThread());
-					}
-					isInitialized = true;
-				}
-			}
-		}
+		initialize();
 		try {
 			AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
 			GoogleAnalyticsProcess process =
@@ -44,4 +35,20 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 			//NOP
 		}
 	}
+
+	protected void initialize() {
+		if (!isInitialized) {
+			synchronized(this) {
+				if (!isInitialized) {
+					GoogleAnalyticsConfig config = SingletonUtils.get(GoogleAnalyticsConfig.class);
+					Integer maxThread = config.getMaxThread();
+					if (maxThread > 0) {
+						pool = Executors.newFixedThreadPool(config.getMaxThread());
+					}
+					isInitialized = true;
+				}
+			}
+		}
+	}
+
 }
