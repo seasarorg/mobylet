@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
+import org.mobylet.core.analytics.AnalyticsSession;
+import org.mobylet.core.analytics.AnalyticsSessionManager;
 import org.mobylet.core.analytics.UniqueUserKey;
 import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.http.MobyletFilter.NativeUrl;
@@ -83,6 +85,9 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 	@Override
 	public String getURL(AnalyticsParameters p) {
 
+		AnalyticsSessionManager manager = SingletonUtils.get(AnalyticsSessionManager.class);
+		AnalyticsSession session = manager.get(p.getVisitorNo());
+
 		StringBuilder buf = new StringBuilder();
 		buf.append(HTTP_URL)
 			.append("?utmwv=" + "1")
@@ -99,18 +104,18 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 			.append("&utmp="  + UrlEncoder.encode(p.getUri(), UTF8))		//URI
 			.append("&utmac=" + p.getUrchinId())		//Urchin ID
 			.append("&utmcc=" + UrlEncoder.encode(
-					"__utma="   + p.getDomainHash() + "."
-								+ p.getVisitorNo()  + "."
-								+ p.getToday()      + "."
-								+ p.getToday()      + "."
-								+ p.getToday()      + "."
-								+ "2"               + ";+" +
-					"__utmb="   + p.getDomainHash() + ";+" +
-					"__utmc="   + p.getDomainHash() + ";+" +
-					"__utmz="   + p.getDomainHash() + "."
-								+ p.getToday()      + "."
-								+ "2"               + "."
-								+ "2"               + "."
+					"__utma="   + p.getDomainHash()             + "."
+								+ p.getVisitorNo()              + "."
+								+ session.getFirstTmString()    + "."
+								+ session.getPreviousTmString() + "."
+								+ p.getToday()                  + "."
+								+ session.getVisitCount()       + ";+" +
+					"__utmb="   + p.getDomainHash()             + ";+" +
+					"__utmc="   + p.getDomainHash()             + ";+" +
+					"__utmz="   + p.getDomainHash()             + "."
+								+ session.getFirstTmString()    + "."
+								+ session.getVisitCount()       + "."
+								+ "1"                           + "."
 								+ "utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr="
 								+ UrlEncoder.encode(getSearchWord(p.getReferer(), p.getRequestCharset()), UTF8) + ";" +
 					"__utmv="   + p.getDomainHash() + "."
