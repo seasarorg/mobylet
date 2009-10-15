@@ -39,6 +39,7 @@ import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.type.DispatchType;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
 
 public class MobyletFilter implements Filter {
 
@@ -94,7 +95,7 @@ public class MobyletFilter implements Filter {
 		//SetNativeUrl
 		if (RequestUtils.getMobyletContext().get(NativeUrl.class) == null) {
 			RequestUtils.getMobyletContext().set(
-					new NativeUrl(request.getRequestURL().toString()));
+					new NativeUrl(request.getRequestURL().toString(), request.getQueryString()));
 		}
 		//ThroughCarrier
 		if (config.containsThroughCarrier(carrier)) {
@@ -176,13 +177,20 @@ public class MobyletFilter implements Filter {
 
 		protected String url;
 
-		public NativeUrl(String url) {
+		protected String queryString;
+
+		public NativeUrl(String url, String queryString) {
 			this.url = url;
+			this.queryString = queryString;
 		}
 
 		@Override
 		public String toString() {
-			return url;
+			if(StringUtils.isEmpty(queryString)) {
+				return url;
+			}else {
+				return url + "?" + queryString;
+			}
 		}
 	}
 }

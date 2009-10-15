@@ -2,8 +2,8 @@ package org.mobylet.core.analytics;
 
 public interface AnalyticsHelper {
 
-	public void prepare();
+	public AnalyticsParameters prepare(String id);
 
-	public String getURL(String id);
+	public String getURL(AnalyticsParameters parameters);
 
 }
