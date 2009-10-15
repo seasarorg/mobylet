@@ -11,24 +11,35 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 
 	protected ExecutorService pool;
 
+	protected boolean isInitialized = false;
+
+
 	public GoogleAnalyticsExecutor() {
 	}
 
 	@Override
 	public void execute(String urchinId) {
-		if (pool == null) {
+		if (!isInitialized) {
 			synchronized(this) {
-				if (pool == null) {
+				if (!isInitialized) {
 					GoogleAnalyticsConfig config = SingletonUtils.get(GoogleAnalyticsConfig.class);
-					pool = Executors.newFixedThreadPool(config.getMaxThread());
+					Integer maxThread = config.getMaxThread();
+					if (maxThread > 0) {
+						pool = Executors.newFixedThreadPool(config.getMaxThread());
+					}
+					isInitialized = true;
 				}
 			}
 		}
 		try {
 			AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
-			pool.execute(
-					new GoogleAnalyticsProcess(
-							helper.getParameters(urchinId)));
+			GoogleAnalyticsProcess process =
+				new GoogleAnalyticsProcess(helper.getParameters(urchinId));
+			if (pool != null) {
+				pool.execute(process);
+			} else {
+				process.run();
+			}
 		} catch (Throwable t) {
 			//NOP
 		}
