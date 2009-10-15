@@ -5,25 +5,27 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import org.mobylet.core.analytics.AnalyticsHelper;
+import org.mobylet.core.analytics.AnalyticsParameters;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.SingletonUtils;
 
 public class GoogleAnalyticsProcess implements Runnable {
 
-	protected String id;
-	
-	public GoogleAnalyticsProcess(String id) {
-		this.id = id;
+	protected AnalyticsParameters parameters;
+
+	public GoogleAnalyticsProcess(AnalyticsParameters parameters) {
+		this.parameters = parameters;
 	}
-	
+
 	@Override
 	public void run() {
 		GoogleAnalyticsConfig config =
 			SingletonUtils.get(GoogleAnalyticsConfig.class);
 		AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
-		String url = helper.getURL(id);
+		String url = helper.getURL(parameters);
 		HttpURLConnection connection = HttpUtils.getHttpUrlConnection(url);
+		connection.setRequestProperty("User-Agent", parameters.getUserAgent());
 		connection.setConnectTimeout(config.getConnectionTimeout());
 		try {
 			connection.connect();

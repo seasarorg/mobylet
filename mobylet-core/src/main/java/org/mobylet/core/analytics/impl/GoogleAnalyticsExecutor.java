@@ -12,8 +12,7 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 	protected ExecutorService pool;
 
 	public GoogleAnalyticsExecutor() {
-		GoogleAnalyticsConfig config =
-			SingletonUtils.get(GoogleAnalyticsConfig.class);
+		GoogleAnalyticsConfig config = SingletonUtils.get(GoogleAnalyticsConfig.class);
 		pool = Executors.newFixedThreadPool(config.getMaxThread());
 	}
 
@@ -21,11 +20,9 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 	public void execute(String id) {
 		try {
 			AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
-			helper.prepare();
-			pool.execute(new GoogleAnalyticsProcess(id));
+			pool.execute(new GoogleAnalyticsProcess(helper.prepare(id)));
 		} catch (Throwable t) {
 			//NOP
 		}
 	}
-
 }
