@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mobylet.blank</groupId>
 	<artifactId>mobylet-blank</artifactId>
-	<version>0.9.1</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>mobylet-blank</name>
 	<url>http://mobylet.sandbox.seasar.org/</url>
@@ -172,17 +172,17 @@
 		<dependency>
 			<groupId>org.seasar.mobylet</groupId>
 			<artifactId>mobylet-core</artifactId>
-			<version>0.9.1</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seasar.mobylet</groupId>
 			<artifactId>mobylet-taglibs</artifactId>
-			<version>0.9.1</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seasar.mobylet</groupId>
 			<artifactId>mobylet-mail</artifactId>
-			<version>0.9.1</version>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 </project>
