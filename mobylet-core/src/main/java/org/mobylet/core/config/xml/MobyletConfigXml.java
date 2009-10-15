@@ -33,4 +33,8 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_JSESSION = "jsession";
 
+	public static final String TAG_IMPLEMENTS = "implements";
+
+	public static final String TAG_MOBYLET_CLASS = "mobylet-class";
+
 }

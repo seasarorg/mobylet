@@ -91,7 +91,7 @@ public class MobyletConfigXmlReader
 			}
 		}
 		//ImagePath
-		if (name.equals(TAG_IMAGE_PATH)) {
+		else if (name.equals(TAG_IMAGE_PATH)) {
 			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
 			if (parent == null) {
 				value = null;
@@ -202,6 +202,18 @@ public class MobyletConfigXmlReader
 				config.setJSession(jSession);
 			}
 		}
+		//MobyletClass
+		else if (name.equals(TAG_MOBYLET_CLASS)) {
+			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
+			if (parent == null) {
+				value = null;
+				return;
+			}
+			if (parent.equals(TAG_IMPLEMENTS) &&
+					StringUtils.isNotEmpty(value)) {
+				config.setMobyletClass(value);
+			}
+		}
 		value = null;
 	}
 
@@ -215,6 +227,7 @@ public class MobyletConfigXmlReader
 				tag.equals(TAG_CARRIER) ||
 				tag.equals(TAG_CONTENT_TYPE) ||
 				tag.equals(TAG_JSESSION) ||
+				tag.equals(TAG_MOBYLET_CLASS) ||
 				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {

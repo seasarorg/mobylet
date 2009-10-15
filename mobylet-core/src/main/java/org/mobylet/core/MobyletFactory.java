@@ -15,9 +15,8 @@
  */
 package org.mobylet.core;
 
-import org.mobylet.core.http.MobyletContext;
-import org.mobylet.core.impl.MobyletImpl;
-import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.holder.MobyletHolder;
+import org.mobylet.core.util.SingletonUtils;
 
 /**
  *
@@ -45,13 +44,7 @@ public class MobyletFactory {
 	 * @return	<code>Mobylet</code>インスタンス
 	 */
 	public static Mobylet getInstance() {
-		MobyletContext context = RequestUtils.getMobyletContext();
-		Mobylet m = null;
-		if ((m = context.get(Mobylet.class)) != null) {
-			return m;
-		} else {
-			context.set(new MobyletImpl());
-			return getInstance();
-		}
+		MobyletHolder holder = SingletonUtils.get(MobyletHolder.class);
+		return holder.get();
 	}
 }
