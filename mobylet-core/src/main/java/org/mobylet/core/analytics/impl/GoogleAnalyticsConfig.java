@@ -1,6 +1,7 @@
 package org.mobylet.core.analytics.impl;
 
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.mobylet.core.analytics.UniqueUserKey;
 import org.mobylet.core.config.MobyletInjectionConfig;
@@ -17,6 +18,60 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	public static final String KEY_HEADER_REQUESTURL = "analytics.header.requesturl";
 
+	public static final String KEY_CRAWLER_IGNORE = "analytics.crawler.is.ignore";
+
+	public static final String KEY_CRAWLER_REGEX = "analytics.crawler.regex";
+
+	public static final String KEY_MOBILE_CRAWLER_IGNORE = "analytics.mobile.crawler.is.ignore";
+
+	public static final String KEY_MOBILE_CRAWLER_REGEX = "analytics.mobile.crawler.regex";
+
+
+	public static final String REGEX_CRAWLER =
+		".*(" +
+		"Accoona|" +
+		"Alexa|" +
+		"Ask[.]com|" +
+		"Baiduspider[+]|" +
+		"BBSWriter|" +
+		"Exabot|" +
+		"e-SocietyRobot|" +
+		"Feedfetcher-Google|" +
+		"findlinks|" +
+		"GameSpy|" +
+		"Gigabot|" +
+		"Googlebot|" +
+		"Grub|" +
+		"ichiro|" +
+		"Infoseek|" +
+		"Inktomi Slurp|" +
+		"livedoor|" +
+		"Mediapartners-Google|" +
+		"MJ12bot|" +
+		"msnbot|" +
+		"NaverBot|" +
+		"OutfoxBot|" +
+		"Scooter|" +
+		"Shim-Crawler|" +
+		"sogou spider|" +
+		"Speedy Spider|" +
+		"Steeler|" +
+		"W3C|" +
+		"Yahoo[!]|" +
+		"YahooFeedSeeker|" +
+		"YahooSeeker" +
+		").*";
+
+	public static final String REGEX_MOBILE_CRAWLER =
+		".*(" +
+		"Googlebot-Mobile|" +
+		"Mediapartners-Google|" +
+		"Y[!]J-SRD|" +
+		"mobile goo|" +
+		"livedoor-Yill|" +
+		"Hatena-Mobile-Gateway|" +
+		"moba-crawler" +
+		").*";
 
 	protected Integer maxThread;
 
@@ -27,6 +82,14 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 	protected UniqueUserKey uniqueUserKey;
 
 	protected String requestUrlHeader;
+
+	protected Boolean isIgnoreCrawler;
+	
+	protected Pattern regexCrawler;
+	
+	protected Boolean isIgnoreMobileCrawler;
+	
+	protected Pattern regexMobileCrawler;
 
 
 	public GoogleAnalyticsConfig() {
@@ -52,6 +115,22 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	public String getRequestUrlHeader() {
 		return requestUrlHeader;
+	}
+
+	public Boolean isIgnoreCrawler() {
+		return isIgnoreCrawler;
+	}
+
+	public Pattern getRegexCrawler() {
+		return regexCrawler;
+	}
+
+	public Boolean isIgnoreMobileCrawler() {
+		return isIgnoreMobileCrawler;
+	}
+
+	public Pattern getRegexMobileCrawler() {
+		return regexMobileCrawler;
 	}
 
 	protected void initialize() {
@@ -101,6 +180,28 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 			requestUrlHeader = config.getProperty(KEY_HEADER_REQUESTURL);
 		} catch (Exception e) {
 			//NOP
+		}
+		//Crawler
+		try {
+			isIgnoreCrawler = new Boolean(config.getProperty(KEY_CRAWLER_IGNORE));
+		} catch (Exception e) {
+			isIgnoreCrawler = true;
+		}
+		try {
+			regexCrawler = Pattern.compile(config.getProperty(KEY_CRAWLER_REGEX));
+		} catch (Exception e) {
+			regexCrawler = Pattern.compile(REGEX_CRAWLER);
+		}
+		//MobileCrawler
+		try {
+			isIgnoreMobileCrawler = new Boolean(config.getProperty(KEY_MOBILE_CRAWLER_IGNORE));
+		} catch (Exception e) {
+			isIgnoreMobileCrawler = true;
+		}
+		try {
+			regexMobileCrawler = Pattern.compile(config.getProperty(KEY_MOBILE_CRAWLER_REGEX));
+		} catch (Exception e) {
+			regexMobileCrawler = Pattern.compile(REGEX_MOBILE_CRAWLER);
 		}
 	}
 
