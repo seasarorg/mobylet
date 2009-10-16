@@ -114,8 +114,8 @@ public class AnalyticsParameters {
 		this.userAgent = userAgent;
 	}
 
-	public String getCarrier() {
-		return carrier.name();
+	public Carrier getCarrier() {
+		return carrier;
 	}
 
 	public String getDomain() {
