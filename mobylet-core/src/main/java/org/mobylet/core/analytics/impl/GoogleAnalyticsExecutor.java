@@ -52,8 +52,8 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 					config.getRegexMobileCrawler().matcher(parameters.getUserAgent());
 				if (mobileMatcher.find()) {
 					return true;
-				} else if (config.isIgnoreMobileCrawler &&
-					config.getRegexMobileCrawler().matcher(parameters.getUserAgent()).find()) {
+				} else if (config.isIgnoreCrawler &&
+					config.getRegexCrawler().matcher(parameters.getUserAgent()).find()) {
 					return true;
 				}
 			} else if (config.isIgnoreCrawler &&
