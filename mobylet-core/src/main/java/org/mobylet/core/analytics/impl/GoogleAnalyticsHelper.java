@@ -66,8 +66,8 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 								+ session.getPreviousTmString() + "."
 								+ p.getToday()                  + "."
 								+ session.getVisitCount()       + ";+" +
-//					"__utmb="   + p.getDomainHash()             + ";+" +
-//					"__utmc="   + p.getDomainHash()             + ";+" +
+					"__utmb="   + p.getDomainHash()             + ";+" +
+					"__utmc="   + p.getDomainHash()             + ";+" +
 					"__utmz="   + p.getDomainHash()             + "."
 								+ session.getFirstTmString()    + "."
 								+ session.getVisitCount()       + "."
@@ -76,9 +76,9 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 								+ "utmccn=" + "(" + ase.getUTMCMD() + ")"  + "|"
 								+ "utmcmd=" + ase.getUTMCMD()              + "|"
 								+ "utmctr=" + UrlEncoder.encode(
-										ase.getEncodedSearchWords(), UTF8) + ";"
-//					"__utmv="   + p.getDomainHash() + "."
-//								+ p.getVisitorNo()  + ";"
+										ase.getEncodedSearchWords(), UTF8) + ";" +
+					"__utmv="   + p.getDomainHash() + "."
+								+ p.getVisitorNo()  + ";"
 					, UTF8));
 
 		System.out.println("[ANALYTICS-URL] = " + buf.toString());

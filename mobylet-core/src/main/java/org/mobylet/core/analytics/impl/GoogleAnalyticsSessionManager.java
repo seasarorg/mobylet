@@ -30,7 +30,10 @@ public class GoogleAnalyticsSessionManager implements AnalyticsSessionManager {
 		if (session != null) {
 			session.setPreviousTm(session.getCurrentTm());
 			session.setCurrentTm(new Date());
-			session.setVisitCount(session.getVisitCount() + 1);
+			if (session.getPreviousTm().getTime() + 1800000 <
+					session.getCurrentTm().getTime() ) {
+				session.setVisitCount(session.getVisitCount() + 1);
+			}
 			return session;
 		} else {
 			session = new AnalyticsSession();
