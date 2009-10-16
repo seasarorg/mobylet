@@ -7,9 +7,11 @@ import java.util.regex.Pattern;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
+import org.mobylet.core.analytics.AnalyticsSearchEngine;
 import org.mobylet.core.analytics.AnalyticsSession;
 import org.mobylet.core.analytics.AnalyticsSessionManager;
 import org.mobylet.core.analytics.UniqueUserKey;
+import org.mobylet.core.analytics.AnalyticsSearchEngine.SearchEngineType;
 import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.http.MobyletFilter.NativeUrl;
 import org.mobylet.core.util.RequestUtils;
@@ -40,6 +42,7 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 		AnalyticsSessionManager manager = SingletonUtils.get(AnalyticsSessionManager.class);
 		AnalyticsSession session = manager.get(p.getVisitorNo());
+		AnalyticsSearchEngine ase = getAnalyticsSearchEngine(p.getReferer(), p.getRequestCharset());
 
 		StringBuilder buf = new StringBuilder();
 		buf.append(HTTP_URL)
@@ -63,16 +66,19 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 								+ session.getPreviousTmString() + "."
 								+ p.getToday()                  + "."
 								+ session.getVisitCount()       + ";+" +
-					"__utmb="   + p.getDomainHash()             + ";+" +
-					"__utmc="   + p.getDomainHash()             + ";+" +
+//					"__utmb="   + p.getDomainHash()             + ";+" +
+//					"__utmc="   + p.getDomainHash()             + ";+" +
 					"__utmz="   + p.getDomainHash()             + "."
 								+ session.getFirstTmString()    + "."
 								+ session.getVisitCount()       + "."
 								+ "1"                           + "."
-								+ "utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr="
-								+ UrlEncoder.encode(getSearchWord(p.getReferer(), p.getRequestCharset()), UTF8) + ";" +
-					"__utmv="   + p.getDomainHash() + "."
-								+ p.getVisitorNo()  + ";"
+								+ "utmcsr=" + ase.getUTMCSR()              + "|"
+								+ "utmccn=" + "(" + ase.getUTMCMD() + ")"  + "|"
+								+ "utmcmd=" + ase.getUTMCMD()              + "|"
+								+ "utmctr=" + UrlEncoder.encode(
+										ase.getEncodedSearchWords(), UTF8) + ";"
+//					"__utmv="   + p.getDomainHash() + "."
+//								+ p.getVisitorNo()  + ";"
 					, UTF8));
 
 		System.out.println("[ANALYTICS-URL] = " + buf.toString());
@@ -126,38 +132,45 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 		return parameters;
 	}
 
-	protected String getSearchWord(String referer, Charset charset) {
+	protected AnalyticsSearchEngine getAnalyticsSearchEngine(String referer, Charset charset) {
+		AnalyticsSearchEngine ase = new AnalyticsSearchEngine();
 		if (StringUtils.isEmpty(referer)) {
-			return "(direct)";
+			return ase;
 		}
 		if (referer.contains("ezsch.ezweb.ne.jp")) {
 			Matcher matcher = RGX_SEARCH_EZWEB.matcher(referer);
 			if (matcher.find()) {
 				String words = matcher.group();
-				return UrlEncoder.encode(
-						UrlDecoder.decode(
-								words.substring(6), charset), UTF8);
+				ase.setType(SearchEngineType.EZWEB);
+				ase.setEncodedSearchWords(
+						UrlEncoder.encode(
+								UrlDecoder.decode(
+										words.substring(6), charset), UTF8));
 			}
 		}
 		else if (referer.contains("search.mobile.yahoo.co.jp")) {
 			Matcher matcher = RGX_SEARCH_YAHOO.matcher(referer);
 			if (matcher.find()) {
 				String words = matcher.group();
-				return UrlEncoder.encode(
-						UrlDecoder.decode(
-								words.substring(2), charset), UTF8);
+				ase.setType(SearchEngineType.YAHOO_MOBILE);
+				ase.setEncodedSearchWords(
+						UrlEncoder.encode(
+								UrlDecoder.decode(
+										words.substring(2), charset), UTF8));
 			}
 		}
 		else if (referer.contains("www.google.co.jp/m/")) {
 			Matcher matcher = RGX_SEARCH_YAHOO.matcher(referer);
 			if (matcher.find()) {
 				String words = matcher.group();
-				return UrlEncoder.encode(
-						UrlDecoder.decode(
-								words.substring(2), charset), UTF8);
+				ase.setType(SearchEngineType.GOOGLE_MOBILE);
+				ase.setEncodedSearchWords(
+						UrlEncoder.encode(
+								UrlDecoder.decode(
+										words.substring(2), charset), UTF8));
 			}
 		}
-		return "(direct)";
+		return ase;
 	}
 
 	protected String getCleanUrl(String url) {
