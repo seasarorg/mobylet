@@ -1,19 +1,27 @@
 package org.mobylet.core.analytics.impl;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import org.mobylet.core.analytics.AnalyticsSession;
 import org.mobylet.core.analytics.AnalyticsSessionManager;
+import org.mobylet.core.util.SingletonUtils;
 
 public class GoogleAnalyticsSessionManager implements AnalyticsSessionManager {
 
 	protected Map<String, AnalyticsSession> sessionMap;
 
 	public GoogleAnalyticsSessionManager() {
-		//sessionMap = new HashMap<String, AnalyticsSession>(8192);
-		sessionMap = new WeakHashMap<String, AnalyticsSession>(8192);
+		sessionMap = new LinkedHashMap<String, AnalyticsSession>(8192) {
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected boolean removeEldestEntry(
+					java.util.Map.Entry<String, AnalyticsSession> eldest) {
+				return this.size() >
+					SingletonUtils.get(GoogleAnalyticsConfig.class).getMaxSession();
+			}
+		};
 	}
 
 	@Override
