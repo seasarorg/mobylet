@@ -81,7 +81,8 @@ public class AnalyticsParameters {
 	}
 
 	public String getDomainHash() {
-		return "" + domain.hashCode();
+		Integer h = domain.hashCode();
+		return "" + (h < 0 ? -h : h);
 	}
 
 	public String getUrchinId() {
@@ -97,7 +98,8 @@ public class AnalyticsParameters {
 	}
 
 	public String getVisitorNo() {
-		return "" + visitorId.hashCode();
+		Integer h = visitorId.hashCode();
+		return "" + (h < 0 ? -h : h);
 	}
 
 	public void setVisitorId(String visitorId) {
