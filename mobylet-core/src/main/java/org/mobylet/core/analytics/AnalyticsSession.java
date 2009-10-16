@@ -9,7 +9,7 @@ public class AnalyticsSession {
 	protected Date previousTm;
 
 	protected Date currentTm;
-	
+
 	protected Date accessTm;
 
 	protected Integer visitCount;
@@ -58,14 +58,18 @@ public class AnalyticsSession {
 		return currentTm;
 	}
 
+	public String getCurrentTmString() {
+		return String.valueOf(currentTm.getTime() / 1000);
+	}
+
 	public void setCurrentTm(Date currentTm) {
 		this.currentTm = currentTm;
 	}
-	
+
 	public Date getAccessTm() {
 		return accessTm;
 	}
-	
+
 	public void touch() {
 		accessTm = new Date();
 	}
