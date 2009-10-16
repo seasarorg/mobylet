@@ -9,6 +9,8 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	public static final String KEY_MAXTHREAD = "analytics.max.thread";
 
+	public static final String KEY_MAXSESSION = "analytics.max.session";
+
 	public static final String KEY_TIMEOUT = "analytics.connection.timeout";
 
 	public static final String KEY_UUKEY = "analytics.uniqueuser.key";
@@ -20,6 +22,8 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	protected Integer connectionTimeout;
 
+	protected Integer maxSession;
+	
 	protected UniqueUserKey uniqueUserKey;
 
 	protected String requestUrlHeader;
@@ -32,6 +36,10 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	public Integer getMaxThread() {
 		return maxThread;
+	}
+
+	public Integer getMaxSession() {
+		return maxSession;
 	}
 
 	public Integer getConnectionTimeout() {
@@ -57,6 +65,16 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		}
 		if (maxThread == null) {
 			maxThread = 0;
+		}
+		//MaxSession
+		try {
+			String val = config.getProperty(KEY_MAXSESSION);
+			maxSession = Integer.parseInt(val);
+		} catch (Exception e) {
+			//NOP
+		}
+		if (maxSession == null) {
+			maxSession = 8192;
 		}
 		//ConnectionTimeout
 		try {
