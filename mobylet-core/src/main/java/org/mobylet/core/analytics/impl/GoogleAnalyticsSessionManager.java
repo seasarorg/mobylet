@@ -28,12 +28,13 @@ public class GoogleAnalyticsSessionManager implements AnalyticsSessionManager {
 	public AnalyticsSession get(String uniqueId) {
 		AnalyticsSession session = sessionMap.get(uniqueId);
 		if (session != null) {
-			session.setPreviousTm(session.getCurrentTm());
-			session.setCurrentTm(new Date());
-			if (session.getPreviousTm().getTime() + 1800000 <
-					session.getCurrentTm().getTime() ) {
+			Date now = new Date();
+			if (session.getAccessTm().getTime() + 1800000 < now.getTime() ) {
+				session.setPreviousTm(session.getCurrentTm());
+				session.setCurrentTm(now);
 				session.setVisitCount(session.getVisitCount() + 1);
 			}
+			session.touch();
 			return session;
 		} else {
 			session = new AnalyticsSession();

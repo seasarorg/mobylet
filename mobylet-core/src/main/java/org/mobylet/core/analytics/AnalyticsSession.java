@@ -9,6 +9,8 @@ public class AnalyticsSession {
 	protected Date previousTm;
 
 	protected Date currentTm;
+	
+	protected Date accessTm;
 
 	protected Integer visitCount;
 
@@ -16,6 +18,7 @@ public class AnalyticsSession {
 		firstTm = new Date();
 		previousTm = new Date();
 		currentTm = new Date();
+		accessTm = new Date();
 		visitCount = 1;
 	}
 
@@ -57,5 +60,13 @@ public class AnalyticsSession {
 
 	public void setCurrentTm(Date currentTm) {
 		this.currentTm = currentTm;
+	}
+	
+	public Date getAccessTm() {
+		return accessTm;
+	}
+	
+	public void touch() {
+		accessTm = new Date();
 	}
 }
