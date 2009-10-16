@@ -30,6 +30,7 @@ public class GoogleAnalyticsProcess implements Runnable {
 		connection.setConnectTimeout(config.getConnectionTimeout());
 		try {
 			connection.connect();
+			connection.getInputStream();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
