@@ -64,7 +64,7 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 								+ p.getVisitorNo()              + "."
 								+ session.getFirstTmString()    + "."
 								+ session.getPreviousTmString() + "."
-								+ session.getCurrentTm()        + "."
+								+ session.getCurrentTmString()  + "."
 								+ session.getVisitCount()       + ";+" +
 					"__utmb="   + p.getDomainHash()             + ";+" +
 					"__utmc="   + p.getDomainHash()             + ";+" +
