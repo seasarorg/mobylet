@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.mobylet.core.analytics.UniqueUserKey;
 import org.mobylet.core.config.MobyletInjectionConfig;
+import org.mobylet.core.util.StringUtils;
 
 public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
@@ -183,7 +184,11 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		}
 		//Crawler
 		try {
-			isIgnoreCrawler = new Boolean(config.getProperty(KEY_CRAWLER_IGNORE));
+			if (StringUtils.isEmpty(config.getProperty(KEY_CRAWLER_IGNORE))) {
+				isIgnoreCrawler = true;
+			} else {
+				isIgnoreCrawler = new Boolean(config.getProperty(KEY_CRAWLER_IGNORE));
+			}
 		} catch (Exception e) {
 			isIgnoreCrawler = true;
 		}
@@ -194,7 +199,11 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		}
 		//MobileCrawler
 		try {
-			isIgnoreMobileCrawler = new Boolean(config.getProperty(KEY_MOBILE_CRAWLER_IGNORE));
+			if (StringUtils.isEmpty(config.getProperty(KEY_MOBILE_CRAWLER_IGNORE))) {
+				isIgnoreMobileCrawler = true;
+			} else {
+				isIgnoreMobileCrawler = new Boolean(config.getProperty(KEY_MOBILE_CRAWLER_IGNORE));
+			}
 		} catch (Exception e) {
 			isIgnoreMobileCrawler = true;
 		}
