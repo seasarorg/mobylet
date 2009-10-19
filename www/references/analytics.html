@@ -36,54 +36,53 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>便利なタグライブラリを利用する</h2>
+			<h2>Google Analyticsを利用する</h2>
 
 			<!-- start main -->
 			<div id="main">
 
+				<!-- start descWrap -->
+				<div id ="descWrap" class="marT20">
+					<div id="descInner">
+						<p class="padT10 lh18p padB20">
+						mobyletを使うと携帯サイトでもGoogle Analyticsを利用することが出来ます。<br />
+						<a href="http://www.google-analytics.com/" target="_blank">Google Analyticsのページはこちら</a>
+						</p>
+					</div>
+				</div>
+				<!-- end descWrap -->
+
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="a">&lt;m:a&gt;タグを使う</h3>
+					<h3 id="analytics">&lt;m:analytics&gt;タグを使う</h3>
 					<div class="cstInner">
-						<h4>UID/GUID/JSESSIONIDを引き回す</h4>
+						<h4>統計情報をGoogle Analyticsに送信する</h4>
 						<p class="marT20 lh18p">
-						Webサイトでセッションを管理する場合、一般的にはクッキーを用いて実現します。<br />
-						しかし、携帯端末では基本的にクッキーを使用することができないため、<br />
-						代替手段として、URLに「jsessionid」を埋め込みセッション管理を実現します。<br />
-						<br />
-						また、Docomo端末のGUIDをサーバーに送信するには、「guid=ON」というパラメーターをURLに付与する必要があります。<br />
-						<br />
-						&lt;m:a&gt;タグを使用することで、それらを意識することなく、アクセス端末毎に自動的にリンクのURLが生成されます。
+						Google Analyticsのページから新規プロファイルを作成し、「UA-xxxxxx-xx」形式のIDを取得します。<br />
+						※IDは発行されたJavaScript内に発行されています。<br />
+						アプリケーションでJSPを使用している場合は、統計情報を取得するJSP上に以下のコードを追加します。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">&lt;m:a href="/"&gt;mobylet&lt;/m:a&gt;</pre>
+								<pre class="code">&lt;m:analytics id="UA-xxxxxx-xx" /&gt;</pre>
 							</div>
 						</div>
 						<p class="marT20 lh18p">
-						また、&lt;m:a&gt;タグに属性を設定することで、付与するパラメーターを制御することも可能です。
+						このコードは全てのJSPがincludeするような（common.jspのような）JSPに追加するだけでも構いません。<br />
+						※フィルタやインターセプタ等、Viewレイヤー以外から呼び出す場合は<br />
+						　RedirectやForward時に重複して統計情報が送信されないよう注意が必要です。<br />
+						※ご利用になる場合はmobylet-taglibsライブラリが必要です。
 						</p>
 						<!-- end codeWrap -->
-						<h4>JSESSIONIDを付与しない</h4>
+						<h4>JSPを利用しない場合</h4>
 						<p class="marT20 lh18p">
-						「isSessionCookiePriority」属性を「false」にした場合、「jsessionid」は付与されなくなります。
+						Viewレイヤーから以下のコードを呼び出すことでも同様の統計情報が取得可能です。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">&lt;m:a href="/" isSessionCookiePriority="false"&gt;mobylet&lt;/m:a&gt;</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-						<h4>GUIDを送信しない</h4>
-						<p class="marT20 lh18p">
-						「isGuidQueryRequired」属性を「false」にした場合、「guid=ON」は付与されなくなります。
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">&lt;m:a href="/" isGuidQueryRequired="false"&gt;mobylet&lt;/m:a&gt;</pre>
+								<pre class="code">SingletonUtils.get(AnalyticsExecutor.class).execute("UA-xxxxxx-xx");</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
@@ -95,19 +94,48 @@
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="charset">&lt;m:charset&gt;タグを使う</h3>
+					<h3 id="charset">設定値を変更する</h3>
 					<!-- start cstInner -->
 					<div class="cstInner">
-						<h4>METAタグ（Content-Type）を作成する</h4>
+						<h4>mobylet.analytics.propertiesファイルを作成する</h4>
 						<p class="marT20 lh18p">
-						Mobyletを使用する場合、HTMLにContent-TypeのMETAタグを記述する必要はありません。<br />
-						これは、MobyletがレスポンスヘッダーのContent-Typeを設定するためです。<br />
-						<br />
-						プロジェクトの規約等でMETAタグを記述する必要がある場合は、&lt;m:charset&gt;タグを使用して以下のように記述します。
+						クラスパス上に「mobylet.analytics.properties」を配置し、<br />
+						このファイル内に設定値を記述することで、統計情報送信時の設定を変更することが可能です。<br />
+						具体的には以下のような設定を変更することが可能です。
 						</p>
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">&lt;meta http-equiv="Content-Type" content="text/html; charset=&lt;m:charset/&gt;" /&gt;</pre>
+								<pre class="code">
+#非同期でGoogle Analyticsへのリクエストを送信する場合の
+#最大同時処理スレッド数
+#0の場合は同期処理、1以上の場合は非同期処理
+analytics.max.thread=0
+
+#Google Analyticsでのセッションを管理するための
+#最大保持セッション数
+analytics.max.session=8192
+
+#Google Analyticsへのリクエストに対する
+#タイムアウト時間（ms）
+analytics.connection.timeout=15000
+
+#Google Analyticsでのユニークユーザ判別に利用するキー
+#UID/GUID/JSESSIONIDが選択可能
+analytics.uniqueuser.key=GUID
+
+#Google Analyticsで解析するURLをバリューに持つHTTPヘッダ名
+#WEBサーバで受け取ったURLで統計情報を算出したい場合は
+#WEBサーバで実際のURLを指定のHTTPヘッダに追加して、WASへ渡す必要があります。
+#この設定をスキップした場合はWASで感知したURL情報で統計情報を作成します。
+analytics.header.requesturl=
+
+#主にPCのWEBクローラーのアクセスを処理するかどうかのフラグ
+#true: 統計情報に含めない、false: 統計情報に含める
+analytics.crawler.is.ignore=true
+
+#携帯のWEBクローラーのアクセスを処理するかどうかのフラグ
+#true: 統計情報に含めない、false: 統計情報に含める
+analytics.mobile.crawler.is.ignore=true</pre>
 							</div>
 						</div>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
