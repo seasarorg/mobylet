@@ -21,15 +21,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.http.util.ForceWrapUtils;
+import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.StringUtils;
 
 public class ForceWrapMobyletFilter extends MobyletFilter {
 
 	protected boolean isAllForceWrap = false;
 
+	protected String proxyCharset = "UTF-8";
+
 
 	protected MobyletResponse wrapResponse(
 			HttpServletResponse response, MobyletDialect dialect) {
 		if (isAllForceWrap) {
+			RequestUtils.get().setAttribute(
+					ForceWrapServletOutputStream.KEY_PROXY_CHARSET, proxyCharset);
 			ForceWrapUtils.setForceWrapRequest();
 		}
 		return new ForceWrapMobyletResponse(response, dialect);
@@ -41,6 +47,10 @@ public class ForceWrapMobyletFilter extends MobyletFilter {
 		if (filterConfig != null) {
 			isAllForceWrap =
 				"true".equalsIgnoreCase(filterConfig.getInitParameter("isAllForceWrap"));
+			if (StringUtils.isNotEmpty(
+					filterConfig.getInitParameter("proxyCharset"))) {
+				proxyCharset = filterConfig.getInitParameter("proxyCharset");
+			}
 		}
 	}
 }
