@@ -34,10 +34,10 @@ public class ForceWrapMobyletFilter extends MobyletFilter {
 	protected MobyletResponse wrapResponse(
 			HttpServletResponse response, MobyletDialect dialect) {
 		if (isAllForceWrap) {
-			RequestUtils.get().setAttribute(
-					ForceWrapServletOutputStream.KEY_PROXY_CHARSET, proxyCharset);
 			ForceWrapUtils.setForceWrapRequest();
 		}
+		RequestUtils.get().setAttribute(
+				ForceWrapServletOutputStream.KEY_PROXY_CHARSET, proxyCharset);
 		return new ForceWrapMobyletResponse(response, dialect);
 	}
 
