@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mobylet.example.sastruts</groupId>
 	<artifactId>mobylet-example-sastruts</artifactId>
-	<version>0.9.0</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>mobylet-example-sastruts</name>
 	<url>http://mobylet.sandbox.seasar.org/</url>
@@ -345,7 +345,7 @@
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-s2extension</artifactId>
-            <version>0.9.0</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>
