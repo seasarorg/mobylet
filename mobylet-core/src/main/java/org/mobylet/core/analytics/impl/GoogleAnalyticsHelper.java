@@ -81,7 +81,6 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 								+ p.getVisitorNo()  + ";"
 					, UTF8));
 
-		System.out.println("[ANALYTICS-URL] = " + buf.toString());
 		return buf.toString();
 	}
 
@@ -143,9 +142,8 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 				String words = matcher.group();
 				ase.setType(SearchEngineType.EZWEB);
 				ase.setEncodedSearchWords(
-						UrlEncoder.encode(
-								UrlDecoder.decode(
-										words.substring(6), charset), UTF8));
+						UrlDecoder.decode(
+								words.substring(6), charset));
 			}
 		}
 		else if (referer.contains("search.mobile.yahoo.co.jp")) {
@@ -154,9 +152,8 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 				String words = matcher.group();
 				ase.setType(SearchEngineType.YAHOO_MOBILE);
 				ase.setEncodedSearchWords(
-						UrlEncoder.encode(
-								UrlDecoder.decode(
-										words.substring(2), charset), UTF8));
+						UrlDecoder.decode(
+								words.substring(2), UTF8));
 			}
 		}
 		else if (referer.contains("www.google.co.jp/m/")) {
@@ -165,9 +162,8 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 				String words = matcher.group();
 				ase.setType(SearchEngineType.GOOGLE_MOBILE);
 				ase.setEncodedSearchWords(
-						UrlEncoder.encode(
-								UrlDecoder.decode(
-										words.substring(2), charset), UTF8));
+						UrlDecoder.decode(
+								words.substring(2), charset));
 			}
 		}
 		return ase;

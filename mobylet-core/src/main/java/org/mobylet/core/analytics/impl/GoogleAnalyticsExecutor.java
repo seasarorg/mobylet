@@ -15,7 +15,7 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 	protected ExecutorService pool;
 
 	protected GoogleAnalyticsConfig config;
-	
+
 	protected boolean isInitialized = false;
 
 
@@ -66,7 +66,7 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 					"除外UserAgent検証処理にて例外発生", e);
 		}
 	}
-	
+
 	protected void initialize() {
 		if (!isInitialized) {
 			synchronized(this) {
