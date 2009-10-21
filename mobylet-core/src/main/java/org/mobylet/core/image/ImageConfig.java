@@ -1,6 +1,7 @@
 package org.mobylet.core.image;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.mobylet.core.config.MobyletInjectionConfig;
 import org.mobylet.core.util.StringUtils;
@@ -19,6 +20,8 @@ public class ImageConfig extends MobyletInjectionConfig {
 	public static final String PKEY_WIDTH = "w";
 
 
+	public static final String CONFIG_KEY_IMAGE_SOURCE = "image.source.type";
+
 	public static final String CONFIG_KEY_LOCAL_BASE_DIR = "image.local.base.dir";
 
 	public static final String CONFIG_KEY_CACHE_BASE_DIR = "image.cache.base.dir";
@@ -28,6 +31,8 @@ public class ImageConfig extends MobyletInjectionConfig {
 	public static final String CONFIG_KEY_DEFAULT_SCALETYPE = "image.default.scaletype";
 
 	public static final String CONFIG_KEY_DEFAULT_SCALE_IMAGE_WIDTH = "image.default.scale.image.width";
+
+	public static final String CONFIG_KEY_IMAGE_SOURCE_ALLOW_URL = "image.source.url.allow";
 
 
 	public static final String CONFIG_KEY_USE_IMAGEMAGICK = "imagemagick.use";
@@ -39,10 +44,47 @@ public class ImageConfig extends MobyletInjectionConfig {
 
 	protected ScaleType defScaleType;
 
+	protected ImageSourceType imageSourceType;
+
+	protected boolean isInitializedAllowUrlRegex = false;
+	
+	protected Pattern allowUrlRegex;
+	
 	protected String imageMagickPath;
 
 	protected String imageMagickWorkDir;
 
+
+	public ImageSourceType getImageSourceType() {
+		if (imageSourceType == null) {
+			try {
+				imageSourceType =
+					ImageSourceType.valueOf(
+							getConfig().getProperty(CONFIG_KEY_IMAGE_SOURCE));
+			} catch (Exception e) {
+				//NOP
+			}
+			if (imageSourceType == null) {
+				imageSourceType = ImageSourceType.DEFAULT;
+			}
+		}
+		return imageSourceType;
+	}
+
+	public Pattern getAllowUrlRegex() {
+		if (!isInitializedAllowUrlRegex) {
+			try {
+				allowUrlRegex =
+					Pattern.compile(
+							getConfig().getProperty(
+									CONFIG_KEY_IMAGE_SOURCE_ALLOW_URL));
+			} catch (Exception e) {
+				//NOP
+			}
+			isInitializedAllowUrlRegex = true;
+		}
+		return allowUrlRegex;
+	}
 
 	public String getLocalBaseDirPath() {
 		return getConfig().getProperty(CONFIG_KEY_LOCAL_BASE_DIR);
