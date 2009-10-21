@@ -104,10 +104,27 @@ image.cache.base.dir=/var/work/mobylet-example/cachedirs
 
 #ImageScaleServletへのパス
 image.scale.servlet.path=/mobylet-example/imageScaler
+
+#ImageSourceTypeの設定
+#変換元画像をどのソースから取得するかの設定
+# （例）LOCALに設定した場合に、HTTP経由の画像は無視します
+# DEFAULT : どのソースを指定しても処理します（デフォルト）
+# LOCAL : ローカルパスで取得する画像のみ処理します（要image.local.base.dir設定）
+# NETWORK : ネットワークパス（HTTP/HTTPS経由）で取得する画像のみ処理します
+image.source.type=DEFAULT
+
+#変換元画像（ネットワーク経由）のURLを正規表現で制限
+#変換元画像がネットワーク上に存在する場合に
+#ここに指定した正規表現と一致するURLのみ処理します
+#ブランクの場合（デフォルト）はURLのチェックは行いません
+image.source.url.allow=
 </pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
+						<p class="marT10 lh18p">
+						<a href="./mania.html#var">予約変数を利用して指定することもできます。</a>
+						</p>
 						<p class="marT20 lh18p">※mobylet-exampleの箇所はアプリケーションのコンテキスト名に変更してください。<br />※image.local.base.dir、image.cache.base.dirは環境に合わせて変更してください。
 						</p>
 						<p class="marT20 lh18p">
