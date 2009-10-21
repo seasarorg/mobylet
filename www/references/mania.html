@@ -43,6 +43,44 @@
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
+					<h3 id="var">設定ファイルで予約変数を利用する</h3>
+					<div class="cstInner">
+						<h4>各種予約変数</h4>
+						<p class="marT20 lh18p">
+						mobyletが利用する各種プロパティにはいくつかの予約語を利用することができます。<br />
+						（mobylet.xml、mobylet.image.properties等）<br />
+						以下、使用例。
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+image.local.base.dir=${docBase}/images
+image.cache.base.dir=${java.io.tmpdir}
+image.scale.servlet.path=${contextPath}/imageScaler
+</pre>
+							</div>
+						</div>
+						<h4>${docBase}</h4>
+						<p class="marT20 lh18p">
+						WEBアプリケーションのdocBaseに置換します。
+						</p>
+						<h4>${contextPath}</h4>
+						<p class="marT20 lh18p">
+						WEBアプリケーションのコンテキストパスに置換します。<br />
+						※Servlet API 2.5以上の場合に利用可能です。
+						</p>
+						<h4>${<i>[yourVariable]</i>}</h4>
+						<p class="marT20 lh18p">
+						MobyletFilterのInitParameterやSystemPropertiesから指定の変数名の値に置換します。
+						</p>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
 					<h3 id="designer">JSP以外のビューを使う</h3>
 					<div class="cstInner">
 						<h4>Designerクラスを利用してmobyletの機能を活用する</h4>
