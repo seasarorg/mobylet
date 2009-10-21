@@ -74,10 +74,11 @@ public class ImageConfig extends MobyletInjectionConfig {
 	public Pattern getAllowUrlRegex() {
 		if (!isInitializedAllowUrlRegex) {
 			try {
-				allowUrlRegex =
-					Pattern.compile(
-							getConfig().getProperty(
-									CONFIG_KEY_IMAGE_SOURCE_ALLOW_URL));
+				String urlRegex =
+					getConfig().getProperty(CONFIG_KEY_IMAGE_SOURCE_ALLOW_URL);
+				if (StringUtils.isNotEmpty(urlRegex)) {
+					allowUrlRegex = Pattern.compile(urlRegex);
+				}
 			} catch (Exception e) {
 				//NOP
 			}
