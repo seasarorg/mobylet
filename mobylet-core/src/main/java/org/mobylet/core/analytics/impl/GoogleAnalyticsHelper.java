@@ -29,6 +29,8 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 	public static final Charset UTF8 = Charset.forName(DefCharset.UTF8);
 
+	public static final Charset WIN31J = Charset.forName(DefCharset.WIN31J);
+
 
 	public static final Pattern RGX_SEARCH_EZWEB = Pattern.compile("query=[^&]+");
 
@@ -36,13 +38,15 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 	public static final Pattern RGX_SEARCH_GOOGLE = Pattern.compile("q=[^&]+");
 
+	public static final Pattern RGX_SEARCH_CHARSET_GOOGLE = Pattern.compile("ie=[^&]+");
+
 
 	@Override
 	public String getURL(AnalyticsParameters p) {
 
 		AnalyticsSessionManager manager = SingletonUtils.get(AnalyticsSessionManager.class);
 		AnalyticsSession session = manager.get(p.getVisitorNo());
-		AnalyticsSearchEngine ase = getAnalyticsSearchEngine(p.getReferer(), p.getRequestCharset());
+		AnalyticsSearchEngine ase = getAnalyticsSearchEngine(p.getReferer());
 
 		StringBuilder buf = new StringBuilder();
 		buf.append(HTTP_URL)
@@ -131,7 +135,7 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 		return parameters;
 	}
 
-	protected AnalyticsSearchEngine getAnalyticsSearchEngine(String referer, Charset charset) {
+	protected AnalyticsSearchEngine getAnalyticsSearchEngine(String referer) {
 		AnalyticsSearchEngine ase = new AnalyticsSearchEngine();
 		if (StringUtils.isEmpty(referer)) {
 			return ase;
@@ -143,7 +147,7 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 				ase.setType(SearchEngineType.EZWEB);
 				ase.setEncodedSearchWords(
 						UrlDecoder.decode(
-								words.substring(6), charset));
+								words.substring(6), WIN31J));
 			}
 		}
 		else if (referer.contains("search.mobile.yahoo.co.jp")) {
@@ -153,12 +157,24 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 				ase.setType(SearchEngineType.YAHOO_MOBILE);
 				ase.setEncodedSearchWords(
 						UrlDecoder.decode(
-								words.substring(2), UTF8));
+								words.substring(2), WIN31J));
 			}
 		}
-		else if (referer.contains("www.google.co.jp/m/")) {
-			Matcher matcher = RGX_SEARCH_YAHOO.matcher(referer);
+		else if (referer.contains("www.google.co.jp/m")) {
+			Matcher matcher = RGX_SEARCH_GOOGLE.matcher(referer);
 			if (matcher.find()) {
+				Matcher charsetMatcher = RGX_SEARCH_CHARSET_GOOGLE.matcher(referer);
+				Charset charset = null;
+				if(charsetMatcher.find()) {
+					String enc = charsetMatcher.group();
+					if(DefCharset.SJIS.equals(enc.substring(3).toLowerCase())){
+						charset = WIN31J;
+					}
+				}
+				if(charset == null) {
+					charset = UTF8;
+				}
+
 				String words = matcher.group();
 				ase.setType(SearchEngineType.GOOGLE_MOBILE);
 				ase.setEncodedSearchWords(
