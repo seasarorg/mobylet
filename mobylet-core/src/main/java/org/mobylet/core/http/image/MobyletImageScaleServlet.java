@@ -84,6 +84,12 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			outStream = new MobyletServletOutputStream(resp.getOutputStream());
 		}
 		//---------------------------------------------------------------------
+		// Check-Stream
+		//---------------------------------------------------------------------
+		if (imageConnectionStream == null) {
+			return;
+		}
+		//---------------------------------------------------------------------
 		// ReCompute-Codec
 		//---------------------------------------------------------------------
 		if (codec == null) {

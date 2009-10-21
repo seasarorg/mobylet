@@ -9,6 +9,7 @@ import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ConnectionStream;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
+import org.mobylet.core.image.ImageSourceType;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.ResourceUtils;
@@ -44,8 +45,19 @@ public class MobyletImageReader implements ImageReader {
 
 	@Override
 	public ConnectionStream getStream(String path) {
+		ImageConfig config = SingletonUtils.get(ImageConfig.class);
 		InputStream imageStream = null;
 		if (PathUtils.isNetworkPath(path)) {
+			//CheckImageSource
+			if (config.getImageSourceType() == ImageSourceType.LOCAL) {
+				return null;
+			}
+			//CheckAllowUrl
+			if (config.getAllowUrlRegex() != null &&
+					!config.getAllowUrlRegex().matcher(path).matches()) {
+				return null;
+			}
+			//GetConnection
 			HttpURLConnection connection =
 				HttpUtils.getHttpUrlConnection(path);
 			try {
@@ -56,6 +68,10 @@ public class MobyletImageReader implements ImageReader {
 			}
 			return new ConnectionStream(connection, imageStream);
 		} else {
+			//CheckImageSource
+			if (config.getImageSourceType() == ImageSourceType.NETWORK) {
+				return null;
+			}
 			imageStream =
 				ResourceUtils.getResourceFileOrInputStream(path);
 		}
