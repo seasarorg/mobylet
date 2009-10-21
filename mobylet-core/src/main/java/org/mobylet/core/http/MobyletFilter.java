@@ -150,6 +150,8 @@ public class MobyletFilter implements Filter {
 			initializer.initialize();
 			SingletonUtils.put(initializer);
 		}
+		//ServletContext
+		SingletonUtils.put(filterConfig.getServletContext());
 	}
 
 	protected void initDefaultCharset(FilterConfig filterConfig) {
