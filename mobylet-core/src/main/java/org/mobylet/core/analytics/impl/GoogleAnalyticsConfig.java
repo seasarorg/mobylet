@@ -35,6 +35,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		"Ask[.]com|" +
 		"Baiduspider[+]|" +
 		"BBSWriter|" +
+		"DotBot|" +
 		"Exabot|" +
 		"e-SocietyRobot|" +
 		"Feedfetcher-Google|" +
@@ -57,6 +58,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		"sogou spider|" +
 		"Speedy Spider|" +
 		"Steeler|" +
+		"Twiceler|" +
 		"W3C|" +
 		"Yahoo[!]|" +
 		"YahooFeedSeeker|" +
