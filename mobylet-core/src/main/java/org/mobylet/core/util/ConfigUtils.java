@@ -76,6 +76,8 @@ public class ConfigUtils {
 						//NOP
 					}
 					break;
+				case DOC_BASE:
+					return servletContext.getRealPath("");
 				}
 			}
 		}
