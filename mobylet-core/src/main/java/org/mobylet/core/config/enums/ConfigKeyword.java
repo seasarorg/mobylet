@@ -3,7 +3,9 @@ package org.mobylet.core.config.enums;
 public enum ConfigKeyword {
 
 
-	CONTEXT_PATH("contextPath");
+	CONTEXT_PATH("contextPath"),
+
+	DOC_BASE("docBase");
 
 
 	private String keyword;
