@@ -50,6 +50,10 @@ public class ConfigUtils {
 			if (StringUtils.isEmpty(parsedVal)) {
 				parsedVal = System.getProperty(word);
 			}
+			//Escape
+			if (StringUtils.isNotEmpty(parsedVal)) {
+				parsedVal = StringUtils.escape(parsedVal);
+			}
 			matcher.appendReplacement(buf, parsedVal);
 		}
 		matcher.appendTail(buf);
