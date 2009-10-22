@@ -34,6 +34,10 @@ public class ImageConfig extends MobyletInjectionConfig {
 
 	public static final String CONFIG_KEY_IMAGE_SOURCE_ALLOW_URL = "image.source.url.allow";
 
+	public static final String CONFIG_KEY_IMAGE_SOURCE_NETWORK_LIMIT_SIZE = "image.source.network.limit.size";
+
+	public static final String CONFIG_KEY_IMAGE_SOURCE_LOCAL_LIMIT_SIZE = "image.source.local.limit.size";
+
 
 	public static final String CONFIG_KEY_USE_IMAGEMAGICK = "imagemagick.use";
 
@@ -47,9 +51,14 @@ public class ImageConfig extends MobyletInjectionConfig {
 	protected ImageSourceType imageSourceType;
 
 	protected boolean isInitializedAllowUrlRegex = false;
-	
+
 	protected Pattern allowUrlRegex;
-	
+
+	protected Integer networkLimitSize;
+
+	protected Integer localLimitSize;
+
+
 	protected String imageMagickPath;
 
 	protected String imageMagickWorkDir;
@@ -123,6 +132,32 @@ public class ImageConfig extends MobyletInjectionConfig {
 		return getConfig().getProperty(CONFIG_KEY_DEFAULT_SCALE_IMAGE_WIDTH);
 	}
 
+	public Integer getNetworkLimitSize() {
+		if (networkLimitSize == null) {
+			try {
+				networkLimitSize =
+					Integer.parseInt(
+							getConfig().getProperty(CONFIG_KEY_IMAGE_SOURCE_NETWORK_LIMIT_SIZE));
+			} catch (Exception e) {
+				networkLimitSize = 0;
+			}
+		}
+		return networkLimitSize;
+	}
+
+	public Integer getLocalLimitSize() {
+		if (localLimitSize == null) {
+			try {
+				localLimitSize =
+					Integer.parseInt(
+							getConfig().getProperty(CONFIG_KEY_IMAGE_SOURCE_LOCAL_LIMIT_SIZE));
+			} catch (Exception e) {
+				localLimitSize = 0;
+			}
+		}
+		return localLimitSize;
+	}
+
 	public boolean useImageMagick() {
 		String useImageMagick = getConfig().getProperty(CONFIG_KEY_USE_IMAGEMAGICK);
 		return "true".equalsIgnoreCase(useImageMagick);
@@ -139,7 +174,7 @@ public class ImageConfig extends MobyletInjectionConfig {
 		}
 		return imageMagickPath;
 	}
-	
+
 	public String getImageMagickWorkDir() {
 		if (imageMagickWorkDir == null) {
 			imageMagickWorkDir = getConfig().getProperty(CONFIG_KEY_IMAGEMAGICK_WORKDIR);

@@ -48,7 +48,7 @@ public class ResourceUtils {
 				return new FileInputStream(f);
 			} catch (FileNotFoundException e) {
 				throw new MobyletRuntimeException(
-						"[File Not Fount] filename = " + path, e);
+						"[File Not Found] filename = " + path, e);
 			}
 		}
 		//Resource-Path
