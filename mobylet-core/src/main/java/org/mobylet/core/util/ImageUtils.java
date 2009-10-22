@@ -185,7 +185,11 @@ public class ImageUtils {
 		if (dp != null) {
 			if (StringUtils.isNotEmpty(w)) {
 				try {
-					iw = (int)(Double.valueOf(w) * dp.getWidth());
+					Double dw = Double.valueOf(w);
+					if (dw > 1.0) {
+						dw = 1.0;
+					}
+					iw = (int)(dw * dp.getWidth());
 				} catch (NumberFormatException e) {
 					//NOP
 				}
