@@ -29,7 +29,7 @@ public class StringUtils {
 
 	public static String escape(String src) {
 		if (isNotEmpty(src)) {
-			return src.replaceAll("\\", "\\\\");
+			return src.replaceAll("\\\\", "\\\\\\\\");
 		}
 		return src;
 	}
