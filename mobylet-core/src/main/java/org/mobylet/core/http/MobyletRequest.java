@@ -5,8 +5,8 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -187,7 +187,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 						((Set<String>)valueSet).add(val);
 					} else if (valueSet instanceof String[]) {
 						String[] varList = (String[])valueSet;
-						Set<String> tmpSet = new HashSet<String>();
+						Set<String> tmpSet = new LinkedHashSet<String>();
 						for (String var : varList) {
 							tmpSet.add(var);
 						}
@@ -196,7 +196,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 					}
 					mergeMap.put(key, valueSet);
 				} else {
-					Set<String> valSet = new HashSet<String>();
+					Set<String> valSet = new LinkedHashSet<String>();
 					valSet.add(val);
 					mergeMap.put(key, valSet);
 				}
