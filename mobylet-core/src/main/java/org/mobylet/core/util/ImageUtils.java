@@ -66,17 +66,23 @@ public class ImageUtils {
 				uri = uri.substring(0, index);
 			}
 			String suffix = uri.substring(uri.lastIndexOf('.')+1, uri.length());
-			if (suffix.startsWith("jpg") ||
-					suffix.startsWith("jpeg") ||
-					suffix.startsWith("JPG") ||
-					suffix.startsWith("JPEG")) {
-				return ImageCodec.JPG;
-			} else if (suffix.startsWith("gif") ||
-					suffix.startsWith("GIF")) {
-				return ImageCodec.GIF;
-			} else if (suffix.startsWith("png") ||
-					suffix.startsWith("PNG")) {
-				return ImageCodec.PNG;
+			if (suffix.length() >= 3) {
+				String suffix3 = suffix.substring(0, 3);
+				if (suffix3.equalsIgnoreCase("jpg")) {
+					return ImageCodec.JPG;
+				}
+				else if (suffix3.equalsIgnoreCase("gif")) {
+					return ImageCodec.GIF;
+				}
+				else if (suffix3.equalsIgnoreCase("png")) {
+					return ImageCodec.PNG;
+				}
+			}
+			if (suffix.length() >= 4) {
+				String suffix4 = suffix.substring(0, 4);
+				if (suffix4.equalsIgnoreCase("jpeg")) {
+					return ImageCodec.JPG;
+				}
 			}
 		}
 		return null;
@@ -101,7 +107,7 @@ public class ImageUtils {
 		}
 		return null;
 	}
-	
+
 	public static ImageCodec getImageCodec(byte[] imgBytes) {
 		if (imgBytes != null &&
 				imgBytes.length >= 2) {

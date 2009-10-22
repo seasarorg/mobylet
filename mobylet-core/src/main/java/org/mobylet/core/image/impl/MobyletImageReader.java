@@ -11,6 +11,7 @@ import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.image.ImageSourceType;
 import org.mobylet.core.util.HttpUtils;
+import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
@@ -57,6 +58,24 @@ public class MobyletImageReader implements ImageReader {
 					!config.getAllowUrlRegex().matcher(path).matches()) {
 				return null;
 			}
+			//CheckLimitSize
+			if (config.getNetworkLimitSize() > 0) {
+				HttpURLConnection checkConnection = null;
+				try {
+					checkConnection = HttpUtils.getHttpUrlConnection(path);
+					checkConnection.setRequestMethod("HEAD");
+					checkConnection.connect();
+					if (checkConnection.getContentLength() > config.getNetworkLimitSize()) {
+						return null;
+					}
+				} catch (Exception e) {
+					return null;
+				} finally {
+					if (checkConnection != null) {
+						checkConnection.disconnect();
+					}
+				}
+			}
 			//GetConnection
 			HttpURLConnection connection =
 				HttpUtils.getHttpUrlConnection(path);
@@ -74,6 +93,19 @@ public class MobyletImageReader implements ImageReader {
 			}
 			imageStream =
 				ResourceUtils.getResourceFileOrInputStream(path);
+			//CheckLimitSize
+			if (config.getLocalLimitSize() > 0) {
+				try {
+					int size = imageStream.available();
+					if (size > config.getLocalLimitSize()) {
+						InputStreamUtils.closeQuietly(imageStream);
+						return null;
+					}
+				} catch (IOException e) {
+					InputStreamUtils.closeQuietly(imageStream);
+					return null;
+				}
+			}
 		}
 		return new ConnectionStream(null, imageStream);
 	}

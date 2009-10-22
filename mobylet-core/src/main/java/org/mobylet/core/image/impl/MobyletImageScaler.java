@@ -1,5 +1,6 @@
 package org.mobylet.core.image.impl;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.IndexColorModel;
@@ -22,7 +23,7 @@ import org.mobylet.core.util.SingletonUtils;
 public class MobyletImageScaler implements ImageScaler {
 
 	@Override
-	public void scale(InputStream imgStream, OutputStream outImage,
+	public void scale(InputStream imgStream, OutputStream outStream,
 			ImageCodec imageCodec, Integer newWidth, ScaleType scaleType) {
 		try {
 			//CalcRectangle
@@ -44,36 +45,36 @@ public class MobyletImageScaler implements ImageScaler {
 				scaledWidth = newWidth;
 				scaledHeight = newWidth;
 			}
-			BufferedImage outImg = null;
+			BufferedImage outImgBuf = null;
 			//NewScaledImage
-			if(img.getColorModel() instanceof IndexColorModel ) {
-				outImg =
+			if(img.getColorModel() instanceof IndexColorModel) {
+				outImgBuf =
 					new BufferedImage(
 							scaledWidth, scaledHeight, img.getType(),
 							(IndexColorModel)img.getColorModel());
 			} else {
 				if(img.getType() == 0) {
-					outImg =
+					outImgBuf =
 						new BufferedImage(
 								scaledWidth, scaledHeight, BufferedImage.TYPE_4BYTE_ABGR_PRE);
 				} else {
-					outImg =
+					outImgBuf =
 						new BufferedImage(
 								scaledWidth, scaledHeight, img.getType());
 				}
 			}
 			//Alpha-Setting
-			if(outImg.getColorModel().hasAlpha() &&
-					outImg.getColorModel() instanceof IndexColorModel) {
+			if(outImgBuf.getColorModel().hasAlpha() &&
+					outImgBuf.getColorModel() instanceof IndexColorModel) {
 				int transparentPixel =
-					((IndexColorModel)outImg.getColorModel()).getTransparentPixel();
-				for(int i=0; i<outImg.getWidth(); ++i) {
-					for(int j=0; j<outImg.getHeight(); ++j) {
-						outImg.setRGB(i, j, transparentPixel);
+					((IndexColorModel)outImgBuf.getColorModel()).getTransparentPixel();
+				for(int i=0; i<outImgBuf.getWidth(); ++i) {
+					for(int j=0; j<outImgBuf.getHeight(); ++j) {
+						outImgBuf.setRGB(i, j, transparentPixel);
 					}
 				}
 			}
-			//Draw
+			//ClipImage
 			if (scaleType == ScaleType.CLIPSQUARE) {
 				boolean isLongWidth = img.getWidth() > img.getHeight();
 				int clipWidth = isLongWidth ?
@@ -84,12 +85,31 @@ public class MobyletImageScaler implements ImageScaler {
 						clipWidth,
 						clipWidth);
 			}
-			outImg.getGraphics().drawImage(
-					img.getScaledInstance(
-							scaledWidth, scaledHeight, Image.SCALE_AREA_AVERAGING),
-							0, 0, scaledWidth, scaledHeight, null);
+			//AsyncLoad
+			Image scaledImg =
+				img.getScaledInstance(
+						scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+			//WaitLoading
+			/*
+			MediaTracker tracker = new MediaTracker(new Canvas());
+			tracker.addImage(scaledImg, 0);
+			try {
+				tracker.waitForAll();
+			} catch (InterruptedException e) {
+				throw new MobyletRuntimeException("画像変換に失敗", e);
+			}
+			*/
+			//GetGraphics
+			Graphics g = outImgBuf.getGraphics();
+			try {
+				g.drawImage(
+						scaledImg, 0, 0, scaledWidth, scaledHeight, null);
+			} finally {
+				g.dispose();
+			}
+			//WriteImageToOutputStream
 			boolean result =
-				ImageIO.write(outImg, imageCodec.name(), outImage);
+				ImageIO.write(outImgBuf, imageCodec.name(), outStream);
 			if (!result) {
 				throw new MobyletRuntimeException("画像の書き出しに失敗", null);
 			}
