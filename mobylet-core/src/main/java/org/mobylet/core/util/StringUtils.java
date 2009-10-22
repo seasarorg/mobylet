@@ -27,6 +27,13 @@ public class StringUtils {
 		return !isEmpty(s);
 	}
 
+	public static String escape(String src) {
+		if (isNotEmpty(src)) {
+			return src.replaceAll("\\", "\\\\");
+		}
+		return src;
+	}
+
 	public static String toHan(String src) {
 		if (StringUtils.isEmpty(src)) {
 			return src;
