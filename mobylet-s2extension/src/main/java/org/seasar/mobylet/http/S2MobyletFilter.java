@@ -13,6 +13,7 @@ public class S2MobyletFilter extends MobyletFilter {
 		if (!SingletonUtils.isInitialized()) {
 			SingletonUtils.initialize(S2MobyletSingletonHolder.class);
 		}
+		super.initSingletonContainer(filterConfig);
 	}
 
 	/*
