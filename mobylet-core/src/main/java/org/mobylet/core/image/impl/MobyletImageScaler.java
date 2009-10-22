@@ -1,7 +1,9 @@
 package org.mobylet.core.image.impl;
 
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.IndexColorModel;
 import java.io.IOException;
@@ -48,10 +50,20 @@ public class MobyletImageScaler implements ImageScaler {
 			BufferedImage outImgBuf = null;
 			//NewScaledImage
 			if(img.getColorModel() instanceof IndexColorModel) {
-				outImgBuf =
-					new BufferedImage(
-							scaledWidth, scaledHeight, img.getType(),
-							(IndexColorModel)img.getColorModel());
+				if (imageCodec == ImageCodec.GIF &&
+						img.getColorModel().hasAlpha()) {
+					outImgBuf =
+						GraphicsEnvironment
+						.getLocalGraphicsEnvironment()
+						.getDefaultScreenDevice()
+						.getDefaultConfiguration()
+						.createCompatibleImage(
+								scaledWidth, scaledHeight, Transparency.BITMASK);
+				} else {
+					outImgBuf =
+						new BufferedImage(
+								scaledWidth, scaledHeight, BufferedImage.TYPE_INT_ARGB);
+				}
 			} else {
 				if(img.getType() == 0) {
 					outImgBuf =
@@ -61,17 +73,6 @@ public class MobyletImageScaler implements ImageScaler {
 					outImgBuf =
 						new BufferedImage(
 								scaledWidth, scaledHeight, img.getType());
-				}
-			}
-			//Alpha-Setting
-			if(outImgBuf.getColorModel().hasAlpha() &&
-					outImgBuf.getColorModel() instanceof IndexColorModel) {
-				int transparentPixel =
-					((IndexColorModel)outImgBuf.getColorModel()).getTransparentPixel();
-				for(int i=0; i<outImgBuf.getWidth(); ++i) {
-					for(int j=0; j<outImgBuf.getHeight(); ++j) {
-						outImgBuf.setRGB(i, j, transparentPixel);
-					}
 				}
 			}
 			//ClipImage
