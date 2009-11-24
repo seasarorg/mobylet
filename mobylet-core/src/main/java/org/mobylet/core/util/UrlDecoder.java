@@ -30,10 +30,10 @@ public class UrlDecoder {
 					int pos = 0;
 					while (c=='%' &&
 							(i+1) < numChars &&
-							HEX.indexOf(s.indexOf(i+1)) >= 0) {
+							HEX.indexOf(s.charAt(i+1)) >= 0) {
 						int index = 2;
-						if ((i+2) < numChars ||
-								HEX.indexOf(s.indexOf(i+2)) >= 0) {
+						if ((i+2) < numChars &&
+								HEX.indexOf(s.charAt(i+2)) >= 0) {
 							index = 3;
 						}
 						bytes[pos] =
