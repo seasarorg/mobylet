@@ -4,6 +4,9 @@ import java.nio.charset.Charset;
 
 public class UrlDecoder {
 
+	private static final String HEX = "0123456789abcdefABCDEF";
+
+
 	public static String decode(String s, Charset charset) {
 		boolean needToChange = false;
 		int numChars = s.length();
@@ -25,12 +28,18 @@ public class UrlDecoder {
 					if (bytes == null)
 						bytes = new byte[(numChars-i)/2];
 					int pos = 0;
-					while (((i+2) < numChars) &&
-							(c=='%')) {
+					while (c=='%' &&
+							(i+1) < numChars &&
+							HEX.indexOf(s.indexOf(i+1)) >= 0) {
+						int index = 2;
+						if ((i+2) < numChars ||
+								HEX.indexOf(s.indexOf(i+2)) >= 0) {
+							index = 3;
+						}
 						bytes[pos] =
-							(byte)Integer.parseInt(s.substring(i+1,i+3),16);
+							(byte)Integer.parseInt(s.substring(i+1,i+index),16);
 						pos++;
-						i+= 3;
+						i+= index;
 						if (i < numChars) {
 							c = s.charAt(i);
 							if (c!='%') {
