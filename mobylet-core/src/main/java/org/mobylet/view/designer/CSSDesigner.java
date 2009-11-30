@@ -27,7 +27,7 @@ public class CSSDesigner extends SingletonDesigner {
 	public static CSSConfig config = new CSSConfig();
 
 
-	public String includeCSS(String src, Charset charset) {
+	public String includeCSS(String src, String charset) {
 		if (StringUtils.isEmpty(src)) {
 			return "";
 		}
@@ -54,7 +54,7 @@ public class CSSDesigner extends SingletonDesigner {
 			InputStream is = ResourceUtils.getResourceFileOrInputStream(path);
 			if (is != null) {
 				return PREFIX_STYLE_TAG
-						+ new String(InputStreamUtils.getAllBytes(is), charset)
+						+ new String(InputStreamUtils.getAllBytes(is), Charset.forName(charset))
 						+ SUEFIX_STYLE_TAG;
 			}
 			break;
