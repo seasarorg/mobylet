@@ -126,6 +126,35 @@
 		</dynamic-attributes>
 	</tag>
 
+	<!-- <m:css /> -->
+	<tag>
+		<name>css</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.CSSTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+			<![CDATA[
+			CSSへのPath
+			]]>
+			</description>
+			<name>src</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			CSSの文字コード（デフォルトはUTF-8）
+			]]>
+			</description>
+			<name>charset</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 	<!-- <m:gps> -->
 	<tag>
 		<description>
