@@ -184,6 +184,10 @@ public class MobyletFilter implements Filter {
 			this.queryString = queryString;
 		}
 
+		public String getUrl() {
+			return url;
+		}
+
 		@Override
 		public String toString() {
 			if(StringUtils.isEmpty(queryString)) {

@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.http.MobyletFilter.NativeUrl;
 
 public class UrlUtils {
 
@@ -86,7 +87,14 @@ public class UrlUtils {
 		if (request == null) {
 			return null;
 		}
-		String url = request.getRequestURL().toString();
+		String url = null;
+		NativeUrl nativeUrl = null;
+		if ((nativeUrl =
+			RequestUtils.getMobyletContext().get(NativeUrl.class)) != null) {
+			url = nativeUrl.getUrl();
+		} else {
+			url = request.getRequestURL().toString();
+		}
 		if (request.isSecure() &&
 				url.startsWith("http:")) {
 			url = url.replace("http:", "https;");
