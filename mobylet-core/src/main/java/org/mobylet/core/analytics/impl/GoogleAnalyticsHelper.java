@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
@@ -43,7 +44,10 @@ public class GoogleAnalyticsHelper implements AnalyticsHelper {
 
 	@Override
 	public String getURL(AnalyticsParameters p) {
-
+		//OTHERの場合はAnalyticsへ打ち込まない
+		if (p.getCarrier() == Carrier.OTHER) {
+			return null;
+		}
 		AnalyticsSessionManager manager = SingletonUtils.get(AnalyticsSessionManager.class);
 		AnalyticsSession session = manager.get(p.getVisitorNo());
 		AnalyticsSearchEngine ase = getAnalyticsSearchEngine(p.getReferer());

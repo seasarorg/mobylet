@@ -3,11 +3,11 @@ package org.mobylet.core.analytics.impl;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
-import org.mobylet.core.Carrier;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.core.util.StringUtils;
 
 public class GoogleAnalyticsProcess implements Runnable {
 
@@ -23,14 +23,12 @@ public class GoogleAnalyticsProcess implements Runnable {
 			SingletonUtils.get(GoogleAnalyticsConfig.class);
 		AnalyticsHelper helper = SingletonUtils.get(AnalyticsHelper.class);
 		String url = helper.getURL(parameters);
-		HttpURLConnection connection = HttpUtils.getHttpUrlConnection(url);
-		if (parameters.getCarrier() == Carrier.OTHER) {
-			connection.setRequestProperty(
-					"User-Agent", parameters.getUserAgent());
-		} else {
-			connection.setRequestProperty(
-					"User-Agent", parameters.getCarrier().name());
+		if (StringUtils.isEmpty(url)) {
+			return;
 		}
+		HttpURLConnection connection = HttpUtils.getHttpUrlConnection(url);
+		connection.setRequestProperty(
+				"User-Agent", parameters.getCarrier().name());
 		connection.setRequestProperty(
 				"Accept-Language", parameters.getUseLanguage());
 		connection.setConnectTimeout(config.getConnectionTimeout());
