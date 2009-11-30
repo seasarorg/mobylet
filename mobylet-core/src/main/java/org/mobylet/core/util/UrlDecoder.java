@@ -29,29 +29,38 @@ public class UrlDecoder {
 						bytes = new byte[(numChars-i)/2];
 					int pos = 0;
 					while (c=='%' &&
-							(i+1) < numChars &&
-							HEX.indexOf(s.charAt(i+1)) >= 0) {
-						int index = 2;
-						if ((i+2) < numChars &&
-								HEX.indexOf(s.charAt(i+2)) >= 0) {
-							index = 3;
-						}
-						bytes[pos] =
-							(byte)Integer.parseInt(s.substring(i+1,i+index),16);
-						pos++;
-						i+= index;
-						if (i < numChars) {
-							c = s.charAt(i);
-							if (c!='%') {
-								if (c=='+') {
-									c = ' ';
+							(i+1) < numChars) {
+						if (HEX.indexOf(s.charAt(i+1)) >= 0) {
+							int index = 2;
+							if ((i+2) < numChars &&
+									HEX.indexOf(s.charAt(i+2)) >= 0) {
+								index = 3;
+							}
+							bytes[pos] =
+								(byte)Integer.parseInt(s.substring(i+1,i+index),16);
+							pos++;
+							i+= index;
+							if (i < numChars) {
+								c = s.charAt(i);
+								if (c!='%') {
+									if (c=='+') {
+										c = ' ';
+									}
+									bytes[pos] = (byte)c;
+									pos++;
+									i++;
+									if (i < numChars) {
+										c = s.charAt(i);
+									}
 								}
-								bytes[pos] = (byte)c;
-								pos++;
-								i++;
-								if (i < numChars) {
-									c = s.charAt(i);
-								}
+							}
+						} else {
+							//IllegalPattern('%' only)
+							bytes[pos] = (byte)c;
+							pos++;
+							i++;
+							if (i < numChars) {
+								c = s.charAt(i);
 							}
 						}
 					}
