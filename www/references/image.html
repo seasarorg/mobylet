@@ -141,6 +141,13 @@ mobyletのコア機能の中でも強力なツールの一つです。<br />
 						※端末のブラウザサイズが取得できない場合には、元画像がそのまま表示されます。<br />
 						　その場合は、<a href="../settings/index.html#valueengine">最新の端末情報を取得する</a>を参照して、最新の端末情報を取得しているかを確認してください。
 						</p>
+						<p class="marT20 lh18p fgRed">
+						&lt;制限事項&gt;<br />
+						Seasar2連携時、HotDeploy環境下ではHotdeployFilter内でデッドロックが発生するため、<br />
+						同ホスト同アプリケーションへの画像パスを「http:」から始まる絶対パスでの指定はできません。<br/>
+						HotDeploy環境下での同ホスト同アプリケーション内への画像のパスは、<br />
+						mobylet.image.propertiesでimage.local.base.dirに設定したディレクトリ以降の相対パスを記述してください。
+						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
