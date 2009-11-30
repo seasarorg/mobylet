@@ -57,7 +57,7 @@ public class UrlDecoder {
 					}
 					if ((i < numChars) && (c=='%')) {
 						throw new IllegalArgumentException(
-						"URLDecoder: Incomplete trailing escape (%) pattern");
+						"URLDecoder: Incomplete trailing escape (%) pattern i = " + i + "[" + s + "]");
 					}
 					buf.append(new String(bytes, 0, pos, charset));
 				} catch (NumberFormatException e) {
