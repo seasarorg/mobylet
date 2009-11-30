@@ -9,6 +9,8 @@ import org.mobylet.core.util.StringUtils;
 
 public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
+	public static final String KEY_USE_JS = "analytics.use.js";
+
 	public static final String KEY_MAXTHREAD = "analytics.max.thread";
 
 	public static final String KEY_MAXSESSION = "analytics.max.session";
@@ -76,28 +78,34 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 		"moba-crawler" +
 		").*";
 
+	protected Boolean useJs;
+
 	protected Integer maxThread;
 
 	protected Integer connectionTimeout;
 
 	protected Integer maxSession;
-	
+
 	protected UniqueUserKey uniqueUserKey;
 
 	protected String requestUrlHeader;
 
 	protected Boolean isIgnoreCrawler;
-	
+
 	protected Pattern regexCrawler;
-	
+
 	protected Boolean isIgnoreMobileCrawler;
-	
+
 	protected Pattern regexMobileCrawler;
 
 
 	public GoogleAnalyticsConfig() {
 		super();
 		initialize();
+	}
+
+	public Boolean useJs() {
+		return useJs;
 	}
 
 	public Integer getMaxThread() {
@@ -138,6 +146,16 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 
 	protected void initialize() {
 		Properties config = getConfig();
+		//UseJS
+		try {
+			if (StringUtils.isEmpty(config.getProperty(KEY_USE_JS))) {
+				useJs = false;
+			} else {
+				useJs = new Boolean(config.getProperty(KEY_USE_JS));
+			}
+		} catch (Exception e) {
+			useJs = false;
+		}
 		//MaxThread
 		try {
 			String val = config.getProperty(KEY_MAXTHREAD);
