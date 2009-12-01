@@ -62,7 +62,6 @@ public class UrlDecoderTest extends TestCase {
 				"%8F%EA%8D%87%A4%95%F1%8FV%82%CDEXP50%A5M%24300%A1%0D%0A%0D%0A%88%A4%82%CC%8E%B5%82%C2%93%B9%8B%EF%A5%89%F1%95%9C" +
 				"%BD%B7%D9%97%BC%95%FB%8F%8A%8E%9D%82%CC%8F%EA%8D%87%BD%B7%D9%97D%90%E6%82%C9%82%C8%82%E9%A1%0D%0A%82%B1%82%CC%8F" +
 				"%EA%8D%87%82%CC%95%F1%8FV%82%E0EXP50%A5M%24300%A1&seigen=&map=&username=&password=&id=578&submit=1.%8FC%90%B3";
-		System.out.println(UrlDecoder.decode(en, Charset.forName("windows-31j")));
 		assertTrue(UrlDecoder.decode(en, Charset.forName("windows-31j")).length() > 0);
 	}
 }
