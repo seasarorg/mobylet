@@ -44,7 +44,7 @@ public class InputStreamUtils {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(threshold);
 		try {
 			int b = 0x00;
-			while ((b = inputStream.read()) != 0x00) {
+			while ((b = inputStream.read()) != -1) {
 				baos.write(b);
 			}
 		} catch (Exception e) {
