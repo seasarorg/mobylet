@@ -124,9 +124,9 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 	@Override
 	public ServletInputStream getInputStream() throws IOException {
 		if (!isRequestBodyOpened) {
+			isRequestBodyOpened = true;
 			return super.getInputStream();
 		} else {
-			isRequestBodyOpened = true;
 			return null;
 		}
 	}
@@ -156,7 +156,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 						if (inputStream != null) {
 							mergeParametersString(
 									new String(
-											InputStreamUtils.getBytesUnClose(
+											InputStreamUtils.getBytesToNull(
 													inputStream,
 													contentLength))
 									);
