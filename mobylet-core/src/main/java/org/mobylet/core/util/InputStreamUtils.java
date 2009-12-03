@@ -1,5 +1,6 @@
 package org.mobylet.core.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -34,6 +35,22 @@ public class InputStreamUtils {
 			throw new MobyletRuntimeException("入力ストリームからの読み込みエラー", e);
 		}
 		return data;
+	}
+
+	public static byte[] getBytesToNull(InputStream inputStream, int threshold) {
+		if (inputStream == null) {
+			return new byte[0];
+		}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(threshold);
+		try {
+			int b = 0x00;
+			while ((b = inputStream.read()) != 0x00) {
+				baos.write(b);
+			}
+		} catch (Exception e) {
+			throw new MobyletRuntimeException("入力ストリームからの読み込みエラー", e);
+		}
+		return baos.toByteArray();
 	}
 
 	public static byte[] getBytes(InputStream inputStream, int length) {
