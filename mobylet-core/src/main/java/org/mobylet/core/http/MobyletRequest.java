@@ -1,5 +1,6 @@
 package org.mobylet.core.http;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -38,6 +40,8 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 		Collections.synchronizedMap(new HashMap<String, Object>());
 
 	protected boolean isParsedParameters = false;
+
+	protected boolean isRequestBodyOpened = false;
 
 	protected String queryString;
 
@@ -114,6 +118,16 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 			String[] values = new String[1];
 			values[0] = value.toString();
 			return values;
+		}
+	}
+
+	@Override
+	public ServletInputStream getInputStream() throws IOException {
+		if (!isRequestBodyOpened) {
+			return super.getInputStream();
+		} else {
+			isRequestBodyOpened = true;
+			return null;
 		}
 	}
 
