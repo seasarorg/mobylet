@@ -13,11 +13,11 @@ import javax.cache.CacheException;
 import javax.cache.CacheManager;
 
 import org.mobylet.core.MobyletRuntimeException;
-import org.mobylet.core.image.impl.MobyletImageCacheHelper;
+import org.mobylet.core.image.impl.MobyletClassicImageCacheHelper;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.StringUtils;
 
-public class GaeImageCacheHelper extends MobyletImageCacheHelper {
+public class GaeImageCacheHelper extends MobyletClassicImageCacheHelper {
 
 	protected URI dummyUri;
 
