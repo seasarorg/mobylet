@@ -105,12 +105,13 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 			String cacheFilePath = null;
 			if (isNetworkPath) {
 				cacheFilePath =
-					imgPath.replaceFirst("://", File.separator)
-							.replaceAll("/", File.separator)
-							.replaceAll("[?]", "%Q")
-							.replaceAll("[&]", "%P")
-							.replaceAll("[=]", "%L")
-							.replaceAll("[;]", "%S");
+					imgPath.replace("://", File.separator)
+							.replace(":", File.separator)
+							.replace("/", File.separator)
+							.replace("?", "%Q")
+							.replace("&", "%P")
+							.replace("=", "%L")
+							.replace(";", "%S");
 			} else {
 				if (imgPath.startsWith(File.separator)) {
 					cacheFilePath = imgPath.substring(File.separator.length());
@@ -187,8 +188,8 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				}
 			}
 			try {
-				if (cacheFile.getParentFile().mkdirs() &&
-						cacheFile.createNewFile()) {
+				cacheFile.getParentFile().mkdirs();
+				if (cacheFile.createNewFile()) {
 					FileOutputStream cacheOutStream = null;
 					try {
 						cacheOutStream = new FileOutputStream(cacheFile);
