@@ -16,6 +16,6 @@
 <div>リサイズ画像0.4<br/><m:img src="./images/resize.jpg" magniWidth="0.4"/></div>
 <div>リサイズ画像0.3<br/><m:img src="./images/resize.jpg" magniWidth="0.3"/></div>
 <div>リサイズ画像0.2<br/><m:img src="./images/resize.jpg" magniWidth="0.2"/></div>
-<div>リサイズ画像0.1<br/><m:img src="./images/resize.jpg" magniWidth="0.1"/></div>
+<div>リサイズ画像0.1<br/><m:img src="./images/resize.jpg?AAA=BBB&CCC=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" magniWidth="0.1"/></div>
 </body>
 </html>
