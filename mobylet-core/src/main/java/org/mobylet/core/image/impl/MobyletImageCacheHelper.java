@@ -107,7 +107,8 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 			String cacheFilePath = null;
 			if (isNetworkPath) {
 				cacheFilePath =
-					imgPath.replace("://", CONJUNCTION + File.separator)
+					imgPath.replace(CONJUNCTION, ESCAPE)
+							.replace("://", CONJUNCTION + File.separator)
 							.replace("/", File.separator)
 							.replace(":", "_")
 							.replace("?", "%Q")
