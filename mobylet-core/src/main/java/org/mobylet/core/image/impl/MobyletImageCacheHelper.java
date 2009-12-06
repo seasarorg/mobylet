@@ -123,12 +123,12 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 					cacheFilePath.replace(CONJUNCTION, ESCAPE);
 			}
 			//最大文字数調整
-			if (cacheFilePath.length() > 256) {
+			if (cacheFilePath.length() > 230) {
 				StringBuffer buf = new StringBuffer();
 				int length = 0;
 				for (char c : cacheFilePath.toCharArray()) {
 					length++;
-					if (length > 253 && c != File.separatorChar) {
+					if (length > 228 && c != File.separatorChar) {
 						buf.append(CONJUNCTION + File.separator);
 						buf.append(c);
 						length = 0;
