@@ -31,11 +31,13 @@ import org.mobylet.core.util.StringUtils;
 
 public class MobyletImageCacheHelper implements ImageCacheHelper {
 
-	public static final String CONJUNCTION_SIZE = "+";
+	public static final String CONJUNCTION = "+";
 
 	public static final String CONJUNCTION_BSIZE = "x";
 
 	public static final String CONJUNCTION_DATE = "-";
+
+	public static final String ESCAPE = CONJUNCTION + CONJUNCTION;
 
 
 	protected URI cacheBaseUri;
@@ -105,9 +107,9 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 			String cacheFilePath = null;
 			if (isNetworkPath) {
 				cacheFilePath =
-					imgPath.replace("://", File.separator)
-							.replace(":", File.separator)
+					imgPath.replace("://", CONJUNCTION + File.separator)
 							.replace("/", File.separator)
+							.replace(":", "_")
 							.replace("?", "%Q")
 							.replace("&", "%P")
 							.replace("=", "%L")
@@ -116,13 +118,34 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				if (imgPath.startsWith(File.separator)) {
 					cacheFilePath = imgPath.substring(File.separator.length());
 				}
+				cacheFilePath =
+					cacheFilePath.replace(CONJUNCTION, ESCAPE);
+			}
+			//最大文字数調整
+			if (cacheFilePath.length() > 256) {
+				StringBuffer buf = new StringBuffer();
+				int length = 0;
+				for (char c : cacheFilePath.toCharArray()) {
+					length++;
+					if (length > 253 && c != File.separatorChar) {
+						buf.append(CONJUNCTION + File.separator);
+						buf.append(c);
+						length = 0;
+					} else if (c == File.separatorChar) {
+						buf.append(c);
+						length = 0;
+					} else {
+						buf.append(c);
+					}
+				}
+				cacheFilePath = buf.toString();
 			}
 			String w = request.getParameter(ImageConfig.PKEY_WIDTH);
 			cacheFilePath = cacheFilePath + File.separator +
 					(StringUtils.isNotEmpty(w) ?
 							ImageConfig.PKEY_WIDTH + w +
 							CONJUNCTION_BSIZE + display.getWidth() : "") +
-					CONJUNCTION_SIZE + ImageUtils.getScaleType();
+					CONJUNCTION + ImageUtils.getScaleType();
 			//NetworkPath
 			if (isNetworkPath) {
 				HttpURLConnection connection =
