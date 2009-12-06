@@ -29,7 +29,7 @@ import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
-public class MobyletImageCacheHelper implements ImageCacheHelper {
+public class MobyletClassicImageCacheHelper implements ImageCacheHelper {
 
 	public static final String CONJUNCTION_SIZE = "+";
 
@@ -98,32 +98,19 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 		HttpServletRequest request = RequestUtils.get();
 		Mobylet m = MobyletFactory.getInstance();
 		DeviceDisplay display = m.getDisplay();
-		boolean isNetworkPath = PathUtils.isNetworkPath(imgPath);
 		//ExistsBrowserSize
 		if (display != null &&
 				StringUtils.isNotEmpty(imgPath)) {
-			String cacheFilePath = null;
-			if (isNetworkPath) {
-				cacheFilePath =
-					imgPath.replaceFirst("://", File.separator)
-							.replaceAll("/", File.separator)
-							.replaceAll("[?]", "%Q")
-							.replaceAll("[&]", "%P")
-							.replaceAll("[=]", "%L")
-							.replaceAll("[;]", "%S");
-			} else {
-				if (imgPath.startsWith(File.separator)) {
-					cacheFilePath = imgPath.substring(File.separator.length());
-				}
-			}
+			String cacheFileName = PathUtils.getUniqueFilePath(imgPath);
 			String w = request.getParameter(ImageConfig.PKEY_WIDTH);
-			cacheFilePath = cacheFilePath + File.separator +
+			cacheFileName = cacheFileName +
 					(StringUtils.isNotEmpty(w) ?
+							CONJUNCTION_SIZE +
 							ImageConfig.PKEY_WIDTH + w +
 							CONJUNCTION_BSIZE + display.getWidth() : "") +
 					CONJUNCTION_SIZE + ImageUtils.getScaleType();
 			//NetworkPath
-			if (isNetworkPath) {
+			if (PathUtils.isNetworkPath(imgPath)) {
 				HttpURLConnection connection =
 					HttpUtils.getHttpUrlConnection(imgPath);
 				try {
@@ -144,7 +131,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				if (StringUtils.isEmpty(uniqueVersionString)) {
 					uniqueVersionString = "1";
 				}
-				cacheFilePath = cacheFilePath + CONJUNCTION_DATE +
+				cacheFileName = cacheFileName + CONJUNCTION_DATE +
 						PathUtils.getUniqueFilePath(uniqueVersionString);
 			}
 			//LocalPath
@@ -154,11 +141,11 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				if (localFile != null &&
 						localFile.exists() &&
 						localFile.canRead()) {
-					cacheFilePath = cacheFilePath +
+					cacheFileName = cacheFileName +
 							CONJUNCTION_DATE + localFile.lastModified();
 				}
 			}
-			return cacheFilePath;
+			return cacheFileName;
 		}
 		return null;
 	}
@@ -187,8 +174,7 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 				}
 			}
 			try {
-				if (cacheFile.getParentFile().mkdirs() &&
-						cacheFile.createNewFile()) {
+				if (cacheFile.createNewFile()) {
 					FileOutputStream cacheOutStream = null;
 					try {
 						cacheOutStream = new FileOutputStream(cacheFile);
