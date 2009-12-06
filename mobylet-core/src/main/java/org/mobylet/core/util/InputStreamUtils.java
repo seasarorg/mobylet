@@ -43,9 +43,11 @@ public class InputStreamUtils {
 		}
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(threshold);
 		try {
+			int index = 0;
 			int b = 0x00;
-			while ((b = inputStream.read()) != -1) {
+			while ((b = inputStream.read()) != -1 && index < threshold) {
 				baos.write(b);
+				index++;
 			}
 		} catch (Exception e) {
 			throw new MobyletRuntimeException("入力ストリームからの読み込みエラー", e);
