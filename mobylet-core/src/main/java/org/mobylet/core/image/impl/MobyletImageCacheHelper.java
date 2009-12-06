@@ -187,7 +187,9 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 							CONJUNCTION_DATE + localFile.lastModified();
 				}
 			}
-			if (cacheFilePath.length() > 255 && OSUtils.isWindows()) {
+			if (cacheFilePath.length() > 256 && OSUtils.isWindows()) {
+				//Windowsの場合は安全なファイルパス長が256文字までのため
+				//これを超える場合はキャッシュを利用しない
 				return null;
 			} else {
 				return cacheFilePath;
