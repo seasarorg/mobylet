@@ -23,6 +23,7 @@ import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.InputStreamUtils;
+import org.mobylet.core.util.OSUtils;
 import org.mobylet.core.util.OutputStreamUtils;
 import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.RequestUtils;
@@ -47,6 +48,9 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 
 	@Override
 	public boolean existsCache(String key) {
+		if (StringUtils.isEmpty(key)) {
+			return false;
+		}
 		URI cacheBase = getCacheBase();
 		if (cacheBase == null) {
 			return false;
@@ -123,12 +127,12 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 					cacheFilePath.replace(CONJUNCTION, ESCAPE);
 			}
 			//最大文字数調整
-			if (cacheFilePath.length() > 230) {
+			if (cacheFilePath.length() > 255) {
 				StringBuffer buf = new StringBuffer();
 				int length = 0;
 				for (char c : cacheFilePath.toCharArray()) {
 					length++;
-					if (length > 228 && c != File.separatorChar) {
+					if (length > 250 && c != File.separatorChar) {
 						buf.append(CONJUNCTION + File.separator);
 						buf.append(c);
 						length = 0;
@@ -183,13 +187,20 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 							CONJUNCTION_DATE + localFile.lastModified();
 				}
 			}
-			return cacheFilePath;
+			if (cacheFilePath.length() > 255 && OSUtils.isWindows()) {
+				return null;
+			} else {
+				return cacheFilePath;
+			}
 		}
 		return null;
 	}
 
 	@Override
 	public void put(String key, InputStream imgStream) {
+		if (StringUtils.isEmpty(key)) {
+			return;
+		}
 		if (!enableCache()) {
 			return;
 		}
