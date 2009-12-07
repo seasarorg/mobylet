@@ -10,6 +10,6 @@ a:hover {
 	color: #00FF00;
 }
 
-div > a {
+div > a:first-child {
 	background-color: #555555;
 }
