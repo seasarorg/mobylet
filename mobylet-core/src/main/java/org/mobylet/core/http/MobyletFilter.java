@@ -111,7 +111,7 @@ public class MobyletFilter implements Filter {
 				RequestUtils.getMobyletContext().set(mResponse);
 			}
 			chain.doFilter(request, mResponse);
-			mResponse.flush();
+			mResponse.flushByMobylet();
 		}
 	}
 

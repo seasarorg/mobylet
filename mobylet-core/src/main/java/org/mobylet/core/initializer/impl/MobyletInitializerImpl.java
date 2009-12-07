@@ -42,6 +42,7 @@ import org.mobylet.core.selector.impl.MobyletCharsetSelector;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
 import org.mobylet.core.session.impl.MobyletSessionImpl;
 import org.mobylet.core.util.SingletonUtils;
+import org.mobylet.view.css.CSSParser;
 
 public class MobyletInitializerImpl
 	extends MobyletInitializerEmptyImpl implements DefProperties {
@@ -87,6 +88,8 @@ public class MobyletInitializerImpl
 		SingletonUtils.put(new GoogleAnalyticsSessionManager());
 		SingletonUtils.put(new GoogleAnalyticsHelper());
 		SingletonUtils.put(new GoogleAnalyticsExecutor());
+		//CSSParser
+		SingletonUtils.put(new CSSParser());
 		//initialized
 		super.initialize();
 	}

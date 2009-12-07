@@ -38,6 +38,9 @@ public class MobyletConfig {
 
 	protected Class<? extends Mobylet> mobyletClass;
 
+	protected Boolean useCSSInjection;
+
+
 
 	public MobyletConfig(String configDir) {
 		if (StringUtils.isEmpty(configDir)) {
@@ -160,6 +163,17 @@ public class MobyletConfig {
 		} catch (Exception e) {
 			mobyletClass = null;
 		}
+	}
+
+	public boolean useCSSInjection() {
+		if (useCSSInjection == null) {
+			useCSSInjection = false;
+		}
+		return useCSSInjection;
+	}
+
+	public void setUseCSSInjection(boolean use) {
+		this.useCSSInjection = use;
 	}
 
 }

@@ -9,7 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class XhtmlRewriteHandler extends DefaultHandler {
+public class CSSInjectionHandler extends DefaultHandler {
 
 	public static final String LT = "<";
 
@@ -29,7 +29,7 @@ public class XhtmlRewriteHandler extends DefaultHandler {
 	protected StringBuilder buf;
 
 
-	public XhtmlRewriteHandler(CSSCondContainer container) {
+	public CSSInjectionHandler(CSSCondContainer container) {
 		this.container = container;
 	}
 
@@ -42,6 +42,8 @@ public class XhtmlRewriteHandler extends DefaultHandler {
 
 	@Override
 	public void endDocument() throws SAXException {
+		tagStack = null;
+		indexMap = null;
 	}
 
 	@Override

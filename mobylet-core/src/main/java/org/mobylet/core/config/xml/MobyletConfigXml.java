@@ -37,4 +37,6 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_MOBYLET_CLASS = "mobylet-class";
 
+	public static final String TAG_CSS_INJECTION = "cssInjection";
+
 }

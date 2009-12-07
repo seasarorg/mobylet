@@ -88,6 +88,11 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 				RequestUtils.getMobyletContext().set(new Ready());
 				if (m != null &&
 						m.getContentType() == ContentType.XHTML) {
+					MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+					if (m.getCarrier() == Carrier.DOCOMO &&
+							config.useCSSInjection()) {
+						printWriter = new CSSInjectionPrintWriter(printWriter);
+					}
 					setContentType(dialect.getXContentTypeString());
 				} else {
 					setContentType(dialect.getContentTypeString());
@@ -157,9 +162,13 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		}
 	}
 
-	public void flush() throws IOException {
+	public void flushByMobylet() throws IOException {
 		if (printWriter != null) {
-			printWriter.flush();
+			if (printWriter instanceof CSSInjectionPrintWriter) {
+				CSSInjectionPrintWriter.class.cast(printWriter).flushByMobylet();
+			} else {
+				printWriter.flush();
+			}
 		} else if (outputStream != null) {
 			if (outputStream instanceof ProxyImageOutputStream) {
 				MobyletServletOutputStream outStream =
@@ -185,7 +194,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	protected ServletOutputStream getMobyletOutputStream() throws IOException {
 		return getOutputStream();
 	}
-	
+
 	public static class Ready {
 		//NOP
 	}

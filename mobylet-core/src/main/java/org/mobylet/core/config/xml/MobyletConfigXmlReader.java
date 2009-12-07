@@ -214,6 +214,11 @@ public class MobyletConfigXmlReader
 				config.setMobyletClass(value);
 			}
 		}
+		//CSSInjection
+		else if (name.equals(TAG_CSS_INJECTION)) {
+			boolean useCSSInjection = new Boolean(value);
+			config.setUseCSSInjection(useCSSInjection);
+		}
 		value = null;
 	}
 
@@ -228,6 +233,7 @@ public class MobyletConfigXmlReader
 				tag.equals(TAG_CONTENT_TYPE) ||
 				tag.equals(TAG_JSESSION) ||
 				tag.equals(TAG_MOBYLET_CLASS) ||
+				tag.equals(TAG_CSS_INJECTION) ||
 				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {

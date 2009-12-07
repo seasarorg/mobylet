@@ -1,16 +1,19 @@
 package org.mobylet.view.designer;
 
 import java.io.InputStream;
-import java.nio.charset.Charset;
 
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.PathUtils;
+import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.ResourceUtils;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.CSSConfig;
+import org.mobylet.view.css.CSSCondContainer;
+import org.mobylet.view.css.CSSParser;
 
 
 public class CSSDesigner extends SingletonDesigner {
@@ -51,11 +54,29 @@ public class CSSDesigner extends SingletonDesigner {
 							+ src;
 				}
 			}
-			InputStream is = ResourceUtils.getResourceFileOrInputStream(path);
-			if (is != null) {
-				return PREFIX_STYLE_TAG
-						+ new String(InputStreamUtils.getAllBytes(is), Charset.forName(charset))
-						+ SUEFIX_STYLE_TAG;
+			//Load-CSS
+			InputStream is = null;
+			try {
+				is = ResourceUtils.getResourceFileOrInputStream(path);
+				if (is != null) {
+//					return PREFIX_STYLE_TAG
+//							+ new String(InputStreamUtils.getAllBytes(is), Charset.forName(charset))
+//							+ SUEFIX_STYLE_TAG;
+					if (RequestUtils.get() != null &&
+							RequestUtils.getMobyletContext() != null) {
+						CSSParser parser = SingletonUtils.get(CSSParser.class);
+						CSSCondContainer container = parser.parse(is);
+						CSSCondContainer parentContainer =
+							RequestUtils.getMobyletContext().get(CSSCondContainer.class);
+						if (parentContainer != null) {
+							parentContainer.putAll(container);
+						} else {
+							RequestUtils.getMobyletContext().set(container);
+						}
+					}
+				}
+			} finally {
+				InputStreamUtils.closeQuietly(is);
 			}
 			break;
 		default:
