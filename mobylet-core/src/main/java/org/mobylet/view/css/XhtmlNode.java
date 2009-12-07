@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 
-public class DOMNode {
+public class XhtmlNode {
 
 	protected String tag;
 
@@ -12,12 +12,12 @@ public class DOMNode {
 
 	protected Set<String> styleClasses;
 
-	protected DOMNode parent;
+	protected XhtmlNode parent;
 
 	protected int index;
 
 
-	protected DOMNode(String tag, String styleId, String styleClass,
+	protected XhtmlNode(String tag, String styleId, String styleClass,
 			int index) {
 		this.tag = tag;
 		this.styleId = styleId;
@@ -54,11 +54,11 @@ public class DOMNode {
 		this.styleClasses = styleClasses;
 	}
 
-	public DOMNode getParent() {
+	public XhtmlNode getParent() {
 		return parent;
 	}
 
-	public void setParent(DOMNode parent) {
+	public void setParent(XhtmlNode parent) {
 		this.parent = parent;
 	}
 

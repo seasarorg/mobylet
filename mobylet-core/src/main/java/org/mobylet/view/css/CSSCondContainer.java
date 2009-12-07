@@ -11,7 +11,7 @@ import org.mobylet.core.util.StringUtils;
 public class CSSCondContainer {
 
 	protected Set<CSSCond> allCond;
-	
+
 	protected LinkedHashMap<String, Set<CSSCond>> tagMap;
 
 	protected LinkedHashMap<String, Set<CSSCond>> styleIdMap;
@@ -22,7 +22,7 @@ public class CSSCondContainer {
 		init();
 	}
 
-	public String getStyle(DOMNode node) {
+	public String getStyle(XhtmlNode node) {
 		Set<CSSCond> condSet = new LinkedHashSet<CSSCond>();
 		addCondSet(condSet, node);
 		if (condSet.size() == 0) {
@@ -44,7 +44,7 @@ public class CSSCondContainer {
 		}
 		return null;
 	}
-	
+
 	public void putAll(CSSCondContainer container) {
 		if (container == null ||
 				container.allCond.size() == 0) {
@@ -54,7 +54,7 @@ public class CSSCondContainer {
 			put(cond);
 		}
 	}
-	
+
 	public void put(CSSCond cond) {
 		if (cond == null) {
 			return;
@@ -63,6 +63,7 @@ public class CSSCondContainer {
 			Set<CSSCond> set = tagMap.get(cond.getTag());
 			if (set == null) {
 				set = new LinkedHashSet<CSSCond>();
+				tagMap.put(cond.getTag(), set);
 			}
 			set.add(cond);
 		}
@@ -70,6 +71,7 @@ public class CSSCondContainer {
 			Set<CSSCond> set = styleIdMap.get(cond.getStyleId());
 			if (set == null) {
 				set = new LinkedHashSet<CSSCond>();
+				styleIdMap.put(cond.getStyleId(), set);
 			}
 			set.add(cond);
 		}
@@ -77,6 +79,7 @@ public class CSSCondContainer {
 			Set<CSSCond> set = styleClassMap.get(cond.getStyleClass());
 			if (set == null) {
 				set = new LinkedHashSet<CSSCond>();
+				styleClassMap.put(cond.getStyleClass(), set);
 			}
 			set.add(cond);
 		}
@@ -89,8 +92,8 @@ public class CSSCondContainer {
 		styleIdMap = new LinkedHashMap<String, Set<CSSCond>>();
 		styleClassMap = new LinkedHashMap<String, Set<CSSCond>>();
 	}
-	
-	protected void addCondSet(Set<CSSCond> condSet, DOMNode node) {
+
+	protected void addCondSet(Set<CSSCond> condSet, XhtmlNode node) {
 		Set<CSSCond> set = tagMap.get(node.getTag());
 		if (set != null) {
 			condSet.addAll(set);
