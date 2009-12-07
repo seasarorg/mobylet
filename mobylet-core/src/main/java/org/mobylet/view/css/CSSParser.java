@@ -56,21 +56,24 @@ public class CSSParser {
 							CSSCond p = null;
 							boolean isNextFirstChild = false;
 							for (String singleKey : singleKeys) {
+								//CHILD
 								if (singleKey.contains(">")) {
 									String[] directKeys = singleKey.split("[>]");
 									if (directKeys.length == 0) {
 										isNextFirstChild = true;
 										continue;
 									}
-									else if (directKeys.length == 1 && singleKey.startsWith(">")) {
-										CSSCond cond = new CSSCond(directKeys[0].trim());
-										cond.setSelectorType(SelectorType.FIRST_CHILD);
+									else if (directKeys.length == 2 && singleKey.startsWith(">")) {
+										CSSCond cond = new CSSCond(directKeys[1].trim());
+										if (cond.getSelectorType() != SelectorType.FIRST_CHILD) {
+											cond.setSelectorType(SelectorType.CHILD);
+										}
 										if (p != null) {
 											cond.setParent(p);
 										}
 										p = cond;
 									}
-									else if (directKeys.length == 1 && singleKey.endsWith(">")) {
+									else if (directKeys.length == 2 && singleKey.endsWith(">")) {
 										CSSCond cond = new CSSCond(directKeys[0].trim());
 										if (p != null) {
 											cond.setParent(p);
@@ -83,7 +86,9 @@ public class CSSParser {
 										for (int i=0; i<directKeys.length; i++) {
 											CSSCond cond = new CSSCond(directKeys[i].trim());
 											if (i > 0) {
-												cond.setSelectorType(SelectorType.FIRST_CHILD);
+												if (cond.getSelectorType() != SelectorType.FIRST_CHILD) {
+													cond.setSelectorType(SelectorType.CHILD);
+												}
 											}
 											if (p != null) {
 												cond.setParent(p);
@@ -99,7 +104,9 @@ public class CSSParser {
 									p = cond;
 								}
 								if (isNextFirstChild) {
-									p.setSelectorType(SelectorType.FIRST_CHILD);
+									if (p.getSelectorType() != SelectorType.FIRST_CHILD) {
+										p.setSelectorType(SelectorType.CHILD);
+									}
 								}
 							}
 							String[] entries = value.split("[;]");

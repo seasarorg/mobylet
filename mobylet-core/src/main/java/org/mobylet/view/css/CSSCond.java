@@ -23,6 +23,10 @@ public class CSSCond {
 		if (key == null) {
 			return;
 		}
+		if (key.endsWith(":first-child")) {
+			key = key.substring(0, key.lastIndexOf(':'));
+			selectorType = SelectorType.FIRST_CHILD;
+		}
 		int dot = key.indexOf('.');
 		int shp = key.indexOf('#');
 		if (dot < 0 && shp < 0) {
@@ -48,6 +52,20 @@ public class CSSCond {
 				StringUtils.isNotEmpty(value)) {
 			valueMap.put(key.trim(), value.trim());
 		}
+	}
+
+	public boolean matchAllParent(XhtmlNode node) {
+		if (node == null) {
+			return false;
+		}
+		boolean isMatch = false;
+		while (!(isMatch = match(node.getParent()))) {
+			node = node.getParent();
+			if (node == null) {
+				break;
+			}
+		}
+		return isMatch;
 	}
 
 	public boolean match(XhtmlNode node) {
@@ -87,8 +105,12 @@ public class CSSCond {
 				}
 			}
 		}
-		if (match && !unmatch) {
+		if (match && !unmatch &&
+				(selectorType == SelectorType.CHILD ||
+						selectorType == SelectorType.FIRST_CHILD)) {
 			return parent == null || parent.match(node.getParent());
+		} else if (match && !unmatch) {
+			return parent == null || parent.matchAllParent(node);
 		} else {
 			return false;
 		}
