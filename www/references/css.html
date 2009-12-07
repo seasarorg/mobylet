@@ -36,43 +36,41 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>マニアックに利用する</h2>
+			<h2>外出しCSSを利用する</h2>
 
 			<!-- start main -->
 			<div id="main">
 
+				<!-- start descWrap -->
+				<div id ="descWrap" class="marT20">
+					<div id="descInner">
+						<p class="padT10 padB20 lh18p">2009年12月現在、ドコモ端末の多くは外出しCSSに対応していません。<br />
+このため、XHTML文章中にインライン（style属性等）にてCSSを記述する必要がありますが<br />
+mobyletでは外出しCSSファイルをインラインに展開する、強力なツールを利用することが出来ます。<br />
+＃Ver 1.0.2からベータ版としてリリース。<br />
+</p>
+					</div>
+				</div>
+				<!-- end descWrap -->
+
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="var">設定ファイルで予約変数を利用する</h3>
+					<h3 id="fitwidth">CSS Expand機能利用設定</h3>
 					<div class="cstInner">
-						<h4>各種予約変数</h4>
+						<h4>CSS Expand機能（外出しCSS展開機能）の設定方法</h4>
+
 						<p class="marT20 lh18p">
-						mobyletが利用する各種プロパティにはいくつかの予約語を利用することができます。<br />
-						（mobylet.xml、mobylet.image.properties等）<br />
-						以下、使用例。
+						この機能は外出しCSSファイルをドコモ端末に対してのみ、インライン化する機能です。<br />
+						au、SoftBank端末に対しては外出しファイルのまま、linkタグとして出力します。<br />
+						まず、この機能を利用するための条件は以下の通りです。<br />
 						</p>
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">
-image.local.base.dir=${docBase}/images
-image.cache.base.dir=${java.io.tmpdir}
-image.scale.servlet.path=${contextPath}/imageScaler
-</pre>
-							</div>
-						</div>
-						<h4>${docBase}</h4>
+						<ul class="marT20 check">
+							<li>XHTMLモードでのみ利用可能（ドコモ端末はXHTMLの場合のみCSSを認識出来ます）</li>
+							<li class="marT5">mobylet.xmlにCSS Expand機能の利用設定を行う</li>
+							<li class="marT5">&lt;m:css /&gt;タグを利用する（JSP以外でも利用可能）</li>
+						</ul>
 						<p class="marT20 lh18p">
-						WEBアプリケーションのdocBaseに置換します。<br />
-						※Ver.1.0.1以上で利用可能
-						</p>
-						<h4>${contextPath}</h4>
-						<p class="marT20 lh18p">
-						WEBアプリケーションのコンテキストパスに置換します。<br />
-						※Servlet API 2.5以上の場合に利用可能です。
-						</p>
-						<h4>${<i>[yourVariable]</i>}</h4>
-						<p class="marT20 lh18p">
-						MobyletFilterのInitParameterやSystemPropertiesから指定の変数名の値に置換します。
+						mobylet.xmlの設定方法は<a href="/settings/mobyletxml.html#cssExpand">こちら</a>をご覧ください。
 						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
@@ -82,67 +80,130 @@ image.scale.servlet.path=${contextPath}/imageScaler
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="designer">JSP以外のビューを使う</h3>
-					<div class="cstInner">
-						<h4>Designerクラスを利用してmobyletの機能を活用する</h4>
-						<p class="marT20 lh18p">
-						Mobyletは特定のビューに依存していません。<br />
-						ビューのロジックは各Designerクラスとして独立しており、<br />
-						JSP用のカスタムタグも、内部でDesignerクラスのロジックを呼び出しています。<br />
-						<br />
-						そのため、VelocityなどJSP以外のビューを使用する場合でも、各Designerクラスを使用することで、<br />
-						Mobyletの便利なビュー側の機能を使用することが可能です。<br />
-						<br />
-						Designerクラスは、mobylet-core.jar内の「org.mobylet.view.designer」パッケージ配下に用意されています。
-						</p>
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
-
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="configinjection">Config Injection</h3>
+					<h3 id="imagemagick">CSS Expand機能の使い方</h3>
 					<!-- start cstInner -->
 					<div class="cstInner">
-						<h4>プロパティファイルを配置してDesignerをカスタマイズする</h4>
+						<h4>CSS Expand機能の使い方</h4>
 						<p class="marT20 lh18p">
-						Mobyletでは、Designerクラスのデフォルトの動作をカスタマイズ可能な仕組みが用意されています。<br />
-						この仕組みは、MobyletInjectionConfigクラスを継承したConfigクラスと、<br />
-						対応するプロパティファイルを使用したConfig Injectionにより実現しています。<br />
-						<br />
-						例として、以下では&lt;m:a&gt;タグのデフォルトの動作を変更しています。<br />
-						<br />
-						&lt;m:a&gt;タグの生成に使用するTransitionDesignerクラスは、内部でTransitionConfigクラスを保持しています。<br />
-						TransitionConfigクラスはMobyletInjectionConfigクラスを継承しているため、<br />
-						プロパティファイルで設定をカスタマイズすることが可能です。<br />
-						TransitionConfigクラスのパッケージは「org.mobylet.view.config」のため、<br />
-						クラスパス配下に「org.mobylet.view.config.TransitionConfig.properties」という名前のプロパティファイルを配置します。
-						</p>
-						<h4>JSESSIONIDの出力をデフォルトでOFFにする</h4>
-						<p class="marT20 lh18p">
-						&lt;m:a&gt;タグでは、デフォルトでURLにJSESSIONIDが付与される仕様になっています。<br />
-						これを変更する場合、作成したプロパティファイルに以下の記述を追加します。
+						通常、外出しCSSファイルを配置する場合と同様にheadタグ内で、以下のように指定します。<br />
 						</p>
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">
-transition.isSessionCookiePriority=false</pre>
+								<pre class="code">&lt;m:css src="/mobylet/top.css" /&gt;</pre>
 							</div>
 						</div>
-						<p class="marT20 lh18p">
-						この他、「UID」「GUID」などのデフォルトの設定も変更可能です。<br />
-						設定可能な値はTransitionConfigクラスをご覧ください。<br />
-						<br />
-						このように、MobyletInjectionConfigクラスを継承したConfigクラスを使用することで、<br />
-						Mobyletの動作に独自のカスタマイズを行なうことが可能です。
-						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="imagemagick">使えるCSSの記述方法</h3>
+					<!-- start cstInner -->
+					<div class="cstInner">
+						<h4>CSS Expand機能が処理可能なCSSの記述方法</h4>
+						<p class="marT20 lh18p">
+						単一タグ指定<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">body {
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						複数タグ指定（グループ化）<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">body, div {
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						ID指定（タグとのセットも可能）<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">#bgRed {
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						CLASS指定（タグとのセットも可能）<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">.bgRed, div.bgRed {
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						子孫セレクタ<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">body div {
+  /* bodyタグの配下のdivタグ全て */
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						子供セレクタ<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">body > div {
+  /* bodyタグの直接の配下であるdivタグ全て */
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						全称セレクタ<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">* {
+  /* 全てのタグにマッチ */
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						first-child疑似クラス<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">body > div:first-child {
+  /* bodyタグの直接の配下である最初のdivタグのみ */
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						link, visited, active, hover疑似クラス（aタグのみ）<br />
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">a:link {
+  background-color: #FFDDDD;
+}</pre>
+							</div>
+						</div>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
 			</div>
 			<!-- end main -->
 		</div>
