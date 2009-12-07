@@ -2,7 +2,6 @@ package org.mobylet.core.http;
 
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.io.Writer;
 
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
@@ -11,13 +10,15 @@ import org.mobylet.view.css.CSSCondContainer;
 import org.mobylet.view.css.CSSExpandHandler;
 import org.xml.sax.InputSource;
 
-public class CSSInjectionPrintWriter extends PrintWriter {
+public class CSSExpandPrintWriter extends PrintWriter {
 
 	protected StringBuilder buf;
 
+	protected PrintWriter writer;
 
-	public CSSInjectionPrintWriter(Writer out) {
+	public CSSExpandPrintWriter(PrintWriter out) {
 		super(out);
+		writer = out;
 		buf = new StringBuilder(1024);
 	}
 
@@ -51,7 +52,11 @@ public class CSSInjectionPrintWriter extends PrintWriter {
 	}
 
 	public void flushByMobylet() {
-		InputSource inputSource = new InputSource(new StringReader(buf.toString()));
+		int index = buf.indexOf("<html");
+		if (index < 0) {
+			index = 0;
+		}
+		InputSource inputSource = new InputSource(new StringReader(buf.substring(index)));
 		CSSCondContainer container = null;
 		if (RequestUtils.get() != null &&
 				RequestUtils.getMobyletContext() != null) {
@@ -60,8 +65,11 @@ public class CSSInjectionPrintWriter extends PrintWriter {
 		}
 		CSSExpandHandler handler = new CSSExpandHandler(container);
 		XmlUtils.parseSax(inputSource, handler);
-		super.write(handler.toString());
-		super.flush();
+		if (index > 0) {
+			writer.write(buf.substring(0, index));
+		}
+		writer.write(handler.toString());
+		writer.flush();
 	}
 
 }

@@ -3,6 +3,7 @@ package org.mobylet.view.designer;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.TransitionConfig;
@@ -28,7 +29,11 @@ public class GpsDesigner extends TransitionDesigner {
 				m.getDevice().hasGps()) {
 			gpsDesign = new GpsDesign(getGpsUrl(kickBackUrl, config));
 			if (m.getCarrier() == Carrier.DOCOMO) {
-				gpsDesign.setTagAttribute(new TagAttribute("lcs", null));
+				if (m.getContentType() == ContentType.XHTML) {
+					gpsDesign.setTagAttribute(new TagAttribute("lcs", "lcs"));
+				} else {
+					gpsDesign.setTagAttribute(new TagAttribute("lcs", null));
+				}
 			}
 		}
 		//簡易位置取得URL

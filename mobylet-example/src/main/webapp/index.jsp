@@ -1,6 +1,8 @@
+<m:xmlheader/>
 <html>
 <head>
 <title>mobylet-example</title>
+<m:css src="test.css"/>
 </head>
 <body>
 <div>mobylet-example</div>

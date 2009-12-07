@@ -59,9 +59,19 @@ public class CSSDesigner extends SingletonDesigner {
 							+ (src.startsWith("/") ? "" : "/")
 							+ src;
 				} else {
-					path = UrlUtils.getCurrentUrl()
-							+ (src.startsWith("/") ? "" : "/")
-							+ src;
+					if (src.startsWith("/")) {
+						String url = UrlUtils.getCurrentUrl();
+						int protocolIndex = url.indexOf("://");
+						if (protocolIndex >= 0) {
+							int index = url.indexOf("/", protocolIndex+3);
+							if (index > 0) {
+								url = url.substring(0, index);
+							}
+						}
+						path = url + src;
+					} else {
+						path = UrlUtils.getCurrentUrl() + src;
+					}
 				}
 			}
 			//Load-CSS
@@ -69,9 +79,6 @@ public class CSSDesigner extends SingletonDesigner {
 			try {
 				is = ResourceUtils.getResourceFileOrInputStream(path);
 				if (is != null) {
-//					return PREFIX_STYLE_TAG
-//							+ new String(InputStreamUtils.getAllBytes(is), Charset.forName(charset))
-//							+ SUEFIX_STYLE_TAG;
 					if (RequestUtils.get() != null &&
 							RequestUtils.getMobyletContext() != null) {
 						CSSParser parser = SingletonUtils.get(CSSParser.class);
@@ -114,6 +121,11 @@ public class CSSDesigner extends SingletonDesigner {
 		if (StringUtils.isNotEmpty(styleHover)) {
 			buf.append(NODE_A_HOVER.getTag() + "{" + styleHover + "}");
 		}
-		return buf.toString();
+		if (buf.length() > 0) {
+			return PREFIX_STYLE_TAG
+				+ buf.toString()
+				+ SUEFIX_STYLE_TAG;
+		}
+		return "";
 	}
 }
