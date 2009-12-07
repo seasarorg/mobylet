@@ -9,7 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class CSSInjectionHandler extends DefaultHandler {
+public class CSSExpandHandler extends DefaultHandler {
 
 	public static final String LT = "<";
 
@@ -29,7 +29,7 @@ public class CSSInjectionHandler extends DefaultHandler {
 	protected StringBuilder buf;
 
 
-	public CSSInjectionHandler(CSSCondContainer container) {
+	public CSSExpandHandler(CSSCondContainer container) {
 		this.container = container;
 	}
 
