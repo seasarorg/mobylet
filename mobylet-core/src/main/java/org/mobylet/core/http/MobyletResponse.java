@@ -91,7 +91,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 					MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 					if (m.getCarrier() == Carrier.DOCOMO &&
 							config.useCSSExpand()) {
-						printWriter = new CSSInjectionPrintWriter(printWriter);
+						printWriter = new CSSExpandPrintWriter(printWriter);
 					}
 					setContentType(dialect.getXContentTypeString());
 				} else {
@@ -164,8 +164,8 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 
 	public void flushByMobylet() throws IOException {
 		if (printWriter != null) {
-			if (printWriter instanceof CSSInjectionPrintWriter) {
-				CSSInjectionPrintWriter.class.cast(printWriter).flushByMobylet();
+			if (printWriter instanceof CSSExpandPrintWriter) {
+				CSSExpandPrintWriter.class.cast(printWriter).flushByMobylet();
 			} else {
 				printWriter.flush();
 			}

@@ -13,7 +13,7 @@
 		-->
 	</through>
 	<default>
-		<contentType>HTML</contentType>
+		<contentType>XHTML</contentType>
 	</default>
 	<device>
 		<basedir>device/</basedir>
@@ -24,6 +24,7 @@
 		<imagePath>/mobylet/ei/</imagePath>
 		-->
 	</emoji>
+	<cssExpand>true</cssExpand>
 	<!--
 	<proxy>
 		<host>proxy.mobylet.org</host>
