@@ -17,7 +17,7 @@ public class XhtmlNode {
 	protected int index;
 
 
-	protected XhtmlNode(String tag, String styleId, String styleClass,
+	public XhtmlNode(String tag, String styleId, String styleClass,
 			int index) {
 		this.tag = tag;
 		this.styleId = styleId;

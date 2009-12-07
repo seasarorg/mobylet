@@ -14,6 +14,7 @@ import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.CSSConfig;
 import org.mobylet.view.css.CSSCondContainer;
 import org.mobylet.view.css.CSSParser;
+import org.mobylet.view.css.XhtmlNode;
 
 
 public class CSSDesigner extends SingletonDesigner {
@@ -25,6 +26,15 @@ public class CSSDesigner extends SingletonDesigner {
 	public static final String PREFIX_STYLE_TAG = "<style type=\"text/css\"><![CDATA[";
 
 	public static final String SUEFIX_STYLE_TAG = "]]></style>";
+
+
+	public static final XhtmlNode NODE_A_LINK = new XhtmlNode("a:link", null, null, 2);
+
+	public static final XhtmlNode NODE_A_VISITED = new XhtmlNode("a:visited", null, null, 2);
+
+	public static final XhtmlNode NODE_A_ACTIVE = new XhtmlNode("a:active", null, null, 2);
+
+	public static final XhtmlNode NODE_A_HOVER = new XhtmlNode("a:hover", null, null, 2);
 
 
 	public static CSSConfig config = new CSSConfig();
@@ -73,6 +83,7 @@ public class CSSDesigner extends SingletonDesigner {
 						} else {
 							RequestUtils.getMobyletContext().set(container);
 						}
+						return getAnchorStyle(container);
 					}
 				}
 			} finally {
@@ -85,4 +96,24 @@ public class CSSDesigner extends SingletonDesigner {
 		return "";
 	}
 
+	public String getAnchorStyle(CSSCondContainer container) {
+		StringBuilder buf = new StringBuilder();
+		String styleLink = container.getStyle(NODE_A_LINK);
+		String styleVisited = container.getStyle(NODE_A_VISITED);
+		String styleActive = container.getStyle(NODE_A_ACTIVE);
+		String styleHover = container.getStyle(NODE_A_HOVER);
+		if (StringUtils.isNotEmpty(styleLink)) {
+			buf.append(NODE_A_LINK.getTag() + "{" + styleLink + "}");
+		}
+		if (StringUtils.isNotEmpty(styleVisited)) {
+			buf.append(NODE_A_VISITED.getTag() + "{" + styleVisited + "}");
+		}
+		if (StringUtils.isNotEmpty(styleActive)) {
+			buf.append(NODE_A_ACTIVE.getTag() + "{" + styleActive + "}");
+		}
+		if (StringUtils.isNotEmpty(styleHover)) {
+			buf.append(NODE_A_HOVER.getTag() + "{" + styleHover + "}");
+		}
+		return buf.toString();
+	}
 }
