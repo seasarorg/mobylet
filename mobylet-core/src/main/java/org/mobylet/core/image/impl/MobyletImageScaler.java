@@ -76,6 +76,14 @@ public class MobyletImageScaler implements ImageScaler {
 							new BufferedImage(
 									scaledWidth, scaledHeight, img.getType(),
 									(IndexColorModel)img.getColorModel());
+						//Alpha-Setting
+						int transparentPixel =
+							((IndexColorModel)outImgBuf.getColorModel()).getTransparentPixel();
+						for(int i=0; i<outImgBuf.getWidth(); ++i) {
+							for(int j=0; j<outImgBuf.getHeight(); ++j) {
+								outImgBuf.setRGB(i, j, transparentPixel);
+							}
+						}
 					}
 				} else {
 					outImgBuf =
