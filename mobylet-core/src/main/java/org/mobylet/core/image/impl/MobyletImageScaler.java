@@ -2,6 +2,7 @@ package org.mobylet.core.image.impl;
 
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
@@ -23,6 +24,11 @@ import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletImageScaler implements ImageScaler {
+
+	/**
+	 * HeadlessExceptionが発生する環境かどうかのFLAG
+	 */
+	protected boolean isHeadless = false;
 
 	@Override
 	public void scale(InputStream imgStream, OutputStream outStream,
@@ -52,13 +58,25 @@ public class MobyletImageScaler implements ImageScaler {
 			if(img.getColorModel() instanceof IndexColorModel) {
 				if (imageCodec == ImageCodec.GIF &&
 						img.getColorModel().hasAlpha()) {
-					outImgBuf =
-						GraphicsEnvironment
-						.getLocalGraphicsEnvironment()
-						.getDefaultScreenDevice()
-						.getDefaultConfiguration()
-						.createCompatibleImage(
-								scaledWidth, scaledHeight, Transparency.BITMASK);
+					if (!isHeadless) {
+						try {
+							outImgBuf =
+								GraphicsEnvironment
+								.getLocalGraphicsEnvironment()
+								.getDefaultScreenDevice()
+								.getDefaultConfiguration()
+								.createCompatibleImage(
+										scaledWidth, scaledHeight, Transparency.BITMASK);
+						} catch (HeadlessException e) {
+							isHeadless = true;
+						}
+					}
+					if (isHeadless) {
+						outImgBuf =
+							new BufferedImage(
+									scaledWidth, scaledHeight, img.getType(),
+									(IndexColorModel)img.getColorModel());
+					}
 				} else {
 					outImgBuf =
 						new BufferedImage(
