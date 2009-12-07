@@ -12,7 +12,7 @@ public class XhtmlRewriteHandlerTest extends TestCase {
 
 	public void test_simple01() {
 		String xml = "<test>AAA<a>BBB</a>CCC</test>";
-		XhtmlRewriteHandler handler = new XhtmlRewriteHandler(null);
+		CSSInjectionHandler handler = new CSSInjectionHandler(null);
 		try {
 			SAXParserFactory spfactory = SAXParserFactory.newInstance();
 			SAXParser parser = spfactory.newSAXParser();
@@ -25,7 +25,7 @@ public class XhtmlRewriteHandlerTest extends TestCase {
 
 	public void test_simple02() {
 		String xml = "<test>AAA<a id=\"ID\">BBB</a>CCC</test>";
-		XhtmlRewriteHandler handler = new XhtmlRewriteHandler(null);
+		CSSInjectionHandler handler = new CSSInjectionHandler(null);
 		try {
 			SAXParserFactory spfactory = SAXParserFactory.newInstance();
 			SAXParser parser = spfactory.newSAXParser();
@@ -40,7 +40,7 @@ public class XhtmlRewriteHandlerTest extends TestCase {
 		String xml = "<test>AAA<a id=\"ID\">BBB</a>CCC</test>";
 		String css = "#ID { color : #FFFFFF; background-color: #008800; }";
 		CSSParser cssParser = new CSSParser();
-		XhtmlRewriteHandler handler = new XhtmlRewriteHandler(
+		CSSInjectionHandler handler = new CSSInjectionHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
 		try {
 			SAXParserFactory spfactory = SAXParserFactory.newInstance();
@@ -56,7 +56,7 @@ public class XhtmlRewriteHandlerTest extends TestCase {
 		String xml = "<test>AAA<a id=\"ID\">BBB</a>CCC</test>";
 		String css = "test a#ID { color : #FFFFFF; background-color: #008800; }";
 		CSSParser cssParser = new CSSParser();
-		XhtmlRewriteHandler handler = new XhtmlRewriteHandler(
+		CSSInjectionHandler handler = new CSSInjectionHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
 		try {
 			SAXParserFactory spfactory = SAXParserFactory.newInstance();
@@ -72,7 +72,7 @@ public class XhtmlRewriteHandlerTest extends TestCase {
 		String xml = "<test>AAA<a id=\"ID\">BBB</a>CCC<a id=\"ID\">BBB</a>DDD</test>";
 		String css = "test > a { color : #FFFFFF; background-color: #008800; }";
 		CSSParser cssParser = new CSSParser();
-		XhtmlRewriteHandler handler = new XhtmlRewriteHandler(
+		CSSInjectionHandler handler = new CSSInjectionHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
 		try {
 			SAXParserFactory spfactory = SAXParserFactory.newInstance();

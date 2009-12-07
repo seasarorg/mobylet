@@ -23,6 +23,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -35,30 +36,54 @@ public class XmlUtils {
 		InputStream xmlStream = null;
 		try {
 			xmlStream = ResourceUtils.getResourceFileOrInputStream(path);
-			if (xmlStream != null) {
+			return parseSax(xmlStream, handler);
+		} catch (Exception e) {
+			throw new MobyletRuntimeException(
+					"XML読み込み中に例外発生 [" + path + "]", e);
+		}
+	}
+
+	public static boolean parseSax(InputStream inputStream, DefaultHandler handler) {
+		try {
+			if (inputStream != null) {
 				SAXParserFactory spfactory = SAXParserFactory.newInstance();
 				SAXParser parser = spfactory.newSAXParser();
-				parser.parse(xmlStream, handler);
+				parser.parse(inputStream, handler);
 				return true;
 			}
 			return false;
 		} catch (ParserConfigurationException e) {
 			throw new MobyletRuntimeException(
-					"重大な構成エラーがあります [" + path + "]", e);
+					"重大な構成エラーがあります", e);
 		} catch (SAXException e) {
 			throw new MobyletRuntimeException(
-					"SAXパース中にエラーが発生しました [" + path + "]", e);
+					"SAXパース中にエラーが発生しました", e);
 		} catch (IOException e) {
 			throw new MobyletRuntimeException(
-					"IO例外が発生しました [" + path + "]", e);
+					"IO例外が発生しました", e);
 		} finally {
-			if (xmlStream != null) {
-				try {
-					xmlStream.close();
-				} catch (Exception e) {
-					//NOP
-				}
+			InputStreamUtils.closeQuietly(inputStream);
+		}
+	}
+
+	public static boolean parseSax(InputSource inputSource, DefaultHandler handler) {
+		try {
+			if (inputSource != null) {
+				SAXParserFactory spfactory = SAXParserFactory.newInstance();
+				SAXParser parser = spfactory.newSAXParser();
+				parser.parse(inputSource, handler);
+				return true;
 			}
+			return false;
+		} catch (ParserConfigurationException e) {
+			throw new MobyletRuntimeException(
+					"重大な構成エラーがあります", e);
+		} catch (SAXException e) {
+			throw new MobyletRuntimeException(
+					"SAXパース中にエラーが発生しました", e);
+		} catch (IOException e) {
+			throw new MobyletRuntimeException(
+					"IO例外が発生しました", e);
 		}
 	}
 }
