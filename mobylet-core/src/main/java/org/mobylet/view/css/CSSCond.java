@@ -27,12 +27,12 @@ public class CSSCond {
 		int shp = key.indexOf('#');
 		if (dot < 0 && shp < 0) {
 			this.tag = key;
-		} else if (dot > 0 && shp < 0) {
+		} else if (dot >= 0 && shp < 0) {
 			this.styleClass = key.substring(dot + 1);
 			if (dot > 0) {
 				this.tag = key.substring(0, dot);
 			}
-		} else if (dot < 0 && shp > 0) {
+		} else if (dot < 0 && shp >= 0) {
 			this.styleId = key.substring(shp + 1);
 			if (shp > 0) {
 				this.tag = key.substring(0, shp);
@@ -50,12 +50,12 @@ public class CSSCond {
 		}
 	}
 
-	public boolean match(DOMNode node) {
+	public boolean match(XhtmlNode node) {
 		if (node == null) {
 			return false;
 		}
 		boolean match = false;
-		boolean unmatch = true;
+		boolean unmatch = false;
 		if (StringUtils.isNotEmpty(tag)) {
 			if (tag.equals("*") || tag.equals(node.getTag())) {
 				match = true;
@@ -80,7 +80,7 @@ public class CSSCond {
 		}
 		if (selectorType != null) {
 			if (selectorType == SelectorType.FIRST_CHILD) {
-				if (node.getIndex() == 0) {
+				if (node.getIndex() == 1) {
 					match = true;
 				} else {
 					unmatch = true;

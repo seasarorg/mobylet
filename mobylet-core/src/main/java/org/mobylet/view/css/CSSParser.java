@@ -54,18 +54,42 @@ public class CSSParser {
 						for (String csvKey : csvKeys) {
 							String[] singleKeys = csvKey.split("\\s");
 							CSSCond p = null;
+							boolean isNextFirstChild = false;
 							for (String singleKey : singleKeys) {
 								if (singleKey.contains(">")) {
 									String[] directKeys = singleKey.split("[>]");
-									for (int i=0; i<directKeys.length; i++) {
-										CSSCond cond = new CSSCond(directKeys[i].trim());
-										if (i > 0) {
-											cond.setSelectorType(SelectorType.FIRST_CHILD);
-										}
+									if (directKeys.length == 0) {
+										isNextFirstChild = true;
+										continue;
+									}
+									else if (directKeys.length == 1 && singleKey.startsWith(">")) {
+										CSSCond cond = new CSSCond(directKeys[0].trim());
+										cond.setSelectorType(SelectorType.FIRST_CHILD);
 										if (p != null) {
 											cond.setParent(p);
 										}
 										p = cond;
+									}
+									else if (directKeys.length == 1 && singleKey.endsWith(">")) {
+										CSSCond cond = new CSSCond(directKeys[0].trim());
+										if (p != null) {
+											cond.setParent(p);
+										}
+										p = cond;
+										isNextFirstChild = true;
+										continue;
+									}
+									else {
+										for (int i=0; i<directKeys.length; i++) {
+											CSSCond cond = new CSSCond(directKeys[i].trim());
+											if (i > 0) {
+												cond.setSelectorType(SelectorType.FIRST_CHILD);
+											}
+											if (p != null) {
+												cond.setParent(p);
+											}
+											p = cond;
+										}
 									}
 								} else {
 									CSSCond cond = new CSSCond(singleKey.trim());
@@ -73,6 +97,9 @@ public class CSSParser {
 										cond.setParent(p);
 									}
 									p = cond;
+								}
+								if (isNextFirstChild) {
+									p.setSelectorType(SelectorType.FIRST_CHILD);
 								}
 							}
 							String[] entries = value.split("[;]");
