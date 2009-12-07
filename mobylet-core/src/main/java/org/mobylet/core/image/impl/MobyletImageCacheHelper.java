@@ -122,9 +122,13 @@ public class MobyletImageCacheHelper implements ImageCacheHelper {
 			} else {
 				if (imgPath.startsWith(File.separator)) {
 					cacheFilePath = imgPath.substring(File.separator.length());
+				} else {
+					cacheFilePath = imgPath;
 				}
 				cacheFilePath =
-					cacheFilePath.replace(CONJUNCTION, ESCAPE);
+					cacheFilePath.replace(CONJUNCTION, ESCAPE)
+								 .replace("/", File.separator)
+								 .replace(":", "_");
 			}
 			//最大文字数調整
 			if (cacheFilePath.length() > 255) {
