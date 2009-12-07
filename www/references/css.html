@@ -58,7 +58,6 @@ mobyletでは外出しCSSファイルをインラインに展開する、強力�
 					<h3 id="fitwidth">CSS Expand機能利用設定</h3>
 					<div class="cstInner">
 						<h4>CSS Expand機能（外出しCSS展開機能）の設定方法</h4>
-
 						<p class="marT20 lh18p">
 						この機能は外出しCSSファイルをドコモ端末に対してのみ、インライン化する機能です。<br />
 						au、SoftBank端末に対しては外出しファイルのまま、linkタグとして出力します。<br />
@@ -92,6 +91,36 @@ mobyletでは外出しCSSファイルをインラインに展開する、強力�
 								<pre class="code">&lt;m:css src="/mobylet/top.css" /&gt;</pre>
 							</div>
 						</div>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="fitwidth">ローカルパスでのアクセス</h3>
+					<div class="cstInner">
+						<h4>Seasar2のHotDeploy利用時はローカルパスを指定する必要があります</h4>
+						<p class="marT20 lh18p">
+						Seasar2のHotDeploy時は同じインスタンス上の外出しCSSファイルをURL指定で読み込むことが出来ないため、<br />
+						ローカルパスに変換する必要があります。<br />
+						この場合は、mobylet.xmlを配置した場所と同一階層に<br />
+						<span class="bld">org.mobylet.view.config.CSSConfig.properties</span>というファイルを生成し、<br />
+						その中に以下のプロパティを記述します。
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+#CSSのパスを&lt;m:css src="/css/top.css" /&gt;と指定して
+#実体が「/var/tomcat/webapps/mobylet/webapp/css/top.css」にある場合
+css.local.base.path=/var/tomcat/webapps/mobylet/webapp
+</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						この設定はSeasar2及びHotDeploy以外の場合でもご利用頂けます。
+						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
