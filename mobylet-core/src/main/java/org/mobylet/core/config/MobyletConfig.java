@@ -38,7 +38,7 @@ public class MobyletConfig {
 
 	protected Class<? extends Mobylet> mobyletClass;
 
-	protected Boolean useCSSInjection;
+	protected Boolean useCSSExpand;
 
 
 
@@ -165,15 +165,15 @@ public class MobyletConfig {
 		}
 	}
 
-	public boolean useCSSInjection() {
-		if (useCSSInjection == null) {
-			useCSSInjection = false;
+	public boolean useCSSExpand() {
+		if (useCSSExpand == null) {
+			useCSSExpand = false;
 		}
-		return useCSSInjection;
+		return useCSSExpand;
 	}
 
-	public void setUseCSSInjection(boolean use) {
-		this.useCSSInjection = use;
+	public void setUseCSSExpand(boolean use) {
+		this.useCSSExpand = use;
 	}
 
 }

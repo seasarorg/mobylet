@@ -90,7 +90,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 						m.getContentType() == ContentType.XHTML) {
 					MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 					if (m.getCarrier() == Carrier.DOCOMO &&
-							config.useCSSInjection()) {
+							config.useCSSExpand()) {
 						printWriter = new CSSInjectionPrintWriter(printWriter);
 					}
 					setContentType(dialect.getXContentTypeString());

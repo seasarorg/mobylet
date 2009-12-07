@@ -8,7 +8,7 @@ import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.XmlUtils;
 import org.mobylet.view.css.CSSCondContainer;
-import org.mobylet.view.css.CSSInjectionHandler;
+import org.mobylet.view.css.CSSExpandHandler;
 import org.xml.sax.InputSource;
 
 public class CSSInjectionPrintWriter extends PrintWriter {
@@ -58,7 +58,7 @@ public class CSSInjectionPrintWriter extends PrintWriter {
 			container =
 				RequestUtils.getMobyletContext().get(CSSCondContainer.class);
 		}
-		CSSInjectionHandler handler = new CSSInjectionHandler(container);
+		CSSExpandHandler handler = new CSSExpandHandler(container);
 		XmlUtils.parseSax(inputSource, handler);
 		super.write(handler.toString());
 		super.flush();

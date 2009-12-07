@@ -215,9 +215,9 @@ public class MobyletConfigXmlReader
 			}
 		}
 		//CSSInjection
-		else if (name.equals(TAG_CSS_INJECTION)) {
-			boolean useCSSInjection = new Boolean(value);
-			config.setUseCSSInjection(useCSSInjection);
+		else if (name.equals(TAG_CSS_EXPAND)) {
+			boolean useCSSExpand = new Boolean(value);
+			config.setUseCSSExpand(useCSSExpand);
 		}
 		value = null;
 	}
@@ -233,7 +233,7 @@ public class MobyletConfigXmlReader
 				tag.equals(TAG_CONTENT_TYPE) ||
 				tag.equals(TAG_JSESSION) ||
 				tag.equals(TAG_MOBYLET_CLASS) ||
-				tag.equals(TAG_CSS_INJECTION) ||
+				tag.equals(TAG_CSS_EXPAND) ||
 				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {
