@@ -10,4 +10,7 @@
 		<basedir>emoji/</basedir>
 		<imagePath></imagePath>
 	</emoji>
+	<!--
+	<cssExpand>true</cssExpand>
+	-->
 </mobylet>
