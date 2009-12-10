@@ -4,9 +4,11 @@
 <%@page import="org.mobylet.core.gps.Geo"%>
 <%@page import="org.mobylet.core.gps.GeoConverter"%>
 <%@page import="org.mobylet.core.util.SingletonUtils"%>
+<m:xmlheader/>
 <html>
 <head>
-<title>GPS</title>
+<title>mobylet-example GPS</title>
+<m:css src="test.css"/>
 </head>
 <body>
 <div>GPS</div>

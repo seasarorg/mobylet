@@ -13,3 +13,11 @@ a:hover {
 div > a:first-child {
 	background-color: #555555;
 }
+
+input {
+	color: #FF0000;
+}
+
+div {
+	background-color: #EEEEFF;
+}

@@ -1,6 +1,8 @@
+<m:xmlheader/>
 <html>
 <head>
-<title>mobylet-example - Hello World!</title>
+<title>mobylet-example Hello, World!</title>
+<m:css src="test.css"/>
 </head>
 <body>
 <div>Hello World!</div>

@@ -1,8 +1,10 @@
 <%@page pageEncoding="UTF-8"%>
 <%@taglib prefix="m" uri="http://taglibs.mobylet.org/" %>
+<m:xmlheader/>
 <html>
 <head>
-<title>Resize</title>
+<title>mobylet-example Resize2</title>
+<m:css src="test.css"/>
 </head>
 <body>
 <div>Resize!</div>
