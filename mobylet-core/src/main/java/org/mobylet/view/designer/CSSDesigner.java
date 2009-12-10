@@ -76,7 +76,7 @@ public class CSSDesigner extends SingletonDesigner {
 						} else if (!url.endsWith("/")) {
 							url = url + "/";
 						}
-						path = UrlUtils.getCurrentUrl() + src;
+						path = url + src;
 					}
 				}
 			}
