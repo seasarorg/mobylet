@@ -8,7 +8,7 @@ import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.TransitionConfig;
 import org.mobylet.view.design.GpsDesign;
-import org.mobylet.view.design.TagAttribute;
+import org.mobylet.view.xhtml.TagAttribute;
 
 public class GpsDesigner extends TransitionDesigner {
 

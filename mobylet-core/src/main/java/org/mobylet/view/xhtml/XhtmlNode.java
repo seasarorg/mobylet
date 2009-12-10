@@ -1,4 +1,4 @@
-package org.mobylet.view.css;
+package org.mobylet.view.xhtml;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

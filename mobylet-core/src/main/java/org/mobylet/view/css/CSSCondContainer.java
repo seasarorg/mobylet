@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.view.xhtml.XhtmlNode;
 
 public class CSSCondContainer {
 

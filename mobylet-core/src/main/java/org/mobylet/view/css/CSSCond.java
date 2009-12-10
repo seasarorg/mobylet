@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.view.xhtml.XhtmlNode;
 
 public class CSSCond {
 

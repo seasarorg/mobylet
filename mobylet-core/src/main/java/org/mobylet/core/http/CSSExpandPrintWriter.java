@@ -1,14 +1,13 @@
 package org.mobylet.core.http;
 
 import java.io.PrintWriter;
-import java.io.StringReader;
 
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
-import org.mobylet.core.util.XmlUtils;
 import org.mobylet.view.css.CSSCondContainer;
 import org.mobylet.view.css.CSSExpandHandler;
-import org.xml.sax.InputSource;
+import org.mobylet.view.xhtml.XhtmlParser;
 
 public class CSSExpandPrintWriter extends PrintWriter {
 
@@ -56,7 +55,6 @@ public class CSSExpandPrintWriter extends PrintWriter {
 		if (index < 0) {
 			index = 0;
 		}
-		InputSource inputSource = new InputSource(new StringReader(buf.substring(index)));
 		CSSCondContainer container = null;
 		if (RequestUtils.get() != null &&
 				RequestUtils.getMobyletContext() != null) {
@@ -64,7 +62,7 @@ public class CSSExpandPrintWriter extends PrintWriter {
 				RequestUtils.getMobyletContext().get(CSSCondContainer.class);
 		}
 		CSSExpandHandler handler = new CSSExpandHandler(container);
-		XmlUtils.parseSax(inputSource, handler);
+		SingletonUtils.get(XhtmlParser.class).parse(buf.toString().toCharArray(), handler);
 		if (index > 0) {
 			writer.write(buf.substring(0, index));
 		}

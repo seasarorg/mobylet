@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.mobylet.core.util.StringUtils;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.mobylet.view.xhtml.TagAttributes;
+import org.mobylet.view.xhtml.XhtmlHandler;
+import org.mobylet.view.xhtml.XhtmlNode;
 
-public class CSSExpandHandler extends DefaultHandler {
+public class CSSExpandHandler implements XhtmlHandler {
 
 	public static final String LT = "<";
 
@@ -34,21 +34,20 @@ public class CSSExpandHandler extends DefaultHandler {
 	}
 
 	@Override
-	public void startDocument() throws SAXException {
+	public void startDocument() {
 		buf = new StringBuilder();
 		tagStack = new Stack<String>();
 		indexMap = new HashMap<String, Integer>();
 	}
 
 	@Override
-	public void endDocument() throws SAXException {
+	public void endDocument() {
 		tagStack = null;
 		indexMap = null;
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String name,
-			Attributes attributes) throws SAXException {
+	public void startElement(String name, TagAttributes attributes, boolean existsBody) {
 		Integer index = getIndex();
 		tagStack.push(name);
 		//Set-Node
@@ -70,8 +69,8 @@ public class CSSExpandHandler extends DefaultHandler {
 				styleString = attributes.getValue("style") + styleString;
 			}
 			boolean existsStyle = false;
-			for (int i=0; i<attributes.getLength(); i++) {
-				String attName = attributes.getQName(i);
+			for (int i=0; i<attributes.size(); i++) {
+				String attName = attributes.getName(i);
 				if ("style".equals(attName)) {
 					tagBuf.append(" " + attName + "=\""+ styleString.replace("\"", "\\\"") + "\"");
 					existsStyle = true;
@@ -83,17 +82,20 @@ public class CSSExpandHandler extends DefaultHandler {
 				tagBuf.append(" style=\""+ styleString.replace("\"", "\\\"") + "\"");
 			}
 		} else {
-			for (int i=0; i<attributes.getLength(); i++) {
-				String attName = attributes.getQName(i);
+			for (int i=0; i<attributes.size(); i++) {
+				String attName = attributes.getName(i);
 				tagBuf.append(" " + attName + "=\""+ attributes.getValue(attName).replace("\"", "\\\"") + "\"");
 			}
 		}
-		buf.append(LT + tagBuf.toString() + GT);
+		if (existsBody) {
+			buf.append(LT + tagBuf.toString() + GT);
+		} else {
+			buf.append(LT + tagBuf.toString() + " " + SL + GT);
+		}
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String name)
-			throws SAXException {
+	public void endElement(String name) {
 		tagStack.pop();
 		if (node != null) {
 			node = node.getParent();
@@ -102,8 +104,7 @@ public class CSSExpandHandler extends DefaultHandler {
 	}
 
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) {
 		buf.append(ch, start, length);
 	}
 

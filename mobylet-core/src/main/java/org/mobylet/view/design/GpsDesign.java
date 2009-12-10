@@ -1,5 +1,7 @@
 package org.mobylet.view.design;
 
+import org.mobylet.view.xhtml.TagAttribute;
+
 public class GpsDesign {
 
 	protected String url;
