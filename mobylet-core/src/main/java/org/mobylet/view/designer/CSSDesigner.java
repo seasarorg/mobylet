@@ -59,8 +59,8 @@ public class CSSDesigner extends SingletonDesigner {
 							+ (src.startsWith("/") ? "" : "/")
 							+ src;
 				} else {
+					String url = UrlUtils.getCurrentUrl();
 					if (src.startsWith("/")) {
-						String url = UrlUtils.getCurrentUrl();
 						int protocolIndex = url.indexOf("://");
 						if (protocolIndex >= 0) {
 							int index = url.indexOf("/", protocolIndex+3);
@@ -70,6 +70,12 @@ public class CSSDesigner extends SingletonDesigner {
 						}
 						path = url + src;
 					} else {
+						int last = url.lastIndexOf('/');
+						if (last > 0) {
+							url = url.substring(0, last+1);
+						} else if (!url.endsWith("/")) {
+							url = url + "/";
+						}
 						path = UrlUtils.getCurrentUrl() + src;
 					}
 				}
