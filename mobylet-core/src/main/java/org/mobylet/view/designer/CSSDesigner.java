@@ -23,9 +23,9 @@ public class CSSDesigner extends SingletonDesigner {
 
 	public static final String SUFFIX_LINK_TAG = "\" />";
 
-	public static final String PREFIX_STYLE_TAG = "<style type=\"text/css\"><![CDATA[";
+	public static final String PREFIX_STYLE_TAG = "<style type=\"text/css\">";
 
-	public static final String SUEFIX_STYLE_TAG = "]]></style>";
+	public static final String SUEFIX_STYLE_TAG = "</style>";
 
 
 	public static final XhtmlNode NODE_A_LINK = new XhtmlNode("a:link", null, null, 2);
