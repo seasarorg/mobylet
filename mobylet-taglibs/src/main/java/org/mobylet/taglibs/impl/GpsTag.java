@@ -5,9 +5,9 @@ import javax.servlet.jsp.JspException;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.utils.JspWriterUtils;
 import org.mobylet.view.design.GpsDesign;
-import org.mobylet.view.design.TagAttribute;
 import org.mobylet.view.designer.GpsDesigner;
 import org.mobylet.view.designer.SingletonDesigner;
+import org.mobylet.view.xhtml.TagAttribute;
 
 public class GpsTag extends ATag {
 
