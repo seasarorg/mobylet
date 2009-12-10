@@ -1,4 +1,4 @@
-package org.mobylet.view.design;
+package org.mobylet.view.xhtml;
 
 public class TagAttribute {
 

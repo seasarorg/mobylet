@@ -14,7 +14,7 @@ import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.CSSConfig;
 import org.mobylet.view.css.CSSCondContainer;
 import org.mobylet.view.css.CSSParser;
-import org.mobylet.view.css.XhtmlNode;
+import org.mobylet.view.xhtml.XhtmlNode;
 
 
 public class CSSDesigner extends SingletonDesigner {

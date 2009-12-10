@@ -2,10 +2,9 @@ package org.mobylet.view.css;
 
 import java.io.ByteArrayInputStream;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import junit.framework.TestCase;
+
+import org.mobylet.view.xhtml.XhtmlParser;
 
 
 public class CSSExpandHandlerTest extends TestCase {
@@ -13,27 +12,19 @@ public class CSSExpandHandlerTest extends TestCase {
 	public void test_simple01() {
 		String xml = "<test>AAA<a>BBB</a>CCC</test>";
 		CSSExpandHandler handler = new CSSExpandHandler(null);
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
 		assertTrue(xml.equals(handler.toString()));
 	}
 
 	public void test_simple02() {
-		String xml = "<test>AAA<a id=\"ID\">BBB</a>CCC</test>";
+		String xml = "<test>AAA<!--ABC--><a <!--ADB -->id=\"ID\" href=\"http://hoge.com/?a=1&b=c\">BBB</a>CCC</test>";
+		String xmlPass = "<test>AAA<a id=\"ID\" href=\"http://hoge.com/?a=1&b=c\">BBB</a>CCC</test>";
 		CSSExpandHandler handler = new CSSExpandHandler(null);
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		assertTrue(xml.equals(handler.toString()));
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
+		System.out.println(handler.toString());
+		assertTrue(xmlPass.equals(handler.toString()));
 	}
 
 	public void test_simple03() {
@@ -42,13 +33,8 @@ public class CSSExpandHandlerTest extends TestCase {
 		CSSParser cssParser = new CSSParser();
 		CSSExpandHandler handler = new CSSExpandHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
 		assertTrue("<test>AAA<a id=\"ID\" style=\"color:#FFFFFF;background-color:#008800;\">BBB</a>CCC</test>".equals(handler.toString()));
 	}
 
@@ -58,13 +44,8 @@ public class CSSExpandHandlerTest extends TestCase {
 		CSSParser cssParser = new CSSParser();
 		CSSExpandHandler handler = new CSSExpandHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
 		assertTrue("<test>AAA<a id=\"ID\" style=\"color:#FFFFFF;background-color:#008800;\">BBB</a>CCC</test>".equals(handler.toString()));
 	}
 
@@ -74,13 +55,8 @@ public class CSSExpandHandlerTest extends TestCase {
 		CSSParser cssParser = new CSSParser();
 		CSSExpandHandler handler = new CSSExpandHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
 		assertTrue("<test>AAA<a id=\"ID\" style=\"color:#FFFFFF;background-color:#008800;\">BBB</a>CCC<a id=\"ID2\" style=\"color:#FFFFFF;background-color:#008800;\">BBB</a>DDD</test>".equals(handler.toString()));
 	}
 
@@ -90,13 +66,8 @@ public class CSSExpandHandlerTest extends TestCase {
 		CSSParser cssParser = new CSSParser();
 		CSSExpandHandler handler = new CSSExpandHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
 		assertTrue("<test style=\"color:#FF0000;\">AAA<a id=\"ID\" style=\"color:#FFFFFF;background-color:#008800;\">BBB</a>CCC<div><a id=\"ID2\">BBB</a></div>DDD</test>".equals(handler.toString()));
 	}
 
@@ -106,13 +77,8 @@ public class CSSExpandHandlerTest extends TestCase {
 		CSSParser cssParser = new CSSParser();
 		CSSExpandHandler handler = new CSSExpandHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
 		assertTrue("<test>AAA<div><a style=\"color:#FFFFFF;background-color:#008800;\">BBB</a></div>DD<a style=\"color:#FFFFFF;background-color:#008800;\">EE</a></test>".equals(handler.toString()));
 	}
 
@@ -122,12 +88,7 @@ public class CSSExpandHandlerTest extends TestCase {
 		CSSParser cssParser = new CSSParser();
 		CSSExpandHandler handler = new CSSExpandHandler(
 				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
-		try {
-			SAXParserFactory spfactory = SAXParserFactory.newInstance();
-			SAXParser parser = spfactory.newSAXParser();
-			parser.parse(new ByteArrayInputStream(xml.getBytes()), handler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
 	}
 }

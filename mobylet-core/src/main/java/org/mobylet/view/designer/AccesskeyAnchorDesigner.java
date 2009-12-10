@@ -5,7 +5,7 @@ import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.view.config.TransitionConfig;
 import org.mobylet.view.design.AccesskeyAnchorDesign;
-import org.mobylet.view.design.TagAttribute;
+import org.mobylet.view.xhtml.TagAttribute;
 
 public class AccesskeyAnchorDesigner extends TransitionDesigner {
 
