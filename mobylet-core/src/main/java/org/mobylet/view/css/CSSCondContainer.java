@@ -95,7 +95,11 @@ public class CSSCondContainer {
 	}
 
 	protected void addCondSet(Set<CSSCond> condSet, XhtmlNode node) {
-		Set<CSSCond> set = tagMap.get(node.getTag());
+		Set<CSSCond> set = tagMap.get("*");
+		if (set != null) {
+			condSet.addAll(set);
+		}
+		set = tagMap.get(node.getTag());
 		if (set != null) {
 			condSet.addAll(set);
 		}
