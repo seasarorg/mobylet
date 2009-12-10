@@ -1,6 +1,8 @@
+<m:xmlheader/>
 <html>
 <head>
-<title>Resize</title>
+<title>mobylet-example Resize</title>
+<m:css src="test.css"/>
 </head>
 <body>
 <div>Resize!</div>

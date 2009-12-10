@@ -3,9 +3,11 @@
 <%@page import="org.mobylet.core.device.Device"%>
 <%@page import="org.mobylet.core.device.DeviceProfile"%>
 <%@page import="org.mobylet.core.device.DeviceDisplay"%>
+<m:xmlheader/>
 <html>
 <head>
-<title>mobylet-example</title>
+<title>mobylet-example Profile</title>
+<m:css src="test.css"/>
 </head>
 <body>
 <div>端末情報</div>
@@ -23,3 +25,4 @@ GPS：<%= device.hasGps() ? "対応" : "非対応" %><br/>
 </div>
 </body>
 </html>
+
