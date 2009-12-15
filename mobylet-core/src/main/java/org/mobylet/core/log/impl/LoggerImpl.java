@@ -7,7 +7,7 @@ import org.mobylet.core.log.MobyletLogger;
 
 public class LoggerImpl implements MobyletLogger {
 
-	protected Level logLevel = Level.FINE;
+	protected Level logLevel = Level.INFO;
 
 	protected Logger logger =
 		Logger.getLogger(MobyletLogger.class.getCanonicalName());

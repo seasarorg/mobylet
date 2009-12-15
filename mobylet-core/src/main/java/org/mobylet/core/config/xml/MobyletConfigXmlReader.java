@@ -59,6 +59,9 @@ public class MobyletConfigXmlReader
 	@Override
 	public void endDocument() throws SAXException {
 		SingletonUtils.put(config);
+		MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+		if (logger != null && logger.isLoggable())
+			logger.log("[mobylet] mobylet.xmlファイルが読み込まれました");
 	}
 
 	@Override

@@ -24,6 +24,9 @@ public abstract class MobyletInjectionConfig {
 				inputStream =
 					ResourceUtils.getResourceFileOrInputStream(path);
 				injectionConfig.load(inputStream);
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (logger != null && logger.isLoggable())
+					logger.log("[mobylet] InjectionConfig [" + path + "] が読み込まれました");
 			} catch (Exception e) {
 				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 				if (logger != null && logger.isLoggable())

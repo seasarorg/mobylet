@@ -72,6 +72,9 @@ public class MobyletCharsetSelector implements CharsetSelector {
 					MobyletCharsetPool.getInstance().charsetForName(DefCharset.AU));
 			charsetMap.put(Carrier.SOFTBANK,
 					Charset.forName(DefCharset.UTF8));
+			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] mobylet-charsetがインストールされました");
 			isCharsetInstalled = true;
 		} catch (Throwable t) {
 			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
