@@ -7,19 +7,21 @@ import org.mobylet.core.log.MobyletLogger;
 
 public class LoggerImpl implements MobyletLogger {
 
-	protected Level logLevel = Level.INFO;
-
 	protected Logger logger =
 		Logger.getLogger(MobyletLogger.class.getCanonicalName());
 
 	@Override
 	public boolean isLoggable() {
-		return logger.isLoggable(logLevel);
+		return logger.isLoggable(getLevel());
 	}
 
 	@Override
 	public void log(String msg) {
-		logger.log(logLevel, msg);
+		logger.log(getLevel(), msg);
+	}
+
+	protected Level getLevel() {
+		return Level.INFO;
 	}
 
 }
