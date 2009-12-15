@@ -11,6 +11,7 @@ import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.config.enums.JSession;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.ConfigUtils;
 import org.mobylet.core.util.SingletonUtils;
@@ -174,7 +175,9 @@ public class MobyletConfigXmlReader
 			try {
 				proxyPort = Integer.parseInt(tmpProxyPort);
 			} catch (Exception e) {
-				//NOP
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (logger != null && logger.isLoggable())
+					logger.log("[mobylet] MobyletConfig : proxyのport番号が異常値のため[80]を使用します = " + tmpProxyPort);
 			}
 			SocketAddress proxyAddress =
 				new InetSocketAddress(tmpProxyHost, proxyPort);

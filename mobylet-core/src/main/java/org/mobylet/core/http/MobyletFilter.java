@@ -35,6 +35,8 @@ import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.initializer.MobyletInitializer;
+import org.mobylet.core.log.MobyletLogger;
+import org.mobylet.core.log.impl.LoggerImpl;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.type.DispatchType;
 import org.mobylet.core.util.RequestUtils;
@@ -119,6 +121,7 @@ public class MobyletFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		initSingletonContainer(filterConfig);
+		initLogger(filterConfig);
 		initDefaultCharset(filterConfig);
 		initInitializer(filterConfig);
 	}
@@ -131,6 +134,47 @@ public class MobyletFilter implements Filter {
 		if (filterConfig != null) {
 			SingletonUtils.put(filterConfig);
 			SingletonUtils.put(filterConfig.getServletContext());
+		}
+	}
+
+	protected void initLogger(FilterConfig filterConfig) {
+		String loggerClassName = "";
+		if (filterConfig != null) {
+			loggerClassName = filterConfig.getInitParameter("mobylet.logger.class");
+			if (loggerClassName == null) {
+				loggerClassName = "";
+			}
+		}
+		MobyletLogger logger = null;
+		if (StringUtils.isEmpty(loggerClassName)) {
+			logger = new LoggerImpl();
+		} else {
+			try {
+				Class<?> clazz = Class.forName(loggerClassName);
+				Class<? extends MobyletLogger> loggerClass = clazz.asSubclass(MobyletLogger.class);
+				logger = loggerClass.newInstance();
+			} catch (ClassNotFoundException e) {
+				logger = new LoggerImpl();
+				if (logger.isLoggable())
+					logger.log("[mobylet] 指定されたLoggerクラスが見つかりませんでした = " + loggerClassName);
+			} catch (ClassCastException e) {
+				logger = new LoggerImpl();
+				if (logger.isLoggable())
+					logger.log("[mobylet] 指定されたLoggerクラスがMobyletLoggerの実装ではありません = " + loggerClassName);
+			} catch (InstantiationException e) {
+				logger = new LoggerImpl();
+				if (logger.isLoggable())
+					logger.log("[mobylet] 指定されたLoggerクラスのインスタンスを生成できませんでした  = " + loggerClassName);
+			} catch (IllegalAccessException e) {
+				logger = new LoggerImpl();
+				if (logger.isLoggable())
+					logger.log("[mobylet] 指定されたLoggerクラスにアクセスできませんでした  = " + loggerClassName);
+			}
+		}
+		if (logger != null) {
+			SingletonUtils.put(logger);
+		} else {
+			SingletonUtils.put(new LoggerImpl());
 		}
 	}
 

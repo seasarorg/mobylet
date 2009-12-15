@@ -3,12 +3,11 @@ package org.mobylet.core.selector.impl;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.mobylet.charset.MobyletCharsetPool;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.define.DefCharset;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.selector.CharsetSelector;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -75,16 +74,18 @@ public class MobyletCharsetSelector implements CharsetSelector {
 					Charset.forName(DefCharset.UTF8));
 			isCharsetInstalled = true;
 		} catch (Throwable t) {
-			Logger logger = Logger.getLogger(this.getClass().getName());
-			logger.log(Level.WARNING, "CHARSET IS NOT INSTALLED", t);
+			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] mobylet-charsetが見つかりません");
 			isCharsetInstalled = false;
 		}
 		//NativeInstallCheck
 		try {
 			Charset.forName(DefCharset.DOCOMO);
 			Charset.forName(DefCharset.AU);
-			Logger logger = Logger.getLogger(this.getClass().getName());
-			logger.log(Level.INFO, "CHARSET IS NATIVE INSTALLED");
+			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] mobylet-charsetはEXTDIRにインストールされています");
 			isCharsetNativeInstalled = true;
 		} catch (Throwable t) {
 			isCharsetNativeInstalled = false;

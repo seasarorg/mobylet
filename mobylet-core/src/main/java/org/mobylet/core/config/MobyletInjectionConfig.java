@@ -1,7 +1,10 @@
 package org.mobylet.core.config;
 
+import java.io.InputStream;
 import java.util.Properties;
 
+import org.mobylet.core.log.MobyletLogger;
+import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -15,12 +18,18 @@ public abstract class MobyletInjectionConfig {
 		} else {
 			injectionConfig = new MobyletProperties();
 			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-			String path = getConfigName();
+			String path = config.getConfigDir() + getConfigName();
+			InputStream inputStream = null;
 			try {
-				injectionConfig.load(ResourceUtils.getResourceFileOrInputStream(
-						config.getConfigDir() + path));
+				inputStream =
+					ResourceUtils.getResourceFileOrInputStream(path);
+				injectionConfig.load(inputStream);
 			} catch (Exception e) {
-				//NOP
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (logger != null && logger.isLoggable())
+					logger.log("[mobylet] InjectionConfig [" + path + "] は参照しませんでした");
+			} finally {
+				InputStreamUtils.closeQuietly(inputStream);
 			}
 			return getConfig();
 		}
