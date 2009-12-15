@@ -8,6 +8,7 @@ import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.analytics.AnalyticsExecutor;
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.util.SingletonUtils;
 
 public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
@@ -41,7 +42,9 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 				process.run();
 			}
 		} catch (Throwable t) {
-			//NOP
+			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] GoogleAnalyticsExecutor#executeで例外が発生したためスレッドを終了します = " + t.getMessage());
 		}
 	}
 
@@ -62,6 +65,9 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 			}
 			return false;
 		} catch (Exception e) {
+			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] 除外UserAgent検証処理で例外発生 = " + e.getMessage());
 			throw new MobyletRuntimeException(
 					"除外UserAgent検証処理にて例外発生", e);
 		}

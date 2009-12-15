@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 
 import org.mobylet.core.analytics.AnalyticsHelper;
 import org.mobylet.core.analytics.AnalyticsParameters;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
@@ -36,7 +37,9 @@ public class GoogleAnalyticsProcess implements Runnable {
 			connection.connect();
 			connection.getInputStream();
 		} catch (IOException e) {
-			e.printStackTrace();
+			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] GoogleAnalyticsへの通信処理に失敗 = " + e.getMessage());
 		}
 	}
 
