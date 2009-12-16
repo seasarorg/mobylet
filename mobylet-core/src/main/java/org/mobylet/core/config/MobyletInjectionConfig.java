@@ -36,7 +36,7 @@ public abstract class MobyletInjectionConfig {
 			} catch (Exception e) {
 				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 				if (logger != null && logger.isLoggable())
-					logger.log("[mobylet] InjectionConfig [" + path + "] 参照時に例外発生 = " + e.getCause());
+					logger.log("[mobylet] InjectionConfig [" + path + "] 参照時に例外発生 = " + e);
 			} finally {
 				InputStreamUtils.closeQuietly(inputStream);
 			}
