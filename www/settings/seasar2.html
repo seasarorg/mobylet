@@ -47,10 +47,14 @@
 						mobyletでは、Seasar2と連携するための拡張ライブラリを用意しています。<br />
 						Seasar2と連携するには、<a href="./">mobyletの設定</a>の後に2ステップを追加します。
 						</p>
-						<ol class="lspIn lh18p padT10 padB20">
+						<ol class="lspIn lh18p padT10 padB10">
 							<li>ライブラリをWebアプリケーションのビルドパスに含める</li>
 							<li>mobylet.diconをincludeする</li>
 						</ol>
+						<p class="padT10 lh18p padB20">
+						また、SAStruts Archetypeを利用して、<br />
+						1コマンドでmobylet/SAStrutsブランクプロジェクトを作成することも可能です。
+						</p>
 					</div>
 				</div>
 				<!-- end descWrap -->
@@ -112,6 +116,43 @@
 					</div>
 					<!-- end cstInner -->
 
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div id="sastruts_archetype" class="cstWrap marT22">
+					<h3>archetypeからmobylet/SAStrutsプロジェクトを作成する</h3>
+					<div class="cstInner">
+						<h4>mavenのarchetypeを利用する</h4>
+						<p class="marT20 lh18p">SAStrutsを使ったmobyletプロジェクトを作成する場合、<br />
+						mavenのarchetypeを利用することで、非常に簡単にブランクプロジェクトを作成することが可能です。<br />
+						maven2をインストールして、インターネットに接続している環境があれば、<br />
+						以下のコマンドをコマンドプロンプト（ターミナル）から実行してください。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">mvn archetype:generate -DarchetypeRepository=https://www.seasar.org/maven/maven2/ -DarchetypeGroupId=org.seasar.sastruts -DarchetypeArtifactId=sa-struts-archetype -DarchetypeVersion=1.0.4-sp7.1 -DgroupId=sample.app -DartifactId=sample -Dversion=0.1.0 -Duse-mobylet=true</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<h4>合わせてDBFluteを使いたい等の場合</h4>
+						<p class="marT20 lh18p">以下のパラメータをコマンドに追加することでdependencyに追加されます。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">-Duse-dbflute=true</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<h4>SAStrutsのarchetypeの詳細</h4>
+						<p class="marT20 lh18p">以下にSAStrutsのarchetypドキュメントがあるので参考にしてください。<br />
+						<a href="http://sastruts.seasar.org/mavenArchetype.html" target="_blank">http://sastruts.seasar.org/mavenArchetype.html</a>
+						</p>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
 
