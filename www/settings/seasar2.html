@@ -127,12 +127,16 @@
 						<p class="marT20 lh18p">SAStrutsを使ったmobyletプロジェクトを作成する場合、<br />
 						mavenのarchetypeを利用することで、非常に簡単にブランクプロジェクトを作成することが可能です。<br />
 						maven2をインストールして、インターネットに接続している環境があれば、<br />
-						以下のコマンドをコマンドプロンプト（ターミナル）から実行してください。
+						以下のコマンドをコマンドプロンプト（ターミナル）から実行してください。<br />
+						（実際には改行しないで実行してください）
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT10">
 							<div class="codeInner">
-								<pre class="code">mvn archetype:generate -DarchetypeRepository=https://www.seasar.org/maven/maven2/ -DarchetypeGroupId=org.seasar.sastruts -DarchetypeArtifactId=sa-struts-archetype -DarchetypeVersion=1.0.4-sp7.1 -DgroupId=sample.app -DartifactId=sample -Dversion=0.1.0 -Duse-mobylet=true</pre>
+								<pre class="code">mvn archetype:generate -DarchetypeRepository=https://www.seasar.org/maven/maven2/ 
+-DarchetypeGroupId=org.seasar.sastruts -DarchetypeArtifactId=sa-struts-archetype 
+-DarchetypeVersion=1.0.4-sp7.1 -DgroupId=sample.app -DartifactId=sample 
+-Dversion=0.1.0 -Duse-mobylet=true</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
