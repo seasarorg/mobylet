@@ -16,25 +16,25 @@ public abstract class MobyletInjectionConfig {
 		if (injectionConfig != null) {
 			return injectionConfig;
 		} else {
+			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 			injectionConfig = new MobyletProperties();
 			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 			String path = config.getConfigDir() + getConfigName();
 			InputStream inputStream = null;
 			try {
+				if (logger != null && logger.isLoggable())
+					logger.log("[mobylet] InjectionConfig [" + path + "] の読み込み処理開始");
 				inputStream =
 					ResourceUtils.getResourceFileOrInputStream(path);
 				if (inputStream != null) {
 					injectionConfig.load(inputStream);
-					MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 					if (logger != null && logger.isLoggable())
 						logger.log("[mobylet] InjectionConfig [" + path + "] が読み込まれました");
 				} else {
-					MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 					if (logger != null && logger.isLoggable())
-						logger.log("[mobylet] InjectionConfig [" + path + "] は参照しませんでした");
+						logger.log("[mobylet] InjectionConfig [" + path + "] は見つかりませんでした");
 				}
 			} catch (Exception e) {
-				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 				if (logger != null && logger.isLoggable()) {
 					logger.log("[mobylet] InjectionConfig [" + path + "] 参照時に例外発生 = " + e);
 					e.printStackTrace();
