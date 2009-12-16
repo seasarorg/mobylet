@@ -121,6 +121,15 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			]]>
+			</description>
+			<name>isAdditionalContext</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<dynamic-attributes>
 			true
 		</dynamic-attributes>
@@ -208,6 +217,15 @@
 			]]>
 			</description>
 			<name>isUidOrGuidQueryRequiredInSecure</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			]]>
+			</description>
+			<name>isAdditionalContext</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

@@ -19,6 +19,9 @@ public class TransitionConfig extends MobyletInjectionConfig {
 	public static final String KEY_ISUIDORGUIDQUERYREQUIREDINSECURE =
 		"transition.isUidOrGuidQueryRequiredInSecure";
 
+	public static final String KEY_ISADDITIONALCONTEXT =
+		"transition.isAdditionalContext";
+
 
 	protected boolean isUidQueryRequired = false;
 
@@ -27,6 +30,8 @@ public class TransitionConfig extends MobyletInjectionConfig {
 	protected boolean isSessionCookiePriority = true;
 
 	protected boolean isUidOrGuidQueryRequiredInSecure = true;
+
+	protected boolean isAdditionalContext = false;
 
 
 	public TransitionConfig() {
@@ -55,6 +60,12 @@ public class TransitionConfig extends MobyletInjectionConfig {
 				"TRUE".equalsIgnoreCase(config.getProperty(
 						KEY_ISUIDORGUIDQUERYREQUIREDINSECURE));
 		}
+		if (StringUtils.isNotEmpty(
+				config.getProperty(KEY_ISADDITIONALCONTEXT))) {
+			isAdditionalContext =
+				"TRUE".equalsIgnoreCase(config.getProperty(
+						KEY_ISADDITIONALCONTEXT));
+		}
 	}
 
 
@@ -74,24 +85,30 @@ public class TransitionConfig extends MobyletInjectionConfig {
 		return isUidOrGuidQueryRequiredInSecure;
 	}
 
+	public boolean isAdditionalContext() {
+		return isAdditionalContext;
+	}
 
+	
 	public void setUidQueryRequired(boolean isUidQueryRequired) {
 		this.isUidQueryRequired = isUidQueryRequired;
 	}
-
 
 	public void setGuidQueryRequired(boolean isGuidQueryRequired) {
 		this.isGuidQueryRequired = isGuidQueryRequired;
 	}
 
-
 	public void setSessionCookiePriority(boolean isSessionCookiePriority) {
 		this.isSessionCookiePriority = isSessionCookiePriority;
 	}
-
 
 	public void setUidOrGuidQueryRequiredInSecure(
 			boolean isUidOrGuidQueryRequiredInSecure) {
 		this.isUidOrGuidQueryRequiredInSecure = isUidOrGuidQueryRequiredInSecure;
 	}
+
+	public void setAdditionalContext(boolean isAdditionalContext) {
+		this.isAdditionalContext = isAdditionalContext;
+	}
+
 }
