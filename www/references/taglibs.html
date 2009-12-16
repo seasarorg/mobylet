@@ -65,14 +65,15 @@
 						また、&lt;m:a&gt;タグに属性を設定することで、付与するパラメーターを制御することも可能です。
 						</p>
 						<!-- end codeWrap -->
-						<h4>JSESSIONIDを付与しない</h4>
+						<h4>ContextPathを付与する</h4>
 						<p class="marT20 lh18p">
-						「isSessionCookiePriority」属性を「false」にした場合、「jsessionid」は付与されなくなります。
+						「isAdditionalContext」属性を「true」にした場合、<br />
+						href属性が「/」から始まるURLの時は、自動的にコンテキストパスがURLに付与されます。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">&lt;m:a href="/" isSessionCookiePriority="false"&gt;mobylet&lt;/m:a&gt;</pre>
+								<pre class="code">&lt;m:a href="/test/" isAdditionalContext="true"&gt;mobylet&lt;/m:a&gt;</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
