@@ -8,6 +8,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
 import org.mobylet.core.config.enums.ConfigKeyword;
+import org.mobylet.core.log.MobyletLogger;
 
 public class ConfigUtils {
 
@@ -54,7 +55,14 @@ public class ConfigUtils {
 			if (StringUtils.isNotEmpty(parsedVal)) {
 				parsedVal = StringUtils.escape(parsedVal);
 			}
-			matcher.appendReplacement(buf, parsedVal);
+			if (parsedVal == null) {
+				matcher.appendReplacement(buf, "\\" + matchedSeq);
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (logger != null && logger.isLoggable())
+					logger.log("[mobylet] InjectionConfig - 値が見つからない変数  = " + matchedSeq);
+			} else {
+				matcher.appendReplacement(buf, parsedVal);
+			}
 		}
 		matcher.appendTail(buf);
 		return buf.toString();
