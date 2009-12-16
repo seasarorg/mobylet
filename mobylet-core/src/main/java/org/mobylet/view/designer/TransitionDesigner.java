@@ -24,6 +24,10 @@ public abstract class TransitionDesigner extends SingletonDesigner {
 		if (url == null) {
 			url = "";
 		}
+		//ContextPath
+		if (config.isAdditionalContext() && url.startsWith("/")) {
+			url = RequestUtils.get().getContextPath() + url;
+		}
 		//Session
 		String sessionId = getSessionId(config);
 		if (StringUtils.isNotEmpty(sessionId)) {

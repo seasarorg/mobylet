@@ -16,12 +16,15 @@ public abstract class TransitionTag extends MobyletDynamicBodyTagSupport {
 
 	protected Boolean isUidOrGuidQueryRequiredInSecure;
 
+	protected Boolean isAdditionalContext;
+
 
 	public final TransitionConfig getConfig() {
 		if (isUidQueryRequired != null ||
 				isGuidQueryRequired != null ||
 				isSessionCookiePriority != null ||
-				isUidOrGuidQueryRequiredInSecure != null) {
+				isUidOrGuidQueryRequiredInSecure != null ||
+				isAdditionalContext != null) {
 			TransitionConfig config = new TransitionConfig();
 			if (isUidQueryRequired != null) {
 				config.setUidQueryRequired(
@@ -38,6 +41,9 @@ public abstract class TransitionTag extends MobyletDynamicBodyTagSupport {
 			if (isUidOrGuidQueryRequiredInSecure != null) {
 				config.setUidOrGuidQueryRequiredInSecure(
 						isUidOrGuidQueryRequiredInSecure);
+			}
+			if (isAdditionalContext != null) {
+				config.setAdditionalContext(isAdditionalContext);
 			}
 			return config;
 		}
@@ -75,6 +81,14 @@ public abstract class TransitionTag extends MobyletDynamicBodyTagSupport {
 	public void setIsUidOrGuidQueryRequiredInSecure(
 			Boolean isUidOrGuidQueryRequiredInSecure) {
 		this.isUidOrGuidQueryRequiredInSecure = isUidOrGuidQueryRequiredInSecure;
+	}
+
+	public Boolean getIsAdditionalContext() {
+		return isAdditionalContext;
+	}
+
+	public void setIsAdditionalContext(Boolean isAdditionalContext) {
+		this.isAdditionalContext = isAdditionalContext;
 	}
 
 
