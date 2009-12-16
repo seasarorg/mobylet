@@ -23,14 +23,20 @@ public abstract class MobyletInjectionConfig {
 			try {
 				inputStream =
 					ResourceUtils.getResourceFileOrInputStream(path);
-				injectionConfig.load(inputStream);
-				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
-				if (logger != null && logger.isLoggable())
-					logger.log("[mobylet] InjectionConfig [" + path + "] が読み込まれました");
+				if (inputStream != null) {
+					injectionConfig.load(inputStream);
+					MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+					if (logger != null && logger.isLoggable())
+						logger.log("[mobylet] InjectionConfig [" + path + "] が読み込まれました");
+				} else {
+					MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+					if (logger != null && logger.isLoggable())
+						logger.log("[mobylet] InjectionConfig [" + path + "] は参照しませんでした");
+				}
 			} catch (Exception e) {
 				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 				if (logger != null && logger.isLoggable())
-					logger.log("[mobylet] InjectionConfig [" + path + "] は参照しませんでした");
+					logger.log("[mobylet] InjectionConfig [" + path + "] 参照時に例外発生 = " + e.getMessage());
 			} finally {
 				InputStreamUtils.closeQuietly(inputStream);
 			}
