@@ -87,6 +87,30 @@
 							</div>
 						</div>
 						<!-- end codeWrap -->
+						<h4>Config Injectionを利用する</h4>
+						<p class="marT20 lh18p">
+						全ての属性情報を一括でカスタマイズしたい場合はプロパティファイルに外出しすることが出来ます。<br />
+						クラスパス配下に「org.mobylet.view.config.TransitionConfig.properties」ファイルを作成し<br />
+						以下のように設定します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+#uid=NULLGWDOCOMOをURLに自動で付与する設定
+transition.isUidQueryRequired = false
+#guid=ONをURLに自動で付与する設定
+transition.isGuidQueryRequired = true
+#Cookieが利用可能な端末のみJSESSIONIDをCookieのみに付与する設定
+transition.isSessionCookiePriority = false
+#uidやguidをSSLのURLに対してURLのクエリに自動で付与して引き回す設定
+transition.isUidOrGuidQueryRequiredInSecure = true
+#「/」から始まるURLに対してコンテキストパスを自動で付与する設定
+transition.isAdditionalContext = false
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
