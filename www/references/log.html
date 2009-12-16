@@ -36,72 +36,46 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>半角に変換する</h2>
+			<h2>外出しCSSを利用する</h2>
 
 			<!-- start main -->
 			<div id="main">
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="logic">StringUtilsを使う</h3>
+					<h3 id="fitwidth">ログを制御する</h3>
 					<div class="cstInner">
-						<h4>ロジック内部で変換処理を行う</h4>
+						<h4>mobylet内部ログ機構</h4>
 						<p class="marT20 lh18p">
-						一般的に、携帯向けのWebサイトでは、狭いブラウザ幅を有効に活用するために、カタカナや記号は半角で表示します。<br />
-						しかしPCサイトと同じデータを表示する場合など、あらかじめ半角でデータを用意しておくことが困難な場合があります。<br />
-						<br />
-						その場合は、以下のようにMobyletのStringUtilsクラスを使用することで、全角文字を半角文字に変換することが可能です。
+						mobyletの内部ではjava.util.loggingパッケージのLoggerを使ったログ出力を行っています。<br />
+						標準ログレベルは「INFO」となっているため、特にログレベルを制御していない環境では<br />
+						mobyletのログが出力されることになります。<br />
 						</p>
-						<!-- start codeWrap -->
+						<p class="marT10 lh18p">
+						mobyletのログを制御したい場合は、MobyletFilter（又はその派生クラス）のInitParameterに<br />
+						MobyletLoggerインターフェースの実装クラスを渡すことで、実装を差し替えることが可能です。<br />
+						これにより、ログレベルや、ログの実装（log4j、sl4j等）を変更することも可能です。<br />
+						以下、ログレベルを「FINE」にするための変更例になります。（このクラスはmobylet-coreに存在します）
+						</p>
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">String replaced = StringUtils.toHan("Ａｌｐｈａｂｅｔと１とカタカナと／－ー‐゛゜・を変換します。");</pre>
+								<pre class="code">&lt;filter&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;mobylet.logger.class&lt;/param-name&gt;
+        &lt;param-value&gt;org.mobylet.core.log.impl.LoggerFine&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/filter&gt;
+</pre>
 							</div>
 						</div>
-						<!-- end codeWrap -->
-						<p class="marT20 lh18p">
-						replacedには、「Alphabetと1とｶﾀｶﾅと/---ﾞﾟ･を変換します。」のように、対象文字が半角変換された文字列を取得できます。<br />
-						<br />
-						半角変換対象となるのは次の文字種です。
-						</p>
-						<ul class="disc marL20">
-							<li>大文字・小文字のアルファベット</li>
-							<li>数字</li>
-							<li>カタカナ</li>
-							<li>「／」「－」「ー」「‐」「゛」「゜」「・」</li>
-						</ul>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
 
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="rendering">&lt;m:out&gt;タグを使う</h3>
-					<!-- start cstInner -->
-					<div class="cstInner">
-						<h4>レンダリング領域で変換処理を行う</h4>
-						<p class="marT20 lh18p">
-						データベースなどに保存されているデータをそのまま表示させたい場合など、<br />
-						ロジック内部で変換処理を行なうのが煩わしい場合には、Mobyletのカスタムタグを使用して変換することが可能です。<br />
-						<br />
-						まず、カスタムタグを使用するために、<a href="../settings/index.html#taglib">taglibの利用設定</a>を参照して、JSPにpageディレクティブを記述してください。<br />
-						JSPでは、以下のようにカスタムタグを使用します。
-						</p>
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">&lt;m:out value="Ａｌｐｈａｂｅｔと１とカタカナと／－ー‐゛゜・を変換します。"/&gt;</pre>
-							</div>
-						</div>
-						<p class="marT20 lh18p">
-						&lt;m:out&gt;タグは内部的にStringUtilsクラスを使用しているため、出力結果はStringUtilsクラスを使用した場合と同じになります。
-						</p>
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
 			</div>
 			<!-- end main -->
 		</div>
