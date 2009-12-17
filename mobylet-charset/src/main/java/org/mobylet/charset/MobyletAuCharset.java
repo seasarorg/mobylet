@@ -45,7 +45,7 @@ public class MobyletAuCharset extends Charset {
 	}
 
 
-	public class Encoder extends MobyletEncoder {
+	public static class Encoder extends MobyletEncoder {
 
 		protected Encoder(Charset charset) {
 			super(charset);
@@ -77,7 +77,7 @@ public class MobyletAuCharset extends Charset {
 	}
 
 
-	public class Decoder extends MobyletDecoder {
+	public static class Decoder extends MobyletDecoder {
 
 		protected Decoder(Charset charset) {
 			super(charset);
