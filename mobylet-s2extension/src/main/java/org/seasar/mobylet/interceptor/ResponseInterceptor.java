@@ -12,13 +12,11 @@ public class ResponseInterceptor extends AbstractInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		if (invocation != null) {
-			Response annotation =
-				invocation.getMethod().getAnnotation(Response.class);
-			if (annotation != null) {
-				Mobylet m = MobyletFactory.getInstance();
-				m.setContentType(annotation.value());
-			}
+		Response annotation =
+			invocation.getMethod().getAnnotation(Response.class);
+		if (annotation != null) {
+			Mobylet m = MobyletFactory.getInstance();
+			m.setContentType(annotation.value());
 		}
 		return invocation.proceed();
 	}
