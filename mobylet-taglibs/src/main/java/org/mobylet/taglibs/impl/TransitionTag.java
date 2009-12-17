@@ -25,7 +25,7 @@ public abstract class TransitionTag extends MobyletDynamicBodyTagSupport {
 				isSessionCookiePriority != null ||
 				isUidOrGuidQueryRequiredInSecure != null ||
 				isAdditionalContext != null) {
-			TransitionConfig config = new TransitionConfig();
+			TransitionConfig config = new TransitionConfig(TransitionDesigner.config);
 			if (isUidQueryRequired != null) {
 				config.setUidQueryRequired(
 						isUidQueryRequired);
@@ -90,7 +90,5 @@ public abstract class TransitionTag extends MobyletDynamicBodyTagSupport {
 	public void setIsAdditionalContext(Boolean isAdditionalContext) {
 		this.isAdditionalContext = isAdditionalContext;
 	}
-
-
 
 }
