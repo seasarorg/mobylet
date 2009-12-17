@@ -35,7 +35,7 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 			String imgSrc = designer.getSrc(
 					src,
 					StringUtils.isEmpty(magniWidth) ?
-							null : Double.parseDouble(magniWidth),
+							1.0 : Double.parseDouble(magniWidth),
 					ImageUtils.getScaleType(scaleType));
 			addAttribute("src", imgSrc);
 			JspWriterUtils.write(
