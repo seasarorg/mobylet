@@ -68,6 +68,13 @@ public class TransitionConfig extends MobyletInjectionConfig {
 		}
 	}
 
+	public TransitionConfig(TransitionConfig config) {
+		setAdditionalContext(config.isAdditionalContext());
+		setGuidQueryRequired(config.isGuidQueryRequired());
+		setSessionCookiePriority(config.isSessionCookiePriority());
+		setUidOrGuidQueryRequiredInSecure(config.isUidOrGuidQueryRequiredInSecure());
+		setUidQueryRequired(config.isUidQueryRequired());
+	}
 
 	public boolean isUidQueryRequired() {
 		return isUidQueryRequired;
@@ -89,7 +96,7 @@ public class TransitionConfig extends MobyletInjectionConfig {
 		return isAdditionalContext;
 	}
 
-	
+
 	public void setUidQueryRequired(boolean isUidQueryRequired) {
 		this.isUidQueryRequired = isUidQueryRequired;
 	}
