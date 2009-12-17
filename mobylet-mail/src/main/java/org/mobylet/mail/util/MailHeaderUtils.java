@@ -74,12 +74,13 @@ public class MailHeaderUtils implements MailConstants {
 				charsetString = charsetString.substring(2, charsetString.length() - 1);
 				charset = Charset.forName(charsetString);
 				if (charset.contains(Charset.forName(CHARSET_JIS_STANDARD))) {
-					if (carrier == Carrier.AU) {
-						//TODO auの文字コードに変更
-						charset = Charset.forName(CHARSET_ISO_2022_1);
-					} else {
-						charset = Charset.forName(CHARSET_ISO_2022_1);
-					}
+					charset = Charset.forName(CHARSET_ISO_2022_1);
+//					if (carrier == Carrier.AU) {
+//						//TODO auの文字コードに変更
+//						charset = Charset.forName(CHARSET_ISO_2022_1);
+//					} else {
+//						charset = Charset.forName(CHARSET_ISO_2022_1);
+//					}
 				}
 			}
 			//HeaderBody

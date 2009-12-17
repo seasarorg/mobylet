@@ -29,7 +29,7 @@ public class MobyletMessage extends MimeMessage implements MailConstants {
 
 	protected String notifyCharset;
 
-	protected Session session;
+	protected Session mobyletSession;
 
 	protected MessageBody body;
 
