@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ConnectionStream;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.image.ImageSourceType;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.PathUtils;
@@ -68,7 +70,19 @@ public class MobyletImageReader implements ImageReader {
 					if (checkConnection.getContentLength() > config.getNetworkLimitSize()) {
 						return null;
 					}
-				} catch (Exception e) {
+				} catch (ProtocolException e) {
+					MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+					if (logger != null && logger.isLoggable()) {
+						logger.log("[mobylet] Protocol Exceptionが発生 URL = " + path);
+						e.printStackTrace();
+					}
+					return null;
+				} catch (IOException e) {
+					MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+					if (logger != null && logger.isLoggable()) {
+						logger.log("[mobylet] I/O例外が発生 URL = " + path);
+						e.printStackTrace();
+					}
 					return null;
 				} finally {
 					if (checkConnection != null) {

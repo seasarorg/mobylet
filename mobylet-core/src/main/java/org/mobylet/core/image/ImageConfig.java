@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.regex.Pattern;
 
 import org.mobylet.core.config.MobyletInjectionConfig;
+import org.mobylet.core.log.MobyletLogger;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
 
@@ -180,7 +182,21 @@ public class ImageConfig extends MobyletInjectionConfig {
 			imageMagickWorkDir = getConfig().getProperty(CONFIG_KEY_IMAGEMAGICK_WORKDIR);
 			if (StringUtils.isEmpty(imageMagickWorkDir)) {
 				imageMagickWorkDir = "/tmp/mobylet/work/imagemagick/";
-				new File(imageMagickWorkDir).mkdirs();
+				File workDir = new File(imageMagickWorkDir);
+				boolean isSuccess = workDir.mkdirs();
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (isSuccess) {
+					if (logger != null && logger.isLoggable())
+						logger.log("[mobylet] ImageMagick用のworkディレクトリを作成しました = " + imageMagickWorkDir);
+				} else {
+					if (workDir.exists() && workDir.canWrite() && workDir.isDirectory()) {
+						if (logger != null && logger.isLoggable())
+							logger.log("[mobylet] ImageMagick用のworkディレクトリは既に作成済みです = " + imageMagickWorkDir);
+					} else {
+						if (logger != null && logger.isLoggable())
+							logger.log("[mobylet] ImageMagick用のworkディレクトリが作成出来ませんでした = " + imageMagickWorkDir);
+					}
+				}
 			} else if (!imageMagickWorkDir.endsWith(File.separator)) {
 				imageMagickWorkDir = imageMagickWorkDir + File.separator;
 			}

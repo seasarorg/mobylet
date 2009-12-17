@@ -151,7 +151,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 			if (StringUtils.isEmpty(config.getProperty(KEY_USE_JS))) {
 				useJs = false;
 			} else {
-				useJs = new Boolean(config.getProperty(KEY_USE_JS));
+				useJs = Boolean.valueOf(config.getProperty(KEY_USE_JS));
 			}
 		} catch (Exception e) {
 			useJs = false;
@@ -207,7 +207,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 			if (StringUtils.isEmpty(config.getProperty(KEY_CRAWLER_IGNORE))) {
 				isIgnoreCrawler = true;
 			} else {
-				isIgnoreCrawler = new Boolean(config.getProperty(KEY_CRAWLER_IGNORE));
+				isIgnoreCrawler = Boolean.valueOf(config.getProperty(KEY_CRAWLER_IGNORE));
 			}
 		} catch (Exception e) {
 			isIgnoreCrawler = true;
@@ -222,7 +222,7 @@ public class GoogleAnalyticsConfig extends MobyletInjectionConfig {
 			if (StringUtils.isEmpty(config.getProperty(KEY_MOBILE_CRAWLER_IGNORE))) {
 				isIgnoreMobileCrawler = true;
 			} else {
-				isIgnoreMobileCrawler = new Boolean(config.getProperty(KEY_MOBILE_CRAWLER_IGNORE));
+				isIgnoreMobileCrawler = Boolean.valueOf(config.getProperty(KEY_MOBILE_CRAWLER_IGNORE));
 			}
 		} catch (Exception e) {
 			isIgnoreMobileCrawler = true;

@@ -73,10 +73,14 @@ public class GoogleAnalyticsExecutor implements AnalyticsExecutor {
 		}
 	}
 
+	protected boolean isInitialized() {
+		return isInitialized;
+	}
+
 	protected void initialize() {
-		if (!isInitialized) {
+		if (!isInitialized()) {
 			synchronized(this) {
-				if (!isInitialized) {
+				if (!isInitialized()) {
 					config = SingletonUtils.get(GoogleAnalyticsConfig.class);
 					Integer maxThread = config.getMaxThread();
 					if (maxThread > 0) {

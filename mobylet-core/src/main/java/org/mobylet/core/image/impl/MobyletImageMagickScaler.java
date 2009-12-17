@@ -14,6 +14,7 @@ import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.image.ScaleType;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.InputToOutputStreamUtils;
 import org.mobylet.core.util.OutputStreamUtils;
@@ -88,8 +89,18 @@ public class MobyletImageMagickScaler implements ImageScaler {
 			OutputStreamUtils.closeQuietly(workFOS);
 			InputStreamUtils.closeQuietly(workFIS);
 			//Remove File
-			workSrcFile.delete();
-			workDstFile.delete();
+			boolean isSrcSuccess = workSrcFile.delete();
+			if (!isSrcSuccess) {
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (logger != null && logger.isLoggable())
+					logger.log("[mobylet] ImageMagick変換前ワークファイルを削除出来ませんでした = " + workSrcFile.getAbsolutePath());
+			}
+			boolean isDstSuccess = workDstFile.delete();
+			if (!isDstSuccess) {
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (logger != null && logger.isLoggable())
+					logger.log("[mobylet] ImageMagick変換後ワークファイルを削除出来ませんでした = " + workDstFile.getAbsolutePath());
+			}
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.mobylet.core.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -84,8 +85,36 @@ public class ConfigUtils {
 						if (obj != null) {
 							return obj.toString();
 						}
-					} catch (Exception e) {
-						//NOP
+					} catch (SecurityException e) {
+						MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+						if (logger != null && logger.isLoggable()) {
+							logger.log("[mobylet] ContextPath変数値を取得時に例外発生 = " + e);
+							e.printStackTrace();
+						}
+					} catch (NoSuchMethodException e) {
+						MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+						if (logger != null && logger.isLoggable()) {
+							logger.log("[mobylet] ContextPath変数値を取得時に例外発生 = " + e);
+							e.printStackTrace();
+						}
+					} catch (IllegalArgumentException e) {
+						MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+						if (logger != null && logger.isLoggable()) {
+							logger.log("[mobylet] ContextPath変数値を取得時に例外発生 = " + e);
+							e.printStackTrace();
+						}
+					} catch (IllegalAccessException e) {
+						MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+						if (logger != null && logger.isLoggable()) {
+							logger.log("[mobylet] ContextPath変数値を取得時に例外発生 = " + e);
+							e.printStackTrace();
+						}
+					} catch (InvocationTargetException e) {
+						MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+						if (logger != null && logger.isLoggable()) {
+							logger.log("[mobylet] ContextPath変数値を取得時に例外発生 = " + e);
+							e.printStackTrace();
+						}
 					}
 					break;
 				case DOC_BASE:

@@ -225,7 +225,7 @@ public class MobyletConfigXmlReader
 		}
 		//CSSInjection
 		else if (name.equals(TAG_CSS_EXPAND)) {
-			boolean useCSSExpand = new Boolean(value);
+			boolean useCSSExpand = Boolean.valueOf(value);
 			config.setUseCSSExpand(useCSSExpand);
 		}
 		value = null;
