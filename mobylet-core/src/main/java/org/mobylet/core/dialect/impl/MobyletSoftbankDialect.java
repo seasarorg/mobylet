@@ -39,11 +39,6 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 				+ "^SoftBank/[0-9.]+[/ ]{1}[0-9a-zA-Z]+" + "|"
 				+ "^MOT-[0-9a-zA-Z]+");
 
-	protected String contentTypeString = null;
-
-	protected String xContentTypeString = null;
-
-
 	@Override
 	public Carrier getCarrier() {
 		return Carrier.SOFTBANK;

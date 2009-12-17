@@ -20,6 +20,7 @@ import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.image.ImageCacheHelper;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.util.HttpUtils;
 import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.InputStreamUtils;
@@ -169,7 +170,12 @@ public class MobyletClassicImageCacheHelper implements ImageCacheHelper {
 						new GcCacheFileFilter(cacheFile.getAbsolutePath()));
 				if (delFiles != null && delFiles.length > 0) {
 					for (File delFile : delFiles) {
-						delFile.delete();
+						boolean isSuccess = delFile.delete();
+						if (!isSuccess && delFile.exists()) {
+							MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+							if (logger != null && logger.isLoggable())
+								logger.log("[mobylet] 古いキャッシュ画像の削除に失敗 = " + delFile.getAbsolutePath());
+						}
 					}
 				}
 			}
@@ -210,7 +216,7 @@ public class MobyletClassicImageCacheHelper implements ImageCacheHelper {
 	}
 
 
-	public class GcCacheFileFilter implements FilenameFilter {
+	public static class GcCacheFileFilter implements FilenameFilter {
 
 		public String prefixPath = null;
 

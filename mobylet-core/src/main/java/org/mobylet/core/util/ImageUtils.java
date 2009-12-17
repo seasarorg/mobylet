@@ -146,7 +146,7 @@ public class ImageUtils {
 	public static ImageClipRectangle getClipRectangle(
 			int width, int height, int newWidth, ScaleType scaleType) {
 		if (scaleType == null) {
-			new ImageClipRectangle(0, 0, width, height);
+			return new ImageClipRectangle(0, 0, width, height);
 		}
 		switch (scaleType) {
 		case CLIPSQUARE:

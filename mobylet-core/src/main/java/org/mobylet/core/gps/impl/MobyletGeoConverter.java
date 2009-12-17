@@ -113,7 +113,7 @@ public class MobyletGeoConverter implements GeoConverter {
 	 *
 	 * @author stakeuchi
 	 */
-	public class Rectangular {
+	public static class Rectangular {
 
 		public double x;
 
