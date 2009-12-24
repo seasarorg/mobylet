@@ -60,6 +60,10 @@ public class ImageUtils {
 
 	public static ImageCodec getImageCodec(String uri) {
 		if (StringUtils.isNotEmpty(uri)) {
+			String codecStr = RequestUtils.get().getParameter("codec");
+			if (StringUtils.isNotEmpty(codecStr)) {
+				return ImageCodec.valueOf(codecStr);
+			}
 			int index = -1;
 			if ((index = uri.indexOf('?')) > 0 ||
 					(index = uri.indexOf(';')) > 0) {

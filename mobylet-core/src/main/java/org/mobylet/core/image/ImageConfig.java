@@ -21,6 +21,8 @@ public class ImageConfig extends MobyletInjectionConfig {
 
 	public static final String PKEY_WIDTH = "w";
 
+	public static final String PKEY_CODEC = "codec";
+
 
 	public static final String CONFIG_KEY_IMAGE_SOURCE = "image.source.type";
 

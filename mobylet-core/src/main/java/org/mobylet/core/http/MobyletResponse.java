@@ -107,7 +107,6 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		if (outputStream == null) {
 			String imgContentType = null;
 			if (dialect.getCarrier() != Carrier.OTHER &&
-					contentType == null &&
 					(imgContentType =
 						ImageUtils.getContentTypeStringByRequestURI()) != null) {
 				RequestUtils.getMobyletContext().set(new Ready());

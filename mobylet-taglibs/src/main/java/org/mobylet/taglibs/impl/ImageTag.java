@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 
+import org.mobylet.core.image.ImageCodec;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.SingletonUtils;
@@ -26,6 +27,10 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
 	protected String scaleType = "";
 
+	protected String codec = "";
+
+	protected String useFilter = "";
+
 
 	@Override
 	public void doTag() throws JspException, IOException {
@@ -36,7 +41,9 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 					src,
 					StringUtils.isEmpty(magniWidth) ?
 							1.0 : Double.parseDouble(magniWidth),
-					ImageUtils.getScaleType(scaleType));
+					ImageUtils.getScaleType(scaleType),
+					(codec == null ? null : ImageCodec.valueOf(codec)),
+					"TRUE".equalsIgnoreCase(useFilter));
 			addAttribute("src", imgSrc);
 			JspWriterUtils.write(
 					getJspContext().getOut(),
@@ -68,6 +75,22 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 
 	public void setScaleType(String scaleType) {
 		this.scaleType = scaleType;
+	}
+
+	public String getCodec() {
+		return codec;
+	}
+
+	public void setCodec(String codec) {
+		this.codec = codec;
+	}
+
+	public String getUseFilter() {
+		return useFilter;
+	}
+
+	public void setUseFilter(String useFilter) {
+		this.useFilter = useFilter;
 	}
 
 }
