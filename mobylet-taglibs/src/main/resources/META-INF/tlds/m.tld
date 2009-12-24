@@ -271,6 +271,26 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			CODEC（JPG,GIF,PNG）
+			]]>
+			</description>
+			<name>codec</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			フィルタ方式の利用有無（true,false）
+			]]>
+			</description>
+			<name>useFilter</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<dynamic-attributes>
 			true
 		</dynamic-attributes>
