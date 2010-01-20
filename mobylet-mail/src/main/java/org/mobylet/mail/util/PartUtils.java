@@ -28,7 +28,7 @@ public class PartUtils implements MailConstants {
 		Pattern.compile("<(img|IMG)[ ]+.+?>");
 
 	public static final Pattern PATTERN_INLINEIMAGESRC =
-		Pattern.compile("src[ ]*=[ ]*\"[0-9a-zA-Z._/:\\\\-]+\"");
+		Pattern.compile("src[ ]*=[ ]*[\"]?[0-9a-zA-Z._/:\\\\-]+[\"]?");
 
 
 	public static MimeBodyPart buildAttachPart(Carrier carrier, Attach attach) {
@@ -99,10 +99,13 @@ public class PartUtils implements MailConstants {
 				PATTERN_INLINEIMAGESRC.matcher(imgTagString);
 			if (srcAttMatcher.find()) {
 				String srcString = srcAttMatcher.group();
-				String srcValue = srcString.substring(
-						srcString.indexOf("\"") + 1,
-						srcString.lastIndexOf("\"")
-						);
+				String srcValue = srcString.substring(srcString.indexOf("=") + 1).trim();
+				if (srcValue.startsWith("\"") && srcValue.endsWith("\"")) {
+					srcValue = srcValue.substring(1, srcValue.length()-1);
+				}
+				if (srcValue.startsWith("\'") && srcValue.endsWith("\'")) {
+					srcValue = srcValue.substring(1, srcValue.length()-1);
+				}
 				Attach inline =
 					new Attach(srcValue,
 							cid,
