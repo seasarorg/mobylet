@@ -67,7 +67,12 @@ public class PartUtils implements MailConstants {
 		try {
 			part.setDataHandler(new DataHandler(byteSource));
 			part.setHeader(TRANSFER_ENCODING, ENCODING_BASE64);
-			part.addHeader(CONTENT_DISPOSITION, DISPOSITION_ATTACHMENT);
+			if (attach.isInline()) {
+				part.setHeader(CONTENT_ID, attach.getNickname());
+			}
+			if (carrier == Carrier.AU) {
+				part.addHeader(CONTENT_DISPOSITION, DISPOSITION_ATTACHMENT);
+			}
 			part.addHeader(
 					CONTENT_TYPE, mimeType + "; name=\"" +
 					MailHeaderUtils.encodeHeaderString(carrier, attach.getNickname())+
@@ -98,11 +103,12 @@ public class PartUtils implements MailConstants {
 						srcString.indexOf("\"") + 1,
 						srcString.lastIndexOf("\"")
 						);
-				inlines.add(
-						new Attach(srcValue,
-								cid,
-								ResourceUtils.getResourceFileOrInputStream(srcValue))
-						);
+				Attach inline =
+					new Attach(srcValue,
+							cid,
+							ResourceUtils.getResourceFileOrInputStream(srcValue));
+				inline.setInline(true);
+				inlines.add(inline);
 			}
 			imgTagMatcher.appendReplacement(buf, "<img src=\"cid:"+cid+"\">");
 			cidindex++;

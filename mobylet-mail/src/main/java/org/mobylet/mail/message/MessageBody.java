@@ -61,6 +61,8 @@ public class MessageBody {
 		protected String nickname;
 
 		protected InputStream inputStream;
+		
+		protected boolean isInline;
 
 		public Attach(String realPath, InputStream inputStream) {
 			this(realPath,
@@ -74,6 +76,7 @@ public class MessageBody {
 			this.realPath = realPath;
 			this.nickname = nickName;
 			this.inputStream = inputStream;
+			this.isInline = false;
 		}
 
 		public String getRealPath() {
@@ -98,6 +101,14 @@ public class MessageBody {
 
 		public void setInputStream(InputStream inputStream) {
 			this.inputStream = inputStream;
+		}
+
+		public boolean isInline() {
+			return isInline;
+		}
+
+		public void setInline(boolean isInline) {
+			this.isInline = isInline;
 		}
 
 	}
