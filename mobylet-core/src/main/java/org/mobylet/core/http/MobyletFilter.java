@@ -17,7 +17,6 @@ package org.mobylet.core.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -30,15 +29,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.config.MobyletConfig;
-import org.mobylet.core.config.xml.MobyletConfigXmlReader;
-import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.dialect.MobyletDialect;
-import org.mobylet.core.initializer.MobyletInitializer;
-import org.mobylet.core.log.MobyletLogger;
-import org.mobylet.core.log.impl.LoggerImpl;
+import org.mobylet.core.launcher.LaunchConfig;
+import org.mobylet.core.launcher.MobyletLauncher;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.type.DispatchType;
+import org.mobylet.core.util.LaunchUtils;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
@@ -120,95 +117,32 @@ public class MobyletFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		LaunchConfig launchConfig = LaunchUtils.getLaunchConfig(filterConfig);
 		initSingletonContainer(filterConfig);
-		initLogger(filterConfig);
-		initDefaultCharset(filterConfig);
-		initInitializer(filterConfig);
+		initLogger(launchConfig);
+		initDefaultCharset(launchConfig);
+		initInitializer(launchConfig);
 	}
 
 
 	protected void initSingletonContainer(FilterConfig filterConfig) {
-		if (!SingletonUtils.isInitialized()) {
-			SingletonUtils.initialize(null);
-		}
+		MobyletLauncher.initSingletonContainer();
 		if (filterConfig != null) {
 			SingletonUtils.put(filterConfig);
 			SingletonUtils.put(filterConfig.getServletContext());
 		}
 	}
 
-	protected void initLogger(FilterConfig filterConfig) {
-		String loggerClassName = "";
-		if (filterConfig != null) {
-			loggerClassName = filterConfig.getInitParameter("mobylet.logger.class");
-			if (loggerClassName == null) {
-				loggerClassName = "";
-			}
-		}
-		MobyletLogger logger = null;
-		if (StringUtils.isEmpty(loggerClassName)) {
-			logger = new LoggerImpl();
-		} else {
-			try {
-				Class<?> clazz = Class.forName(loggerClassName);
-				Class<? extends MobyletLogger> loggerClass = clazz.asSubclass(MobyletLogger.class);
-				logger = loggerClass.newInstance();
-			} catch (ClassNotFoundException e) {
-				logger = new LoggerImpl();
-				if (logger.isLoggable())
-					logger.log("[mobylet] 指定されたLoggerクラスが見つかりませんでした = " + loggerClassName);
-			} catch (ClassCastException e) {
-				logger = new LoggerImpl();
-				if (logger.isLoggable())
-					logger.log("[mobylet] 指定されたLoggerクラスがMobyletLoggerの実装ではありません = " + loggerClassName);
-			} catch (InstantiationException e) {
-				logger = new LoggerImpl();
-				if (logger.isLoggable())
-					logger.log("[mobylet] 指定されたLoggerクラスのインスタンスを生成できませんでした  = " + loggerClassName);
-			} catch (IllegalAccessException e) {
-				logger = new LoggerImpl();
-				if (logger.isLoggable())
-					logger.log("[mobylet] 指定されたLoggerクラスにアクセスできませんでした  = " + loggerClassName);
-			}
-		}
-		if (logger != null) {
-			SingletonUtils.put(logger);
-		} else {
-			SingletonUtils.put(new LoggerImpl());
-		}
+	protected void initLogger(LaunchConfig launchConfig) {
+		MobyletLauncher.initLogger(launchConfig);
 	}
 
-	protected void initInitializer(FilterConfig filterConfig) {
-		String configDir = "";
-		if (filterConfig != null) {
-			configDir = filterConfig.getInitParameter("mobylet.config.dir");
-			if (configDir == null) {
-				configDir = "";
-			}
-		}
-		MobyletConfigXmlReader configXml =
-			new MobyletConfigXmlReader(configDir);
-		MobyletConfig config = configXml.getConfig();
-		//初期化
-		for (MobyletInitializer initializer : config.getInitializers()) {
-			initializer.initialize();
-			SingletonUtils.put(initializer);
-		}
+	protected void initInitializer(LaunchConfig launchConfig) {
+		MobyletLauncher.initInitializer(launchConfig);
 	}
 
-	protected void initDefaultCharset(FilterConfig filterConfig) {
-		String defCharsetName = null;
-		if (filterConfig != null &&
-				(defCharsetName =
-					filterConfig.getInitParameter("encoding")) != null) {
-			Charset defCharset = Charset.forName(defCharsetName);
-			if (defCharset != null) {
-				SingletonUtils.put(defCharset);
-			}
-		}
-		if (SingletonUtils.get(Charset.class) == null) {
-			SingletonUtils.put(Charset.forName(DefCharset.WIN31J));
-		}
+	protected void initDefaultCharset(LaunchConfig launchConfig) {
+		MobyletLauncher.initDefaultCharset(launchConfig);
 	}
 
 	protected MobyletResponse wrapResponse(
