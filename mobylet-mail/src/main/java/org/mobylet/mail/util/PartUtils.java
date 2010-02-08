@@ -67,17 +67,19 @@ public class PartUtils implements MailConstants {
 		try {
 			part.setDataHandler(new DataHandler(byteSource));
 			part.setHeader(TRANSFER_ENCODING, ENCODING_BASE64);
-			if (attach.isInline()) {
-				part.setHeader(CONTENT_ID, attach.getNickname());
-			}
 			if (carrier == Carrier.AU) {
 				part.addHeader(CONTENT_DISPOSITION, DISPOSITION_ATTACHMENT);
 			}
-			part.addHeader(
-					CONTENT_TYPE, mimeType + "; name=\"" +
-					MailHeaderUtils.encodeHeaderString(carrier, attach.getNickname())+
-					"\""
-			);
+			if (attach.isInline()) {
+				part.setHeader(CONTENT_ID, "<" + attach.getNickname() + ">");
+				part.addHeader(CONTENT_TYPE, mimeType + ";");
+			} else {
+				part.addHeader(
+						CONTENT_TYPE, mimeType + "; name=\"" +
+						MailHeaderUtils.encodeHeaderString(carrier, attach.getNickname())+
+						"\""
+				);
+			}
 		} catch (MessagingException e) {
 			throw new MobyletRuntimeException(
 					"添付ファイルパートを作成中に例外発生", e);
@@ -113,7 +115,7 @@ public class PartUtils implements MailConstants {
 				inline.setInline(true);
 				inlines.add(inline);
 			}
-			imgTagMatcher.appendReplacement(buf, "<img src=\"cid:"+cid+"\">");
+			imgTagMatcher.appendReplacement(buf, "<img src=\"cid:"+cid+"\" />");
 			cidindex++;
 		}
 		imgTagMatcher.appendTail(buf);

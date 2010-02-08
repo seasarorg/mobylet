@@ -9,7 +9,7 @@
 <%
 	MobyletMessage message = MobyletMailer.createMessage(request.getParameter("address"));
 	MessageBody body = new MessageBody();
-	body.setHtml("<html><body>テストHTML</body></html>");
+	body.setHtml("<html><body>テスト<img src=\"E001.gif\" />HTML</body></html>");
 	body.setText(request.getParameter("body"));
 	message.from("info@mobylet.org")
 		.subject(request.getParameter("subject"))

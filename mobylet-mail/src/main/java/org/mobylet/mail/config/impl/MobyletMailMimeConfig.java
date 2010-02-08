@@ -24,6 +24,9 @@ public class MobyletMailMimeConfig implements MailMimeConfig {
 		try {
 			InputStream is =
 				ResourceUtils.getResourceFileOrInputStream(configPath);
+			if (is == null) {
+				is = ResourceUtils.getResourceFileOrInputStream(CONFIG_PATH);
+			}
 			if (is != null) {
 				props.load(is);
 			}
