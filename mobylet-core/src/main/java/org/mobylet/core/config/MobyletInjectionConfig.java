@@ -19,7 +19,7 @@ public abstract class MobyletInjectionConfig {
 			MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 			injectionConfig = new MobyletProperties();
 			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-			String path = config.getConfigDir() + getConfigName();
+			String path = (config != null ? config.getConfigDir() : "") + getConfigName();
 			InputStream inputStream = null;
 			try {
 				if (logger != null && logger.isLoggable())
