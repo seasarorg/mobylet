@@ -185,6 +185,32 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		}
 	}
 
+	@Override
+	public void sendRedirect(String location) throws IOException {
+		RequestUtils.getMobyletContext().set(new Ready());
+		Mobylet m = SingletonUtils.get(Mobylet.class);
+		if (m != null &&
+				m.getContentType() == ContentType.XHTML) {
+			setContentType(dialect.getXContentTypeString());
+		} else {
+			setContentType(dialect.getContentTypeString());
+		}
+		super.sendRedirect(location);
+	}
+
+	@Override
+	public void sendError(int sc, String msg) throws IOException {
+		RequestUtils.getMobyletContext().set(new Ready());
+		Mobylet m = SingletonUtils.get(Mobylet.class);
+		if (m != null &&
+				m.getContentType() == ContentType.XHTML) {
+			setContentType(dialect.getXContentTypeString());
+		} else {
+			setContentType(dialect.getContentTypeString());
+		}
+		super.sendError(sc, msg);
+	}
+
 	protected boolean isRootResponse() {
 		return this.equals(
 				RequestUtils.getMobyletContext().get(MobyletResponse.class));
