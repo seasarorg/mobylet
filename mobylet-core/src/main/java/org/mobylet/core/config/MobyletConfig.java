@@ -8,6 +8,7 @@ import java.util.List;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.config.enums.JSession;
+import org.mobylet.core.config.enums.SessionKey;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.type.ContentType;
 import org.mobylet.core.util.StringUtils;
@@ -35,6 +36,10 @@ public class MobyletConfig {
 	protected Proxy httpProxy;
 
 	protected JSession jSession;
+
+	protected Integer sessionTimeout;
+
+	protected SessionKey sessionKey;
 
 	protected Class<? extends Mobylet> mobyletClass;
 
@@ -97,6 +102,22 @@ public class MobyletConfig {
 		}
 	}
 
+	public Integer getSessionTimeout() {
+		if (sessionTimeout == null) {
+			return 30;
+		} else {
+			return sessionTimeout;
+		}
+	}
+
+	public SessionKey getSessionKey() {
+		if (sessionKey == null) {
+			return SessionKey.GUID;
+		} else {
+			return sessionKey;
+		}
+	}
+
 	public Class<? extends Mobylet> getMobyletClass() {
 		return mobyletClass;
 	}
@@ -155,6 +176,14 @@ public class MobyletConfig {
 
 	public void setJSession(JSession jSession) {
 		this.jSession = jSession;
+	}
+
+	public void setSessionTimeout(Integer sessionTimeout) {
+		this.sessionTimeout = sessionTimeout;
+	}
+
+	public void setSessionKey(SessionKey sessionKey) {
+		this.sessionKey = sessionKey;
 	}
 
 	public void setMobyletClass(String className) {

@@ -1,54 +1,45 @@
 package org.mobylet.core.util;
 
-import org.mobylet.core.session.MobyletSession;
+import org.mobylet.core.Mobylet;
+import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.config.MobyletConfig;
+import org.mobylet.core.config.enums.SessionKey;
+import org.mobylet.core.holder.SessionHolder;
 
 public class SessionUtils {
 
-	public static boolean exist() {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		return session.exist();
-	}
-
 	public static <T> T get(Class<T> clazz) {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		return session.get(clazz);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T get(String key) {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		return (T)session.get(key);
+		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
+		return holder.get(getKey(), clazz);
 	}
 
 	public static void invalidate() {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		session.invalidate();
+		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
+		holder.invalidate(getKey());
 	}
 
 	public static <T> T remove(Class<T> clazz) {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		return session.remove(clazz);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T remove(String key) {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		return (T)session.remove(key);
+		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
+		return holder.remove(getKey(), clazz);
 	}
 
 	public static <T> void set(T obj) {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		session.set(obj);
+		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
+		holder.set(getKey(), obj);
 	}
 
-	public static <T> void set(String key, T obj) {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		session.set(key, obj);
-	}
-
-	public static void substitute() {
-		MobyletSession session = SingletonUtils.get(MobyletSession.class);
-		session.substitute();
+	public static String getKey() {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		Mobylet m = MobyletFactory.getInstance();
+		if (m != null) {
+			if (config.getSessionKey() == SessionKey.GUID) {
+				return m.getGuid();
+			} else {
+				return m.getUid();
+			}
+		} else {
+			return null;
+		}
 	}
 
 }

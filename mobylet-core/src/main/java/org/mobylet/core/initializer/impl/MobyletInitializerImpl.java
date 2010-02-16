@@ -33,6 +33,7 @@ import org.mobylet.core.emoji.impl.MobyletEmojiPoolReader;
 import org.mobylet.core.gps.impl.MobyletGeoConverter;
 import org.mobylet.core.holder.impl.MobyletHolderImpl;
 import org.mobylet.core.holder.impl.MobyletRequestHolder;
+import org.mobylet.core.holder.impl.MobyletSessionHolder;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.impl.MobyletImageCacheHelper;
 import org.mobylet.core.image.impl.MobyletImageMagickScaler;
@@ -40,7 +41,6 @@ import org.mobylet.core.image.impl.MobyletImageReader;
 import org.mobylet.core.image.impl.MobyletImageScaler;
 import org.mobylet.core.selector.impl.MobyletCharsetSelector;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
-import org.mobylet.core.session.impl.MobyletSessionImpl;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.view.css.CSSParser;
 import org.mobylet.view.xhtml.XhtmlParser;
@@ -54,7 +54,7 @@ public class MobyletInitializerImpl
 		SingletonUtils.put(new MobyletRequestHolder());
 		SingletonUtils.put(new MobyletHolderImpl());
 		//Session
-		SingletonUtils.put(new MobyletSessionImpl());
+		SingletonUtils.put(new MobyletSessionHolder());
 		//CharsetSelector
 		SingletonUtils.put(new MobyletCharsetSelector());
 		//Dialect
