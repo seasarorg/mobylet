@@ -2,23 +2,22 @@ package org.mobylet.core.session.impl;
 
 import junit.framework.TestCase;
 
-import org.mobylet.core.session.MobyletSession;
+import org.mobylet.core.holder.SessionHolder;
+import org.mobylet.core.launcher.MobyletLauncher;
+import org.mobylet.core.util.SingletonUtils;
 
 public class MobyletSessionImplTest extends TestCase {
 
-	public void test_nullGet() {
+	public void test_session() {
 		//## ARRANGE ##
-		MobyletSession session = new MobyletSessionImpl();
+		MobyletLauncher.launch();
+		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
 
 		//## ACT ##
-		String obj = null;
-		try {
-			session.get(obj);
-		} catch (NullPointerException e) {
-			//NOP
-		}
+		String obj = "ABC";
+		holder.set("UID", obj);
 
 		//## ASSERT ##
-		assertTrue(true);
+		assertEquals(holder.get("UID", obj.getClass()), obj);
 	}
 }
