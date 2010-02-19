@@ -1,11 +1,18 @@
 package org.mobylet.view.xhtml;
 
 import java.io.CharArrayWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.mobylet.core.MobyletRuntimeException;
 
 public class XhtmlParser {
 
+	private static final Pattern REGEX_SPLIT_IN_TAG =
+		Pattern.compile("[a-zA-Z0-9_-]+([\\s]?=[\\s]?[\"']?[^\"]+[\"']?)?");
+	
 	public void parse(char[] ch, XhtmlHandler handler) {
 		CharArrayWriter writer = new CharArrayWriter(256);
 		int pos = 0;
@@ -67,7 +74,15 @@ public class XhtmlParser {
 								isEndTag = true;
 								inTagStr = inTagStr.substring(1);
 							}
-							String[] elements = inTagStr.trim().split("\\s");
+							//String[] elements = inTagStr.trim().split("\\s");
+							String[] elements = null;
+							List<String> elemList = new ArrayList<String>();
+							Matcher matcher = REGEX_SPLIT_IN_TAG.matcher(inTagStr);
+							while (matcher.find()) {
+								elemList.add(matcher.group());
+							}
+							elements = new String[elemList.size()];
+							elemList.toArray(elements);
 							if (elements.length > 0) {
 								if (elements[0].equals("?xml") ||
 										elements[0].equals("!DOCTYPE")) {
