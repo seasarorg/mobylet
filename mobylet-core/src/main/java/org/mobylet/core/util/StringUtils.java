@@ -27,6 +27,10 @@ public class StringUtils {
 		return !isEmpty(s);
 	}
 
+	public static boolean equals(String s1, String s2) {
+		return s1 == null ? s2 == null : s1.equals(s2);
+	}
+
 	public static String escape(String src) {
 		if (isNotEmpty(src)) {
 			return src.replaceAll("\\\\", "\\\\\\\\");
