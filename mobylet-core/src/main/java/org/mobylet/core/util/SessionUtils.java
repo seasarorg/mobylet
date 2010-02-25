@@ -4,28 +4,28 @@ import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.config.enums.SessionKey;
-import org.mobylet.core.holder.SessionHolder;
+import org.mobylet.core.session.MobyletSessionAdapter;
 
 public class SessionUtils {
 
 	public static <T> T get(Class<T> clazz) {
-		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
-		return holder.get(getKey(), clazz);
+		MobyletSessionAdapter adatper = SingletonUtils.get(MobyletSessionAdapter.class);
+		return adatper.get(getKey(), clazz);
 	}
 
 	public static void invalidate() {
-		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
-		holder.invalidate(getKey());
+		MobyletSessionAdapter adatper = SingletonUtils.get(MobyletSessionAdapter.class);
+		adatper.invalidate(getKey());
 	}
 
 	public static <T> T remove(Class<T> clazz) {
-		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
-		return holder.remove(getKey(), clazz);
+		MobyletSessionAdapter adatper = SingletonUtils.get(MobyletSessionAdapter.class);
+		return adatper.remove(getKey(), clazz);
 	}
 
 	public static <T> void set(T obj) {
-		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
-		holder.set(getKey(), obj);
+		MobyletSessionAdapter adatper = SingletonUtils.get(MobyletSessionAdapter.class);
+		adatper.set(getKey(), obj);
 	}
 
 	public static String getKey() {

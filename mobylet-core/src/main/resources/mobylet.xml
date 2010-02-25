@@ -13,22 +13,4 @@
 	<!--
 	<cssExpand>true</cssExpand>
 	-->
-	<mobyletSession>
-		<key>GUID</key>
-		<timeout>30</timeout>
-		<adapter>org.mobylet.core.session.impl.MobyletDistributeSessionAdapter</adapter>
-		<distribution>
-			<path>/mobyletSession</path>
-			<method>POST</method>
-			<parameter>s</parameter>
-			<receiveHosts>
-				<host name="host1">127.0.0.1:8080</host>
-				<host name="host2">127.0.0.1:8080</host>
-			</receiveHosts>
-			<sendHosts>
-				<host>127.0.0.1:8080</host>
-				<host>127.0.0.1:8080</host>
-			</sendHosts>
-		</distribution>
-	</mobyletSession>
 </mobylet>
