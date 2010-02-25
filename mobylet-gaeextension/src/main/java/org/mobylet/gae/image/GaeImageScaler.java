@@ -1,4 +1,5 @@
 package org.mobylet.gae.image;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,7 +17,6 @@ import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.Transform;
-
 
 public class GaeImageScaler extends MobyletImageScaler {
 

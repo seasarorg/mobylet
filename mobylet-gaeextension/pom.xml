@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.seasar.mobylet</groupId>
 	<artifactId>mobylet-gaeextension</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>mobylet-gaeextension</name>
 	<url>http://mobylet.sandbox.seasar.org/</url>
