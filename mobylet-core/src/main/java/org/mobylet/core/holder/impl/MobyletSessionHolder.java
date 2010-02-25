@@ -5,20 +5,20 @@ import java.util.LinkedList;
 
 import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.holder.SessionHolder;
-import org.mobylet.core.session.UidSession;
-import org.mobylet.core.session.UidSessionTouchListener;
+import org.mobylet.core.session.MobyletSession;
+import org.mobylet.core.session.MobyletSessionTouchListener;
 import org.mobylet.core.util.SingletonUtils;
 
-public class MobyletSessionHolder implements SessionHolder, UidSessionTouchListener {
+public class MobyletSessionHolder implements SessionHolder, MobyletSessionTouchListener {
 
-	protected HashMap<String, UidSession> holder = new HashMap<String, UidSession>();
+	protected HashMap<String, MobyletSession> holder = new HashMap<String, MobyletSession>();
 
-	protected LinkedList<UidSession> linkedSession = new LinkedList<UidSession>();
+	protected LinkedList<MobyletSession> linkedSession = new LinkedList<MobyletSession>();
 
-	
+
 	@Override
 	public <T> T get(String uid, Class<T> clazz) {
-		UidSession session = getSession(uid);
+		MobyletSession session = getSession(uid);
 		if (session != null) {
 			return session.get(clazz);
 		}
@@ -27,7 +27,7 @@ public class MobyletSessionHolder implements SessionHolder, UidSessionTouchListe
 
 	@Override
 	public <T> T remove(String uid, Class<T> clazz) {
-		UidSession session = getSession(uid);
+		MobyletSession session = getSession(uid);
 		if (session != null) {
 			return session.remove(clazz);
 		}
@@ -37,9 +37,9 @@ public class MobyletSessionHolder implements SessionHolder, UidSessionTouchListe
 	@Override
 	public <T> void set(String uid, T obj) {
 		if (uid != null) {
-			UidSession session = getSession(uid);
+			MobyletSession session = getSession(uid);
 			if (session == null) {
-				session = new UidSession(uid);
+				session = new MobyletSession(uid);
 				session.setTouchListener(this);
 				session.touch();
 				holder.put(uid, session);
@@ -50,29 +50,29 @@ public class MobyletSessionHolder implements SessionHolder, UidSessionTouchListe
 
 	@Override
 	public void invalidate(String uid) {
-		UidSession session = holder.remove(uid);
+		MobyletSession session = holder.remove(uid);
 		linkedSession.remove(session);
 	}
-	
+
 	protected void processClean() {
 		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-		Long expiredTime = System.currentTimeMillis() - (config.getSessionTimeout() * 60000);
-		UidSession session = null;
+		Long expiredTime = System.currentTimeMillis() - ((long)config.getSessionTimeout() * 60000);
+		MobyletSession session = null;
 		while (((session = linkedSession.peek()) != null) &&
 				(session.getTouchTime() < expiredTime)) {
 			linkedSession.poll();
 		}
 	}
 
-	protected UidSession getSession(String uid) {
+	protected MobyletSession getSession(String uid) {
 		processClean();
 		if (uid != null) {
-			UidSession session = holder.remove(uid);
+			MobyletSession session = holder.remove(uid);
 			if (session == null) {
 				return null;
 			}
 			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-			Long expiredTime = System.currentTimeMillis() - (config.getSessionTimeout() * 60000);
+			Long expiredTime = System.currentTimeMillis() - ((long)config.getSessionTimeout() * 60000);
 			if (session.getTouchTime() < expiredTime) {
 				linkedSession.remove(session);
 				return null;
@@ -86,7 +86,7 @@ public class MobyletSessionHolder implements SessionHolder, UidSessionTouchListe
 	}
 
 	@Override
-	public void actionTouch(UidSession session) {
+	public void actionTouch(MobyletSession session) {
 		if (linkedSession.remove(session)) {
 			linkedSession.add(session);
 		}

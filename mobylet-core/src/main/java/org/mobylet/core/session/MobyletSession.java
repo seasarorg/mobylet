@@ -2,7 +2,7 @@ package org.mobylet.core.session;
 
 import java.util.HashMap;
 
-public class UidSession {
+public class MobyletSession {
 
 	protected String uid;
 
@@ -10,10 +10,10 @@ public class UidSession {
 
 	protected HashMap<Class<? extends Object>, Object> objectMap;
 
-	protected UidSessionTouchListener listener;
+	protected MobyletSessionTouchListener listener;
 	
 
-	public UidSession(String uid) {
+	public MobyletSession(String uid) {
 		this.uid = uid;
 		objectMap = new HashMap<Class<? extends Object>, Object>();
 		touch();
@@ -31,7 +31,7 @@ public class UidSession {
 		return touchTime;
 	}
 
-	public void setTouchListener(UidSessionTouchListener listener) {
+	public void setTouchListener(MobyletSessionTouchListener listener) {
 		this.listener = listener;
 	}
 

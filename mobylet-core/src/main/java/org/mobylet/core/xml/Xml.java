@@ -1,6 +1,5 @@
 package org.mobylet.core.xml;
 
-import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -12,10 +11,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.util.FieldUtils;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.StringUtils;
-
-import sun.reflect.misc.FieldUtil;
 
 /**
  *
@@ -47,29 +45,9 @@ public class Xml {
 	protected ClassLoader classLoader;
 
 	/**
-	 * リトライ可能数
-	 */
-	protected int retryCount;
-
-	/**
-	 * ファイル最終更新日時
-	 */
-	protected long lastModified;
-
-	/**
-	 * XMLファイルインスタンス
-	 */
-	private File xmlFile;
-
-	/**
 	 * XMLストリーム
 	 */
 	private InputStream xmlStream;
-
-	/**
-	 * 動的リロードフラグ
-	 */
-	private boolean isDynamicLoad;
 
 
 	/**
@@ -79,19 +57,7 @@ public class Xml {
 	 * 		XMLファイルパス
 	 */
 	public Xml(String filepath) {
-		this(filepath, 3);
-	}
-
-	/**
-	 * 汎用XMLリーダインスタンスを生成する.<br />
-	 *
-	 * @param filepath
-	 * 		XMLファイルパス
-	 * @param retryCount
-	 * 		XMLリードリトライカウント（動的リロード有効時）
-	 */
-	public Xml(String filepath, int retryCount) {
-		this(ResourceUtils.getResourceFileOrInputStream(filepath), retryCount);
+		this(ResourceUtils.getResourceFileOrInputStream(filepath));
 	}
 
 	/**
@@ -99,14 +65,10 @@ public class Xml {
 	 *
 	 * @param inputStream
 	 * 		XMLストリーム
-	 * @param retryCount
-	 * 		XMLリードリトライカウント（動的リロード有効時）
 	 */
-	public Xml(InputStream inputStream, int retryCount) {
+	public Xml(InputStream inputStream) {
 		this.xmlStream = inputStream;
-		this.retryCount = retryCount;
 		this.handler = new XmlHandler();
-		this.isDynamicLoad = false;
 		this.load();
 	}
 
@@ -117,18 +79,7 @@ public class Xml {
 	 * 		ルートノード
 	 */
 	public XmlNode getRootNode() {
-		this.update(0);
 		return this.root;
-	}
-
-	/**
-	 * 動的リロード設定メソッド.<br />
-	 *
-	 * @param isDynamicLoad
-	 * 		動的リロード設定フラグ
-	 */
-	public void setDynamicLoad(boolean isDynamicLoad) {
-		this.isDynamicLoad = isDynamicLoad;
 	}
 
 	/**
@@ -175,15 +126,15 @@ public class Xml {
 					List<XmlNode> selectedChildren =
 						node.getChildren(field.getName());
 					if (selectedChildren != null && selectedChildren.size() > 0) {
-						FieldUtil.set(field, bean, selectedChildren.get(0).getValue());
+						FieldUtils.set(field, bean, selectedChildren.get(0).getValue());
 					} else if (node.getAttributes().containsKey(field.getName())) {
-						FieldUtil.set(field, bean, node.getAttributes().get(field.getName()));
+						FieldUtils.set(field, bean, node.getAttributes().get(field.getName()));
 					} else if (StringUtils.isNotEmpty(attName)) {
 						for (XmlNode child : children) {
 							if (StringUtils.equals(
 									child.getAttributes().get(attName),
 									field.getName())) {
-								FieldUtil.set(field, bean, child.getValue());
+								FieldUtils.set(field, bean, child.getValue());
 							}
 						}
 					}
@@ -242,26 +193,12 @@ public class Xml {
 			Field field = clazz.getDeclaredField(keyField);
 			field.setAccessible(true);
 			for (T bean : beanList) {
-				beanMap.put(FieldUtil.getString(field, bean), bean);
+				beanMap.put(FieldUtils.getString(field, bean), bean);
 			}
 			return beanMap;
 		} catch (Exception e) {
-			throw new BizReachException(e);
+			throw new MobyletRuntimeException("XML情報をMapへセット出来ません", e);
 		}
-	}
-
-	/**
-	 * 動的リロード実施チェック.<br />
-	 *
-	 * @return
-	 * 		true: XMLファイルが更新されている, false: XMLファイルが更新されていない
-	 */
-	public boolean isUpdate() {
-		if (this.xmlFile == null) {
-			return false;
-		}
-		return this.isDynamicLoad &&
-			this.lastModified < this.xmlFile.lastModified();
 	}
 
 	/**
@@ -273,38 +210,13 @@ public class Xml {
 				SAXParserFactory spfactory = SAXParserFactory.newInstance();
 				SAXParser parser = spfactory.newSAXParser();
 				this.handler.initialize();
-				if (this.xmlFile != null &&
-						this.xmlFile.exists() && this.xmlFile.isFile()) {
-					parser.parse(this.xmlFile, this.handler);
-					this.root = this.handler.getRootNode();
-				} else if (this.xmlStream != null) {
+				if (this.xmlStream != null) {
 					parser.parse(this.xmlStream, this.handler);
 					this.root = this.handler.getRootNode();
 				}
 			} catch (Exception e) {
-				throw new BizReachException(e);
+				throw new MobyletRuntimeException("XML情報をロード出来ませんでした", e);
 			}
-		}
-	}
-
-	/**
-	 * 動的リロード発動メソッド.<br />
-	 *
-	 * @param retry
-	 * 		リトライカウント
-	 */
-	private void update(int retry) {
-		if (this.isUpdate()) {
-			try {
-				this.load();
-			} catch (Exception e) {
-				if (retry < this.retryCount) {
-					this.update(retry+1);
-					return;
-				}
-			}
-			this.lastModified = (this.xmlFile == null) ?
-					0L : this.xmlFile.lastModified();
 		}
 	}
 }
