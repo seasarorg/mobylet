@@ -116,13 +116,20 @@ public class MobyletSessionConfig {
 
 	public static class Parameters {
 
+		protected String sessionKey;
+
 		protected String objectDataKey;
 
 		protected String invokeTypeKey;
 
-		public Parameters(String objectDataKey, String invokeTypeKey) {
+		public Parameters(String sessionKey, String objectDataKey, String invokeTypeKey) {
+			this.sessionKey = sessionKey;
 			this.objectDataKey = objectDataKey;
 			this.invokeTypeKey = invokeTypeKey;
+		}
+
+		public String getSessionKey() {
+			return sessionKey;
 		}
 
 		public String getObjectDataKey() {

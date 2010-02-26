@@ -34,6 +34,7 @@ import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.launcher.LaunchConfig;
 import org.mobylet.core.launcher.MobyletLauncher;
 import org.mobylet.core.selector.DialectSelector;
+import org.mobylet.core.session.MobyletSessionManager;
 import org.mobylet.core.type.DispatchType;
 import org.mobylet.core.util.LaunchUtils;
 import org.mobylet.core.util.RequestUtils;
@@ -52,6 +53,13 @@ public class MobyletFilter implements Filter {
 		//request/response
 		HttpServletRequest httpRequest = HttpServletRequest.class.cast(request);
 		HttpServletResponse httpResponse = HttpServletResponse.class.cast(response);
+		//managedSession
+		MobyletSessionManager sessionManager = SingletonUtils.get(MobyletSessionManager.class);
+		if (sessionManager != null &&
+				sessionManager.isManaged(httpRequest)) {
+			sessionManager.invoke(httpRequest, httpResponse);
+			return;
+		}
 		//requestScope
 		HttpServletRequest parentRequest = RequestUtils.get();
 		RequestUtils.set(httpRequest);
