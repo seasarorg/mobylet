@@ -111,6 +111,7 @@ public class MobyletFilter implements Filter {
 		} else {
 			//WrapRequest&parseRequest
 			request = new MobyletRequest(request);
+			RequestUtils.set(request);
 			MobyletRequest.class.cast(request).parseParameters();
 			//doChain
 			MobyletResponse mResponse = wrapResponse(response, dialect);
