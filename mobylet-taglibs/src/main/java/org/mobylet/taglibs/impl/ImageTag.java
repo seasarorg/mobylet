@@ -42,7 +42,7 @@ public class ImageTag extends MobyletDynamicSimpleTagSupport {
 					StringUtils.isEmpty(magniWidth) ?
 							1.0 : Double.parseDouble(magniWidth),
 					ImageUtils.getScaleType(scaleType),
-					(codec == null ? null : ImageCodec.valueOf(codec)),
+					(StringUtils.isEmpty(codec) ? null : ImageCodec.valueOf(codec)),
 					"TRUE".equalsIgnoreCase(useFilter));
 			addAttribute("src", imgSrc);
 			JspWriterUtils.write(
