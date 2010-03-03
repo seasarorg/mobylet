@@ -57,20 +57,24 @@ public class UrlUtils {
 		if (StringUtils.isEmpty(url)) {
 			return url;
 		}
+		Charset charset =
+			MobyletFactory.getInstance().getDialect().getCharset();
+		StringBuilder buf = null;
 		String encodedUrl = getAbsoluteUrl(url);
 		int q = encodedUrl.indexOf(Q);
 		if (q >= 0) {
-			Charset charset =
-				MobyletFactory.getInstance().getDialect().getCharset();
 			String query = encodedUrl.substring(q+1);
-			encodedUrl = encodedUrl.substring(0, q);
+			buf = new StringBuilder(
+					UrlEncoder.encode(encodedUrl.substring(0, q), charset));
 			String[] paramEntries = query.split(AMP);
 			for (int i=0; i<paramEntries.length; i++) {
-				encodedUrl =
-					encodedUrl + AMP + "arg" + i + EQ + UrlEncoder.encode(paramEntries[i], charset);
+				buf.append(AMP + "arg" + i + EQ + UrlEncoder.encode(paramEntries[i], charset));
 			}
+		} else {
+			buf = new StringBuilder(
+					UrlEncoder.encode(encodedUrl, charset));
 		}
-		return encodedUrl;
+		return buf.toString();
 	}
 
 	public static String addSession(String url, String sessionId) {
