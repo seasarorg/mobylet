@@ -65,14 +65,14 @@ public class UrlUtils {
 		if (q >= 0) {
 			String query = encodedUrl.substring(q+1);
 			buf = new StringBuilder(
-					UrlEncoder.encode(encodedUrl.substring(0, q), charset));
+					encodedUrl.substring(0, q).replaceAll("[=]", "%3D"));
 			String[] paramEntries = query.split(AMP);
 			for (int i=0; i<paramEntries.length; i++) {
-				buf.append(AMP + "arg" + i + EQ + UrlEncoder.encode(paramEntries[i], charset));
+				buf.append(AMP + "arg" + (i+1) + EQ + UrlEncoder.encode(paramEntries[i], charset));
 			}
 		} else {
 			buf = new StringBuilder(
-					UrlEncoder.encode(encodedUrl, charset));
+					encodedUrl.replaceAll("[=]", "%3D"));
 		}
 		return buf.toString();
 	}
