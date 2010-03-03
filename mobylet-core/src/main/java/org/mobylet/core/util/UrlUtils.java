@@ -62,8 +62,8 @@ public class UrlUtils {
 		if (q >= 0) {
 			Charset charset =
 				MobyletFactory.getInstance().getDialect().getCharset();
-			encodedUrl = encodedUrl.substring(0, q);
 			String query = encodedUrl.substring(q+1);
+			encodedUrl = encodedUrl.substring(0, q);
 			String[] paramEntries = query.split(AMP);
 			for (int i=0; i<paramEntries.length; i++) {
 				encodedUrl =
