@@ -53,6 +53,26 @@ public class UrlUtils {
 		return encodedUrl;
 	}
 
+	public static String encodeIAreaUrl(String url) {
+		if (StringUtils.isEmpty(url)) {
+			return url;
+		}
+		String encodedUrl = getAbsoluteUrl(url);
+		int q = encodedUrl.indexOf(Q);
+		if (q >= 0) {
+			Charset charset =
+				MobyletFactory.getInstance().getDialect().getCharset();
+			encodedUrl = encodedUrl.substring(0, q);
+			String query = encodedUrl.substring(q+1);
+			String[] paramEntries = query.split(AMP);
+			for (int i=0; i<paramEntries.length; i++) {
+				encodedUrl =
+					encodedUrl + AMP + "arg" + i + EQ + UrlEncoder.encode(paramEntries[i], charset);
+			}
+		}
+		return encodedUrl;
+	}
+
 	public static String addSession(String url, String sessionId) {
 		if(url == null || sessionId == null) {
 			return url;
@@ -97,9 +117,32 @@ public class UrlUtils {
 		}
 		if (request.isSecure() &&
 				url.startsWith("http:")) {
-			url = url.replace("http:", "https;");
+			url = url.replace("http:", "https:");
 		}
 		return url;
+	}
+
+	public static String getAbsoluteUrl(String path) {
+		if (StringUtils.isEmpty(path)) {
+			return getCurrentUrl();
+		}
+		if (path.startsWith("http://") ||
+				path.startsWith("https://")) {
+			return path;
+		}
+		if (path.startsWith("/")) {
+			String url = getCurrentUrl();
+			int domainSlash = url.indexOf('/', 8);
+			if (domainSlash < 0) {
+				return url + path;
+			} else {
+				return url.substring(0, domainSlash) + path;
+			}
+		} else {
+			String url = getCurrentUrl();
+			int lastDir = url.lastIndexOf('/');
+			return url.substring(0, lastDir+1) + path;
+		}
 	}
 
 }

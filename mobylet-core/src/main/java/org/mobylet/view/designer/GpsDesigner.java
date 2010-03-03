@@ -50,12 +50,12 @@ public class GpsDesigner extends TransitionDesigner {
 					constructUrl(url);
 		switch (MobyletFactory.getInstance().getCarrier()) {
 		case DOCOMO:
-			return url;
+			return UrlUtils.getAbsoluteUrl(url);
 		case AU:
 			url = url + UrlUtils.AMP + "ver=1&datum=0&unit=0&acry=0&number=0";
-			return "device:gpsone?url=" + url.replace('?', '&');
+			return "device:gpsone?url=" + UrlUtils.getAbsoluteUrl(url).replace('?', '&');
 		case SOFTBANK:
-			return "location:gps?url=" + url.replace('?', '&');
+			return "location:gps?url=" + UrlUtils.getAbsoluteUrl(url).replace('?', '&');
 		}
 		return "";
 	}
@@ -66,11 +66,11 @@ public class GpsDesigner extends TransitionDesigner {
 		case DOCOMO:
 			return "http://w1m.docomo.ne.jp/cp/iarea?" +
 				"ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=1" +
-				"&nl=" + UrlUtils.encodeUrl(url.replace('?', '&'));
+				"&nl=" + UrlUtils.encodeIAreaUrl(url);
 		case AU:
-			return "device:location?url=" + url.replace('?', '&');
+			return "device:location?url=" + UrlUtils.getAbsoluteUrl(url).replace('?', '&');
 		case SOFTBANK:
-			return "location:auto?url=" + url.replace('?', '&');
+			return "location:auto?url=" + UrlUtils.getAbsoluteUrl(url).replace('?', '&');
 		}
 		return "";
 	}
