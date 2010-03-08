@@ -19,6 +19,7 @@ import org.mobylet.core.analytics.impl.GoogleAnalyticsConfig;
 import org.mobylet.core.analytics.impl.GoogleAnalyticsExecutor;
 import org.mobylet.core.analytics.impl.GoogleAnalyticsHelper;
 import org.mobylet.core.analytics.impl.GoogleAnalyticsSessionManager;
+import org.mobylet.core.config.MobyletSessionConfig;
 import org.mobylet.core.define.DefProperties;
 import org.mobylet.core.detector.impl.MobyletCarrierDetector;
 import org.mobylet.core.device.impl.MobyletDevicePool;
@@ -41,6 +42,7 @@ import org.mobylet.core.image.impl.MobyletImageReader;
 import org.mobylet.core.image.impl.MobyletImageScaler;
 import org.mobylet.core.selector.impl.MobyletCharsetSelector;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
+import org.mobylet.core.session.impl.MobyletMultiSessionManager;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.view.css.CSSParser;
 import org.mobylet.view.xhtml.XhtmlParser;
@@ -54,7 +56,9 @@ public class MobyletInitializerImpl
 		SingletonUtils.put(new MobyletRequestHolder());
 		SingletonUtils.put(new MobyletHolderImpl());
 		//Session
+		SingletonUtils.put(new MobyletSessionConfig());
 		SingletonUtils.put(new MobyletSessionHolder());
+		SingletonUtils.put(new MobyletMultiSessionManager());
 		//CharsetSelector
 		SingletonUtils.put(new MobyletCharsetSelector());
 		//Dialect

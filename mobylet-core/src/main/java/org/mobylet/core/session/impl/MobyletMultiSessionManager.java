@@ -1,6 +1,7 @@
 package org.mobylet.core.session.impl;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +15,11 @@ import org.mobylet.core.session.MobyletSessionManager;
 import org.mobylet.core.util.SerializeUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.core.util.UrlDecoder;
 
 public class MobyletMultiSessionManager implements MobyletSessionManager {
+
+	private static final Charset CHARSET = Charset.forName("UTF-8");
 
 	protected MobyletSessionConfig config;
 
@@ -30,9 +34,11 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 	@Override
 	public void invoke(HttpServletRequest request, HttpServletResponse response) {
 		Parameters parametersKey = config.getDistribution().getParameters();
-		String key = request.getParameter(parametersKey.getSessionKey());
+		String key = UrlDecoder.decode(
+				request.getParameter(parametersKey.getSessionKey()), CHARSET);
 		String type = request.getParameter(parametersKey.getInvokeTypeKey());
-		String objString = request.getParameter(parametersKey.getObjectDataKey());
+		String objString = UrlDecoder.decode(
+				request.getParameter(parametersKey.getObjectDataKey()), CHARSET);
 		if (StringUtils.isEmpty(objString)) {
 			doEmptyResponse(response);
 			return;
@@ -100,14 +106,22 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 
 	@Override
 	public boolean isManaged(HttpServletRequest request) {
-		//TODO IPチェックが必要
-		return request.getRequestURI().equals(
-				SingletonUtils.get(MobyletSessionConfig.class)
-				.getDistribution().getPath());
+		if (config.getDistribution().isAllowIp(request.getRemoteAddr())) {
+			return request.getRequestURI().equals(
+					SingletonUtils.get(MobyletSessionConfig.class)
+					.getDistribution().getPath());
+		}
+		return false;
 	}
 
 	protected void doEmptyResponse(HttpServletResponse response) {
 		response.setContentType("application/octet-stream");
+		response.setStatus(200);
 		response.setContentLength(0);
+		try {
+			response.flushBuffer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
