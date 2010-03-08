@@ -48,7 +48,7 @@ public class XmlNode {
 	/**
 	 * ノードバリュー
 	 */
-	protected Object value;
+	protected String value;
 
 	/**
 	 * 属性値マップ
@@ -104,7 +104,7 @@ public class XmlNode {
 	 * @return
 	 * 		ノードバリュー
 	 */
-	public Object getValue() {
+	public String getValue() {
 		return value;
 	}
 
@@ -129,7 +129,7 @@ public class XmlNode {
 	 * @param value
 	 * 		ノードバリュー
 	 */
-	public void setValue(Object value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 

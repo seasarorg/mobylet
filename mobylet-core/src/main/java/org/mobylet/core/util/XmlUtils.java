@@ -17,12 +17,14 @@ package org.mobylet.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.xml.XmlNode;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -85,5 +87,14 @@ public class XmlUtils {
 			throw new MobyletRuntimeException(
 					"IO例外が発生しました", e);
 		}
+	}
+
+	public static String getValue(XmlNode node, String xpath) {
+		List<XmlNode> pathNode = node.getNodeListByXPath(xpath);
+		if (pathNode != null &&
+				pathNode.size() != 0) {
+			return pathNode.get(0).getValue();
+		}
+		return null;
 	}
 }
