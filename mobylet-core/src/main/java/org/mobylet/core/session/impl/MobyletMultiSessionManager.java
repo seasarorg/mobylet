@@ -38,13 +38,17 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 		String key = UrlDecoder.decode(
 				request.getParameter(parametersKey.getSessionKey()), CHARSET);
 		String type = request.getParameter(parametersKey.getInvokeTypeKey());
-		String objString = UrlDecoder.decode(
-				request.getParameter(parametersKey.getObjectDataKey()), CHARSET);
-		if (StringUtils.isEmpty(objString)) {
+		String paramObject = request.getParameter(parametersKey.getObjectDataKey());
+		String objString = null;
+		if (StringUtils.isNotEmpty(paramObject)) {
+			objString = UrlDecoder.decode(paramObject, CHARSET);
+		}
+		InvokeType invokeType = InvokeType.valueOf(type);
+		if (invokeType != InvokeType.INVALIDATE &&
+				StringUtils.isEmpty(objString)) {
 			doEmptyResponse(response);
 			return;
 		}
-		InvokeType invokeType = InvokeType.valueOf(type);
 		//GET
 		if (invokeType == InvokeType.GET) {
 			Object obj = holder.get(key, (Class<?>)SerializeUtils.deserialize(objString));
