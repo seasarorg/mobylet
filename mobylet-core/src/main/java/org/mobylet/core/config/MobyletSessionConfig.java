@@ -3,8 +3,9 @@ package org.mobylet.core.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.enums.SessionKey;
+import org.mobylet.core.ip.IpAddress;
+import org.mobylet.core.ip.IpAddressList;
 import org.mobylet.core.session.MobyletSessionAdapter;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.XmlUtils;
@@ -108,12 +109,12 @@ public class MobyletSessionConfig {
 
 		protected List<Host> receiveHosts;
 
-		protected List<Ip> allowIps;
+		protected IpAddressList allowIps;
 
 
 		public Distribution() {
 			receiveHosts = new ArrayList<Host>();
-			allowIps = new ArrayList<Ip>();
+			allowIps = new IpAddressList();
 		}
 
 		public String getProtocol() {
@@ -156,18 +157,18 @@ public class MobyletSessionConfig {
 			receiveHosts.add(new Host(name, host));
 		}
 
-		public List<Ip> getAllowIps() {
+		public IpAddressList getAllowIps() {
 			return allowIps;
 		}
 
 		public void addAllowIp(String ip) {
-			allowIps.add(new Ip(ip));
+			allowIps.add(new IpAddress(ip));
 		}
 
 		public boolean isAllowIp(String ip) {
-			int ipInteger = Ip.getIpInteger(ip);
-			for (Ip allowIp : allowIps) {
-				if (allowIp.isAllow(ipInteger)) {
+			int ipInteger = IpAddress.getIntegerIp(ip);
+			for (IpAddress allowIp : allowIps) {
+				if (allowIp.containsIp(ipInteger)) {
 					return true;
 				}
 			}
@@ -225,52 +226,4 @@ public class MobyletSessionConfig {
 
 	}
 
-	public static class Ip {
-
-		protected String ipString;
-
-		protected int ipStart;
-
-		protected int ipEnd;
-
-		protected int mask;
-
-		public Ip(String ip) {
-			ipString = ip;
-			int maskIndex = 0;
-			if ((maskIndex = ip.indexOf('/')) > 0) {
-				mask = Integer.parseInt(ip.substring(maskIndex + 1));
-				ipString = ip.substring(0, maskIndex);
-			}
-			int ipInteger = getIpInteger(ipString);
-			if (mask != 0) {
-				ipStart = ipInteger & (-1 << (32-mask));
-				ipEnd = ipInteger | (-1 >>> mask);
-			} else {
-				ipStart = ipInteger;
-				ipEnd = ipInteger;
-			}
-		}
-
-		public boolean isAllow(String ip) {
-			return isAllow(getIpInteger(ip));
-		}
-
-		public boolean isAllow(int ipInteger) {
-			return (ipStart <= ipInteger) && (ipInteger <= ipEnd);
-		}
-
-		public static int getIpInteger(String ip) {
-			String[] ipElements = ip.split("[.]");
-			if (ipElements.length != 4) {
-				throw new MobyletRuntimeException("IPアドレスの形式が間違っています = " + ip, null);
-			}
-			int ipInteger = 0x0000;
-			ipInteger = Integer.parseInt(ipElements[0]) << 24;
-			ipInteger += Integer.parseInt(ipElements[1]) << 16;
-			ipInteger += Integer.parseInt(ipElements[2]) << 8;
-			ipInteger += Integer.parseInt(ipElements[3]);
-			return ipInteger;
-		}
-	}
 }

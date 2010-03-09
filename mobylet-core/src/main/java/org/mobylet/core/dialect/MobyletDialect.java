@@ -51,4 +51,5 @@ public interface MobyletDialect {
 
 	public DeviceDisplay getDeviceDisplayByRequestHeader();
 
+	public boolean isGatewayIp();
 }

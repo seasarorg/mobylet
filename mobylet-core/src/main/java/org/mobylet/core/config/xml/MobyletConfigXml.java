@@ -21,6 +21,8 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_EMOJI = "emoji";
 
+	public static final String TAG_IP = "ip";
+
 	public static final String TAG_BASEDIR = "basedir";
 
 	public static final String TAG_IMAGE_PATH = "imagePath";
@@ -33,9 +35,13 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_JSESSION = "jsession";
 
+	public static final String TAG_SECURE_GATEWAY = "secureGateway";
+
 	public static final String TAG_IMPLEMENTS = "implements";
 
-	public static final String TAG_MOBYLET_CLASS = "mobylet-class";
+	public static final String TAG_MOBYLET_CLASS = "mobyletClass";
+
+	public static final String TAG_MOBYLET_CLASS_TMP = "mobylet-class";
 
 	public static final String TAG_CSS_EXPAND = "cssExpand";
 

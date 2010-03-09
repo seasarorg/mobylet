@@ -28,4 +28,7 @@ public interface Mobylet {
 	public void setContentType(ContentType contentType);
 
 	public ContentType getContentType();
+
+	public boolean isGatewayIp();
+
 }
