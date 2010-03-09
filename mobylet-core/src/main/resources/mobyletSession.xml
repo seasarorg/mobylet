@@ -6,7 +6,6 @@
 	<distribution>
 		<protocol>http</protocol>
 		<path>/mobylet/mobyletSession</path>
-		<method>POST</method>
 		<parameters>
 			<sessionKey>s</sessionKey>
 			<objectData>o</objectData>

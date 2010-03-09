@@ -60,7 +60,6 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 				distribution = new Distribution();
 				distribution.setProtocol(XmlUtils.getValue(root, X_DTB_PROTOCOL));
 				distribution.setPath(XmlUtils.getValue(root, X_DTB_PATH));
-				distribution.setMethod(XmlUtils.getValue(root, X_DTB_METHOD));
 				//ParametersTags
 				if (root.getNodeListByXPath(X_DTB_PARAMETERS).size() == 1) {
 					Parameters parameters = new Parameters(
@@ -120,8 +119,6 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 
 		protected String path;
 
-		protected String method;
-
 		protected Parameters parameters;
 
 		protected List<Host> receiveHosts;
@@ -148,14 +145,6 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 
 		public void setPath(String path) {
 			this.path = path;
-		}
-
-		public String getMethod() {
-			return method;
-		}
-
-		public void setMethod(String method) {
-			this.method = method;
 		}
 
 		public void setParameters(Parameters parameters) {
