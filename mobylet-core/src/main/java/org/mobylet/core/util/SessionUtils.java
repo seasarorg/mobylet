@@ -31,7 +31,7 @@ public class SessionUtils {
 	public static String getKey() {
 		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		Mobylet m = MobyletFactory.getInstance();
-		if (m != null && m.isGatewayIp()) {
+		if (m != null) {
 			if (config.getSessionKey() == SessionKey.GUID) {
 				return m.getGuid();
 			} else {
