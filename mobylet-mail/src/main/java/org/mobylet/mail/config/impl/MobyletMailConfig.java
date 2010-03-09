@@ -10,6 +10,7 @@ import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.util.ResourceUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.mail.MailConstants;
 import org.mobylet.mail.config.MailConfig;
 
 public class MobyletMailConfig implements MailConfig {
@@ -95,15 +96,19 @@ public class MobyletMailConfig implements MailConfig {
 		Properties sessionProperties = new Properties();
 		//HOST
 		String host = getHost();
-		sessionProperties.setProperty("mail.host", host);
-		sessionProperties.setProperty("mail.smtp.host", host);
-		sessionProperties.setProperty("mail.smtp.localhost", host);
+		sessionProperties.setProperty(MAIL_HOST, host);
+		sessionProperties.setProperty(MAIL_SMTP_HOST, host);
+		sessionProperties.setProperty(MAIL_SMTP_LOCALHOST, host);
 		//PORT
-		sessionProperties.setProperty("mail.smtp.port", getPort());
+		sessionProperties.setProperty(MAIL_SMTP_PORT, getPort());
 		//USER
-		sessionProperties.setProperty("mail.smtp.user", getUser());
+		sessionProperties.setProperty(MAIL_SMTP_USER, getUser());
 		//PASS
-		sessionProperties.setProperty("mail.smtp.pass", getPassword());
+		sessionProperties.setProperty(MAIL_SMTP_PASS, getPassword());
+		//SMTP-AUTH
+		if (StringUtils.isNotEmpty(getUser())) {
+			sessionProperties.setProperty(MAIL_SMTP_AUTH, MailConstants.TRUE);
+		}
 		//Session-Created
 		Session session = Session.getInstance(sessionProperties);
 		return session;
