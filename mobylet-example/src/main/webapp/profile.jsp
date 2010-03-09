@@ -22,6 +22,8 @@
 機種名：<%= profile.get("機種名") %><br/>
 ﾌﾞﾗｳｻﾞｻｲｽﾞ：横<%= display.getWidth() %>×縦<%= display.getHeight() %><br/>
 GPS：<%= device.hasGps() ? "対応" : "非対応" %><br/>
+UID：<%= mobylet.getUid() %><br/>
+GUID：<%= mobylet.getGuid() %><br/>
 </div>
 </body>
 </html>
