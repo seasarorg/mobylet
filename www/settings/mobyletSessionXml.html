@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>mobylet（モビレット） | 設定方法 | 携帯Webアプリケーションを開発するためのJavaオープンソースフレームワーク</title>
+<title>mobylet（モビレット） | 設定ファイル（mobyletSession.xml） | 携帯Webアプリケーションを開発するためのJavaオープンソースフレームワーク</title>
 <meta http-equiv="Content-Language" content="ja" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
@@ -30,133 +30,138 @@
 	</div>
 	<!-- end header -->
 
-
 	<!-- start container -->
 	<div class="container cFix">
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>Seasar2を利用する</h2>
+			<h2>mobyletSession.xmlについて（ver 1.0.4以降）</h2>
 
 			<!-- start main -->
 			<div id="main">
 				<!-- start descWrap -->
 				<div id ="descWrap" class="marT20">
 					<div id="descInner">
-						<p class="padT10 lh18p">
-						mobyletでは、Seasar2と連携するための拡張ライブラリを用意しています。<br />
-						Seasar2と連携するには、<a href="./">mobyletの設定</a>の後に2ステップを追加します。
-						</p>
-						<ol class="lspIn lh18p padT10 padB10">
-							<li>ライブラリをWebアプリケーションのビルドパスに含める</li>
-							<li>mobylet.diconをincludeする</li>
-						</ol>
 						<p class="padT10 lh18p padB20">
-						また、SAStruts Archetypeを利用して、<br />
-						1コマンドでmobylet/SAStrutsブランクプロジェクトを作成することも可能です。
+						mobyletを利用してセッションを使う場合、mobyletSessionを利用することが出来ます。<br />
+						mobyletSessionはUID/GUIDベースで管理可能なmobylet独自のセッション機構です。<br />
+						また、デフォルトで冗長構成に対応しています。
 						</p>
 					</div>
 				</div>
 				<!-- end descWrap -->
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3>ライブラリをWebアプリケーションのビルドパスに含める</h3>
-					<div class="cstInner">
-						<h4>Maven2をご利用の方</h4>
-						<p class="marT20 lh18p">Maven2をご利用の方は、適用したいプロジェクトのpom.xmlファイルに<br />以下のdependencyを加えることでライブラリをダウンロードできます。
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">&lt;dependency&gt;
-    &lt;groupId&gt;org.seasar.mobylet&lt;/groupId&gt;
-    &lt;artifactId&gt;mobylet-s2extension&lt;/artifactId&gt;
-    &lt;version&gt;0.9.1&lt;/version&gt;
-&lt;/dependency&gt;</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-
-						<h4>その他の方</h4>
-						<p class="marT20 lh18p">以下のページから最新バージョンのmobylet-s2extension.jarを取得し<br />プロジェクトに展開、及び適用（WEB-INF/libディレクトリなどに配置）してください。
-						</p>
-						<ul class="marT10 check">
-							<li><a href="../downloads/">mobyletライブラリダウンロードページ</a></li>
-						</ul>
-
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-
-					</div>
-					<!-- end cstInner -->
-
-				</div>
-				<!-- end cstWrap -->
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3>mobylet.diconをincludeする</h3>
+					<h3>mobyletSession.xmlを配置する</h3>
 					<div class="cstInner">
-
-						<p>
-						クラスパス配下のapp.diconから、mobylet.diconをincludeします。
-						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">&lt;include path="mobylet.dicon"/&gt;</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
+						<h4>mobyletSession.xmlを配置する</h4>
 						<p class="marT20 lh18p">
-						mobylet.diconはmobylet-core.jarに同梱されています。
+						「mobyletSession.xml」は、Webアプリケーション単位に用意されなかった場合<br />
+						mobylet-core-xxx.jarに含まれているmobyletSession.xmlを読み込むことで初期化を行いますが<br />
+						Webアプリケーション単位にファイルが用意されている場合は、そちらを優先して読み込みます。<br />
+						<br />
+						「mobyletSession.xml」を配置するディレクトリは「mobylet.xml」と同じディレクトリになります。<br />
+						※「mobylet.xml」を配置するディレクトリについては<a href="./mobyletxml.html">こちら</a>
 						</p>
-
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-
 					</div>
 					<!-- end cstInner -->
-
 				</div>
 				<!-- end cstWrap -->
 
 				<!-- start cstWrap -->
-				<div id="sastruts_archetype" class="cstWrap marT22">
-					<h3>archetypeからmobylet/SAStrutsプロジェクトを作成する</h3>
+				<div class="cstWrap marT22">
+					<h3>mobyletSession.xmlの初期設定</h3>
 					<div class="cstInner">
-						<h4>mavenのarchetypeを利用する</h4>
-						<p class="marT20 lh18p">SAStrutsを使ったmobyletプロジェクトを作成する場合、<br />
-						mavenのarchetypeを利用することで、非常に簡単にブランクプロジェクトを作成することが可能です。<br />
-						maven2をインストールして、インターネットに接続している環境があれば、<br />
-						以下のコマンドをコマンドプロンプト（ターミナル）から実行してください。<br />
-						（実際には改行しないで実行してください）
+						<h4>初期設定</h4>
+						<p class="marT20 lh18p">
+						mobyletSession.xmlはデフォルトで以下のように定義されています。
 						</p>
 						<!-- start codeWrap -->
 						<div class="codeWrap marT10">
 							<div class="codeInner">
-								<pre class="code">mvn archetype:generate -DarchetypeRepository=https://www.seasar.org/maven/maven2/
--DarchetypeGroupId=org.seasar.sastruts -DarchetypeArtifactId=sa-struts-archetype
--DarchetypeVersion=1.0.4-sp7.1 -DgroupId=sample.app -DartifactId=sample
--Dversion=0.1.0 -Duse-mobylet=true</pre>
+								<pre class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;mobyletSession&gt;
+    &lt;key&gt;GUID&lt;/key&gt;
+    &lt;timeout&gt;30&lt;/timeout&gt;
+    &lt;adapter&gt;org.mobylet.core.session.impl.MobyletMultiSessionAdapter&lt;/adapter&gt;
+    &lt;distribution&gt;
+        &lt;protocol&gt;http&lt;/protocol&gt;
+        &lt;path&gt;${contextPath}/mobyletSession&lt;/path&gt;
+        &lt;parameters&gt;
+            &lt;sessionKey&gt;s&lt;/sessionKey&gt;
+            &lt;objectData&gt;o&lt;/objectData&gt;
+            &lt;invokeType&gt;i&lt;/invokeType&gt;
+        &lt;/parameters&gt;
+        &lt;receiveHosts&gt;
+            &lt;host name="host1"&gt;127.0.0.1:8080&lt;/host&gt;
+        &lt;/receiveHosts&gt;
+        &lt;allowIps&gt;
+            &lt;ip&gt;127.0.0.1&lt;/ip&gt;
+        &lt;/allowIps&gt;
+    &lt;/distribution&gt;
+&lt;/mobyletSession&gt;
+</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
-						<h4>mobyletライブラリのバージョンを変更する</h4>
-						<p class="marT20 lh18p">pom.xmlのmobyletのバージョンは適宜変更してください。
+						<h4>要素 key</h4>
+						<p class="marT20 lh18p">
+						セッションを管理するためのキーとなるID情報。<br />
+						「UID」若しくは「GUID」を指定出来ます。
 						</p>
-						<!-- end codeWrap -->
-						<h4>合わせてDBFluteを使いたい場合</h4>
-						<p class="marT20 lh18p">以下のパラメータをコマンドに追加することでdependencyに追加されます。
+						<h4>要素 timeout</h4>
+						<p class="marT20 lh18p">
+						セッションを保持する時間（単位：分）<br />
+						該当するIDで最後にタッチしてからこの時間を経過した場合、そのIDのセッション情報は破棄される。<br />
+						※メモリ上からセッション情報が消失するタイミングとは異なる
 						</p>
-						<!-- start codeWrap -->
-						<div class="codeWrap marT10">
-							<div class="codeInner">
-								<pre class="code">-Duse-dbflute=true</pre>
-							</div>
-						</div>
-						<!-- end codeWrap -->
-						<h4>SAStrutsのarchetypeの詳細</h4>
-						<p class="marT20 lh18p">以下にSAStrutsのarchetypドキュメントがあるので参考にしてください。<br />
-						<a href="http://sastruts.seasar.org/mavenArchetype.html" target="_blank">http://sastruts.seasar.org/mavenArchetype.html</a>
+						<h4>要素 adapter</h4>
+						<p class="marT20 lh18p">
+						セッション情報へ接続するためのアダプタクラス<br />
+						mobylet-coreには以下の2つのクラスが用意されている。
+						</p>
+						<ul class="marT10">
+							<li>org.mobylet.core.session.impl.MobyletSingleSessionAdapter（WEBAPPサーバ冗長構成非対応）</li>
+							<li>org.mobylet.core.session.impl.MobyletMultiSessionAdapter（WEBAPPサーバ冗長構成対応）</li>
+						</ul>
+						<p class="marT10 lh18p">
+						※Google App Engineをご利用になる場合は「MobyletSingleSessionAdapter」を指定してください
+						</p>
+						<h4>要素 distribution</h4>
+						<p class="marT20 lh18p">
+						サーバ冗長構成時に各サーバにセッション情報を振り分けるための設定を行う。
+						</p>
+						<h4>要素 distribution/protocol</h4>
+						<p class="marT20 lh18p">
+						各サーバ間でセッション情報を通信する際のプロトコル<br />
+						「http」若しくは「https」が利用可能。<br />
+						※セッション情報がインターネット網を流れる場合は「https」の選択がオススメ
+						</p>
+						<h4>要素 distribution/path</h4>
+						<p class="marT20 lh18p">
+						セッション情報をやり取りするための専用URI<br />
+						実際のアプリでは利用しないURIを指定し、このURLをセッション情報通信用URIとして利用させる。
+						</p>
+						<h4>要素 distribution/parameters</h4>
+						<p class="marT20 lh18p">
+						セッション情報を受け渡すパラメータキー<br />
+						※特に変更する必要は無し
+						</p>
+						<h4>要素 distribution/receiveHosts</h4>
+						<p class="marT20 lh18p">
+						セッションを保持するアプリケーションを指定する<br />
+						「host」タグは複数記述することが可能で、name属性はログ出力用のホスト名を記載し、<br />
+						値に「ホスト名（IPアドレス）:ポート番号」を指定する。<br />
+						通常は冗長構成を取る全サーバを指定する（1台構成の場合でも使用可能）。
+						</p>
+						<h4>要素 distribution/allowIps</h4>
+						<p class="marT20 lh18p">
+						セッション情報を通信可能なIPを指定する<br />
+						ここで指定したIPアドレス以外はセッション情報を通信することができません。<br />
+						通常は冗長構成を取る全サーバを指定する（サブネットマスクを利用したIPアドレス帯域の指定も可能）
 						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
@@ -164,31 +169,39 @@
 				</div>
 				<!-- end cstWrap -->
 
-				<!-- start descWrap -->
-				<div id ="descWrap" class="marT20">
-					<div id="descInner">
-						<p class="fs16p bld fgAct padT10">なぜmobylet-s2extensionライブラリが必要なの？</p>
-						<p class="padT10 lh18p">
-						mobylet-s2extensionライブラリは次のことを可能にしてくれます。
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3>非冗長構成の場合</h3>
+					<div class="cstInner">
+						<h4>MobyletSingleSessionAdapterの設定</h4>
+						<p class="marT20 lh18p">
+						非冗長構成時は通信を伴わない、一般的なセッション管理を行うことも可能です。<br />
+						この場合は次のような「mobyletSession.xml」を「mobylet.xml」と同じディレクトリに配置します。
 						</p>
-						<ol class="lspIn lh18p padT10">
-							<li>mobylet内部からSingletonS2Containerを利用できる（コンテナの統合）</li>
-							<li>mobylet内部で利用するコンポーネントをdiconから差し込むことが出来る</li>
-							<li>mobylet内部にも独自拡張したHttpServletRequestの処理を伝搬出来る</li>
-						</ol>
-						<p class="padT10 lh18p padB20">
-						mobyletとS2で持っているそれぞれのコンテナを、mobylet-s2extensionライブラリで統合することによって<br />
-						S2で定義したコンポーネントを、mobylet内部にまで伝搬させることが一番のメリットです。<br />
-						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;mobyletSession&gt;
+    &lt;key&gt;GUID&lt;/key&gt;
+    &lt;timeout&gt;30&lt;/timeout&gt;
+    &lt;adapter&gt;org.mobylet.core.session.impl.MobyletSingleSessionAdapter&lt;/adapter&gt;
+&lt;/mobyletSession&gt;
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
+					<!-- end cstInner -->
 				</div>
-				<!-- end descWrap -->
+				<!-- end cstWrap -->
 
 			</div>
 			<!-- end main -->
 		</div>
 		<!-- end mainWrap -->
-
 
 		<!-- start sideArea -->
 		<div id="sideArea">
@@ -221,17 +234,13 @@
 			</dl>
 			-->
 			<ul class="banner cFix marT20">
-						<li><a href="http://d.hatena.ne.jp/mobylet/" target="_blank"><img src="../img/bnr_blog.gif" alt="ブログ" title="ブログ" class="imgover" /></a></li>
-						<li><a href="https://www.seasar.org/issues/browse/MOBYLET" target="_blank"><img src="../img/bnr_jira.gif" alt="JIRA" title="JIRA" class="imgover" /></a></li>
+				<li><a href="http://d.hatena.ne.jp/mobylet/" target="_blank"><img src="../img/bnr_blog.gif" alt="ブログ" title="ブログ" class="imgover" /></a></li>
+				<li><a href="https://www.seasar.org/issues/browse/MOBYLET" target="_blank"><img src="../img/bnr_jira.gif" alt="JIRA" title="JIRA" class="imgover" /></a></li>
 			</ul>
 		</div>
 		<!-- end sideArea -->
-
-
 	</div>
 	<!-- end container -->
-
-
 	<!-- start footer -->
 	<div class="container marT30">
 		<div class="tRight"><a href="#pageTop"><img src="../img/bg_gotop_foot.gif" alt="ページのTOPへ戻る" title="ページのTOPへ戻る" class="imgover" /></a></div>
@@ -256,13 +265,8 @@
 		<!-- end container -->
 	</div>
 	<!-- end footer -->
-
-
 </div>
-<!-- end wrapper -->
-
-
-
+<!-- ↑end wrapper -->
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

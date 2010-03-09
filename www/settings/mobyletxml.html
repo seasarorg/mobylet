@@ -193,6 +193,49 @@
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
+					<h3>ゲートウェイIPアドレスリストの設定</h3>
+					<div class="cstInner">
+						<h4>キャリアゲートウェイIPアドレス</h4>
+						<p class="marT20 lh18p">
+						携帯端末から携帯ブラウザを利用してインターネットにアクセスする場合、
+						端末のIPアドレスは各キャリアのゲートウェイIPアドレスが割り当てられる。<br />
+						アクセス元がキャリアのIPアドレスかどうかを確認することで、その端末が実機である確証を得ることが可能で、<br />
+						かつ、UID/GUIDの偽装を防ぐことが出来る。
+						</p>
+						<h4>IPアドレスリストの配置ディレクトリ</h4>
+						<p class="marT20 lh18p">
+						IPアドレスリストを配置するディレクトリは以下ように設定することが出来る。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">
+&lt;ip&gt;
+    &lt;basedir&gt;ip/&lt;/basedir&gt;
+&lt;/ip&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<h4>ゲートウェイIPアドレスリスト</h4>
+						<p class="marT20 lh18p">
+						ゲートウェイIPアドレスリストはデフォルトでmobylet-core-xxx.jarの中の「ip」ディレクトリに格納されている。<br />
+						ゲートウェイIPアドレスリストは各アプリ毎にファイルで用意することで、上書きすることが可能。<br />
+						予め用意されているゲートウェイIPアドレスリストは以下の通り
+						</p>
+						<ol class="lspIn lh18p padT10">
+							<li>DOCOMO.txt ： NTTドコモ端末の携帯ブラウザからアクセスする場合のゲートウェイIPアドレスリスト</li>
+							<li>AU.txt ： au端末の携帯ブラウザからアクセスする場合のゲートウェイIPアドレスリスト</li>
+							<li>SOFTBANK.txt ： ソフトバンク端末の携帯ブラウザからアクセスする場合のゲートウェイIPアドレスリスト</li>
+							<li>EXTENSION.txt ： キャリアを問わず特別に許可する拡張用IPアドレスリスト</li>
+						</ol>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
 					<h3>除外キャリアの設定</h3>
 					<div class="cstInner">
 						<h4>mobyletで処理対象外とするキャリアを設定する</h4>
@@ -302,7 +345,52 @@
 							<li>USE_QUERY : URLクエリにJSESSIONID情報を付与し、Cookieには付与しない</li>
 							<li>USE_COOKIE : CookieにJSESSIONID情報を付与し、URLクエリには付与しない</li>
 						</ol>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
 
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3>GatewayのIPアドレスとの整合性チェック</h3>
+					<div class="cstInner">
+						<h4>セキュリティレベルを上げる</h4>
+						<p class="marT20 lh18p">
+						携帯サイトにおいてはUID/GUIDといった、ユーザを特定するIDを利用することが可能だが、<br />
+						これらはPC等から偽装するようなことが可能である。<br />
+						この偽装による個人情報の流出を防ぐため、各キャリアのゲートウェイIPアドレスからのアクセスかどうか<br />
+						チェックすることでIDの偽装を許さないアプリを作成することが可能になる。<br />
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">
+&lt;secureGateway&gt;SECURE_ID&lt;/secureGateway&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT10 lh18p">
+						利用可能な設定は以下の通りです。
+						</p>
+						<ol class="lspIn lh18p padT10">
+							<li>NONE : デフォルト設定。ゲートウェイIPとの整合チェックを行わない</li>
+							<li>SECURE_ID : Mobylet#getUid()/Mobylet#getGuid()呼び出し時にIP不整合であればnullを返却</li>
+							<li>SECURE_CARRIER : Mobylet#getCarrier()呼び出し時にIP不整合であればCarrier.OTHERを返却</li>
+							<li>SECURE_ALL : SECURE_IDとSECURE_CARRIERの両方を適用</li>
+						</ol>
+						<h4>ゲートウェイIPアドレスリスト</h4>
+						<p class="marT20 lh18p">
+						ゲートウェイIPアドレスリストはデフォルトでmobylet-core-xxx.jarの中の「ip」ディレクトリに格納されている。<br />
+						ゲートウェイIPアドレスリストは各アプリ毎にファイルで用意することで、上書きすることが可能。<br />
+						予め用意されているゲートウェイIPアドレスリストは以下の通り
+						</p>
+						<ol class="lspIn lh18p padT10">
+							<li>DOCOMO.txt ： NTTドコモ端末の携帯ブラウザからアクセスする場合のゲートウェイIPアドレスリスト</li>
+							<li>AU.txt ： au端末の携帯ブラウザからアクセスする場合のゲートウェイIPアドレスリスト</li>
+							<li>SOFTBANK.txt ： ソフトバンク端末の携帯ブラウザからアクセスする場合のゲートウェイIPアドレスリスト</li>
+							<li>EXTENSION.txt ： キャリアを問わず特別に許可する拡張用IPアドレスリスト</li>
+						</ol>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
@@ -378,6 +466,7 @@
 						<li><a href="./t2.html">T2を利用する</a></li>
 						-->
 						<li><a href="./mobyletxml.html">mobylet.xmlについて</a></li>
+						<li><a href="./mobyletSessionXml.html">mobyletSession.xmlについて</a></li>
 						<li class="last"><a href="./resize.html">画像リサイズ設定</a></li>
 					</ul>
 				</dd>
