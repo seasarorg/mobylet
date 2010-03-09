@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.MobyletSessionConfig;
 import org.mobylet.core.config.MobyletSessionConfig.Parameters;
+import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.holder.SessionHolder;
 import org.mobylet.core.session.InvokeType;
 import org.mobylet.core.session.MobyletSessionManager;
@@ -19,7 +20,7 @@ import org.mobylet.core.util.UrlDecoder;
 
 public class MobyletMultiSessionManager implements MobyletSessionManager {
 
-	private static final Charset CHARSET = Charset.forName("UTF-8");
+	private static final Charset CHARSET = Charset.forName(DefCharset.UTF8);
 
 	protected MobyletSessionConfig config;
 
