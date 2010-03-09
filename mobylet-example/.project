@@ -1,11 +1,7 @@
 <projectDescription>
   <name>mobylet-example</name>
   <comment/>
-  <projects>
-    <project>mobylet-core</project>
-    <project>mobylet-mail</project>
-    <project>mobylet-taglibs</project>
-  </projects>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
