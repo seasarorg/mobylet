@@ -5,14 +5,14 @@
 	<adapter>org.mobylet.core.session.impl.MobyletMultiSessionAdapter</adapter>
 	<distribution>
 		<protocol>http</protocol>
-		<path>/mobylet/mobyletSession</path>
+		<path>${contextPath}/mobyletSession</path>
 		<parameters>
 			<sessionKey>s</sessionKey>
 			<objectData>o</objectData>
 			<invokeType>i</invokeType>
 		</parameters>
 		<receiveHosts>
-			<host name="host1">127.0.0.1</host>
+			<host name="host1">127.0.0.1:8080</host>
 		</receiveHosts>
 		<allowIps>
 			<ip>127.0.0.1</ip>
