@@ -26,6 +26,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 	private static final Charset CHARSET = Charset.forName(DefCharset.UTF8);
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T get(String key, Class<T> clazz) {
 		if (StringUtils.isEmpty(key)) {
 			return null;
@@ -34,7 +35,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 		try {
 			connection = getSessionConnection(key, InvokeType.GET, clazz);
 			connection.connect();
-			return getObject(connection);
+			return (T)getObject(connection);
 		} catch (Exception e) {
 			throw new MobyletRuntimeException("セッション管理処理に失敗 [GET]", e);
 		} finally {
@@ -64,6 +65,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T remove(String key, Class<T> clazz) {
 		if (StringUtils.isEmpty(key)) {
 			return null;
@@ -72,7 +74,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 		try {
 			connection = getSessionConnection(key, InvokeType.REMOVE, clazz);
 			connection.connect();
-			return getObject(connection);
+			return (T)getObject(connection);
 		} catch (Exception e) {
 			throw new MobyletRuntimeException("セッション管理処理に失敗 [REMOVE]", e);
 		} finally {
@@ -134,8 +136,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 		return connection;
 	}
 
-	@SuppressWarnings("unchecked")
-	protected <T> T getObject(HttpURLConnection connection) {
+	protected Object getObject(HttpURLConnection connection) {
 		int length = connection.getContentLength();
 		if (length == 0) {
 			return null;
@@ -145,7 +146,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 		try {
 			inputStream = connection.getInputStream();
 			ois = new ObjectInputStream(inputStream);
-			return (T)ois.readObject();
+			return ois.readObject();
 		} catch (IOException e) {
 			throw new MobyletRuntimeException("レスポンス情報からセッションオブジェクトを復元時にIO例外発生", e);
 		} catch (ClassNotFoundException e) {
