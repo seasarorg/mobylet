@@ -2,7 +2,11 @@ package org.mobylet.core.config.xml;
 
 public interface MobyletSessionConfigXml {
 
+	public static final String FILEPATH = "mobyletSession.xml";
+
 	public static final String SL = "/";
+
+	public static final String X_NAME = "name";
 
 	public static final String X_KEY = "key";
 
@@ -12,11 +16,19 @@ public interface MobyletSessionConfigXml {
 
 	public static final String X_DISTRIBUTION = "distribution";
 
+	public static final String X_DTB_PROTOCOL = X_DISTRIBUTION + SL + "protocol";
+
 	public static final String X_DTB_PATH = X_DISTRIBUTION + SL + "path";
 
 	public static final String X_DTB_METHOD = X_DISTRIBUTION + SL + "method";
 
-	public static final String X_DTB_PARAMETER = X_DISTRIBUTION + SL + "parameter";
+	public static final String X_DTB_PARAMETERS = X_DISTRIBUTION + SL + "parameters";
+
+	public static final String X_DTB_PM_SESSIONKEY = X_DTB_PARAMETERS + SL + "sessionKey";
+
+	public static final String X_DTB_PM_OBJECTDATA = X_DTB_PARAMETERS + SL + "objectData";
+
+	public static final String X_DTB_PM_INVOKETYPE = X_DTB_PARAMETERS + SL + "invokeType";
 
 	public static final String X_DTB_RECEIVEHOSTS = X_DISTRIBUTION + SL + "receiveHosts";
 

@@ -5,7 +5,7 @@
 	<adapter>org.mobylet.core.session.impl.MobyletMultiSessionAdapter</adapter>
 	<distribution>
 		<protocol>http</protocol>
-		<path>/mobyletSession</path>
+		<path>/mobylet/mobyletSession</path>
 		<method>POST</method>
 		<parameters>
 			<sessionKey>s</sessionKey>

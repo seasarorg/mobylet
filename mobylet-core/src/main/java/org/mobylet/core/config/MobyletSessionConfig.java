@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mobylet.core.config.enums.SessionKey;
+import org.mobylet.core.config.xml.MobyletSessionConfigXml;
 import org.mobylet.core.ip.IpAddress;
 import org.mobylet.core.ip.IpAddressList;
 import org.mobylet.core.session.MobyletSessionAdapter;
@@ -12,7 +13,7 @@ import org.mobylet.core.util.XmlUtils;
 import org.mobylet.core.xml.Xml;
 import org.mobylet.core.xml.XmlNode;
 
-public class MobyletSessionConfig {
+public class MobyletSessionConfig implements MobyletSessionConfigXml {
 
 	protected SessionKey key;
 
@@ -28,14 +29,15 @@ public class MobyletSessionConfig {
 	}
 
 	protected void initialize() {
-		Xml mobyletSessionXml = new Xml("mobyletSession.xml");
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		Xml mobyletSessionXml = new Xml(config.getConfigDir() + FILEPATH);
 		XmlNode root = mobyletSessionXml.getRootNode();
 		//GlobalTags
-		key = SessionKey.valueOf(XmlUtils.getValue(root, "key"));
-		timeout = Integer.parseInt(XmlUtils.getValue(root, "timeout"));
+		key = SessionKey.valueOf(XmlUtils.getValue(root, X_KEY));
+		timeout = Integer.parseInt(XmlUtils.getValue(root, X_TIMEOUT));
 		try {
 			adapter = MobyletSessionAdapter.class.cast(
-					Class.forName(XmlUtils.getValue(root, "adapter")).newInstance());
+					Class.forName(XmlUtils.getValue(root, X_ADAPTER)).newInstance());
 			SingletonUtils.put(adapter);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
@@ -45,32 +47,32 @@ public class MobyletSessionConfig {
 			e.printStackTrace();
 		}
 		//DistributionTags
-		if (root.getNodeListByXPath("distribution").size() == 1) {
+		if (root.getNodeListByXPath(X_DISTRIBUTION).size() == 1) {
 			distribution = new Distribution();
-			distribution.setProtocol(XmlUtils.getValue(root, "distribution/protocol"));
-			distribution.setPath(XmlUtils.getValue(root, "distribution/path"));
-			distribution.setMethod(XmlUtils.getValue(root, "distribution/method"));
+			distribution.setProtocol(XmlUtils.getValue(root, X_DTB_PROTOCOL));
+			distribution.setPath(XmlUtils.getValue(root, X_DTB_PATH));
+			distribution.setMethod(XmlUtils.getValue(root, X_DTB_METHOD));
 			//ParametersTags
-			if (root.getNodeListByXPath("distribution/parameters").size() == 1) {
+			if (root.getNodeListByXPath(X_DTB_PARAMETERS).size() == 1) {
 				Parameters parameters = new Parameters(
-						XmlUtils.getValue(root, "distribution/parameters/sessionKey"),
-						XmlUtils.getValue(root, "distribution/parameters/objectData"),
-						XmlUtils.getValue(root, "distribution/parameters/invokeType"));
+						XmlUtils.getValue(root, X_DTB_PM_SESSIONKEY),
+						XmlUtils.getValue(root, X_DTB_PM_OBJECTDATA),
+						XmlUtils.getValue(root, X_DTB_PM_INVOKETYPE));
 				distribution.setParameters(parameters);
 			}
 			//ReceiveHostsTags
-			if (root.getNodeListByXPath("distribution/receiveHosts").size() == 1) {
-				List<XmlNode> hosts = root.getNodeListByXPath("distribution/receiveHosts/host");
+			if (root.getNodeListByXPath(X_DTB_RECEIVEHOSTS).size() == 1) {
+				List<XmlNode> hosts = root.getNodeListByXPath(X_DTB_RH_HOST);
 				if (hosts != null) {
 					for (XmlNode node : hosts) {
 						distribution.addReceiveHost(
-								node.getAttributes().get("name"), node.getValue());
+								node.getAttributes().get(X_NAME), node.getValue());
 					}
 				}
 			}
 			//AllowIpsTags
-			if (root.getNodeListByXPath("distribution/allowIps").size() == 1) {
-				List<XmlNode> ips = root.getNodeListByXPath("distribution/allowIps/ip");
+			if (root.getNodeListByXPath(X_DTB_ALLOWIPS).size() == 1) {
+				List<XmlNode> ips = root.getNodeListByXPath(X_DTB_AL_IP);
 				if (ips != null) {
 					for (XmlNode node : ips) {
 						distribution.addAllowIp(node.getValue());
