@@ -18,6 +18,7 @@ package org.mobylet.core.impl;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.config.MobyletConfig;
+import org.mobylet.core.config.enums.SecureGateway;
 import org.mobylet.core.detector.CarrierDetector;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DeviceDisplay;
@@ -101,7 +102,7 @@ public class MobyletImpl implements Mobylet {
 	 */
 	@Override
 	public Carrier getCarrier() {
-		return carrier;
+		return getSecureGatewayCarrier(carrier);
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class MobyletImpl implements Mobylet {
 	 */
 	@Override
 	public String getUid() {
-		return dialect.getUid();
+		return getSecureGatewayId(dialect.getUid());
 	}
 
 	/**
@@ -193,7 +194,7 @@ public class MobyletImpl implements Mobylet {
 	 */
 	@Override
 	public String getGuid() {
-		return dialect.getGuid();
+		return getSecureGatewayId(dialect.getGuid());
 	}
 
 	/**
@@ -265,6 +266,11 @@ public class MobyletImpl implements Mobylet {
 		return contentType;
 	}
 
+	@Override
+	public boolean isGatewayIp() {
+		return dialect.isGatewayIp();
+	}
+
 	/**
 	 * <p>初期化処理.</p>
 	 * <p>
@@ -275,4 +281,25 @@ public class MobyletImpl implements Mobylet {
 		carrier = SingletonUtils.get(CarrierDetector.class).getCarrier();
 		dialect = SingletonUtils.get(DialectSelector.class).getDialect(carrier);
 	}
+
+	protected Carrier getSecureGatewayCarrier(Carrier carrier) {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		if (config.getSecureGateway() == SecureGateway.SECURE_ALL ||
+				config.getSecureGateway() == SecureGateway.SECURE_CARRIER) {
+			return isGatewayIp() ? carrier : Carrier.OTHER;
+		} else {
+			return carrier;
+		}
+	}
+
+	protected String getSecureGatewayId(String id) {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		if (config.getSecureGateway() == SecureGateway.SECURE_ALL ||
+				config.getSecureGateway() == SecureGateway.SECURE_ID) {
+			return isGatewayIp() ? id : null;
+		} else {
+			return id;
+		}
+	}
+
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.config.enums.JSession;
+import org.mobylet.core.config.enums.SecureGateway;
 import org.mobylet.core.config.enums.SessionKey;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.type.ContentType;
@@ -18,6 +19,8 @@ public class MobyletConfig {
 	public static final String RES_DEVICE_DIR = "device/";
 
 	public static final String RES_EMOJI_DIR = "emoji/";
+
+	public static final String RES_IP_DIR = "ip/";
 
 	protected String configDir;
 
@@ -31,11 +34,15 @@ public class MobyletConfig {
 
 	protected String emojiDir;
 
+	protected String ipDir;
+
 	protected String emojiImagePath;
 
 	protected Proxy httpProxy;
 
 	protected JSession jSession;
+
+	protected SecureGateway secureGateway;
 
 	protected Integer sessionTimeout;
 
@@ -78,6 +85,14 @@ public class MobyletConfig {
 		}
 	}
 
+	public String getIpDir() {
+		if (StringUtils.isEmpty(ipDir)) {
+			return RES_IP_DIR;
+		} else {
+			return ipDir;
+		}
+	}
+
 	public String getEmojiImagePath() {
 		return emojiImagePath;
 	}
@@ -99,6 +114,14 @@ public class MobyletConfig {
 			return JSession.DEFAULT;
 		} else {
 			return jSession;
+		}
+	}
+
+	public SecureGateway getSecureGateway() {
+		if (secureGateway == null) {
+			return SecureGateway.NONE;
+		} else {
+			return secureGateway;
 		}
 	}
 
@@ -128,6 +151,10 @@ public class MobyletConfig {
 
 	public void setEmojiDir(String emojiDir) {
 		this.emojiDir = emojiDir;
+	}
+
+	public void setIpDir(String ipDir) {
+		this.ipDir = ipDir;
 	}
 
 	public void setEmojiImagePath(String emojiImagePath) {
@@ -176,6 +203,10 @@ public class MobyletConfig {
 
 	public void setJSession(JSession jSession) {
 		this.jSession = jSession;
+	}
+
+	public void setSecureGateway(SecureGateway secureGateway) {
+		this.secureGateway = secureGateway;
 	}
 
 	public void setSessionTimeout(Integer sessionTimeout) {

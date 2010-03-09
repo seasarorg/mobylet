@@ -3,13 +3,18 @@ package org.mobylet.core.dialect.impl;
 import java.nio.charset.Charset;
 
 import org.mobylet.core.dialect.MobyletDialect;
+import org.mobylet.core.ip.IpAddressList;
+import org.mobylet.core.ip.IpTextReader;
 import org.mobylet.core.selector.CharsetSelector;
+import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
 public abstract class AbstractDialect implements MobyletDialect {
 
 	protected CharsetSelector charsetSelector;
+
+	protected IpTextReader ipTextReader;
 
 	protected String contentTypeString = null;
 
@@ -18,6 +23,7 @@ public abstract class AbstractDialect implements MobyletDialect {
 
 	protected AbstractDialect() {
 		charsetSelector = SingletonUtils.get(CharsetSelector.class);
+		ipTextReader = SingletonUtils.get(IpTextReader.class);
 	}
 
 	@Override
@@ -56,6 +62,17 @@ public abstract class AbstractDialect implements MobyletDialect {
 				"application/xhtml+xml; charset=" + getContentCharsetName();
 		}
 		return xContentTypeString;
+	}
+
+	@Override
+	public boolean isGatewayIp() {
+		IpAddressList ipList =
+			ipTextReader.getIpAddressList(getCarrier());
+		if (ipList == null) {
+			return false;
+		} else {
+			return ipList.containsIp(RequestUtils.get().getRemoteAddr());
+		}
 	}
 
 }

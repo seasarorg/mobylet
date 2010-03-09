@@ -40,6 +40,7 @@ import org.mobylet.core.image.impl.MobyletImageCacheHelper;
 import org.mobylet.core.image.impl.MobyletImageMagickScaler;
 import org.mobylet.core.image.impl.MobyletImageReader;
 import org.mobylet.core.image.impl.MobyletImageScaler;
+import org.mobylet.core.ip.impl.IpTextReaderImpl;
 import org.mobylet.core.selector.impl.MobyletCharsetSelector;
 import org.mobylet.core.selector.impl.MobyletDialectSelector;
 import org.mobylet.core.session.impl.MobyletMultiSessionManager;
@@ -61,6 +62,8 @@ public class MobyletInitializerImpl
 		SingletonUtils.put(new MobyletMultiSessionManager());
 		//CharsetSelector
 		SingletonUtils.put(new MobyletCharsetSelector());
+		//Ip
+		SingletonUtils.put(new IpTextReaderImpl());
 		//Dialect
 		SingletonUtils.put(new MobyletDialectSelector());
 		SingletonUtils.put(new MobyletDocomoDialect());

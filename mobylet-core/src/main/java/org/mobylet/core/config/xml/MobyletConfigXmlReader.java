@@ -9,6 +9,7 @@ import org.mobylet.core.Carrier;
 import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.config.enums.JSession;
+import org.mobylet.core.config.enums.SecureGateway;
 import org.mobylet.core.initializer.MobyletInitializer;
 import org.mobylet.core.initializer.impl.MobyletInitializerImpl;
 import org.mobylet.core.log.MobyletLogger;
@@ -95,6 +96,10 @@ public class MobyletConfigXmlReader
 			else if (parent.equals(TAG_EMOJI) &&
 					StringUtils.isNotEmpty(value)) {
 				config.setEmojiDir(value);
+			}
+			else if (parent.equals(TAG_IP) &&
+					StringUtils.isNotEmpty(value)) {
+				config.setIpDir(value);
 			}
 		}
 		//ImagePath
@@ -211,8 +216,16 @@ public class MobyletConfigXmlReader
 				config.setJSession(jSession);
 			}
 		}
+		//SecureGateway
+		else if (name.equals(TAG_SECURE_GATEWAY)) {
+			SecureGateway secureGateway = SecureGateway.valueOf(value);
+			if (secureGateway != null) {
+				config.setSecureGateway(secureGateway);
+			}
+		}
 		//MobyletClass
-		else if (name.equals(TAG_MOBYLET_CLASS)) {
+		else if (name.equals(TAG_MOBYLET_CLASS) ||
+				name.equals(TAG_MOBYLET_CLASS_TMP)) {
 			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
 			if (parent == null) {
 				value = null;
@@ -241,7 +254,9 @@ public class MobyletConfigXmlReader
 				tag.equals(TAG_CARRIER) ||
 				tag.equals(TAG_CONTENT_TYPE) ||
 				tag.equals(TAG_JSESSION) ||
+				tag.equals(TAG_SECURE_GATEWAY) ||
 				tag.equals(TAG_MOBYLET_CLASS) ||
+				tag.equals(TAG_MOBYLET_CLASS_TMP) ||
 				tag.equals(TAG_CSS_EXPAND) ||
 				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_PORT)) {
