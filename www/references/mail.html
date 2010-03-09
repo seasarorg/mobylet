@@ -168,6 +168,34 @@ MobyletMailer.send(message);</pre>
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="deco">バッチ処理でメールを送る</h3>
+					<!-- start cstInner -->
+					<div class="cstInner">
+						<h4>mobyletの初期化をバッチで行う</h4>
+						<p class="marT20 lh18p">
+						mobyletは基本的にFilterベースで作られていますが、メール送信処理等のバッチ処理のために<br />
+						バッチ処理に適した初期化ロジックを提供しています。<br />
+						初期化ロジックは以下の通り。
+						</p>
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">
+MobyletLauncher.launch();</pre>
+							</div>
+						</div>
+						<p class="marT20 lh18p">
+						上記のロジックを呼び出すことで「mobylet.xml」の読み込み等、<br />
+						mobyletの初期化時に必要な処理を呼び出すことが出来ます。
+						</p>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
 			</div>
 			<!-- end main -->
 		</div>
