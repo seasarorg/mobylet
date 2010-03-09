@@ -7,6 +7,7 @@ import org.mobylet.core.config.enums.SessionKey;
 import org.mobylet.core.config.xml.MobyletSessionConfigXml;
 import org.mobylet.core.ip.IpAddress;
 import org.mobylet.core.ip.IpAddressList;
+import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.session.MobyletSessionAdapter;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.XmlUtils;
@@ -30,56 +31,67 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 
 	protected void initialize() {
 		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-		Xml mobyletSessionXml = new Xml(config.getConfigDir() + FILEPATH);
-		XmlNode root = mobyletSessionXml.getRootNode();
-		//GlobalTags
-		key = SessionKey.valueOf(XmlUtils.getValue(root, X_KEY));
-		timeout = Integer.parseInt(XmlUtils.getValue(root, X_TIMEOUT));
+		MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+		String path = config.getConfigDir() + FILEPATH;
+		if (logger != null && logger.isLoggable())
+			logger.log("[mobylet] " + path + " の読み込み処理開始");
 		try {
-			adapter = MobyletSessionAdapter.class.cast(
-					Class.forName(XmlUtils.getValue(root, X_ADAPTER)).newInstance());
-			SingletonUtils.put(adapter);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		//DistributionTags
-		if (root.getNodeListByXPath(X_DISTRIBUTION).size() == 1) {
-			distribution = new Distribution();
-			distribution.setProtocol(XmlUtils.getValue(root, X_DTB_PROTOCOL));
-			distribution.setPath(XmlUtils.getValue(root, X_DTB_PATH));
-			distribution.setMethod(XmlUtils.getValue(root, X_DTB_METHOD));
-			//ParametersTags
-			if (root.getNodeListByXPath(X_DTB_PARAMETERS).size() == 1) {
-				Parameters parameters = new Parameters(
-						XmlUtils.getValue(root, X_DTB_PM_SESSIONKEY),
-						XmlUtils.getValue(root, X_DTB_PM_OBJECTDATA),
-						XmlUtils.getValue(root, X_DTB_PM_INVOKETYPE));
-				distribution.setParameters(parameters);
+			Xml mobyletSessionXml = new Xml(path);
+			XmlNode root = mobyletSessionXml.getRootNode();
+			//GlobalTags
+			key = SessionKey.valueOf(XmlUtils.getValue(root, X_KEY));
+			timeout = Integer.parseInt(XmlUtils.getValue(root, X_TIMEOUT));
+			try {
+				adapter = MobyletSessionAdapter.class.cast(
+						Class.forName(XmlUtils.getValue(root, X_ADAPTER)).newInstance());
+				SingletonUtils.put(adapter);
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-			//ReceiveHostsTags
-			if (root.getNodeListByXPath(X_DTB_RECEIVEHOSTS).size() == 1) {
-				List<XmlNode> hosts = root.getNodeListByXPath(X_DTB_RH_HOST);
-				if (hosts != null) {
-					for (XmlNode node : hosts) {
-						distribution.addReceiveHost(
-								node.getAttributes().get(X_NAME), node.getValue());
+			//DistributionTags
+			if (root.getNodeListByXPath(X_DISTRIBUTION).size() == 1) {
+				distribution = new Distribution();
+				distribution.setProtocol(XmlUtils.getValue(root, X_DTB_PROTOCOL));
+				distribution.setPath(XmlUtils.getValue(root, X_DTB_PATH));
+				distribution.setMethod(XmlUtils.getValue(root, X_DTB_METHOD));
+				//ParametersTags
+				if (root.getNodeListByXPath(X_DTB_PARAMETERS).size() == 1) {
+					Parameters parameters = new Parameters(
+							XmlUtils.getValue(root, X_DTB_PM_SESSIONKEY),
+							XmlUtils.getValue(root, X_DTB_PM_OBJECTDATA),
+							XmlUtils.getValue(root, X_DTB_PM_INVOKETYPE));
+					distribution.setParameters(parameters);
+				}
+				//ReceiveHostsTags
+				if (root.getNodeListByXPath(X_DTB_RECEIVEHOSTS).size() == 1) {
+					List<XmlNode> hosts = root.getNodeListByXPath(X_DTB_RH_HOST);
+					if (hosts != null) {
+						for (XmlNode node : hosts) {
+							distribution.addReceiveHost(
+									node.getAttributes().get(X_NAME), node.getValue());
+						}
+					}
+				}
+				//AllowIpsTags
+				if (root.getNodeListByXPath(X_DTB_ALLOWIPS).size() == 1) {
+					List<XmlNode> ips = root.getNodeListByXPath(X_DTB_AL_IP);
+					if (ips != null) {
+						for (XmlNode node : ips) {
+							distribution.addAllowIp(node.getValue());
+						}
 					}
 				}
 			}
-			//AllowIpsTags
-			if (root.getNodeListByXPath(X_DTB_ALLOWIPS).size() == 1) {
-				List<XmlNode> ips = root.getNodeListByXPath(X_DTB_AL_IP);
-				if (ips != null) {
-					for (XmlNode node : ips) {
-						distribution.addAllowIp(node.getValue());
-					}
-				}
-			}
+		} catch (RuntimeException e) {
+			logger.log("[mobylet] " + path + " の読み込みに失敗");
+			throw e;
 		}
+		if (logger != null && logger.isLoggable())
+			logger.log("[mobylet] " + path + " が読み込まれました");
 	}
 
 	public SessionKey getKey() {
