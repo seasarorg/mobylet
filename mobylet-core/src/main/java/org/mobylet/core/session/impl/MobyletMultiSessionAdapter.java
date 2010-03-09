@@ -83,7 +83,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 	}
 
 	@Override
-	public <T> boolean set(String key, T obj) {
+	public boolean set(String key, Object obj) {
 		if (StringUtils.isEmpty(key)) {
 			return false;
 		}
