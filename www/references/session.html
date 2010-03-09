@@ -36,43 +36,20 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>マニアックに利用する</h2>
+			<h2>UID/GUIDセッションを取得する</h2>
 
 			<!-- start main -->
 			<div id="main">
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="var">設定ファイルで予約変数を利用する</h3>
+					<h3 id="session">mobyletのセッション機構を使う</h3>
 					<div class="cstInner">
-						<h4>各種予約変数</h4>
+						<h4>mobyletのセッション機構を利用するための設定</h4>
 						<p class="marT20 lh18p">
-						mobyletが利用する各種プロパティにはいくつかの予約語を利用することができます。<br />
-						（mobylet.xml、mobylet.image.properties等）<br />
-						以下、使用例。
-						</p>
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">
-image.local.base.dir=${docBase}/images
-image.cache.base.dir=${java.io.tmpdir}
-image.scale.servlet.path=${contextPath}/imageScaler
-</pre>
-							</div>
-						</div>
-						<h4>${docBase}</h4>
-						<p class="marT20 lh18p">
-						WEBアプリケーションのdocBaseに置換します。<br />
-						※Ver.1.0.1以上で利用可能
-						</p>
-						<h4>${contextPath}</h4>
-						<p class="marT20 lh18p">
-						WEBアプリケーションのコンテキストパスに置換します。<br />
-						※Servlet API 2.5以上の場合に利用可能です。
-						</p>
-						<h4>${<i>[yourVariable]</i>}</h4>
-						<p class="marT20 lh18p">
-						MobyletFilterのInitParameterやSystemPropertiesから指定の変数名の値に置換します。
+						mobyletのセッション機構はUID/GUIDをベースとした（jsessionidを利用しない）セッション機構です。<br />
+						Webアプリサーバの冗長構成にも対応しており、ID偽装等のセキュリティに対しても柔軟に設定可能です。<br />
+						基本的な設定は<a href="../settings/mobyletSessionXml.html">こちら</a>
 						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
@@ -80,69 +57,59 @@ image.scale.servlet.path=${contextPath}/imageScaler
 				</div>
 				<!-- end cstWrap -->
 
+
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="designer">JSP以外のビューを使う</h3>
+					<h3 id="delegate">mobyletセッションの使い方</h3>
 					<div class="cstInner">
-						<h4>Designerクラスを利用してmobyletの機能を活用する</h4>
+						<h4>4つのデリゲートメソッドを利用する</h4>
 						<p class="marT20 lh18p">
-						Mobyletは特定のビューに依存していません。<br />
-						ビューのロジックは各Designerクラスとして独立しており、<br />
-						JSP用のカスタムタグも、内部でDesignerクラスのロジックを呼び出しています。<br />
-						<br />
-						そのため、VelocityなどJSP以外のビューを使用する場合でも、各Designerクラスを使用することで、<br />
-						Mobyletの便利なビュー側の機能を使用することが可能です。<br />
-						<br />
-						Designerクラスは、mobylet-core.jar内の「org.mobylet.view.designer」パッケージ配下に用意されています。
+						セッション情報を格納する（データクラス単位で格納可能）
 						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">SessionUtils.set("ABC"); //String.classで格納</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">
+						セッション情報を取得する（データクラス単位で取得可能）
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">String session = SessionUtils.set(String.class);</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">
+						セッション情報を削除する（データクラス単位で削除）
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">SessionUtils.remove(String.class);</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">
+						セッション情報を削除する（ID単位で削除）
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">SessionUtils.invalidate();</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
 
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="configinjection">Config Injection</h3>
-					<!-- start cstInner -->
-					<div class="cstInner">
-						<h4>プロパティファイルを配置してDesignerをカスタマイズする</h4>
-						<p class="marT20 lh18p">
-						Mobyletでは、Designerクラスのデフォルトの動作をカスタマイズ可能な仕組みが用意されています。<br />
-						この仕組みは、MobyletInjectionConfigクラスを継承したConfigクラスと、<br />
-						対応するプロパティファイルを使用したConfig Injectionにより実現しています。<br />
-						<br />
-						例として、以下では&lt;m:a&gt;タグのデフォルトの動作を変更しています。<br />
-						<br />
-						&lt;m:a&gt;タグの生成に使用するTransitionDesignerクラスは、内部でTransitionConfigクラスを保持しています。<br />
-						TransitionConfigクラスはMobyletInjectionConfigクラスを継承しているため、<br />
-						プロパティファイルで設定をカスタマイズすることが可能です。<br />
-						TransitionConfigクラスのパッケージは「org.mobylet.view.config」のため、<br />
-						クラスパス配下に「org.mobylet.view.config.TransitionConfig.properties」という名前のプロパティファイルを配置します。
-						</p>
-						<h4>JSESSIONIDの出力をデフォルトでOFFにする</h4>
-						<p class="marT20 lh18p">
-						&lt;m:a&gt;タグでは、デフォルトでURLにJSESSIONIDが付与される仕様になっています。<br />
-						これを変更する場合、作成したプロパティファイルに以下の記述を追加します。
-						</p>
-						<div class="codeWrap marT20">
-							<div class="codeInner">
-								<pre class="code">
-transition.isSessionCookiePriority=false</pre>
-							</div>
-						</div>
-						<p class="marT20 lh18p">
-						この他、「UID」「GUID」などのデフォルトの設定も変更可能です。<br />
-						設定可能な値はTransitionConfigクラスをご覧ください。<br />
-						<br />
-						このように、MobyletInjectionConfigクラスを継承したConfigクラスを使用することで、<br />
-						Mobyletの動作に独自のカスタマイズを行なうことが可能です。
-						</p>
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
 			</div>
 			<!-- end main -->
 		</div>
