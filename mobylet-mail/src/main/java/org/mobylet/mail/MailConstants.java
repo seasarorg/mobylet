@@ -38,4 +38,7 @@ public interface MailConstants {
 	public static final String CHARSET_AU_MAIL_SJIS = "x-mobylet-mail-sjis-au";
 
 	public static final String APPLICATION_OCTETSTREAM = "application/octet-stream";
+
+
+	public static final String TRUE = "true";
 }

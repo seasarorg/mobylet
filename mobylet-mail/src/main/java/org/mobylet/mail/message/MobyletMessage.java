@@ -173,6 +173,9 @@ public class MobyletMessage extends MimeMessage implements MailConstants {
 		return notifyCharset;
 	}
 
+	public Session getSession() {
+		return mobyletSession;
+	}
 
 	public MobyletMessage setTextBody(String source) {
 		try {
