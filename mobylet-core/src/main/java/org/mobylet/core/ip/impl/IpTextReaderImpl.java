@@ -49,7 +49,7 @@ public class IpTextReaderImpl implements IpTextReader {
 		ipList.addAll(extensionList);
 		ipMap.put(carrier, ipList);
 	}
-	
+
 	protected IpAddressList readIpText(String type) {
 		IpAddressList ipList = new IpAddressList();
 		if (StringUtils.isEmpty(type)) {
@@ -75,11 +75,14 @@ public class IpTextReaderImpl implements IpTextReader {
 					count++;
 				}
 			}
-			logger.log("[mobylet] " + path + " が読み込まれました - IPアドレス帯域数 = " + count);
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] " + path + " が読み込まれました - IPアドレス帯域数 = " + count);
 		} catch (UnsupportedEncodingException e) {
-			logger.log("[mobylet] 文字コード[" + DefCharset.UTF8 + "]が利用できません");
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] 文字コード[" + DefCharset.UTF8 + "]が利用できません");
 		} catch (Exception e) {
-			logger.log("[mobylet] IPアドレステキスト [" + path + "]が読み込めません");
+			if (logger != null && logger.isLoggable())
+				logger.log("[mobylet] IPアドレステキスト [" + path + "]が読み込めません");
 		} finally {
 			if (reader != null) {
 				try {
