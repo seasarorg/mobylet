@@ -10,6 +10,7 @@ import org.mobylet.core.ip.IpAddress;
 import org.mobylet.core.ip.IpAddressList;
 import org.mobylet.core.log.MobyletLogger;
 import org.mobylet.core.session.MobyletSessionAdapter;
+import org.mobylet.core.util.ConfigUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.XmlUtils;
 import org.mobylet.core.xml.Xml;
@@ -59,7 +60,9 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 			if (root.getNodeListByXPath(X_DISTRIBUTION).size() == 1) {
 				distribution = new Distribution();
 				distribution.setProtocol(XmlUtils.getValue(root, X_DTB_PROTOCOL));
-				distribution.setPath(XmlUtils.getValue(root, X_DTB_PATH));
+				distribution.setPath(
+						ConfigUtils.parseValue(
+								XmlUtils.getValue(root, X_DTB_PATH)));
 				//ParametersTags
 				if (root.getNodeListByXPath(X_DTB_PARAMETERS).size() == 1) {
 					Parameters parameters = new Parameters(
