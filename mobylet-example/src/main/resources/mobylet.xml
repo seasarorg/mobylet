@@ -24,6 +24,7 @@
 		<imagePath>/mobylet/ei/</imagePath>
 		-->
 	</emoji>
+	<secureGateway>SECURE_ID</secureGateway>
 	<cssExpand>true</cssExpand>
 	<!--
 	<proxy>
