@@ -112,7 +112,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 		buf.append(config.getDistribution().getParameters().getSessionKey() + "=" +
 				UrlEncoder.encode(key, CHARSET));
 		buf.append("&" + config.getDistribution().getParameters().getInvokeTypeKey() + "=" +
-				InvokeType.GET.name());
+				type.name());
 		if (obj != null) {
 			buf.append("&" + config.getDistribution().getParameters().getObjectDataKey() + "=" +
 					UrlEncoder.encode(SerializeUtils.serialize2Base64String(obj), CHARSET));
