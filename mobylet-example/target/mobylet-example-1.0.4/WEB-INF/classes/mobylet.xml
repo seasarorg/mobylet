@@ -2,9 +2,7 @@
 <mobylet>
 	<initializers>
 		<chain>org.mobylet.core.initializer.impl.MobyletInitializerImpl</chain>
-		<!--
 		<chain>org.mobylet.mail.initializer.MobyletMailInitializer</chain>
-		-->
 	</initializers>
 	<through>
 		<!--
@@ -14,11 +12,9 @@
 		<carrier>SOFTBANK</carrier>
 		-->
 	</through>
-	<!--
 	<default>
 		<contentType>XHTML</contentType>
 	</default>
-	-->
 	<device>
 		<basedir>device/</basedir>
 	</device>
@@ -28,12 +24,7 @@
 		<imagePath>/mobylet/ei/</imagePath>
 		-->
 	</emoji>
-	<!--
-	<secureGateway>NONE</secureGateway>
-	-->
-	<!--
 	<cssExpand>true</cssExpand>
-	-->
 	<!--
 	<proxy>
 		<host>proxy.mobylet.org</host>
