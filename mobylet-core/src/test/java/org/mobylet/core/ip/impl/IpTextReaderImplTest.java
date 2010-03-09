@@ -7,7 +7,7 @@ import org.mobylet.core.ip.IpTextReader;
 import org.mobylet.core.launcher.MobyletLauncher;
 import org.mobylet.core.util.SingletonUtils;
 
-public class IpTextReaderImptTest extends TestCase {
+public class IpTextReaderImplTest extends TestCase {
 
 	public void test_reading() {
 		//## ARRANGE ##
