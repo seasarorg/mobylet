@@ -1,5 +1,6 @@
 package org.mobylet.core.config;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,9 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 	protected void initialize() {
 		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
-		String path = config.getConfigDir() + FILEPATH;
+		String path =
+			config.getConfigDir().equals("." + File.separator) ?
+					FILEPATH : config.getConfigDir() + FILEPATH;
 		if (logger != null && logger.isLoggable())
 			logger.log("[mobylet] " + path + " の読み込み処理開始");
 		try {

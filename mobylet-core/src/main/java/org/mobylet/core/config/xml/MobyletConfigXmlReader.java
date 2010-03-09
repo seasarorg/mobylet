@@ -43,7 +43,7 @@ public class MobyletConfigXmlReader
 	public MobyletConfigXmlReader(String configDir) {
 		MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
 		if (logger != null && logger.isLoggable())
-			logger.log("[mobylet] mobylet.xml の読み込み処理開始");
+			logger.log("[mobylet] " + configDir + CONFIG_PATH + " の読み込み処理開始");
 		config = new MobyletConfig(configDir);
 		if (!XmlUtils.parseSax(configDir + CONFIG_PATH, this)) {
 			config.addInitializer(new MobyletInitializerImpl());
