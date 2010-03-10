@@ -36,10 +36,107 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>UID/GUIDセッションを取得する</h2>
+			<h2>mobyletのセッション機構を利用する</h2>
 
 			<!-- start main -->
 			<div id="main">
+
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="session">mobyletセッションを利用する前に</h3>
+					<div class="cstInner">
+						<h4>UID/GUIDをキーにしたセッション管理の問題を知る</h4>
+						<p class="marT20 lh18p">
+						mobyletのセッション機構はUID/GUIDをキーとして管理するため、非常に便利な機能となっています。<br />
+						しかし、UID/GUIDをキーとして利用する場合の問題点を理解した上で、最適な設定を行う必要があるため、
+						まずはこの部分（特にセキュリティ観点）についてしっかりと理解しておく必要があります。
+						</p>
+						<h4>UID/GUIDの偽装</h4>
+						<p class="marT20 lh18p">
+						UIDやGUIDとは端末若しくはキャリアのゲートウェイサーバがリクエスト情報に混入してくれる、ユーザ等を特定する一意なIDです。<br />
+						このIDはリクエストヘッダやリクエストパラメータとしてWebアプリケーションに対して引き渡されるため、
+						PC等から人為的にIDを付与して送信することで、UID/GUIDを偽装することが出来ます。<br />
+						IDの偽装はセキュリティホールとなり、個人情報の漏えいの危険性も有り、この偽装に対処する必要があります。<br />
+						現実的な対応方法には以下のようなものがあります。
+						</p>
+						<ol class="lspIn lh18p padT10 padB20">
+							<li>mobylet.xmlでsecureGatewayを設定する</li>
+							<li>Apache等のWebサーバ側でIP制限を行う</li>
+						</ol>
+						<h4>mobylet.xmlでsecureGatewayを設定する</h4>
+						<p class="marT20 lh18p">
+						mobyletには正しくゲートウェイサーバから受け付けたリクエストかどうかを判断するメソッドがあります。<br />
+						（Mobylet#isGatewayIp()メソッド等）<br />
+						このメソッドは開発時に利用しても構いませんが、mobylet.xmlのsecureGatewayの設定を行うことで<br />
+						mobyletフレームワーク側で検証を行い、ゲートウェイサーバ以外のリクエストに対してはUID/GUIDを返却させない
+						設定を行うことが可能です。<br />
+						<a href="../settings/mobyletxml.html#gatewayip">詳しくはこちら（mobylet.xmlの設定方法）</a>
+						</p>
+						<p class="marT10 lh18p">
+						secureGatewayを「SECURE_ID」等に設定した場合、開発環境などでテストが行えないということがあります。<br />
+						（FireMobileSimulator等を利用してテストをする場合、キャリアゲートウェイを通貨しないため）<br />
+						この場合は、「classes/ip」ディレクトリ（クラスパス配下のipディレクトリ）に「EXTENSION.txt」を配置して、<br />
+						このファイルの中に特別に許可するIPアドレスを改行区切りで記載します。<br />
+						（先頭が「#」で始まる行はコメント行として無視します）<br />
+						</p>
+						<p class="marT10 lh18p">
+						例えば開発時に自身のマシンで動作しているWebアプリに対して、自身のFirefoxから確認を行う場合は<br />
+						EXTENSION.txtに以下のように記載します。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">127.0.0.1</pre>
+							</div>
+						</div>
+						<p class="marT10 lh18p">
+						例えば本番前テストの時に、検証サーバに対して複数の社内LAN環境から確認を行う場合は<br />
+						EXTENSION.txtに以下のように記載します
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">192.168.0.0/16</pre>
+							</div>
+						</div>
+						<p class="marT10 lh18p">
+						改行区切りで複数のアドレスを書くことも出来ます。
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">127.0.0.1
+192.168.0.0/16</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+						<p class="marT20 lh18p">
+						また、ゲートウェイサーバからのリクエストを判断するために利用している<br />
+						mobyletが保持するキャリア毎のゲートウェイIPアドレスリストは（頻繁にではないものの）<br />
+						定期的に更新する必要がありますのでご注意ください。<br />
+						<a href="../settings/mobyletxml.html#gatewayip">ゲートウェイIPアドレスリストについてはこちら</a>
+						</p>
+						<h4>Apache等のWebサーバ側でIP制限を行う</h4>
+						<p class="marT20 lh18p">
+						Apache等、Webサーバのhttpd.confにて、Aloow from/Deny fromの設定を行い、<br />
+						特定のIPアドレス（ゲートウェイサーバのIPアドレス）のみ許可するような設定を行うことができます。<br />
+						</p>
+						<p class="marT10 lh18p">
+						この場合、該当しないIPアドレスからの要求は全て受け付けないため、セキュリティ的には強固になりますが<br />
+						モバイルクローラー（SEO観点）がアクセス出来ないことや、非会員画面なども閲覧出来なくなるため、<br />
+						コンテンツのポリシー如何では、サービス影響が出る場合もあります。<br />
+						（クローラーのIPも管理することも可能ですが、非公式なIPがあったり、管理IP数が多くなるため、運用コストが高くなります）
+						</p>
+						<p class="marT10 lh18p">
+						この場合、該当しないIPアドレスからの要求は全て受け付けないため、セキュリティ的には強固になりますが<br />
+						モバイルクローラー（SEO観点）がアクセス出来ないことや、非会員画面なども閲覧出来なくなるため、<br />
+						コンテンツのポリシー如何では、サービス影響が出る場合もあります。
+						</p>
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
@@ -57,7 +154,6 @@
 				</div>
 				<!-- end cstWrap -->
 
-
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
 					<h3 id="delegate">mobyletセッションの使い方</h3>
@@ -69,7 +165,7 @@
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">SessionUtils.set("ABC"); //String.classで格納</pre>
+								<pre class="code">SessionUtils.set("ABC"); //String型で格納</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
@@ -79,7 +175,7 @@
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">String session = SessionUtils.set(String.class);</pre>
+								<pre class="code">String session = SessionUtils.set(String.class); //String型のセッションを取りだす</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
@@ -89,7 +185,7 @@
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">SessionUtils.remove(String.class);</pre>
+								<pre class="code">SessionUtils.remove(String.class); //String型で格納しているインスタンスを削除</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
@@ -99,7 +195,7 @@
 						<!-- start codeWrap -->
 						<div class="codeWrap marT20">
 							<div class="codeInner">
-								<pre class="code">SessionUtils.invalidate();</pre>
+								<pre class="code">SessionUtils.invalidate(); //UID/GUIDに紐付くセッションを全消去</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
