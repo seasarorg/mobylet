@@ -25,6 +25,8 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 	protected MobyletSessionAdapter adapter;
 
 	protected Distribution distribution;
+	
+	protected boolean isFailed = false;
 
 
 	public MobyletSessionConfig() {
@@ -37,6 +39,9 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 		String path =
 			config.getConfigDir().equals("." + File.separator) ?
 					FILEPATH : config.getConfigDir() + FILEPATH;
+		if (isFailed) {
+			path = FILEPATH;
+		}
 		if (logger != null && logger.isLoggable())
 			logger.log("[mobylet] " + path + " の読み込み処理開始");
 		try {
@@ -93,6 +98,11 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 			}
 		} catch (RuntimeException e) {
 			logger.log("[mobylet] " + path + " の読み込みに失敗");
+			if (!isFailed) {
+				logger.log("[mobylet] mobyletSession.xmlのデフォルト設定を有効化します");
+				isFailed = true;
+				initialize();
+			}
 			throw e;
 		}
 		if (logger != null && logger.isLoggable())
