@@ -6,6 +6,7 @@ import org.mobylet.core.config.MobyletSessionConfig;
 import org.mobylet.core.config.enums.SessionKey;
 import org.mobylet.core.holder.SessionHolder;
 import org.mobylet.core.ip.IpAddress;
+import org.mobylet.core.launcher.LaunchConfig;
 import org.mobylet.core.launcher.MobyletLauncher;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -14,6 +15,24 @@ public class MobyletSessionImplTest extends TestCase {
 	public void test_session() {
 		//## ARRANGE ##
 		MobyletLauncher.launch();
+		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
+
+		//## ACT ##
+		String obj = "ABC";
+		holder.set("UID", obj);
+
+		//## ASSERT ##
+		assertEquals(holder.get("UID", obj.getClass()), obj);
+	}
+
+	public void test_session2() {
+		//## ARRANGE ##
+		LaunchConfig config = new LaunchConfig();
+		config.addParameter("mobylet.config.dir", "test/");
+		MobyletLauncher.initSingletonContainer();
+		MobyletLauncher.initLogger(config);
+		MobyletLauncher.initDefaultCharset(config);
+		MobyletLauncher.initInitializer(config);
 		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
 
 		//## ACT ##
