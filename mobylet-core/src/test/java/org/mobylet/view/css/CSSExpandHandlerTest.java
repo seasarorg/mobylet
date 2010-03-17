@@ -126,4 +126,15 @@ public class CSSExpandHandlerTest extends TestCase {
 				"<a style=\"color:#FFFFFF;background-color:#008800;\">BBB</a>DD" +
 				"<a style=\"color:#FFFFFF;background-color:#008800;\">EE</a></test>").equals(handler.toString()));
 	}
+
+	public void test_simple10() {
+		String xml = "<test>AAA<a style=\"color: #000000;\" class=\"c1 c2\" value=\"a1 a2\">BBB</a>CCC</test>";
+		String css = ".c1 { color : #FFFFFF; } .c2 { background-color: #008800; }";
+		CSSParser cssParser = new CSSParser();
+		CSSExpandHandler handler = new CSSExpandHandler(
+				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
+		assertTrue("<test>AAA<a style=\"color: #000000;color:#FFFFFF;background-color:#008800;\" class=\"c1 c2\" value=\"a1 a2\">BBB</a>CCC</test>".equals(handler.toString()));
+	}
 }
