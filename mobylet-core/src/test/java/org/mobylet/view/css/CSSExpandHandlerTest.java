@@ -137,4 +137,27 @@ public class CSSExpandHandlerTest extends TestCase {
 		parser.parse(xml.toCharArray(), handler);
 		assertTrue("<test>AAA<a style=\"color: #000000;color:#FFFFFF;background-color:#008800;\" class=\"c1 c2\" value=\"a1 a2\">BBB</a>CCC</test>".equals(handler.toString()));
 	}
+
+	public void test_simple11() {
+		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\">";
+		String css = ".c1 { color : #FFFFFF; } .c2 { background-color: #008800; }";
+		CSSParser cssParser = new CSSParser();
+		CSSExpandHandler handler = new CSSExpandHandler(
+				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
+		assertTrue("".equals(handler.toString()));
+	}
+
+	public void test_simple12() {
+		String xml = "<!DOCTYPE html PUBLIC \"-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/2.3) 1.0//EN\" \"i-xhtml_4ja_10.dtd\">";
+		String css = ".c1 { color : #FFFFFF; } .c2 { background-color: #008800; }";
+		CSSParser cssParser = new CSSParser();
+		CSSExpandHandler handler = new CSSExpandHandler(
+				cssParser.parse(new ByteArrayInputStream(css.getBytes())));
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
+		assertTrue("".equals(handler.toString()));
+	}
+
 }
