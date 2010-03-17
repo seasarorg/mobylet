@@ -160,4 +160,20 @@ public class CSSExpandHandlerTest extends TestCase {
 		assertTrue("".equals(handler.toString()));
 	}
 
+	public void test_simple13() {
+		String xml = "<test>AAA<a value>BBB</a>CCC</test>";
+		CSSExpandHandler handler = new CSSExpandHandler(null);
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
+		assertTrue("<test>AAA<a value=\"value\">BBB</a>CCC</test>".equals(handler.toString()));
+	}
+
+	public void test_simple14() {
+		String xml = "<test>AAA<a value=\"\">BBB</a>CCC</test>";
+		CSSExpandHandler handler = new CSSExpandHandler(null);
+		XhtmlParser parser = new XhtmlParser();
+		parser.parse(xml.toCharArray(), handler);
+		assertTrue("<test>AAA<a value=\"\">BBB</a>CCC</test>".equals(handler.toString()));
+	}
+
 }
