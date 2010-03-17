@@ -11,7 +11,7 @@ import org.mobylet.core.MobyletRuntimeException;
 public class XhtmlParser {
 
 	private static final Pattern REGEX_SPLIT_IN_TAG =
-		Pattern.compile("[a-zA-Z0-9_?!-]+([\\s]?=[\\s]?[\"']?[^\"]+[\"']?)?");
+		Pattern.compile("[a-zA-Z0-9_?!-]+([\\s]?=[\\s]?[\"']?[^\"]*[\"']?)?");
 	
 	public void parse(char[] ch, XhtmlHandler handler) {
 		CharArrayWriter writer = new CharArrayWriter(256);
