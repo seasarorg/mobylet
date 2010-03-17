@@ -102,8 +102,9 @@ public class MobyletSessionConfig implements MobyletSessionConfigXml {
 				logger.log("[mobylet] mobyletSession.xmlのデフォルト設定を有効化します");
 				isFailed = true;
 				initialize();
+			} else {
+				throw e;
 			}
-			throw e;
 		}
 		if (logger != null && logger.isLoggable())
 			logger.log("[mobylet] " + path + " が読み込まれました");
