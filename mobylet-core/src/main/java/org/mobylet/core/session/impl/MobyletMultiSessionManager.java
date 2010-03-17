@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.config.MobyletSessionConfig;
 import org.mobylet.core.config.MobyletSessionConfig.Parameters;
+import org.mobylet.core.config.enums.SecureGateway;
 import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.holder.SessionHolder;
 import org.mobylet.core.session.InvokeType;
@@ -22,19 +24,22 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 
 	private static final Charset CHARSET = Charset.forName(DefCharset.UTF8);
 
-	protected MobyletSessionConfig config;
+	protected MobyletConfig config;
+
+	protected MobyletSessionConfig sessionConfig;
 
 	protected SessionHolder holder;
 
 
 	public MobyletMultiSessionManager() {
-		config = SingletonUtils.get(MobyletSessionConfig.class);
+		config = SingletonUtils.get(MobyletConfig.class);
+		sessionConfig = SingletonUtils.get(MobyletSessionConfig.class);
 		holder = SingletonUtils.get(SessionHolder.class);
 	}
 
 	@Override
 	public void invoke(HttpServletRequest request, HttpServletResponse response) {
-		Parameters parametersKey = config.getDistribution().getParameters();
+		Parameters parametersKey = sessionConfig.getDistribution().getParameters();
 		String key = UrlDecoder.decode(
 				request.getParameter(parametersKey.getSessionKey()), CHARSET);
 		String type = request.getParameter(parametersKey.getInvokeTypeKey());
@@ -111,7 +116,11 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 
 	@Override
 	public boolean isManaged(HttpServletRequest request) {
-		if (config.getDistribution().isAllowIp(request.getRemoteAddr())) {
+		if (config.getSecureGateway() == SecureGateway.NONE ||
+				config.getSecureGateway() == SecureGateway.SECURE_CARRIER ||
+				(sessionConfig.getDistribution() != null &&
+						sessionConfig.getDistribution().getAllowIps() != null &&
+						sessionConfig.getDistribution().isAllowIp(request.getRemoteAddr()))) {
 			return request.getRequestURI().equals(
 					SingletonUtils.get(MobyletSessionConfig.class)
 					.getDistribution().getPath());
