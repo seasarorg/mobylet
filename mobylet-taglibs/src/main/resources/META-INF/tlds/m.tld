@@ -445,4 +445,86 @@
 		</attribute>
 	</tag>
 
+	<!-- <m:flash /> -->
+	<tag>
+		<name>flash</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.FlashTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+			<![CDATA[
+			SWFファイルパス
+			]]>
+			</description>
+			<name>src</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			横幅
+			]]>
+			</description>
+			<name>width</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			縦幅
+			]]>
+			</description>
+			<name>height</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			ループのON/OFF（設定値=on/off）
+			]]>
+			</description>
+			<name>loop</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			背景色指定（DOCOMO/SOFTBANKのみ）
+			]]>
+			</description>
+			<name>bgcolor</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			画質（DOCOMO/SOFTBANKのみ）
+			設定値=high/medium/low
+			]]>
+			</description>
+			<name>quality</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			コピーライト設定（AUのみ）
+			設定値=yes/no
+			]]>
+			</description>
+			<name>copyright</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+	</tag>
+
 </taglib>
