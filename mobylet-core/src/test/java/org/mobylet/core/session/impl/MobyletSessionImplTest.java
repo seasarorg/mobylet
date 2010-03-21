@@ -43,8 +43,27 @@ public class MobyletSessionImplTest extends TestCase {
 		assertEquals(holder.get("UID", obj.getClass()), obj);
 	}
 
+	public void test_session2A() {
+		//## ARRANGE ##
+		LaunchConfig config = new LaunchConfig();
+		config.addParameter("mobylet.config.dir", "sessionTest/");
+		MobyletLauncher.initSingletonContainer();
+		MobyletLauncher.initLogger(config);
+		MobyletLauncher.initDefaultCharset(config);
+		MobyletLauncher.initInitializer(config);
+		SessionHolder holder = SingletonUtils.get(SessionHolder.class);
+
+		//## ACT ##
+		String obj = "ABC";
+		holder.set("UID", obj);
+
+		//## ASSERT ##
+		assertEquals(holder.get("UID", obj.getClass()), obj);
+	}
+
 	public void test_sessionConfig() {
 		//## ARRANGE ##
+		MobyletLauncher.launch();
 		MobyletSessionConfig config = new MobyletSessionConfig();
 
 		//## ASSERT ##

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mobyletSession>
+	<key>GUID</key>
+	<timeout>30</timeout>
+	<adapter>org.mobylet.core.session.impl.MobyletSingleSessionAdapter</adapter>
+</mobyletSession>
