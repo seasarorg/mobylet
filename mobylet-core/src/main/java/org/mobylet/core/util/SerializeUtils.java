@@ -32,12 +32,12 @@ public class SerializeUtils {
 	}
 
 	public static String serialize2Base64String(Object obj) {
-		return Base64Utils.byteArrayToBase64(serialize2Bytes(obj));
+		return Base64Utils.byteArrayToAltBase64(serialize2Bytes(obj));
 	}
 
 	public static Object deserialize(String objString) {
 		ByteArrayInputStream bais =
-			new ByteArrayInputStream(Base64Utils.base64ToByteArray(objString));
+			new ByteArrayInputStream(Base64Utils.altBase64ToByteArray(objString));
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(bais);
