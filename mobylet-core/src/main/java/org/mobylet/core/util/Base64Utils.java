@@ -51,7 +51,7 @@ public class Base64Utils {
 			return new byte[0];
 		}
 		int i = 0;
-		String s = base64String.trim();
+		String s = base64String.replaceAll("[\\r\\n]", "").trim();
 		int len = s.length();
 		ByteArrayOutputStream os =
 			new ByteArrayOutputStream(s.length() * 2 / 3 + 1);
