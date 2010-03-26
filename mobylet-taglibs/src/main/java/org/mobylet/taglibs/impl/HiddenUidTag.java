@@ -20,7 +20,8 @@ public class HiddenUidTag extends MobyletDynamicSimpleTagSupport {
 			Mobylet m = MobyletFactory.getInstance();
 			if (m.getCarrier() == Carrier.DOCOMO) {
 				addAttribute("name", "uid");
-				addAttribute("value", m.getUid());
+				String uid = m.getUid();
+				addAttribute("value", uid != null ? uid : "NULLGWDOCOMO");
 				JspWriterUtils.write(
 						getJspContext().getOut(),
 						STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG
