@@ -11,12 +11,17 @@ import org.mobylet.core.MobyletRuntimeException;
 public class SerializeUtils {
 
 	public static byte[] serialize2Bytes(Object obj) {
+		if (obj == null) {
+			return null;
+		}
 		ByteArrayOutputStream baos =
 			new ByteArrayOutputStream(8192);
 		ObjectOutputStream oos = null;
 		try {
 			oos = new ObjectOutputStream(baos);
-			oos.writeObject(obj);
+			synchronized (obj) {
+				oos.writeObject(obj);
+			}
 			return baos.toByteArray();
 		} catch (Exception e) {
 			throw new MobyletRuntimeException("オブジェクトのシリアライズに失敗", e);
@@ -36,6 +41,9 @@ public class SerializeUtils {
 	}
 
 	public static Object deserialize(String objString) {
+		if (StringUtils.isEmpty(objString)) {
+			return null;
+		}
 		ByteArrayInputStream bais =
 			new ByteArrayInputStream(Base64Utils.decode(objString));
 		ObjectInputStream ois = null;
