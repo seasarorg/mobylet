@@ -56,7 +56,7 @@ public class Base64Utils {
 		ByteArrayOutputStream os =
 			new ByteArrayOutputStream(s.length() * 2 / 3 + 1);
 		while (true) {
-			if (i == len) {
+			if (i >= len) {
 				break;
 			}
 			int tri =
