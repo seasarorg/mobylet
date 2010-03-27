@@ -1,6 +1,7 @@
 package org.mobylet.core.util;
 
 import java.io.Serializable;
+import java.nio.charset.Charset;
 
 import junit.framework.TestCase;
 
@@ -26,6 +27,18 @@ public class SerializeUtilsTest extends TestCase {
 
 		String base64String = SerializeUtils.serialize2Base64String(testClass1);
 		TestSessionDto newClass1 = (TestSessionDto)SerializeUtils.deserialize(base64String);
+
+		assertEquals(testClass1.content, newClass1.content);
+	}
+
+	public void test_wish2(){
+		TestSessionDto testClass1 = new TestSessionDto();
+		testClass1.content = "ABCD";
+
+		String base64String = SerializeUtils.serialize2Base64String(testClass1);
+		String urlEnc = UrlEncoder.encode(base64String, Charset.forName("UTF-8"));
+		String urlDec = UrlDecoder.decode(urlEnc, Charset.forName("UTF-8"));
+		TestSessionDto newClass1 = (TestSessionDto)SerializeUtils.deserialize(urlDec);
 
 		assertEquals(testClass1.content, newClass1.content);
 	}
