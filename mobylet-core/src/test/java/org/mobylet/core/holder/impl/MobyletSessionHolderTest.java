@@ -28,7 +28,7 @@ public class MobyletSessionHolderTest extends TestCase {
 		holder.set(key, val);
 		assertTrue(val.equals(holder.get(key, String.class)));
 		try {
-			Thread.sleep(config.getTimeout() * holder.timeSpan + 10);
+			Thread.sleep(config.getTimeout() * holder.timeSpan + 100);
 		} catch (InterruptedException e) {
 			//NOP
 		}
