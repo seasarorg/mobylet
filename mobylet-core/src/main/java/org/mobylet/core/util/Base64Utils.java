@@ -51,12 +51,12 @@ public class Base64Utils {
 			return new byte[0];
 		}
 		int i = 0;
-		String s = base64String.replaceAll("\\s", "").trim();
+		String s = base64String.replaceAll("\\s", "");
 		int len = s.length();
 		ByteArrayOutputStream os =
 			new ByteArrayOutputStream(s.length() * 2 / 3 + 1);
 		while (true) {
-			if (i >= len) {
+			if (i == len) {
 				break;
 			}
 			int tri =
@@ -93,7 +93,7 @@ public class Base64Utils {
 				return 0;
 			default :
 				throw new RuntimeException(
-						"解析不可能 char = " + c);
+						"解析不可能 char = " + (int)c);
 			}
 		}
 	}
