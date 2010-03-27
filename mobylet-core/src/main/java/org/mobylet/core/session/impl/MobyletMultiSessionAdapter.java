@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -107,6 +108,11 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 		MobyletSessionConfig config = SingletonUtils.get(MobyletSessionConfig.class);
 		String url = getBaseUrl(key);
 		HttpURLConnection connection = HttpUtils.getHttpUrlConnection(url);
+		try {
+			connection.setRequestMethod("POST");
+		} catch (ProtocolException e1) {
+			//NOP
+		}
 		connection.setDoOutput(true);
 		StringBuilder buf = new StringBuilder();
 		buf.append(config.getDistribution().getParameters().getSessionKey() + "=" +
@@ -120,7 +126,7 @@ public class MobyletMultiSessionAdapter implements MobyletSessionAdapter {
 		PrintStream printStream = null;
 		try {
 			OutputStream outputStream = connection.getOutputStream();
-			printStream = new PrintStream(outputStream);
+			printStream = new PrintStream(outputStream, true);
 			printStream.print(buf.toString());
 		} catch (IOException e) {
 			throw new MobyletRuntimeException("セッション格納用URLコネクション生成時に失敗 URL=" + url, e);
