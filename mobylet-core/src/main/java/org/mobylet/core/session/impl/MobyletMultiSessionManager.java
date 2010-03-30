@@ -1,7 +1,6 @@
 package org.mobylet.core.session.impl;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,18 +10,14 @@ import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.config.MobyletSessionConfig;
 import org.mobylet.core.config.MobyletSessionConfig.Parameters;
 import org.mobylet.core.config.enums.SecureGateway;
-import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.holder.SessionHolder;
 import org.mobylet.core.session.InvokeType;
 import org.mobylet.core.session.MobyletSessionManager;
 import org.mobylet.core.util.SerializeUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
-import org.mobylet.core.util.UrlDecoder;
 
 public class MobyletMultiSessionManager implements MobyletSessionManager {
-
-	private static final Charset CHARSET = Charset.forName(DefCharset.UTF8);
 
 	protected MobyletConfig config;
 
@@ -40,23 +35,18 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 	@Override
 	public void invoke(HttpServletRequest request, HttpServletResponse response) {
 		Parameters parametersKey = sessionConfig.getDistribution().getParameters();
-		String key = UrlDecoder.decode(
-				request.getParameter(parametersKey.getSessionKey()), CHARSET);
+		String key = request.getParameter(parametersKey.getSessionKey());
 		String type = request.getParameter(parametersKey.getInvokeTypeKey());
 		String paramObject = request.getParameter(parametersKey.getObjectDataKey());
-		String objString = null;
-		if (StringUtils.isNotEmpty(paramObject)) {
-			objString = UrlDecoder.decode(paramObject, CHARSET);
-		}
 		InvokeType invokeType = InvokeType.valueOf(type);
 		if (invokeType != InvokeType.INVALIDATE &&
-				StringUtils.isEmpty(objString)) {
+				StringUtils.isEmpty(paramObject)) {
 			doEmptyResponse(response);
 			return;
 		}
 		//GET
 		if (invokeType == InvokeType.GET) {
-			Object obj = holder.get(key, (Class<?>)SerializeUtils.deserialize(objString));
+			Object obj = holder.get(key, (Class<?>)SerializeUtils.deserialize(paramObject));
 			if (obj == null) {
 				doEmptyResponse(response);
 				return;
@@ -73,7 +63,7 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 		}
 		//SET
 		else if (invokeType == InvokeType.SET) {
-			holder.set(key, SerializeUtils.deserialize(objString));
+			holder.set(key, SerializeUtils.deserialize(paramObject));
 			response.setContentType("application/octet-stream");
 			response.setContentLength(2);
 			try {
@@ -85,7 +75,7 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 		}
 		//REMOVE
 		else if (invokeType == InvokeType.REMOVE) {
-			Object obj = holder.remove(key, (Class<?>)SerializeUtils.deserialize(objString));
+			Object obj = holder.remove(key, (Class<?>)SerializeUtils.deserialize(paramObject));
 			if (obj == null) {
 				doEmptyResponse(response);
 				return;
