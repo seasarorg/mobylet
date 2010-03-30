@@ -64,4 +64,11 @@ public class UrlDecoderTest extends TestCase {
 				"%EA%8D%87%82%CC%95%F1%8FV%82%E0EXP50%A5M%24300%A1&seigen=&map=&username=&password=&id=578&submit=1.%8FC%90%B3";
 		assertTrue(UrlDecoder.decode(en, Charset.forName("windows-31j")).length() > 0);
 	}
+	
+	public void test_decode3() {
+		String a = "+";
+		Charset charset = Charset.forName("UTF-8");
+		assertTrue(a.equals(UrlDecoder.decode(UrlEncoder.encode(a, charset), charset)));
+	}
+
 }
