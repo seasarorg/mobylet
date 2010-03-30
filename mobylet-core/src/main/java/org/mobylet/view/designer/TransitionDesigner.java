@@ -6,7 +6,10 @@ import javax.servlet.http.HttpSession;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.config.MobyletConfig;
+import org.mobylet.core.config.enums.JSession;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
 import org.mobylet.view.config.TransitionConfig;
@@ -47,6 +50,11 @@ public abstract class TransitionDesigner extends SingletonDesigner {
 	}
 
 	protected String getSessionId(TransitionConfig config) {
+		MobyletConfig mobyletConfig = SingletonUtils.get(MobyletConfig.class);
+		if (mobyletConfig.getJSession() == JSession.NONE ||
+				mobyletConfig.getJSession() == JSession.USE_COOKIE) {
+			return null;
+		}
 		Mobylet m = MobyletFactory.getInstance();
 		HttpServletRequest request = RequestUtils.get();
 		//Session
