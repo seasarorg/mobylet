@@ -143,6 +143,23 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	}
 
 	@Override
+	public String encodeRedirectURL(String url) {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		switch (config.getJSession()) {
+		case DEFAULT:
+		case USE_QUERY:
+			return super.encodeRedirectURL(url);
+		default:
+			String encodeURL = super.encodeRedirectURL(url);
+			if (encodeURL.indexOf(';') >= 0) {
+				return REG_JSESSIONID.matcher(encodeURL).replaceFirst("");
+			} else {
+				return encodeURL;
+			}
+		}
+	}
+	
+	@Override
 	public void addHeader(String name, String value) {
 		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
 		switch (config.getJSession()) {
