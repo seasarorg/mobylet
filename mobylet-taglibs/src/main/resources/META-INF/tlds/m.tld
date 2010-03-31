@@ -36,6 +36,15 @@
 		</attribute>
 	</tag>
 
+	<!-- <m:hiddenUid /> -->
+	<tag>
+		<name>hiddenUid</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.HiddenUidTag
+		</tag-class>
+		<body-content>empty</body-content>
+	</tag>
+
 	<!-- <m:emoji /> -->
 	<tag>
 		<name>emoji</name>
