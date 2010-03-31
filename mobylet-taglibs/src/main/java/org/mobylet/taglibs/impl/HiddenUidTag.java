@@ -24,7 +24,7 @@ public class HiddenUidTag extends MobyletDynamicSimpleTagSupport {
 				addAttribute("value", uid != null ? uid : "NULLGWDOCOMO");
 				JspWriterUtils.write(
 						getJspContext().getOut(),
-						STAG + TAG + getDynamicAttributesStringBuilder().toString() + ETAG
+						STAG + TAG + getDynamicAttributesStringBuilder().toString() + SL + ETAG
 						);
 			}
 			recycle();
