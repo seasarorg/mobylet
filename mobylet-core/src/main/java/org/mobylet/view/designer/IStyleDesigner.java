@@ -31,7 +31,7 @@ public class IStyleDesigner extends SingletonDesigner {
 			if (sTag.contains(ATT_STYLE_PREFIX)) {
 				int index = sTag.indexOf(ATT_STYLE_PREFIX);
 				return inputTag.substring(0, index)
-						+ att.substring(7, att.length()-1) + ";"
+						+ att.substring(0, att.length()-1) + ";"
 						+ inputTag.substring(index+7);
 			}
 		}
