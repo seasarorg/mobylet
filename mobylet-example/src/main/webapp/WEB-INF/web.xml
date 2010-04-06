@@ -7,6 +7,10 @@ version="2.4">
     <filter>
         <filter-name>encodingfilter</filter-name>
         <filter-class>org.mobylet.core.http.MobyletFilter</filter-class>
+        <init-param>
+        	<param-name>encoding</param-name>
+        	<param-value>UTF-8</param-value>
+        </init-param>
     </filter>
 
     <filter-mapping>
