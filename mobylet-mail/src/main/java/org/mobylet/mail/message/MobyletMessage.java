@@ -43,6 +43,7 @@ public class MobyletMessage extends MimeMessage implements MailConstants {
 			SingletonUtils.get(MailCharsetSelector.class);
 		encodingCharset = charsetSelector.getEncodingCharset(carrier);
 		notifyCharset = charsetSelector.getNotifyCharset(carrier);
+		mobyletSession = session;
 	}
 
 	public MobyletMessage from(String address) {
