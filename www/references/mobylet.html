@@ -245,6 +245,45 @@ boolean hasGps = device.hasGps();
 				</div>
 				<!-- end cstWrap -->
 
+				<!-- start cstWrap -->
+				<div class="cstWrap marT22">
+					<h3 id="smartphone">スマートフォンからのアクセスかどうか判定したい</h3>
+					<div class="cstInner">
+
+						<h4>スマートフォンを判定する</h4>
+
+						<p class="marT20 lh18p">
+						Mobyletインターフェースには「getSmartPhoneType()」メソッドが存在し、<br />
+						アクセスした端末がスマートフォンであるかどうかを判定します。<br />
+						※キャリアは「OTHER」として判定されます
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">Mobylet mobylet = MobyletFactory.getInstance();
+SmartPhoneType type = mobylet.getSmartPhoneType();
+if (type == null) {
+    //スマートフォンではない
+} else if (type == SmartPhoneType.IPHONE) {
+    //iPhone端末
+} else if (type == SmartPhoneType.ANDROID) {
+    //Android端末
+}
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						※場合によってはDeviceインスタンスがnullの場合もあるので注意して下さい。
+						</p>
+
+						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
+					</div>
+					<!-- end cstInner -->
+				</div>
+				<!-- end cstWrap -->
+
 
 			</div>
 			<!-- end main -->
