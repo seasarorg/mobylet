@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import org.mobylet.core.Carrier;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Gps;
+import org.mobylet.core.type.SmartPhoneType;
 
 
 public interface MobyletDialect {
@@ -52,4 +53,7 @@ public interface MobyletDialect {
 	public DeviceDisplay getDeviceDisplayByRequestHeader();
 
 	public boolean isGatewayIp();
+
+	public SmartPhoneType getSmartPhoneType();
+
 }

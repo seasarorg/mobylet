@@ -1,11 +1,11 @@
 package org.mobylet.core;
 
-import org.mobylet.core.Carrier;
 import org.mobylet.core.device.Device;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.gps.Gps;
 import org.mobylet.core.type.ContentType;
+import org.mobylet.core.type.SmartPhoneType;
 
 public interface Mobylet {
 
@@ -30,5 +30,7 @@ public interface Mobylet {
 	public ContentType getContentType();
 
 	public boolean isGatewayIp();
+
+	public SmartPhoneType getSmartPhoneType();
 
 }
