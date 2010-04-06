@@ -96,7 +96,7 @@ public class MobyletDecoMailBuilder implements MobyletMailBuilder, MailConstants
 			//Wrap-Multipart
 			MimeBodyPart innerBodyPart = new MimeBodyPart();
 			innerBodyPart.setContent(innerMultipart);
-			overMultipart.addBodyPart(innerBodyPart);
+			overMultipart.addBodyPart(innerBodyPart, 0);
 			return overMultipart;
 		} catch (MessagingException e) {
 			throw new MobyletRuntimeException("パートの設定に失敗", e);

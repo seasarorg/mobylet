@@ -1,5 +1,6 @@
 package org.mobylet.mail.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,16 +69,21 @@ public class PartUtils implements MailConstants {
 			part.setDataHandler(new DataHandler(byteSource));
 			part.setHeader(TRANSFER_ENCODING, ENCODING_BASE64);
 			if (carrier == Carrier.AU) {
-				part.addHeader(CONTENT_DISPOSITION, DISPOSITION_ATTACHMENT);
+				part.addHeader(
+						CONTENT_DISPOSITION, DISPOSITION_ATTACHMENT +
+						"; filename=\"" + getRealFileName(attach) + "\"");
 			}
 			if (attach.isInline()) {
 				part.setHeader(CONTENT_ID, "<" + attach.getNickname() + ">");
+			}
+			if (StringUtils.isEmpty(attach.getRealPath())) {
 				part.addHeader(CONTENT_TYPE, mimeType + ";");
 			} else {
 				part.addHeader(
 						CONTENT_TYPE, mimeType + "; name=\"" +
-						MailHeaderUtils.encodeHeaderString(carrier, attach.getNickname())+
-						"\""
+						MailHeaderUtils.encodeHeaderString(
+								carrier,
+								getRealFileName(attach) + "\"")
 				);
 			}
 		} catch (MessagingException e) {
@@ -131,5 +137,19 @@ public class PartUtils implements MailConstants {
 	}
 
 
+	public static String getRealFileName(Attach attach) {
+		if (attach != null &&
+				attach.getRealPath() != null) {
+			String realPath = attach.getRealPath();
+			int index = -1;
+			if ((index = realPath.lastIndexOf(File.separatorChar)) >= 0 ||
+					(index = realPath.lastIndexOf('/')) >= 0) {
+				return realPath.substring(index + 1);
+			} else {
+				return realPath;
+			}
+		}
+		return "EMPTYNAME";
+	}
 
 }
