@@ -28,6 +28,7 @@ import org.mobylet.core.gps.Gps;
 import org.mobylet.core.http.MobyletContext;
 import org.mobylet.core.selector.DialectSelector;
 import org.mobylet.core.type.ContentType;
+import org.mobylet.core.type.SmartPhoneType;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 
@@ -269,6 +270,11 @@ public class MobyletImpl implements Mobylet {
 	@Override
 	public boolean isGatewayIp() {
 		return dialect.isGatewayIp();
+	}
+
+	@Override
+	public SmartPhoneType getSmartPhoneType() {
+		return dialect.getSmartPhoneType();
 	}
 
 	/**

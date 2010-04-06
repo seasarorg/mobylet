@@ -6,6 +6,7 @@ import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.ip.IpAddressList;
 import org.mobylet.core.ip.IpTextReader;
 import org.mobylet.core.selector.CharsetSelector;
+import org.mobylet.core.type.SmartPhoneType;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
@@ -72,6 +73,22 @@ public abstract class AbstractDialect implements MobyletDialect {
 			return false;
 		} else {
 			return ipList.containsIp(RequestUtils.get().getRemoteAddr());
+		}
+	}
+
+	@Override
+	public SmartPhoneType getSmartPhoneType() {
+		String userAgent = RequestUtils.getUserAgent();
+		if (StringUtils.isEmpty(userAgent)) {
+			return null;
+		} else {
+			if (userAgent.indexOf("iPhone") >= 0) {
+				return SmartPhoneType.IPHONE;
+			} else if (userAgent.indexOf("Android") >= 0) {
+				return SmartPhoneType.ANDROID;
+			} else {
+				return null;
+			}
 		}
 	}
 
