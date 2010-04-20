@@ -172,17 +172,17 @@
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-core</artifactId>
-            <version>1.0.5-SNAPSHOT</version>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-taglibs</artifactId>
-            <version>1.0.5-SNAPSHOT</version>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.seasar.mobylet</groupId>
             <artifactId>mobylet-mail</artifactId>
-            <version>1.0.5-SNAPSHOT</version>
+            <version>1.0.5</version>
         </dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
