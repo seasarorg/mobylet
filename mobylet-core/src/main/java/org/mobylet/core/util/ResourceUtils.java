@@ -30,6 +30,10 @@ public class ResourceUtils {
 		if (StringUtils.isEmpty(path)) {
 			return null;
 		}
+		//Default-Path
+		if (path.startsWith("." + File.separator)) {
+			path = path.substring(("." + File.separator).length());
+		}
 		//Network-Path
 		if (PathUtils.isNetworkPath(path)) {
 			HttpURLConnection httpURLConnection =
