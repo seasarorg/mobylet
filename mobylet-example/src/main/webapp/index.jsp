@@ -5,7 +5,7 @@
 </head>
 <body>
 <div>mobylet-example</div>
-<div>
+<div class="abc">
 <a href="hello.jsp">Hello World</a><br/>
 <m:a href="/profile.jsp" isAdditionalContext="true">端末情報</m:a><br/>
 <a href="resize.jsp">画像リサイズ</a><br/>

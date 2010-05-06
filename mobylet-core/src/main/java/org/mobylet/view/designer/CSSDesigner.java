@@ -19,6 +19,7 @@ import java.io.InputStream;
 
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.PathUtils;
 import org.mobylet.core.util.RequestUtils;
@@ -65,6 +66,10 @@ public class CSSDesigner extends SingletonDesigner {
 		}
 		switch (m.getCarrier()) {
 		case DOCOMO:
+			MobyletConfig mobyletConfig = SingletonUtils.get(MobyletConfig.class);
+			if (!mobyletConfig.useCSSExpand()) {
+				return PREFIX_LINK_TAG + src + SUFFIX_LINK_TAG;
+			}
 			String path = null;
 			if (PathUtils.isNetworkPath(src)) {
 				path = src;

@@ -254,8 +254,10 @@ public class MobyletConfigXmlReader
 		//CSSInjection
 		else if (name.equals(TAG_CSS_EXPAND)) {
 			try {
-				boolean useCSSExpand = Boolean.valueOf(value);
-				config.setUseCSSExpand(useCSSExpand);
+				if (!value.trim().isEmpty()) {
+					boolean useCSSExpand = Boolean.valueOf(value);
+					config.setUseCSSExpand(useCSSExpand);
+				}
 			} catch (Exception e) {
 				//NOP
 				//旧設定用下位互換ロジックのため
@@ -270,7 +272,7 @@ public class MobyletConfigXmlReader
 			}
 			if (parent.equals(TAG_CSS_EXPAND) &&
 					StringUtils.isNotEmpty(value)) {
-				boolean useCSSExpand = Boolean.valueOf(value);
+				boolean useCSSExpand = Boolean.valueOf(value.trim());
 				config.setUseCSSExpand(useCSSExpand);
 			}
 		}
@@ -282,7 +284,7 @@ public class MobyletConfigXmlReader
 			}
 			if (parent.equals(TAG_CSS_EXPAND) &&
 					StringUtils.isNotEmpty(value)) {
-				boolean isRemovedClass = Boolean.valueOf(value);
+				boolean isRemovedClass = Boolean.valueOf(value.trim());
 				config.setCSSExpandRemovedClass(isRemovedClass);
 			}
 		}
