@@ -437,11 +437,18 @@
 						<div class="codeWrap marT10">
 							<div class="codeInner">
 								<pre class="code">
-&lt;cssExpand&gt;true&lt;/cssExpand&gt;</pre>
+&lt;cssExpand&gt;
+    &lt;execute&gt;true&lt;execute&gt;
+    &lt;removedClass&gt;true&lt;removedClass&gt;
+&lt;/cssExpand&gt;</pre>
 							</div>
 						</div>
 						<!-- end codeWrap -->
-
+						<p class="marT20 lh18p">
+						executeタグではCSS Expand機能のON/OFFをtrue/falseで設定可能です。<br />
+						removedClassタグは省略可能ですが、この設定をtrueにすることで、
+						CSS Expand機能が実行された場合にHTML文書中に存在する、全てのclass属性を除去することが可能です。
+						</p>
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
