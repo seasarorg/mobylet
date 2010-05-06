@@ -74,7 +74,7 @@ public class ForceWrapServletOutputStream extends ServletOutputStream {
 						MobyletFactory.getInstance().getDialect().getCharset()).length;
 			} catch (UnsupportedEncodingException e) {
 				//NOP
-				return 0;
+				return -1;
 			}
 		}
 		return 0;
