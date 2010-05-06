@@ -24,7 +24,10 @@
 		<imagePath>/mobylet/ei/</imagePath>
 		-->
 	</emoji>
-	<cssExpand>true</cssExpand>
+	<cssExpand>
+		<execute>false</execute>
+		<removedClass>true</removedClass>
+	</cssExpand>
 	<!--
 	<proxy>
 		<host>proxy.mobylet.org</host>
