@@ -67,6 +67,8 @@ public class MobyletConfig {
 
 	protected Boolean useCSSExpand;
 
+	protected Boolean cssExpandRemovedClass;
+
 
 
 	public MobyletConfig(String configDir) {
@@ -249,6 +251,17 @@ public class MobyletConfig {
 
 	public void setUseCSSExpand(boolean use) {
 		this.useCSSExpand = use;
+	}
+
+	public boolean isCSSExpandRemovedClass() {
+		if (cssExpandRemovedClass == null) {
+			cssExpandRemovedClass = false;
+		}
+		return cssExpandRemovedClass;
+	}
+
+	public void setCSSExpandRemovedClass(boolean isCSSExpandRemovedClass) {
+		this.cssExpandRemovedClass = isCSSExpandRemovedClass;
 	}
 
 }

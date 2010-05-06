@@ -43,6 +43,8 @@ public class CSSExpandHandler implements XhtmlHandler {
 
 	protected StringBuilder buf;
 
+	protected boolean isRemovedClass = false;
+
 
 	public CSSExpandHandler(CSSCondContainer container) {
 		this.container = container;
@@ -89,6 +91,8 @@ public class CSSExpandHandler implements XhtmlHandler {
 				if ("style".equals(attName)) {
 					tagBuf.append(" " + attName + "=\""+ styleString.replace("\"", "\\\"") + "\"");
 					existsStyle = true;
+				} else if (isRemovedClass() && "class".equals(attName)) {
+					//NOP
 				} else {
 					tagBuf.append(" " + attName + "=\""+ attributes.getValue(attName).replace("\"", "\\\"") + "\"");
 				}
@@ -126,6 +130,14 @@ public class CSSExpandHandler implements XhtmlHandler {
 	@Override
 	public String toString() {
 		return buf.toString();
+	}
+
+	public void setRemovedClass(boolean isRemovedClass) {
+		this.isRemovedClass = isRemovedClass;
+	}
+
+	public boolean isRemovedClass() {
+		return this.isRemovedClass;
 	}
 
 	protected Integer getIndex() {
