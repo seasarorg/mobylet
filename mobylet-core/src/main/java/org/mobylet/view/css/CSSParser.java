@@ -32,11 +32,27 @@ public class CSSParser {
 		String key = null;
 		String value = null;
 		boolean isComment = false;
+		boolean isAnnotation = false;
 		int c = 0x00;
 		int pre = 0x00;
 		try {
 			while ((c = in.read()) != -1) {
 				switch (c) {
+				case '@':
+					if (!isComment) {
+						isAnnotation = true;
+					}
+					break;
+				case ';':
+					if (isAnnotation) {
+						isAnnotation = false;
+						chars.reset();
+					} else {
+						if (!isComment) {
+							chars.append((char)c);
+						}
+					}
+					break;
 				case '/':
 					if (isComment && pre == '*') {
 						isComment = false;
