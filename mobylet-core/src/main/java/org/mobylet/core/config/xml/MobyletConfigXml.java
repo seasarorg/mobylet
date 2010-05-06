@@ -60,4 +60,8 @@ public interface MobyletConfigXml {
 
 	public static final String TAG_CSS_EXPAND = "cssExpand";
 
+	public static final String TAG_CSS_EXPAND_EXECUTE = "execute";
+
+	public static final String TAG_CSS_EXPAND_REMOVED_CLASS = "removedClass";
+
 }

@@ -17,6 +17,7 @@ package org.mobylet.core.http;
 
 import java.io.PrintWriter;
 
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
@@ -77,6 +78,8 @@ public class CSSExpandPrintWriter extends PrintWriter {
 				RequestUtils.getMobyletContext().get(CSSCondContainer.class);
 		}
 		CSSExpandHandler handler = new CSSExpandHandler(container);
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		handler.setRemovedClass(config.isCSSExpandRemovedClass());
 		SingletonUtils.get(XhtmlParser.class).parse(buf.toString().toCharArray(), handler);
 		if (index > 0) {
 			writer.write(buf.substring(0, index));

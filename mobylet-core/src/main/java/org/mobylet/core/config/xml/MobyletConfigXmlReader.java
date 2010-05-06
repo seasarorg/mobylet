@@ -253,8 +253,38 @@ public class MobyletConfigXmlReader
 		}
 		//CSSInjection
 		else if (name.equals(TAG_CSS_EXPAND)) {
-			boolean useCSSExpand = Boolean.valueOf(value);
-			config.setUseCSSExpand(useCSSExpand);
+			try {
+				boolean useCSSExpand = Boolean.valueOf(value);
+				config.setUseCSSExpand(useCSSExpand);
+			} catch (Exception e) {
+				//NOP
+				//旧設定用下位互換ロジックのため
+				//例外発生の場合は新ロジックを適用
+			}
+		}
+		else if (name.equals(TAG_CSS_EXPAND_EXECUTE)) {
+			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
+			if (parent == null) {
+				value = null;
+				return;
+			}
+			if (parent.equals(TAG_CSS_EXPAND) &&
+					StringUtils.isNotEmpty(value)) {
+				boolean useCSSExpand = Boolean.valueOf(value);
+				config.setUseCSSExpand(useCSSExpand);
+			}
+		}
+		else if (name.equals(TAG_CSS_EXPAND_REMOVED_CLASS)) {
+			String parent = tagStack.size() > 0 ? tagStack.peek() : null;
+			if (parent == null) {
+				value = null;
+				return;
+			}
+			if (parent.equals(TAG_CSS_EXPAND) &&
+					StringUtils.isNotEmpty(value)) {
+				boolean isRemovedClass = Boolean.valueOf(value);
+				config.setCSSExpandRemovedClass(isRemovedClass);
+			}
 		}
 		value = null;
 	}
@@ -273,6 +303,8 @@ public class MobyletConfigXmlReader
 				tag.equals(TAG_MOBYLET_CLASS) ||
 				tag.equals(TAG_MOBYLET_CLASS_TMP) ||
 				tag.equals(TAG_CSS_EXPAND) ||
+				tag.equals(TAG_CSS_EXPAND_EXECUTE) ||
+				tag.equals(TAG_CSS_EXPAND_REMOVED_CLASS) ||
 				tag.equals(TAG_HOST) ||
 				tag.equals(TAG_PORT)) {
 			if (StringUtils.isEmpty(value)) {
