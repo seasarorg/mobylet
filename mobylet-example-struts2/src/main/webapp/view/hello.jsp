@@ -13,7 +13,7 @@ input-&gt;<m:wrap istyle="4"><s:textfield name="message" size="10"></s:textfield
 output-&gt;${message}<br />
 <hr />
 <c:import url="include.jsp">
-	<c:param name="pmm" value="PMM"></c:param>
+	<c:param name="pmm" value="ほげ"></c:param>
 </c:import>
 </body>
 </html>

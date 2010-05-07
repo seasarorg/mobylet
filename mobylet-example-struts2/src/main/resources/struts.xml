@@ -4,6 +4,9 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="default" extends="struts-default">
+	    <result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+		</result-types>
         <action name="hello" method="hello" class="org.mobylet.example.struts2.action.SampleAction">
             <result name="success" >/view/hello.jsp</result>
         </action>
@@ -12,6 +15,9 @@
         </action>
         <action name="profile" method="profile" class="org.mobylet.example.struts2.action.SampleAction">
             <result name="success" >/view/profile.jsp</result>
+        </action>
+        <action name="tiles" method="tiles" class="org.mobylet.example.struts2.action.SampleAction">
+            <result name="success" >/view/tiles.jsp</result>
         </action>
     </package>
 </struts>
