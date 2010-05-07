@@ -26,6 +26,10 @@ public class SampleAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	public String tiles() {
+		return SUCCESS;
+	}
+
 	public String getMessage() {
 		return message;
 	}
