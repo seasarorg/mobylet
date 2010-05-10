@@ -15,31 +15,40 @@
  */
 package org.mobylet.core.http;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.servlet.ServletOutputStream;
 
-public class MobyletServletOutputStream extends ServletOutputStream {
+public class MobyletBufferedServletOutputStream extends ServletOutputStream {
+
+	protected MobyletResponse response;
 
 	protected OutputStream os;
+
+	protected ByteArrayOutputStream baos;
 
 	protected int length;
 
 
-	public MobyletServletOutputStream(OutputStream os) {
+	public MobyletBufferedServletOutputStream(MobyletResponse response, OutputStream os) {
+		this.response = response;
 		this.os = os;
+		this.baos = new ByteArrayOutputStream(8192);
 		this.length = 0;
 	}
 
 	@Override
 	public void write(int b) throws IOException {
-		os.write(b);
+		baos.write(b);
 		length++;
 	}
 
 	@Override
 	public void flush() throws IOException {
+		response.setContentLength(baos.size());
+		os.write(baos.toByteArray());
 		os.flush();
 	}
 

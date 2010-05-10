@@ -121,7 +121,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 				RequestUtils.getMobyletContext().set(new Ready());
 				setContentType(contentType);
 				outputStream =
-					new MobyletServletOutputStream(super.getOutputStream());
+					new MobyletBufferedServletOutputStream(this, super.getOutputStream());
 			}
 		}
 		return outputStream;
@@ -182,13 +182,6 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 
 	public void flushByMobylet() throws IOException {
 		if (printWriter != null) {
-			if (outputStream != null &&
-					outputStream instanceof MobyletServletOutputStream) {
-				int length = MobyletServletOutputStream.class.cast(outputStream).getLength();
-				if (length > 0) {
-					setContentLength(length);
-				}
-			}
 			if (printWriter instanceof CSSExpandPrintWriter) {
 				CSSExpandPrintWriter.class.cast(printWriter).flushByMobylet();
 			}
