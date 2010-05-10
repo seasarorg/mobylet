@@ -30,6 +30,8 @@ public class ForceWrapServletOutputStream extends ServletOutputStream {
 
 	public static final String KEY_PROXY_CHARSET = "X_MOBYLET_PROXY_CHARSET";
 
+	protected MobyletResponse response;
+
 	protected PrintWriter writer;
 
 	protected ByteArrayOutputStream baos;
@@ -38,6 +40,7 @@ public class ForceWrapServletOutputStream extends ServletOutputStream {
 
 
 	public ForceWrapServletOutputStream(MobyletResponse response) {
+		this.response = response;
 		try {
 			writer = response.getWriter();
 		} catch (IOException e) {
@@ -62,6 +65,7 @@ public class ForceWrapServletOutputStream extends ServletOutputStream {
 	@Override
 	public void flush() throws IOException {
 		if (baos.size() > 0) {
+			response.setContentLength(getLength());
 			writer.write(baos.toString(proxyCharset).toCharArray());
 		}
 		super.flush();
