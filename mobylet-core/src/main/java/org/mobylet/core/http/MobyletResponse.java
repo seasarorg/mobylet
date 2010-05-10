@@ -120,7 +120,8 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			} else {
 				RequestUtils.getMobyletContext().set(new Ready());
 				setContentType(contentType);
-				outputStream = super.getOutputStream();
+				outputStream =
+					new MobyletServletOutputStream(super.getOutputStream());
 			}
 		}
 		return outputStream;
@@ -159,7 +160,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			}
 		}
 	}
-	
+
 	@Override
 	public void addHeader(String name, String value) {
 		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
@@ -181,11 +182,17 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 
 	public void flushByMobylet() throws IOException {
 		if (printWriter != null) {
+			if (outputStream != null &&
+					outputStream instanceof MobyletServletOutputStream) {
+				int length = MobyletServletOutputStream.class.cast(outputStream).getLength();
+				if (length > 0) {
+					setContentLength(length);
+				}
+			}
 			if (printWriter instanceof CSSExpandPrintWriter) {
 				CSSExpandPrintWriter.class.cast(printWriter).flushByMobylet();
-			} else {
-				printWriter.flush();
 			}
+			printWriter.flush();
 		} else if (outputStream != null) {
 			if (outputStream instanceof ProxyImageOutputStream) {
 				MobyletServletOutputStream outStream =
