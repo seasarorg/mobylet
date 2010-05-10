@@ -85,7 +85,6 @@ public class CSSExpandPrintWriter extends PrintWriter {
 			writer.write(buf.substring(0, index));
 		}
 		writer.write(handler.toString());
-		writer.flush();
 	}
 
 }
