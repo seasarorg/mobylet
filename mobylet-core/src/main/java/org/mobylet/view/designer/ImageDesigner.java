@@ -46,7 +46,7 @@ public class ImageDesigner extends SingletonDesigner {
 			scaleType = config.getDefaultScaleType();
 		}
 		if (codec == null) {
-			codec = ImageUtils.getImageCodec();
+			codec = ImageUtils.getImageCodec(src);
 			if (codec == null) {
 				return src;
 			}
