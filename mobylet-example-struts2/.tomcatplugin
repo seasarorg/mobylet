@@ -2,10 +2,10 @@
 <tomcatProjectProperties>
     <rootDir>/src/main/webapp</rootDir>
     <exportSource>false</exportSource>
-    <reloadable>false</reloadable>
-    <redirectLogger>true</redirectLogger>
+    <reloadable>true</reloadable>
+    <redirectLogger>false</redirectLogger>
     <updateXml>true</updateXml>
     <warLocation></warLocation>
     <extraInfo></extraInfo>
-    <webPath>/mobylet-example-struts2</webPath>
+    <webPath>/mobylet-struts2</webPath>
 </tomcatProjectProperties>

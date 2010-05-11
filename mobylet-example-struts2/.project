@@ -1,7 +1,11 @@
 <projectDescription>
   <name>mobylet-example-struts2</name>
   <comment/>
-  <projects/>
+  <projects>
+    <project>mobylet-charset</project>
+    <project>mobylet-core</project>
+    <project>mobylet-taglibs</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
