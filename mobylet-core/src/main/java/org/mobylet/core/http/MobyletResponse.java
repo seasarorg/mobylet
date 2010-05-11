@@ -68,6 +68,16 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 					RequestUtils.getMobyletContext().get(Ready.class) != null) {
 				super.setContentType(contentType);
 				hasContentType = true;
+			} else {
+				//Tiles対応
+				Mobylet m = MobyletFactory.getInstance();
+				if (m != null &&
+						m.getContentType() == ContentType.XHTML) {
+					contentType = dialect.getXContentTypeString();
+				} else {
+					contentType = dialect.getContentTypeString();
+				}
+				super.setContentType(contentType);
 			}
 		} else {
 			super.setContentType(type);
@@ -79,6 +89,14 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		if (printWriter == null) {
 			if (RequestUtils.isIncludeScope() &&
 					!isRootResponse()) {
+				Mobylet m = MobyletFactory.getInstance();
+				RequestUtils.getMobyletContext().set(new Ready());
+				if (m != null &&
+						m.getContentType() == ContentType.XHTML) {
+					setContentType(dialect.getXContentTypeString());
+				} else {
+					setContentType(dialect.getContentTypeString());
+				}
 				printWriter = super.getWriter();
 			} else {
 				printWriter = new MobyletPrintWriter(
