@@ -99,7 +99,9 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 		if (RequestUtils.isIncludeScope()) {
 			Map<String, Object> includeParametersMap =
 				new HashMap<String, Object>();
-			includeParametersMap.putAll(super.getParameterMap());
+			if (!isRequestBodyOpened) {
+				includeParametersMap.putAll(super.getParameterMap());
+			}
 			includeParametersMap.putAll(parametersMap);
 			return includeParametersMap;
 		}
