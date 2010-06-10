@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mobylet>
+	<initializers>
+		<chain>org.mobylet.core.initializer.impl.MobyletInitializerImpl</chain>
+	</initializers>
+	<through>
+		<!--
+		<carrier>OTHER</carrier>
+		<carrier>DOCOMO</carrier>
+		<carrier>AU</carrier>
+		<carrier>SOFTBANK</carrier>
+		-->
+	</through>
+	<default>
+		<contentType>HTML</contentType>
+	</default>
+	<device>
+		<basedir>device/</basedir>
+	</device>
+	<emoji>
+		<basedir>emoji/</basedir>
+	</emoji>
+	<!--
+	<cssExpand>
+		<execute>true</execute>
+		<removedClass>true</removedClass>
+	</cssExpand>
+	<proxy>
+		<host>proxy.mobylet.org</host>
+		<port>8080</port>
+	</proxy>
+	 -->
+</mobylet>

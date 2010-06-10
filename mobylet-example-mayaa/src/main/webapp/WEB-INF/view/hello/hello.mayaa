@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<m:mayaa xmlns:m="http://mayaa.seasar.org"
+		 xmlns:mb="http://taglibs.mobylet.org/">
+
+	<m:write id="message"
+		value="Welcome to the Mayaa's template driven development! And Mobylet!"/>
+
+	<m:write id="version"
+		value="Java Runtime: ${java.lang.System.getProperty('java.version')}"/>
+
+	<m:write id="debug-mode"
+		value="debug mode = ${isDebugMode()}"/>
+
+	<mb:emoji name="晴れ" m:id="emoji_shine" />
+	<mb:emoji name="ハート" m:id="emoji_heart" />
+</m:mayaa>
