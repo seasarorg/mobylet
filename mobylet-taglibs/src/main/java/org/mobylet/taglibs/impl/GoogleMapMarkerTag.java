@@ -21,7 +21,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mobylet.core.gps.Geo;
-import org.mobylet.core.gps.Gps;
+import org.mobylet.core.gps.Marker;
+import org.mobylet.core.util.StringUtils;
 
 public class GoogleMapMarkerTag extends SimpleTagSupport {
 
@@ -29,15 +30,31 @@ public class GoogleMapMarkerTag extends SimpleTagSupport {
 
 	protected String lon;
 
+	protected String size;
+
+	protected String color;
+
+	protected String alphaNumericCharacter;
+
+
 	@Override
 	public void doTag() throws JspException, IOException {
 		try {
 			GoogleMapTag googleMapTag =
 				(GoogleMapTag)findAncestorWithClass(this, GoogleMapTag.class);
-			Gps marker = new Gps(
+			Marker marker = new Marker(
 					Double.parseDouble(lat),
 					Double.parseDouble(lon),
 					Geo.WGS84);
+			if (StringUtils.isNotEmpty(size)) {
+				marker.setSize(Marker.Size.valueOf(size));
+			}
+			if (StringUtils.isNotEmpty(color)) {
+				marker.setColor(Marker.Color.valueOf(color));
+			}
+			if (StringUtils.isNotEmpty(alphaNumericCharacter)) {
+				marker.setAlphaNumericCharacter(alphaNumericCharacter);
+			}
 			googleMapTag.addMarker(marker);
 		} catch (Exception e) {
 			throw new JspException(e);
@@ -59,4 +76,29 @@ public class GoogleMapMarkerTag extends SimpleTagSupport {
 	public void setLon(String lon) {
 		this.lon = lon;
 	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getAlphaNumericCharacter() {
+		return alphaNumericCharacter;
+	}
+
+	public void setAlphaNumericCharacter(String alphaNumericCharacter) {
+		this.alphaNumericCharacter = alphaNumericCharacter;
+	}
+
 }

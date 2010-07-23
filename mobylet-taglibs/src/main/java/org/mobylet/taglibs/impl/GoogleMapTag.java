@@ -23,6 +23,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.Gps;
+import org.mobylet.core.gps.Marker;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletTag;
 import org.mobylet.taglibs.utils.JspWriterUtils;
@@ -51,7 +52,7 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 	protected Boolean sensor = false;
 
 
-	protected List<Gps> markers;
+	protected List<Marker> markers;
 
 
 	@Override
@@ -86,7 +87,7 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 				designer.setSensor(sensor);
 			}
 			if (markers != null && markers.size() > 0) {
-				for (Gps marker : markers) {
+				for (Marker marker : markers) {
 					designer.addMarker(marker);
 				}
 			}
@@ -113,9 +114,9 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 		sensor = false;
 	}
 
-	public void addMarker(Gps marker) {
+	public void addMarker(Marker marker) {
 		if (markers == null) {
-			markers = new ArrayList<Gps>();
+			markers = new ArrayList<Marker>();
 		}
 		markers.add(marker);
 	}
