@@ -51,6 +51,8 @@ public class ImageConfig extends MobyletInjectionConfig {
 
 	public static final String CONFIG_KEY_DEFAULT_SCALE_IMAGE_WIDTH = "image.default.scale.image.width";
 
+	public static final String CONFIG_KEY_IMAGE_SOURCE_REPLACE_404 = "image.source.replace.404";
+
 	public static final String CONFIG_KEY_IMAGE_SOURCE_ALLOW_URL = "image.source.url.allow";
 
 	public static final String CONFIG_KEY_IMAGE_SOURCE_NETWORK_LIMIT_SIZE = "image.source.network.limit.size";
@@ -113,6 +115,10 @@ public class ImageConfig extends MobyletInjectionConfig {
 			isInitializedAllowUrlRegex = true;
 		}
 		return allowUrlRegex;
+	}
+
+	public String getReplace404() {
+		return getConfig().getProperty(CONFIG_KEY_IMAGE_SOURCE_REPLACE_404);
 	}
 
 	public String getLocalBaseDirPath() {

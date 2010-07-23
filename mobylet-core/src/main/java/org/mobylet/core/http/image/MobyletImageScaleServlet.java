@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.http.MobyletServletOutputStream;
+import org.mobylet.core.http.MobyletResponse.Ready;
 import org.mobylet.core.image.ConnectionStream;
 import org.mobylet.core.image.ImageCacheHelper;
 import org.mobylet.core.image.ImageCodec;
@@ -34,6 +35,7 @@ import org.mobylet.core.image.ImageReader;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.InputStreamUtils;
+import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -47,6 +49,13 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			throws ServletException, IOException {
 		//GetPath
 		String path = req.getParameter(ImageConfig.PKEY_IMGPATH);
+		//DoScale
+		doScale(path, false, req, resp);
+	}
+
+	protected void doScale(String path, boolean isReplace,
+			HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		if (StringUtils.isEmpty(path)) {
 			return;
 		}
@@ -64,7 +73,7 @@ public class MobyletImageScaleServlet extends HttpServlet {
 		path = imageReader.constructPath(path);
 		//ImageInputStream
 		ConnectionStream imageConnectionStream;
-		OutputStream outStream;
+		OutputStream outStream = null;
 		//CacheKey
 		String key = null;
 		//EnableCache
@@ -81,6 +90,7 @@ public class MobyletImageScaleServlet extends HttpServlet {
 							imageConnectionStream.getInputStream());
 				//ReCompute Codec
 				codec = ImageUtils.getImageCodec(imageBytes);
+				RequestUtils.getMobyletContext().set(new Ready());
 				resp.setContentType(ImageUtils.getContentTypeString(codec));
 				resp.setContentLength(imageBytes.length);
 				resp.getOutputStream().write(imageBytes);
@@ -91,32 +101,42 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			else {
 				imageConnectionStream = imageReader.getStream(path);
 			}
-			outStream = new ByteArrayOutputStream(4096);
+			if (imageConnectionStream != null) {
+				//ReComputeCodec
+				codec = getComputeCodec(codec, imageConnectionStream);
+				outStream = new ByteArrayOutputStream(4096);
+			}
 		}
 		//UnEnableCache
 		else {
 			imageConnectionStream = imageReader.getStream(path);
-			outStream = new MobyletServletOutputStream(resp.getOutputStream());
+			if (imageConnectionStream != null) {
+				RequestUtils.getMobyletContext().set(new Ready());
+				//ReComputeCodec
+				codec = getComputeCodec(codec, imageConnectionStream);
+				outStream = new MobyletServletOutputStream(resp.getOutputStream());
+			}
 		}
 		//---------------------------------------------------------------------
 		// Check-Stream
 		//---------------------------------------------------------------------
 		if (imageConnectionStream == null) {
-			return;
-		}
-		//---------------------------------------------------------------------
-		// ReCompute-Codec
-		//---------------------------------------------------------------------
-		if (codec == null) {
-			codec = ImageUtils.getImageCodec(imageConnectionStream);
-			//Force Setting. #Deprecated Process
-			if (codec == null) {
-				codec = ImageCodec.JPG;
+			if (!isReplace) {
+				ImageConfig config = SingletonUtils.get(ImageConfig.class);
+				String replace404path = config.getReplace404();
+				if (StringUtils.isNotEmpty(replace404path)) {
+					doScale(replace404path, true, req, resp);
+				}
+			} else {
+				resp.setContentType(ImageUtils.getContentTypeString(codec));
+				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
+			return;
 		}
 		//---------------------------------------------------------------------
 		// Set-ContentType
 		//---------------------------------------------------------------------
+		RequestUtils.getMobyletContext().set(new Ready());
 		resp.setContentType(ImageUtils.getContentTypeString(codec));
 		//---------------------------------------------------------------------
 		// Convert-Image
@@ -156,5 +176,16 @@ public class MobyletImageScaleServlet extends HttpServlet {
 			resp.flushBuffer();
 		}
 	}
-
+	
+	protected ImageCodec getComputeCodec(ImageCodec codec, ConnectionStream connectionStream) {
+		if (codec == null) {
+			codec = ImageUtils.getImageCodec(connectionStream);
+			//Force Setting. #Deprecated Process
+			if (codec == null) {
+				codec = ImageCodec.JPG;
+			}
+		}
+		return codec;
+	}
+	
 }
