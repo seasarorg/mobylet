@@ -53,7 +53,7 @@
 経度：<%= strLonTokyo %>
 </div>
 <% if(lat != null && lon != null){ %>
-<m:googlemap key="ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469IRSmYo0djw2uXw79MXwwZacmUqYReQ">
+<m:googlemap key="ABQIAAAAPYgXdQyUkL002WfUhRqsFxSCNA_NVtbBIrIBbfef5W7r3469IRSmYo0djw2uXw79MXwwZacmUqYReQ" markerColor="BLUE" markerAlphaNumericCharacter="1">
 </m:googlemap>
 <% } %>
 </body>
