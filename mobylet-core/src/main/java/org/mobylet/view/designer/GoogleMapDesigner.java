@@ -24,6 +24,7 @@ import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.GeoConverter;
 import org.mobylet.core.gps.Gps;
+import org.mobylet.core.gps.Marker;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlUtils;
@@ -55,7 +56,7 @@ public class GoogleMapDesigner {
 	protected Boolean sensor = false;
 
 
-	protected List<Gps> markers;
+	protected List<Marker> markers;
 
 
 
@@ -65,7 +66,7 @@ public class GoogleMapDesigner {
 
 	public GoogleMapDesigner(String key) {
 		this.key = key;
-		this.markers = new ArrayList<Gps>();
+		this.markers = new ArrayList<Marker>();
 	}
 
 
@@ -85,7 +86,7 @@ public class GoogleMapDesigner {
 		}
 		if(markers == null ||
 				markers.size() == 0) {
-			Gps marker = new Gps(center);
+			Marker marker = new Marker(center);
 			addMarker(marker);
 		}
 		//画面全面
@@ -115,10 +116,16 @@ public class GoogleMapDesigner {
 		url = UrlUtils.addParameter(url, "zoom", "" + getZoom());
 		url = UrlUtils.addParameter(url, "size", "" + getWidth() + "x" + getHeight());
 		url = UrlUtils.addParameter(url, "sensor", "" + getSensor());
-		for (Gps marker : markers) {
-			marker = SingletonUtils.get(GeoConverter.class).toWgs84(marker);
+		for (Marker marker : markers) {
+			marker = new Marker(SingletonUtils.get(GeoConverter.class).toWgs84(marker));
+			String parameter =
+				marker.getLat()
+				 + "," + marker.getLon()
+				 + (marker.getSize() != null ? "" + marker.getSize() : "")
+				 + (marker.getColor() != null ? "" + marker.getColor() : "")
+				 + (marker.getAlphaNumericCharacter() != null ? "" + marker.getAlphaNumericCharacter() : "");
 			url = UrlUtils.addParameter(
-					url, "markers", marker.getLat() + "," + marker.getLon(), false);
+					url, "markers", parameter, false);
 		}
 		return url;
 	}
@@ -172,15 +179,15 @@ public class GoogleMapDesigner {
 		this.sensor = sensor;
 	}
 
-	public List<Gps> getMarkers() {
+	public List<Marker> getMarkers() {
 		return markers;
 	}
 
-	public void setMarkers(List<Gps> markers) {
+	public void setMarkers(List<Marker> markers) {
 		this.markers = markers;
 	}
 
-	public void addMarker(Gps marker) {
+	public void addMarker(Marker marker) {
 		this.markers.add(marker);
 	}
 }
