@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 
-import org.mobylet.core.MobyletRuntimeException;
 import org.mobylet.core.image.ConnectionStream;
 import org.mobylet.core.image.ImageConfig;
 import org.mobylet.core.image.ImageReader;
@@ -111,8 +110,11 @@ public class MobyletImageReader implements ImageReader {
 			try {
 				imageStream = connection.getInputStream();
 			} catch (IOException e) {
-				throw new MobyletRuntimeException(
-						"ストリームをオープンできません path = " + path, e);
+				MobyletLogger logger = SingletonUtils.get(MobyletLogger.class);
+				if (logger != null && logger.isLoggable()) {
+					logger.log("ストリームをオープンできません path = " + path);
+				}
+				return null;
 			}
 			return new ConnectionStream(connection, imageStream);
 		} else {
