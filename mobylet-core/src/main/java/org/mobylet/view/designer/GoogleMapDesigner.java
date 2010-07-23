@@ -128,11 +128,16 @@ public class GoogleMapDesigner {
 		for (Marker marker : markers) {
 			Gps markerGps = SingletonUtils.get(GeoConverter.class).toWgs84(marker);
 			String parameter =
-				markerGps.getLat()
-				 + "," + markerGps.getLon()
-				 + (marker.getSize() != null ? "" + marker.getSize() : "")
-				 + (marker.getColor() != null ? "" + marker.getColor() : "")
-				 + (marker.getAlphaNumericCharacter() != null ? "" + marker.getAlphaNumericCharacter() : "");
+				markerGps.getLat() + "," + markerGps.getLon();
+			if (marker.getSize() != null ||
+					marker.getColor() != null ||
+					marker.getAlphaNumericCharacter() != null) {
+				parameter =
+					parameter + ","
+					+ (marker.getSize() != null ? "" + marker.getSize() : "")
+					+ (marker.getColor() != null ? "" + marker.getColor() : "")
+					+ (marker.getAlphaNumericCharacter() != null ? "" + marker.getAlphaNumericCharacter() : "");
+			}
 			url = UrlUtils.addParameter(
 					url, "markers", parameter, false);
 		}
