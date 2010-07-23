@@ -76,20 +76,11 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 			GoogleMapDesigner designer = new GoogleMapDesigner(key);
 			if (StringUtils.isNotEmpty(lat) &&
 					StringUtils.isNotEmpty(lon)) {
-				Marker centerMarker = new Marker(
-						Double.parseDouble(lat),
-						Double.parseDouble(lon),
-						Geo.WGS84);
-				if (StringUtils.isNotEmpty(markerSize)) {
-					centerMarker.setSize(Marker.Size.valueOf(markerSize));
-				}
-				if (StringUtils.isNotEmpty(markerColor)) {
-					centerMarker.setColor(Marker.Color.valueOf(markerColor));
-				}
-				if (StringUtils.isNotEmpty(markerAlphaNumericCharacter)) {
-					centerMarker.setAlphaNumericCharacter(markerAlphaNumericCharacter);
-				}
-				designer.setCenter(centerMarker);
+				designer.setCenter(
+						new Marker(
+								Double.parseDouble(lat),
+								Double.parseDouble(lon),
+								Geo.WGS84));
 			}
 			if (width != null && height != null) {
 				designer.setWidth(width);
@@ -109,7 +100,9 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 			//Write
 			JspWriterUtils.write(
 					pageContext.getOut(),
-					STAG + TAG + " src=\"" + designer.getSrc() + "\"" + ETAG);
+					STAG + TAG + " src=\"" +
+					designer.getSrc(markerSize, markerColor, markerAlphaNumericCharacter)
+					+ "\"" + ETAG);
 			//EvalPage
 			recycle();
 			return EVAL_PAGE;

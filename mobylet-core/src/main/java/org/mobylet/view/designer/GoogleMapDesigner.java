@@ -70,7 +70,7 @@ public class GoogleMapDesigner {
 	}
 
 
-	public String getSrc() {
+	public String getSrc(String markerSize, String markerColor, String markerAlphaNumericCharacter) {
 		Mobylet m = MobyletFactory.getInstance();
 		//現在地
 		if (center == null ||
@@ -87,6 +87,15 @@ public class GoogleMapDesigner {
 		if(markers == null ||
 				markers.size() == 0) {
 			Marker marker = new Marker(center);
+			if (StringUtils.isNotEmpty(markerSize)) {
+				marker.setSize(Marker.Size.valueOf(markerSize));
+			}
+			if (StringUtils.isNotEmpty(markerColor)) {
+				marker.setColor(Marker.Color.valueOf(markerColor));
+			}
+			if (StringUtils.isNotEmpty(markerAlphaNumericCharacter)) {
+				marker.setAlphaNumericCharacter(markerAlphaNumericCharacter);
+			}
 			addMarker(marker);
 		}
 		//画面全面
