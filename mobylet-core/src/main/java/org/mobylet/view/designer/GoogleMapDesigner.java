@@ -117,10 +117,10 @@ public class GoogleMapDesigner {
 		url = UrlUtils.addParameter(url, "size", "" + getWidth() + "x" + getHeight());
 		url = UrlUtils.addParameter(url, "sensor", "" + getSensor());
 		for (Marker marker : markers) {
-			marker = new Marker(SingletonUtils.get(GeoConverter.class).toWgs84(marker));
+			Gps markerGps = SingletonUtils.get(GeoConverter.class).toWgs84(marker);
 			String parameter =
-				marker.getLat()
-				 + "," + marker.getLon()
+				markerGps.getLat()
+				 + "," + markerGps.getLon()
 				 + (marker.getSize() != null ? "" + marker.getSize() : "")
 				 + (marker.getColor() != null ? "" + marker.getColor() : "")
 				 + (marker.getAlphaNumericCharacter() != null ? "" + marker.getAlphaNumericCharacter() : "");
