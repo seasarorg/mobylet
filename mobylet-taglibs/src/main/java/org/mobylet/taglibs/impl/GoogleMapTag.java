@@ -22,7 +22,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.mobylet.core.gps.Geo;
-import org.mobylet.core.gps.Gps;
 import org.mobylet.core.gps.Marker;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.taglibs.MobyletTag;
@@ -52,6 +51,13 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 	protected Boolean sensor = false;
 
 
+	protected String markerSize;
+	
+	protected String markerColor;
+	
+	protected String markerAlphaNumericCharacter;
+
+
 	protected List<Marker> markers;
 
 
@@ -70,11 +76,20 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 			GoogleMapDesigner designer = new GoogleMapDesigner(key);
 			if (StringUtils.isNotEmpty(lat) &&
 					StringUtils.isNotEmpty(lon)) {
-				designer.setCenter(
-						new Gps(
-								Double.parseDouble(lat),
-								Double.parseDouble(lon),
-								Geo.WGS84));
+				Marker centerMarker = new Marker(
+						Double.parseDouble(lat),
+						Double.parseDouble(lon),
+						Geo.WGS84);
+				if (StringUtils.isNotEmpty(markerSize)) {
+					centerMarker.setSize(Marker.Size.valueOf(markerSize));
+				}
+				if (StringUtils.isNotEmpty(markerColor)) {
+					centerMarker.setColor(Marker.Color.valueOf(markerColor));
+				}
+				if (StringUtils.isNotEmpty(markerAlphaNumericCharacter)) {
+					centerMarker.setAlphaNumericCharacter(markerAlphaNumericCharacter);
+				}
+				designer.setCenter(centerMarker);
 			}
 			if (width != null && height != null) {
 				designer.setWidth(width);
@@ -175,6 +190,30 @@ public class GoogleMapTag extends TagSupport implements MobyletTag {
 
 	public void setSensor(Boolean sensor) {
 		this.sensor = sensor;
+	}
+
+	public String getMarkerSize() {
+		return markerSize;
+	}
+
+	public void setMarkerSize(String markerSize) {
+		this.markerSize = markerSize;
+	}
+
+	public String getMarkerColor() {
+		return markerColor;
+	}
+
+	public void setMarkerColor(String markerColor) {
+		this.markerColor = markerColor;
+	}
+
+	public String getMarkerAlphaNumericCharacter() {
+		return markerAlphaNumericCharacter;
+	}
+
+	public void setMarkerAlphaNumericCharacter(String markerAlphaNumericCharacter) {
+		this.markerAlphaNumericCharacter = markerAlphaNumericCharacter;
 	}
 
 }
