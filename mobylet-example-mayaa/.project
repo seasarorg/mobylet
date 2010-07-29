@@ -1,11 +1,7 @@
 <projectDescription>
   <name>mobylet-example-mayaa</name>
   <comment></comment>
-  <projects>
-    <project>mobylet-charset</project>
-    <project>mobylet-s2extension</project>
-    <project>mobylet-taglibs</project>
-  </projects>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
