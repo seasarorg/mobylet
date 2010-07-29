@@ -42,10 +42,16 @@
 				<!-- start descWrap -->
 				<div id ="descWrap" class="marT20">
 					<div id="descInner">
-						<p class="padT10 lh18p padB20">
+						<p class="padT10 lh18p">
 						mobyletを利用してセッションを使う場合、mobyletSessionを利用することが出来ます。<br />
 						mobyletSessionはUID/GUIDベースで管理可能なmobylet独自のセッション機構です。<br />
 						また、デフォルトで冗長構成に対応しています。
+						</p>
+						<p class="padT10 padB20 lh18p fgRed">
+						&lt;制限事項&gt;<br />
+						Seasar2連携時、HotDeploy環境下ではClassCastExceptionが発生する可能性があります。<br />
+						（セッションオブジェクトがコンテナ管理外のクラスであれば問題無し）<br />
+						この現象は将来のバージョンで対応予定です。
 						</p>
 					</div>
 				</div>
