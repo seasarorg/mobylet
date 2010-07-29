@@ -36,113 +36,114 @@
 
 		<!-- start mainWrap -->
 		<div id="mainWrap">
-			<h2>マニアックに利用する</h2>
+			<h2>ビューエンジンを変える</h2>
 
 			<!-- start main -->
 			<div id="main">
 
 				<!-- start cstWrap -->
 				<div class="cstWrap marT22">
-					<h3 id="var">設定ファイルで予約変数を利用する</h3>
+					<h3 id="xml">Mayaa/Ymirなどのビュー側でレスポンスを書き換えるエンジンを利用する</h3>
 					<div class="cstInner">
-						<h4>各種予約変数</h4>
+						<h4>レスポンス書き換え処理の競合</h4>
 						<p class="marT20 lh18p">
-						mobyletが利用する各種プロパティにはいくつかの予約語を利用することができます。<br />
-						（mobylet.xml、mobylet.image.properties等）<br />
-						以下、使用例。
+						Mayaa/Ymirなどのビューエンジンはレスポンスの解析、加工したものを返却しますが<br />
+						mobyletの絵文字変換処理や、CSS Expand機能なども同じようにレスポンスを加工して返却する処理を行います。<br />
+						このため、加工処理部分が競合し、通常の設定ではmobyletの加工処理をスルーしてしまうため<br />
+						レスポンスを加工するビューエンジンと一緒に利用する場合は特別な設定が必要となります。
 						</p>
-						<div class="codeWrap marT20">
+
+						<h4>ForceWrap機能</h4>
+						<p class="marT20 lh18p">
+						ForceWrap機能とはMobyletFilterで行うレスポンス加工処理をProxyサーバのように動作させることで<br />
+						Mayaa/Ymirなどと強制的に共存させる機能です。<br />
+						この機能を利用する場合は、MobyletFilterを「ForceWrapMobyletFilter」に指定を変更します。<br />
+						（Seasar2利用の場合は「org.seasar.mobylet.http.S2ForceWrapMobyletFilter」）
+						</p>
+
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
 							<div class="codeInner">
-								<pre class="code">
-image.local.base.dir=${docBase}/images
-image.cache.base.dir=${java.io.tmpdir}
-image.scale.servlet.path=${contextPath}/imageScaler
+								<pre class="code">&lt;filter&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.mobylet.core.http.ForceWrapMobyletFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;isAllForceWrap&lt;/param-name&gt;
+        &lt;param-value&gt;true&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/filter&gt;
 </pre>
 							</div>
 						</div>
-						<h4>${docBase}</h4>
-						<p class="marT20 lh18p">
-						WEBアプリケーションのdocBaseに置換します。<br />
-						※Ver.1.0.1以上で利用可能
-						</p>
-						<h4>${contextPath}</h4>
-						<p class="marT20 lh18p">
-						WEBアプリケーションのコンテキストパスに置換します。<br />
-						※Servlet API 2.5以上の場合に利用可能です。
-						</p>
-						<h4>${<i>[yourVariable]</i>}</h4>
-						<p class="marT20 lh18p">
-						MobyletFilterのInitParameterやSystemPropertiesから指定の変数名の値に置換します。
-						</p>
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
+						<!-- end codeWrap -->
 
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="designer">JSP以外のビューを使う</h3>
-					<div class="cstInner">
-						<h4>Designerクラスを利用してmobyletの機能を活用する</h4>
+						<h4>バイナリデータなどの扱い</h4>
 						<p class="marT20 lh18p">
-						Mobyletは特定のビューに依存していません。<br />
-						ビューのロジックは各Designerクラスとして独立しており、<br />
-						JSP用のカスタムタグも、内部でDesignerクラスのロジックを呼び出しています。<br />
-						<br />
-						そのため、VelocityなどJSP以外のビューを使用する場合でも、各Designerクラスを使用することで、<br />
-						Mobyletの便利なビュー側の機能を使用することが可能です。<br />
-						<br />
-						Designerクラスは、mobylet-core.jar内の「org.mobylet.view.designer」パッケージ配下に用意されています。
+						上記設定を行った場合、画像などのバイナリデータがWASを通過する際に悪影響を与えます。<br />
+						ローカル開発環境など、画像ファイルへのアクセスもWASを利用する場合はinit-paramを外し、<br />
+						Actionに対してのみForceWrap機能を個別に有効化する処理を付加します。
 						</p>
-						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
-					</div>
-					<!-- end cstInner -->
-				</div>
-				<!-- end cstWrap -->
 
-				<!-- start cstWrap -->
-				<div class="cstWrap marT22">
-					<h3 id="configinjection">Config Injection</h3>
-					<!-- start cstInner -->
-					<div class="cstInner">
-						<h4>プロパティファイルを配置してDesignerをカスタマイズする</h4>
-						<p class="marT20 lh18p">
-						Mobyletでは、Designerクラスのデフォルトの動作をカスタマイズ可能な仕組みが用意されています。<br />
-						この仕組みは、MobyletInjectionConfigクラスを継承したConfigクラスと、<br />
-						対応するプロパティファイルを使用したConfig Injectionにより実現しています。<br />
-						<br />
-						例として、以下では&lt;m:a&gt;タグのデフォルトの動作を変更しています。<br />
-						<br />
-						&lt;m:a&gt;タグの生成に使用するTransitionDesignerクラスは、内部でTransitionConfigクラスを保持しています。<br />
-						TransitionConfigクラスはMobyletInjectionConfigクラスを継承しているため、<br />
-						プロパティファイルで設定をカスタマイズすることが可能です。<br />
-						TransitionConfigクラスのパッケージは「org.mobylet.view.config」のため、<br />
-						クラスパス配下に「org.mobylet.view.config.TransitionConfig.properties」という名前のプロパティファイルを配置します。
-						</p>
-						<h4>JSESSIONIDの出力をデフォルトでOFFにする</h4>
-						<p class="marT20 lh18p">
-						&lt;m:a&gt;タグでは、デフォルトでURLにJSESSIONIDが付与される仕様になっています。<br />
-						これを変更する場合、作成したプロパティファイルに以下の記述を追加します。
-						</p>
-						<div class="codeWrap marT20">
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
 							<div class="codeInner">
-								<pre class="code">
-transition.isSessionCookiePriority=false</pre>
+								<pre class="code">&lt;filter&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.mobylet.core.http.ForceWrapMobyletFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+</pre>
 							</div>
 						</div>
+						<!-- end codeWrap -->
+
 						<p class="marT20 lh18p">
-						この他、「UID」「GUID」などのデフォルトの設定も変更可能です。<br />
-						設定可能な値はTransitionConfigクラスをご覧ください。<br />
-						<br />
-						このように、MobyletInjectionConfigクラスを継承したConfigクラスを使用することで、<br />
-						Mobyletの動作に独自のカスタマイズを行なうことが可能です。
+						上記設定で、アクション処理を通過する際のみ（Interceptorを利用すると簡単）以下のメソッドを呼び出します。
 						</p>
+
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">ForceWrapUtils.setForceWrapRequest();
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						その他、Ymirなどで「*.html」という形など、アクション処理を行うパスが指定可能であれば、<br />
+						以下のような設定も可能です。
+						</p>
+
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;filter&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.mobylet.core.http.ForceWrapMobyletFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;isAllForceWrap&lt;/param-name&gt;
+        &lt;param-value&gt;true&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;mobyletFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;*.html&lt;/url-pattern&gt;
+    &lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
+    &lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;
+    &lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;
+&lt;/filter-mapping&gt;
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
 				</div>
 				<!-- end cstWrap -->
+
 			</div>
 			<!-- end main -->
 		</div>
