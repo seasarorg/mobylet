@@ -17,7 +17,7 @@
 	<tag>
 		<name>img</name>
 		<tag-class>
-			org.mobylet.gae.taglibs.GaeAutoScaleImageTag
+			org.mobylet.taglibs.impl.ImageTag
 		</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
@@ -37,19 +37,42 @@
 			]]>
 			</description>
 			<name>magniWidth</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			変換方式（SQUARECLIP, INSQUARE, FITWIDTH）
+			]]>
+			</description>
+			<name>scaleType</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<description>
 			<![CDATA[
-			ブラウザ縦幅比拡大率（1.0でブラウザ縦幅一杯）
+			CODEC（JPG,GIF,PNG）
 			]]>
 			</description>
-			<name>magniHeight</name>
+			<name>codec</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<description>
+			<![CDATA[
+			フィルタ方式の利用有無（true,false）
+			]]>
+			</description>
+			<name>useFilter</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<dynamic-attributes>
+			true
+		</dynamic-attributes>
 	</tag>
 
 </taglib>
