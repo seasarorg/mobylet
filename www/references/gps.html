@@ -186,6 +186,51 @@ gps = converter.toTokyo(gps);
 						</div>
 						<!-- end codeWrap -->
 
+
+						<p class="marT20 lh18p">
+						地図の中心マーカーのみ、サイズ、色、英数字番号などの指定方法が異なります。
+						</p>
+
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">&lt;m:googlemap key="KEY" lat="${centerLat}" lon="${centerLon}" markerSize="MID" markerColor="BLUE" markerAlphaNumericCharacter="a" width="100" height="100" zoom="10"/&gt;
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
+						<p class="marT20 lh18p">
+						サイズ、色、英数字番号で指定可能なものは以下の通りです。
+						</p>
+
+						<!-- start codeWrap -->
+						<div class="codeWrap marT20">
+							<div class="codeInner">
+								<pre class="code">## サイズ
+MID
+TINY
+SMALL
+
+## 色
+BLACK
+BROWN
+GREEN
+PURPLE
+YELLOW
+BLUE
+GRAY
+ORANGE
+RED
+WHITE
+
+## 英数字番号
+1～9の半角数字 又は a～zの半角小文字英字
+</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 					</div>
 					<!-- end cstInner -->
