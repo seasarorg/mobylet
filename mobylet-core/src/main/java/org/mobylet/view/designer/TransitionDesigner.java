@@ -95,11 +95,13 @@ public abstract class TransitionDesigner extends SingletonDesigner {
 				m.getCarrier() == Carrier.DOCOMO &&
 				(url.startsWith("https:") ||
 						(!url.startsWith("http:") && request.isSecure()))) {
-			String id = m.getGuid();
-			if (StringUtils.isEmpty(id)) {
-				id = m.getUid();
+			String id = m.getUid();
+			if (StringUtils.isNotEmpty(id)) {
+				return new Entry("uid", id);
+			} else {
+				id = m.getGuid();
 				if (StringUtils.isNotEmpty(id)) {
-					return new Entry("uid", id);
+					return new Entry("guid", id);
 				}
 			}
 		//UidQuery
