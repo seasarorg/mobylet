@@ -148,6 +148,24 @@
 						mobylet.xmlの設定による「through-carrier」設定を「OTHER」で行う必要があります。→<a href="./mobyletxml.html">「例外キャリアの設定」</a>
 						</p>
 
+						<h4>デフォルト文字コードを変更する</h4>
+						<p class="marT20 lh18p">MobyletFilterはいわゆるEncodingFilterの代替Filterとしても動作するため、デフォルト（PC用）の文字コードを以下のように設定可能です。（※設定無しの場合は「UTF-8」で動作します）
+						</p>
+						<!-- start codeWrap -->
+						<div class="codeWrap marT10">
+							<div class="codeInner">
+								<pre class="code">&lt;filter&gt;
+    &lt;filter-name&gt;mobyletfilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.mobylet.core.http.MobyletFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;encoding&lt;/param-name&gt;
+        &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/filter&gt;</pre>
+							</div>
+						</div>
+						<!-- end codeWrap -->
+
 						<div class="goTop tRight marT30"><a href="#pageTop">ページのTOPへ戻る</a></div>
 
 					</div>
