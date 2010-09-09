@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mobylet>
+	<initializers>
+		<chain>org.mobylet.core.initializer.impl.MobyletInitializerImpl</chain>
+	</initializers>
+	<device>
+		<basedir>device/</basedir>
+	</device>
+	<emoji>
+		<basedir>emoji/</basedir>
+		<imagePath></imagePath>
+	</emoji>
+	<ip>
+		<basedir>ip/</basedir>
+	</ip>
+	<secureGateway>NONE</secureGateway>
+	<default>
+	    <contentType>XHTML</contentType>
+	</default>
+	<!--
+	<cssExpand>true</cssExpand>
+	-->
+</mobylet>
