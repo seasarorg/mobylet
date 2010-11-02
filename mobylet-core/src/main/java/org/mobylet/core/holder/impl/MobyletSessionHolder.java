@@ -18,7 +18,7 @@ package org.mobylet.core.holder.impl;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import org.mobylet.core.config.MobyletConfig;
+import org.mobylet.core.config.MobyletSessionConfig;
 import org.mobylet.core.holder.SessionHolder;
 import org.mobylet.core.session.MobyletSession;
 import org.mobylet.core.session.MobyletSessionTouchListener;
@@ -30,7 +30,7 @@ public class MobyletSessionHolder implements SessionHolder, MobyletSessionTouchL
 
 	protected LinkedList<MobyletSession> linkedSession = new LinkedList<MobyletSession>();
 
-	protected int timeSpan = 600000;
+	protected int timeSpan = 60000;
 
 	@Override
 	public <T> T get(String uid, Class<T> clazz) {
@@ -71,8 +71,8 @@ public class MobyletSessionHolder implements SessionHolder, MobyletSessionTouchL
 	}
 
 	protected void processClean() {
-		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-		Long expiredTime = System.currentTimeMillis() - ((long)config.getSessionTimeout() * 60000);
+		MobyletSessionConfig config = SingletonUtils.get(MobyletSessionConfig.class);
+		Long expiredTime = System.currentTimeMillis() - ((long)config.getTimeout() * timeSpan);
 		MobyletSession session = null;
 		while (((session = linkedSession.peek()) != null) &&
 				(session.getTouchTime() < expiredTime)) {
@@ -87,8 +87,8 @@ public class MobyletSessionHolder implements SessionHolder, MobyletSessionTouchL
 			if (session == null) {
 				return null;
 			}
-			MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
-			Long expiredTime = System.currentTimeMillis() - ((long)config.getSessionTimeout() * timeSpan);
+			MobyletSessionConfig config = SingletonUtils.get(MobyletSessionConfig.class);
+			Long expiredTime = System.currentTimeMillis() - ((long)config.getTimeout() * timeSpan);
 			if (session.getTouchTime() < expiredTime) {
 				linkedSession.remove(session);
 				return null;

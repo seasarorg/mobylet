@@ -59,8 +59,6 @@ public class MobyletConfig {
 
 	protected SecureGateway secureGateway;
 
-	protected Integer sessionTimeout;
-
 	protected SessionKey sessionKey;
 
 	protected Class<? extends Mobylet> mobyletClass;
@@ -142,14 +140,6 @@ public class MobyletConfig {
 		}
 	}
 
-	public Integer getSessionTimeout() {
-		if (sessionTimeout == null) {
-			return 30;
-		} else {
-			return sessionTimeout;
-		}
-	}
-
 	public SessionKey getSessionKey() {
 		if (sessionKey == null) {
 			return SessionKey.GUID;
@@ -224,10 +214,6 @@ public class MobyletConfig {
 
 	public void setSecureGateway(SecureGateway secureGateway) {
 		this.secureGateway = secureGateway;
-	}
-
-	public void setSessionTimeout(Integer sessionTimeout) {
-		this.sessionTimeout = sessionTimeout;
 	}
 
 	public void setSessionKey(SessionKey sessionKey) {
