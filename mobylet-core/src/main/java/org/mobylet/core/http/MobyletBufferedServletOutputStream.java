@@ -49,6 +49,7 @@ public class MobyletBufferedServletOutputStream extends ServletOutputStream {
 	public void flush() throws IOException {
 		response.setContentLength(baos.size());
 		os.write(baos.toByteArray());
+		baos.reset();
 		os.flush();
 	}
 
