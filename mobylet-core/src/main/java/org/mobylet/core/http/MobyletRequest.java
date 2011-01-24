@@ -186,7 +186,7 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 			Set<Entry<String, Object>> entrySet = parametersMap.entrySet();
 			for (Entry<String, Object> entry : entrySet) {
 				Object value = entry.getValue();
-				if (value instanceof Set) {
+				if (value instanceof Set<?>) {
 					Set<?> set = Set.class.cast(value);
 					String[] array = set.toArray(new String[set.size()]);
 					parametersMap.put(entry.getKey(), array);
