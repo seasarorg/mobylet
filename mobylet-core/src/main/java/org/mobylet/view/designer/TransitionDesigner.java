@@ -106,16 +106,30 @@ public abstract class TransitionDesigner extends SingletonDesigner {
 			}
 		//UidQuery
 		} else if (config.isUidQueryRequired() &&
-				m.getCarrier() == Carrier.DOCOMO &&
-				(url.startsWith("http:") ||
-						(!url.startsWith("https:") && !request.isSecure()))) {
-			return new Entry("uid", "NULLGWDOCOMO");
+				m.getCarrier() == Carrier.DOCOMO) {
+				if (url.startsWith("http:") ||
+						(!url.startsWith("https:") && !request.isSecure())) {
+					return new Entry("uid", "NULLGWDOCOMO");
+				}
+				else if (url.startsWith("https:") || request.isSecure()) {
+					String id = m.getUid();
+					if (StringUtils.isNotEmpty(id)) {
+						return new Entry("uid", id);
+					}
+				}
 		//GuidQuery
 		} else if (config.isGuidQueryRequired() &&
-				m.getCarrier() == Carrier.DOCOMO &&
-				(url.startsWith("http:") ||
-						(!url.startsWith("https:") && !request.isSecure()))) {
-			return new Entry("guid", "ON");
+				m.getCarrier() == Carrier.DOCOMO) {
+			if (url.startsWith("http:") ||
+					(!url.startsWith("https:") && !request.isSecure())) {
+				return new Entry("guid", "ON");
+			}
+			else if (url.startsWith("https:") || request.isSecure()) {
+				String id = m.getGuid();
+				if (StringUtils.isNotEmpty(id)) {
+					return new Entry("guid", id);
+				}
+			}
 		}
 		return null;
 	}

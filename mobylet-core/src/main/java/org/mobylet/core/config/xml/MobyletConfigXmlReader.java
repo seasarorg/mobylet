@@ -224,6 +224,10 @@ public class MobyletConfigXmlReader
 				config.setContentType(contentType);
 			}
 		}
+		//SslHeader
+		else if (name.equals(TAG_SSL_HEADER)) {
+			config.setSslHeader(value);
+		}
 		//JSession
 		else if (name.equals(TAG_JSESSION)) {
 			JSession jSession = JSession.valueOf(value);
@@ -300,6 +304,7 @@ public class MobyletConfigXmlReader
 				tag.equals(TAG_IMAGE_PATH) ||
 				tag.equals(TAG_CARRIER) ||
 				tag.equals(TAG_CONTENT_TYPE) ||
+				tag.equals(TAG_SSL_HEADER) ||
 				tag.equals(TAG_JSESSION) ||
 				tag.equals(TAG_SECURE_GATEWAY) ||
 				tag.equals(TAG_MOBYLET_CLASS) ||
