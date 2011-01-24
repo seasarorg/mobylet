@@ -33,8 +33,10 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.MobyletRuntimeException;
+import org.mobylet.core.config.MobyletConfig;
 import org.mobylet.core.util.InputStreamUtils;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 import org.mobylet.core.util.UrlDecoder;
 
@@ -145,6 +147,16 @@ public class MobyletRequest extends HttpServletRequestWrapper {
 			return super.getInputStream();
 		} else {
 			return null;
+		}
+	}
+
+	@Override
+	public boolean isSecure() {
+		MobyletConfig config = SingletonUtils.get(MobyletConfig.class);
+		if (config.getSslHeader() != null) {
+			return StringUtils.isNotEmpty(this.getHeader(config.getSslHeader()));
+		} else {
+			return super.isSecure();
 		}
 	}
 

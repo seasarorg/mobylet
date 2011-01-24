@@ -45,6 +45,8 @@ public class MobyletConfig {
 
 	protected ContentType contentType;
 
+	protected String sslHeader;
+
 	protected String deviceDir;
 
 	protected String emojiDir;
@@ -82,6 +84,10 @@ public class MobyletConfig {
 		}
 		initializers = new ArrayList<MobyletInitializer>();
 		throughCarrierList = new ArrayList<Carrier>();
+	}
+
+	public String getSslHeader() {
+		return sslHeader;
 	}
 
 	public String getDeviceDir() {
@@ -150,6 +156,10 @@ public class MobyletConfig {
 
 	public Class<? extends Mobylet> getMobyletClass() {
 		return mobyletClass;
+	}
+
+	public void setSslHeader(String sslHeader) {
+		this.sslHeader = sslHeader;
 	}
 
 	public void setDeviceDir(String deviceDir) {
