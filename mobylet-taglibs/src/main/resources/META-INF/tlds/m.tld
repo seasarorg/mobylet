@@ -45,6 +45,15 @@
 		<body-content>empty</body-content>
 	</tag>
 
+	<!-- <m:hiddenGuid /> -->
+	<tag>
+		<name>hiddenGuid</name>
+		<tag-class>
+			org.mobylet.taglibs.impl.HiddenGuidTag
+		</tag-class>
+		<body-content>empty</body-content>
+	</tag>
+
 	<!-- <m:emoji /> -->
 	<tag>
 		<name>emoji</name>
