@@ -225,7 +225,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 	public void setContentLength(int len) {
 		if (outputStream != null
 				&& outputStream instanceof ProxyImageOutputStream) {
-			//NOP
+			//NOP （flushByMobylet以外からの呼び出し無効化）
 		} else {
 			super.setContentLength(len);
 		}
