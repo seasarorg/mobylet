@@ -215,9 +215,19 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 						ImageUtils.getImageCodec(),
 						ImageUtils.getScaledWidth(),
 						ImageUtils.getScaleType());
-				setContentLength(outStream.getLength());
+				super.setContentLength(outStream.getLength());
 			}
 			outputStream.flush();
+		}
+	}
+
+	@Override
+	public void setContentLength(int len) {
+		if (outputStream != null
+				&& outputStream instanceof ProxyImageOutputStream) {
+			//NOP
+		} else {
+			super.setContentLength(len);
 		}
 	}
 
