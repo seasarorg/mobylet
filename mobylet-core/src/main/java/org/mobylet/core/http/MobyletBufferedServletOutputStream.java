@@ -57,4 +57,9 @@ public class MobyletBufferedServletOutputStream extends ServletOutputStream {
 		return length;
 	}
 
+	@Override
+	public void close() throws IOException {
+		flush();
+		super.close();
+	}
 }
