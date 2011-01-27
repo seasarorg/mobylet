@@ -121,11 +121,11 @@ public class MobyletMultiSessionManager implements MobyletSessionManager {
 
 	@Override
 	public boolean isManaged(HttpServletRequest request) {
-		if (config.getSecureGateway() == SecureGateway.NONE ||
-				config.getSecureGateway() == SecureGateway.SECURE_CARRIER ||
-				(sessionConfig.getDistribution() != null &&
-						sessionConfig.getDistribution().getAllowIps() != null &&
-						sessionConfig.getDistribution().isAllowIp(request.getRemoteAddr()))) {
+		if (sessionConfig.getDistribution() != null &&
+				(config.getSecureGateway() == SecureGateway.NONE ||
+						config.getSecureGateway() == SecureGateway.SECURE_CARRIER ||
+						(sessionConfig.getDistribution().getAllowIps() != null &&
+								sessionConfig.getDistribution().isAllowIp(request.getRemoteAddr())))) {
 			return request.getRequestURI().equals(
 					SingletonUtils.get(MobyletSessionConfig.class)
 					.getDistribution().getPath());
