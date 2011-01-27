@@ -75,9 +75,10 @@ public class CSSDesigner extends SingletonDesigner {
 				path = src;
 			} else {
 				if (StringUtils.isNotEmpty(config.getLocalBasePath())) {
+					int paramIndex = src.indexOf('?');
 					path = config.getLocalBasePath()
 							+ (src.startsWith("/") ? "" : "/")
-							+ src;
+							+ (paramIndex > 0 ? src.substring(0, paramIndex) : src);
 				} else {
 					String url = UrlUtils.getCurrentUrl();
 					if (src.startsWith("/")) {
