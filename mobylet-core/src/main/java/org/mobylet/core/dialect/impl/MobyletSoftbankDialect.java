@@ -56,7 +56,12 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 
 	@Override
 	public String getUid() {
-		return RequestUtils.get().getHeader("x-jphone-uid");
+		HttpServletRequest request = RequestUtils.get();
+		String uid = request.getHeader("x-jphone-uid");
+		if (StringUtils.isEmpty(uid) && request.isSecure()) {
+			uid = request.getParameter("uid");
+		}
+		return uid;
 	}
 
 	@Override

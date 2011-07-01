@@ -92,7 +92,7 @@ public abstract class TransitionDesigner extends SingletonDesigner {
 		HttpServletRequest request = RequestUtils.get();
 		//SecureQuery
 		if (config.isUidOrGuidQueryRequiredInSecure() &&
-				m.getCarrier() == Carrier.DOCOMO &&
+				(m.getCarrier() == Carrier.DOCOMO || m.getCarrier() == Carrier.SOFTBANK) &&
 				(url.startsWith("https:") ||
 						(!url.startsWith("http:") && request.isSecure()))) {
 			String id = m.getUid();
@@ -105,29 +105,35 @@ public abstract class TransitionDesigner extends SingletonDesigner {
 				}
 			}
 		//UidQuery
-		} else if (config.isUidQueryRequired() &&
-				m.getCarrier() == Carrier.DOCOMO) {
-				if (url.startsWith("http:") ||
-						(!url.startsWith("https:") && !request.isSecure())) {
+		} else if (config.isUidQueryRequired()) {
+				if (m.getCarrier() == Carrier.DOCOMO &&
+						(url.startsWith("http:") ||
+								(!url.startsWith("https:") && !request.isSecure()))) {
 					return new Entry("uid", "NULLGWDOCOMO");
 				}
-				else if (url.startsWith("https:") || request.isSecure()) {
+				else if ((m.getCarrier() == Carrier.DOCOMO ||
+						m.getCarrier() == Carrier.SOFTBANK) &&
+					(url.startsWith("https:") || request.isSecure())) {
 					String id = m.getUid();
 					if (StringUtils.isNotEmpty(id)) {
 						return new Entry("uid", id);
 					}
 				}
 		//GuidQuery
-		} else if (config.isGuidQueryRequired() &&
-				m.getCarrier() == Carrier.DOCOMO) {
-			if (url.startsWith("http:") ||
-					(!url.startsWith("https:") && !request.isSecure())) {
+		} else if (config.isGuidQueryRequired()) {
+			if (m.getCarrier() == Carrier.DOCOMO &&
+					(url.startsWith("http:") ||
+					(!url.startsWith("https:") && !request.isSecure()))) {
 				return new Entry("guid", "ON");
 			}
 			else if (url.startsWith("https:") || request.isSecure()) {
 				String id = m.getGuid();
 				if (StringUtils.isNotEmpty(id)) {
-					return new Entry("guid", id);
+					if (m.getCarrier() == Carrier.DOCOMO) {
+						return new Entry("guid", id);
+					} else if (m.getCarrier() == Carrier.SOFTBANK) {
+						return new Entry("uid", id);
+					}
 				}
 			}
 		}
