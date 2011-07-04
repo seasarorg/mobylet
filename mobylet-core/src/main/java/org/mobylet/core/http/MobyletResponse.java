@@ -61,6 +61,7 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 		super(response);
 		this.dialect = dialect;
 		this.response = response;
+		this.dialect.setResponse(this);
 	}
 
 	@Override
