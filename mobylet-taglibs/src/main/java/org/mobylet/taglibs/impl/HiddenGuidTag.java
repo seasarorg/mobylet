@@ -33,13 +33,8 @@ public class HiddenGuidTag extends MobyletDynamicSimpleTagSupport {
 	public void doTag() throws JspException, IOException {
 		try {
 			Mobylet m = MobyletFactory.getInstance();
-			if (m.getCarrier() == Carrier.DOCOMO ||
-					m.getCarrier() == Carrier.SOFTBANK) {
-				if (m.getCarrier() == Carrier.DOCOMO) {
-					addAttribute("name", "guid");
-				} else {
-					addAttribute("name", "uid");
-				}
+			if (m.getCarrier() == Carrier.DOCOMO) {
+				addAttribute("name", "guid");
 				String guid = m.getGuid();
 				addAttribute("value", guid != null ? guid : "");
 				JspWriterUtils.write(
