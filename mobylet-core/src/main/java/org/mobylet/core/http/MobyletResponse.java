@@ -18,6 +18,7 @@ package org.mobylet.core.http;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
@@ -28,6 +29,7 @@ import org.mobylet.core.Carrier;
 import org.mobylet.core.Mobylet;
 import org.mobylet.core.MobyletFactory;
 import org.mobylet.core.config.MobyletConfig;
+import org.mobylet.core.define.DefCharset;
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.image.ImageScaler;
 import org.mobylet.core.type.ContentType;
@@ -35,6 +37,7 @@ import org.mobylet.core.util.ImageUtils;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
+import org.mobylet.core.util.UrlEncoder;
 
 public class MobyletResponse extends HttpServletResponseWrapper {
 
@@ -196,6 +199,14 @@ public class MobyletResponse extends HttpServletResponseWrapper {
 			}
 			return;
 		}
+	}
+
+	public void addExceptedCookie(String name, String value) {
+		super.addHeader("Set-Cookie",
+				name + "=" +
+				UrlEncoder.encode(value, Charset.forName(DefCharset.UTF8)) + ";" +
+				"Path=/"
+				);
 	}
 
 	public void flushByMobylet() throws IOException {

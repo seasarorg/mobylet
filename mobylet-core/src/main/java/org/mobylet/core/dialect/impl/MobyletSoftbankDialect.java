@@ -17,6 +17,7 @@ package org.mobylet.core.dialect.impl;
 
 import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mobylet.core.Carrier;
@@ -24,6 +25,7 @@ import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Accuracy;
 import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.Gps;
+import org.mobylet.core.http.MobyletResponse;
 import org.mobylet.core.util.RequestUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -58,8 +60,22 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 	public String getUid() {
 		HttpServletRequest request = RequestUtils.get();
 		String uid = request.getHeader("x-jphone-uid");
-		if (StringUtils.isEmpty(uid) && request.isSecure()) {
-			uid = request.getParameter("uid");
+		if (StringUtils.isEmpty(uid)) {
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("x-jphone-uid")) {
+						uid = cookie.getValue();
+						break;
+					}
+				}
+			}
+		} else {
+			if (response != null &&
+					response instanceof MobyletResponse) {
+				MobyletResponse.class.cast(response)
+					.addExceptedCookie("x-jphone-uid", uid);
+			}
 		}
 		return uid;
 	}
