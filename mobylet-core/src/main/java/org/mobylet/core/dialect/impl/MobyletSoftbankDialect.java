@@ -64,7 +64,7 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals("x-jphone-uid")) {
+					if (cookie.getName().equals("XUID")) {
 						uid = cookie.getValue();
 						break;
 					}
@@ -74,7 +74,7 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 			if (response != null &&
 					response instanceof MobyletResponse) {
 				MobyletResponse.class.cast(response)
-					.addExceptedCookie("x-jphone-uid", uid);
+					.addExceptedCookie("XUID", uid);
 			}
 		}
 		return uid;
