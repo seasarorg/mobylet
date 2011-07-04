@@ -17,6 +17,8 @@ package org.mobylet.core.dialect.impl;
 
 import java.nio.charset.Charset;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.mobylet.core.dialect.MobyletDialect;
 import org.mobylet.core.ip.IpAddressList;
 import org.mobylet.core.ip.IpTextReader;
@@ -27,6 +29,8 @@ import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
 public abstract class AbstractDialect implements MobyletDialect {
+
+	protected HttpServletResponse response;
 
 	protected CharsetSelector charsetSelector;
 
@@ -105,6 +109,11 @@ public abstract class AbstractDialect implements MobyletDialect {
 				return null;
 			}
 		}
+	}
+
+	@Override
+	public void setResponse(HttpServletResponse response) {
+		this.response = response;
 	}
 
 }
