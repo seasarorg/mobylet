@@ -3,4 +3,4 @@ cd %~p0
 
 :: If you want to keep the Command Prompt Window,you can use 'cmd /k' option.
 :: If you want to close the Commond Prompt Window,you can comment out the bellow.
-mvn license:format -Dyear=2010
+mvn license:format -Dyear=2011
