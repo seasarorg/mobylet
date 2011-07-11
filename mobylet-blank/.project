@@ -1,7 +1,11 @@
 <projectDescription>
   <name>mobylet-blank</name>
-  <comment/>
-  <projects/>
+  <comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects>
+    <project>mobylet-charset</project>
+    <project>mobylet-mail</project>
+    <project>mobylet-taglibs</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
