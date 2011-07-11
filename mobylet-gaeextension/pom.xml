@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.seasar.mobylet</groupId>
 	<artifactId>mobylet-gaeextension</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 	<packaging>jar</packaging>
 	<name>mobylet-gaeextension</name>
 	<url>http://mobylet.sandbox.seasar.org/</url>
@@ -178,7 +178,7 @@
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>1.2.5</version>
+			<version>1.3.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -212,7 +212,7 @@
 		<dependency>
 			<groupId>org.seasar.mobylet</groupId>
 			<artifactId>mobylet-taglibs</artifactId>
-			<version>1.0.6</version>
+			<version>1.0.7</version>
 		</dependency>
 	</dependencies>
 </project>
