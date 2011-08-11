@@ -116,9 +116,8 @@ public class MobyletFilter implements Filter {
 			MobyletRequest.class.cast(request).parseParameters();
 			//doChain
 			MobyletResponse mResponse = wrapResponse(response, dialect);
-			ResponseUtils.set(mResponse);
-			if (RequestUtils.getMobyletContext().get(MobyletResponse.class) == null) {
-				RequestUtils.getMobyletContext().set(mResponse);
+			if (ResponseUtils.get() == null) {
+				ResponseUtils.set(mResponse);
 			}
 			chain.doFilter(request, mResponse);
 			mResponse.flushByMobylet();
