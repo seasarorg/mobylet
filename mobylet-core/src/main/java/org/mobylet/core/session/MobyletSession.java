@@ -15,7 +15,7 @@
  */
 package org.mobylet.core.session;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MobyletSession {
 
@@ -23,14 +23,14 @@ public class MobyletSession {
 
 	protected Long touchTime;
 
-	protected HashMap<Class<? extends Object>, Object> objectMap;
+	protected ConcurrentHashMap<Class<? extends Object>, Object> objectMap;
 
 	protected MobyletSessionTouchListener listener;
-	
+
 
 	public MobyletSession(String uid) {
 		this.uid = uid;
-		objectMap = new HashMap<Class<? extends Object>, Object>();
+		objectMap = new ConcurrentHashMap<Class<? extends Object>, Object>();
 		touch();
 	}
 
