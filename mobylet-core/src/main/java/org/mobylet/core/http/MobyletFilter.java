@@ -38,6 +38,7 @@ import org.mobylet.core.session.MobyletSessionManager;
 import org.mobylet.core.type.DispatchType;
 import org.mobylet.core.util.LaunchUtils;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.ResponseUtils;
 import org.mobylet.core.util.SingletonUtils;
 import org.mobylet.core.util.StringUtils;
 
@@ -115,6 +116,7 @@ public class MobyletFilter implements Filter {
 			MobyletRequest.class.cast(request).parseParameters();
 			//doChain
 			MobyletResponse mResponse = wrapResponse(response, dialect);
+			ResponseUtils.set(mResponse);
 			if (RequestUtils.getMobyletContext().get(MobyletResponse.class) == null) {
 				RequestUtils.getMobyletContext().set(mResponse);
 			}
