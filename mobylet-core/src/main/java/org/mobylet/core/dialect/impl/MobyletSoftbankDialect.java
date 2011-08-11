@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.mobylet.core.Carrier;
 import org.mobylet.core.device.DeviceDisplay;
@@ -27,6 +28,7 @@ import org.mobylet.core.gps.Geo;
 import org.mobylet.core.gps.Gps;
 import org.mobylet.core.http.MobyletResponse;
 import org.mobylet.core.util.RequestUtils;
+import org.mobylet.core.util.ResponseUtils;
 import org.mobylet.core.util.StringUtils;
 
 
@@ -71,6 +73,7 @@ public class MobyletSoftbankDialect extends AbstractDialect {
 				}
 			}
 		} else {
+			HttpServletResponse response = ResponseUtils.get();
 			if (response != null &&
 					response instanceof MobyletResponse) {
 				MobyletResponse.class.cast(response)

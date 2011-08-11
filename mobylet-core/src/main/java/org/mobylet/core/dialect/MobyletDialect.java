@@ -18,8 +18,6 @@ package org.mobylet.core.dialect;
 import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.mobylet.core.Carrier;
 import org.mobylet.core.device.DeviceDisplay;
 import org.mobylet.core.gps.Gps;
@@ -57,7 +55,5 @@ public interface MobyletDialect {
 	public boolean isGatewayIp();
 
 	public SmartPhoneType getSmartPhoneType();
-
-	public void setResponse(HttpServletResponse response);
 
 }
